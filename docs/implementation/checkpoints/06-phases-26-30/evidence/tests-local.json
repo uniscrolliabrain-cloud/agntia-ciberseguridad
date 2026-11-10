@@ -1,0 +1,14 @@
+{
+  "command": ".venv/bin/python -m unittest discover -s tests -v",
+  "discovered": 143,
+  "passed": 132,
+  "skipped": 11,
+  "failed": 0,
+  "duration_seconds": 8.693,
+  "skip_reasons": {
+    "Docker": 7,
+    "SDK_unavailable_locally": 4
+  },
+  "new_tests": 24,
+  "baseline_tests": 119
+}

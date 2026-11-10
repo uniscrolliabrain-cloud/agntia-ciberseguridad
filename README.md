@@ -1,10 +1,10 @@
-> Implementación vigente: [checkpoint21–25](docs/implementation/checkpoints/05-phases-21-25/REPORT.md), PR#5 apilada. Consola scoped, eventos pasivos firmados y delegación de lectura. Gates completos PARTIAL; no habilitado para clientes ni instalado en `/agente`.
+> Implementación vigente: [checkpoint26–30](docs/implementation/checkpoints/06-phases-26-30/REPORT.md), PR#6 apilada. Gateway agéntico, datos tipados con procedencia, MCP acotado y parada auditable. Gates completos PARTIAL; sin clientes, despliegue o integración `/agente`.
 
 # Agntia Ciberseguridad
 
 **Middleware de ciberseguridad tradicional y agéntica para AgntiaPro y su repositorio madre `/agente`.** Observa activos autorizados, reúne evidencias, prepara auditorías y reportes, controla las acciones de agentes y propone remediaciones revisables.
 
-**Estado al2026-11-10: API, snapshots, cuatro adaptadores offline y jobs en desarrollo.** [Corte1–5](docs/implementation/checkpoints/01-first-five/REPORT.md), [corte6–10](docs/implementation/checkpoints/02-phases-06-10/REPORT.md) y [corte10–15](docs/implementation/checkpoints/03-phases-10-15/REPORT.md). CI verifica72 casos del núcleo y7 Docker reales, incluida ejecución de un job. Los gates de release independientes siguen pendientes; no hay ejecución de clientes habilitada, compras, despliegue o cambios en `/agente`.
+**Estado al2026-11-10: middleware en desarrollo con API, snapshots, cuatro adaptadores offline, jobs, custodia, informes, observabilidad y gateway de agentes.** El checkpoint vigente distingue código probado, limitaciones y gates pendientes; consultar su evidencia para conteos actuales. No hay ejecución de clientes habilitada, compras, despliegue o cambios en `/agente`.
 
 ## Campaña de implementación de siete días
 

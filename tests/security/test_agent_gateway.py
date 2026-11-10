@@ -221,6 +221,15 @@ class GatewayApiTests(GatewaySetup,unittest.IsolatedAsyncioTestCase):
             response=await client.post('/v1/tenants/tenantA/agent/explain',json=request.model_dump(),headers=headers);self.assertTrue(response.json()['allowed'])
             response=await client.post('/v1/tenants/tenantA/delegations/use',json=request.model_dump(),headers=headers);self.assertEqual(response.status_code,200)
             poisoned=await client.post('/v1/tenants/tenantA/delegations/use',json={**request.model_dump(),'role':'owner'},headers=headers);self.assertEqual(poisoned.status_code,422)
+    async def test_legacy_background_job_cannot_bypass_agent_boundary(self):
+        from agntia_ciberseguridad.jobs.worker import Worker
+        self.store.submit(self.owner,'tenantA',self.body,'legacy-background','fixture')
+        binding=next(p for p in self.f.settings.principals if p.id==self.owner.binding_id)
+        binding.kind='agent'
+        scanner=self.scanner(self.result())
+        await Worker(self.store,scanner,'legacy-migration-worker').run_once()
+        self.assertEqual(scanner.scan.await_count,0)
+
     async def test_mcp_http_transport_round_trip_without_bearer_passthrough(self):
         tool,_,manifest=self.tool();headers={'Authorization':'Bearer '+os.environ['CYBER_AGENT_A']}
         path=f"/v1/tenants/tenantA/agent/mcp/{manifest['id']}/{tool['id']}"
