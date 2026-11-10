@@ -40,7 +40,7 @@ class ContainerRunner:
               '--mount=type=bind,src='+str(source.resolve())+',dst=/input,readonly,bind-propagation=rprivate',
               '--tmpfs=/tmp:rw,noexec,nosuid,nodev,size=16m,mode=1777',
               '--tmpfs=/out:rw,noexec,nosuid,nodev,size=8m,mode=1777',
-              '--env=HOME=/tmp','--env=TMPDIR=/tmp','--env=PATH=/usr/local/bin:/usr/bin:/bin','--env=GOMAXPROCS=2']
+              '--env=HOME=/tmp','--env=TMPDIR=/tmp','--env=PATH=/usr/local/bin:/usr/bin:/bin:/home/semgrep/bin','--env=GOMAXPROCS=2']
         if tool==Tool.osv:
             if cache is None or not Path(cache).is_absolute() or not Path(cache).is_dir() or Path(cache).is_symlink() or ',' in str(cache):
                 reject('offline_database','Base offline aprobada requerida',424)

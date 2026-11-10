@@ -130,7 +130,7 @@ class JobStore:
                 grant=self.service._grant(db,row['tenant_id'],row['grant_id'])
                 if grant['state']!='approved':continue
                 db.execute("UPDATE jobs SET state='running',lease_owner=?,execution_name=?,lease_until=?,fence=fence+1,attempts=attempts+1,revision=revision+1,updated_at=? WHERE tenant_id=? AND id=?",
-                    (owner,'agntia-scan-'+row['id']+'-'+str(row['fence']+1),instant+lease_seconds,now(),row['tenant_id'],row['id']))
+                    (owner,'agntia-scan-'+current['id']+'-'+str(current['fence']+1),instant+lease_seconds,now(),row['tenant_id'],row['id']))
                 self.db.audit(db,row['tenant_id'],row['actor_id'],'job.claimed',row['id'],row['correlation_id'],{'job_id':row['id'],'fence':current['fence']+1})
                 return self._row(db,row['tenant_id'],row['id'])
         return None
@@ -172,7 +172,7 @@ class JobStore:
             if current['cancel_requested']:
                 self._terminal(db,current,'cancelled','cancel_requested')
                 return self.public(self._row(db,row['tenant_id'],row['id']))
-            if result['status']=='error':raise ValueError('Error result requires fail transition')
+            if result.get('status') not in ('findings','no_findings','partial','stale'):raise ValueError('Invalid completed result state')
             state='partial' if result['status'] in ('partial','stale') or result.get('snapshot_coverage')=='partial' else 'completed'
             content_hash=digest(result)
             db.execute('INSERT INTO job_results VALUES(?,?,?,?,?)',(row['tenant_id'],row['id'],canonical(result),content_hash,now()))

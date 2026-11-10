@@ -54,7 +54,7 @@ def main():
     destination=folder/'semgrep';destination.mkdir(exist_ok=True)
     policy=destination/'policy';policy.mkdir(exist_ok=True)
     shutil.copyfile(ROOT/'rules/semgrep/pilot.yml',policy/'semgrep.yml')
-    (destination/'scanner').write_text('#!/bin/sh\nexec /usr/local/bin/semgrep "$@"\n')
+    (destination/'scanner').write_text('#!/bin/sh\nexec semgrep "$@"\n')
     (destination/'scanner').chmod(0o555)
     (destination/'Dockerfile').write_text('FROM '+immutable+'\nCOPY --chmod=0555 scanner /scanner\nCOPY policy/ /policy/\nUSER 65532:65532\nENTRYPOINT ["/scanner"]\n')
     iid=destination/'image.id'
