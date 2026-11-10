@@ -1,0 +1,358 @@
+{
+  "observed_on": "2026-11-10",
+  "method": "selective primary-source research; abstracts/selected sections/indexed excerpts; not exhaustive or independently replicated",
+  "sources": [
+    {
+      "id": "P01",
+      "type": "paper",
+      "title": "AgentDojo v3",
+      "url": "https://arxiv.org/abs/2406.13352v3",
+      "publication_date_or_year": "2024",
+      "observed_on": "2026-11-10",
+      "review_scope": "abstract reviewed; not replicated",
+      "reproduced": false
+    },
+    {
+      "id": "P02",
+      "type": "paper",
+      "title": "Agent Security Bench",
+      "url": "https://arxiv.org/abs/2410.02644",
+      "publication_date_or_year": "2024",
+      "observed_on": "2026-11-10",
+      "review_scope": "primary indexed summary reviewed; not replicated",
+      "reproduced": false
+    },
+    {
+      "id": "P03",
+      "type": "paper",
+      "title": "CaMeL v2",
+      "url": "https://arxiv.org/html/2503.18813v2",
+      "publication_date_or_year": "2025-06-24",
+      "observed_on": "2026-11-10",
+      "review_scope": "abstract and selected threat model/non-goals sections reviewed; not full systematic review or replication",
+      "reproduced": false
+    },
+    {
+      "id": "P04",
+      "type": "paper",
+      "title": "Progent v3",
+      "url": "https://arxiv.org/html/2504.11703v3",
+      "publication_date_or_year": "2026-05-14",
+      "observed_on": "2026-11-10",
+      "review_scope": "abstract and selected threat model sections reviewed; not replicated",
+      "reproduced": false
+    },
+    {
+      "id": "P05",
+      "type": "paper",
+      "title": "AgentDyn v3",
+      "url": "https://arxiv.org/abs/2602.03117v3",
+      "publication_date_or_year": "2026-05-07",
+      "observed_on": "2026-11-10",
+      "review_scope": "abstract reviewed; not replicated",
+      "reproduced": false
+    },
+    {
+      "id": "P06",
+      "type": "paper",
+      "title": "Assessing Automated Prompt Injection Attacks",
+      "url": "https://arxiv.org/abs/2606.10525",
+      "publication_date_or_year": "2026-06-09",
+      "observed_on": "2026-11-10",
+      "review_scope": "abstract reviewed; not replicated",
+      "reproduced": false
+    },
+    {
+      "id": "P07",
+      "type": "paper",
+      "title": "Ignored, Not Refused",
+      "url": "https://arxiv.org/abs/2610.23254",
+      "publication_date_or_year": "2026-10-16",
+      "observed_on": "2026-11-10",
+      "review_scope": "abstract reviewed; not replicated",
+      "reproduced": false
+    },
+    {
+      "id": "N01",
+      "type": "threat_report",
+      "title": "Google GTIG: prompting to autonomy",
+      "url": "https://cloud.google.com/blog/topics/threat-intelligence/from-prompting-to-autonomy-the-evolution-of-adversarial-ai",
+      "publication_date_or_year": "2026",
+      "observed_on": "2026-11-10",
+      "review_scope": "primary indexed excerpts reviewed; vendor observations not independently corroborated",
+      "reproduced": false
+    },
+    {
+      "id": "N02",
+      "type": "threat_report",
+      "title": "Anthropic September2026",
+      "url": "https://www.anthropic.com/threat-intelligence-report-september-2026",
+      "publication_date_or_year": "2026-09",
+      "observed_on": "2026-11-10",
+      "review_scope": "primary indexed excerpts reviewed; vendor observations not independently corroborated",
+      "reproduced": false
+    },
+    {
+      "id": "N03",
+      "type": "threat_report",
+      "title": "Google prompt injections on web",
+      "url": "https://blog.google/security/prompt-injections-web/",
+      "publication_date_or_year": "2026-04-23",
+      "observed_on": "2026-11-10",
+      "review_scope": "primary indexed excerpts reviewed; not a measurement of our system",
+      "reproduced": false
+    },
+    {
+      "id": "V01",
+      "type": "vendor",
+      "title": "Wiz agents/workflows",
+      "url": "https://www.wiz.io/blog/introducing-wiz-agents",
+      "publication_date_or_year": "2026-03-23",
+      "observed_on": "2026-11-10",
+      "review_scope": "vendor claim; no independent efficacy or contract verification",
+      "reproduced": false
+    },
+    {
+      "id": "V02",
+      "type": "vendor",
+      "title": "Prisma AIRS agent security",
+      "url": "https://www.paloaltonetworks.com/prisma/agent-security",
+      "publication_date_or_year": null,
+      "observed_on": "2026-11-10",
+      "review_scope": "vendor claim; no independent efficacy or price verification",
+      "reproduced": false
+    },
+    {
+      "id": "V03",
+      "type": "vendor",
+      "title": "CrowdStrike Charlotte AI",
+      "url": "https://www.crowdstrike.com/en-us/platform/charlotte-ai/",
+      "publication_date_or_year": null,
+      "observed_on": "2026-11-10",
+      "review_scope": "vendor claim; no licensed integration",
+      "reproduced": false
+    },
+    {
+      "id": "V04",
+      "type": "news_vendor",
+      "title": "CrowdStrike agent insider",
+      "url": "https://crowdstrike.gcs-web.com/news-releases/news-release-details/crowdstrike-extends-agentic-soc-detect-and-stop-agent-insider",
+      "publication_date_or_year": "2026-11-04",
+      "observed_on": "2026-11-10",
+      "review_scope": "announcement; availability/price not independently verified",
+      "reproduced": false
+    },
+    {
+      "id": "V05",
+      "type": "vendor",
+      "title": "SentinelOne Purple AI",
+      "url": "https://www.sentinelone.com/platform/purple/",
+      "publication_date_or_year": null,
+      "observed_on": "2026-11-10",
+      "review_scope": "vendor claim; no independent efficacy verification",
+      "reproduced": false
+    },
+    {
+      "id": "V06",
+      "type": "news_vendor",
+      "title": "SentinelOne ASOC",
+      "url": "https://www.sentinelone.com/press/sentinelone-brings-security-superintelligence-to-the-soc-with-singularity-asoc/",
+      "publication_date_or_year": "2026-10-21",
+      "observed_on": "2026-11-10",
+      "review_scope": "announcement; exact GA scope and price not verified",
+      "reproduced": false
+    },
+    {
+      "id": "V07",
+      "type": "vendor_docs",
+      "title": "Microsoft Security Copilot agents",
+      "url": "https://learn.microsoft.com/en-us/copilot/security/agents-overview",
+      "publication_date_or_year": null,
+      "observed_on": "2026-11-10",
+      "review_scope": "public product docs/indexed source; customer licensing not verified",
+      "reproduced": false
+    },
+    {
+      "id": "L01",
+      "type": "law",
+      "title": "RGPD official original text",
+      "url": "https://www.boe.es/buscar/doc.php?id=DOUE-L-2016-80807",
+      "publication_date_or_year": "2016",
+      "observed_on": "2026-11-10",
+      "review_scope": "official text accessed; complete current consolidated legal review pending",
+      "reproduced": false
+    },
+    {
+      "id": "L02",
+      "type": "authority_guidance",
+      "title": "AEPD breach notification",
+      "url": "https://www.aepd.es/derechos-y-deberes/cumple-tus-deberes/medidas-de-cumplimiento/brechas-de-datos-personales-notificacion",
+      "publication_date_or_year": null,
+      "observed_on": "2026-11-10",
+      "review_scope": "official guidance reviewed; applicability determined by responsible human",
+      "reproduced": false
+    },
+    {
+      "id": "L03",
+      "type": "law",
+      "title": "AI Act official original",
+      "url": "https://www.boe.es/buscar/doc.php?id=DOUE-L-2024-81079",
+      "publication_date_or_year": "2024",
+      "observed_on": "2026-11-10",
+      "review_scope": "official primary source identified; current amendments/consolidation need legal review",
+      "reproduced": false
+    },
+    {
+      "id": "L04",
+      "type": "authority_guidance",
+      "title": "Commission AI Act current guide",
+      "url": "https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai",
+      "publication_date_or_year": null,
+      "observed_on": "2026-11-10",
+      "review_scope": "official page reviewed; timelines not automatic compliance decisions",
+      "reproduced": false
+    },
+    {
+      "id": "L05",
+      "type": "law_access_blocked",
+      "title": "AI Omnibus OJ reference linked from official guidance",
+      "url": "https://eur-lex.europa.eu/eli/reg/2026/1744/oj/eng",
+      "publication_date_or_year": "2026",
+      "observed_on": "2026-11-10",
+      "review_scope": "direct access blocked by anti-bot; not marked full text verified",
+      "reproduced": false
+    },
+    {
+      "id": "L06",
+      "type": "authority_guidance",
+      "title": "Commission CRA reporting",
+      "url": "https://digital-strategy.ec.europa.eu/en/policies/cra-reporting",
+      "publication_date_or_year": null,
+      "observed_on": "2026-11-10",
+      "review_scope": "official guidance/indexed primary source reviewed",
+      "reproduced": false
+    },
+    {
+      "id": "L07",
+      "type": "authority_guidance",
+      "title": "Commission CRA implementation",
+      "url": "https://digital-strategy.ec.europa.eu/en/policies/cyber-resilience-act",
+      "publication_date_or_year": null,
+      "observed_on": "2026-11-10",
+      "review_scope": "official guidance/indexed primary source reviewed",
+      "reproduced": false
+    },
+    {
+      "id": "L08",
+      "type": "authority_guidance",
+      "title": "NIS2 Spain status",
+      "url": "https://digital-strategy.ec.europa.eu/es/policies/nis2-directive-spain",
+      "publication_date_or_year": null,
+      "observed_on": "2026-11-10",
+      "review_scope": "official status page indexed; does not establish complete current Spanish transposition",
+      "reproduced": false
+    },
+    {
+      "id": "F01",
+      "type": "framework",
+      "title": "OWASP Agentic Top10 2026",
+      "url": "https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/",
+      "publication_date_or_year": "2026",
+      "observed_on": "2026-11-10",
+      "review_scope": "framework page/index reviewed; not certification",
+      "reproduced": false
+    },
+    {
+      "id": "F02",
+      "type": "framework",
+      "title": "OWASP MCP Top10",
+      "url": "https://owasp.org/projects/mcp-top-10",
+      "publication_date_or_year": null,
+      "observed_on": "2026-11-10",
+      "review_scope": "framework page/index reviewed; version needs pin before tests",
+      "reproduced": false
+    },
+    {
+      "id": "F03",
+      "type": "framework",
+      "title": "NIST GenAI Profile",
+      "url": "https://doi.org/10.6028/NIST.AI.600-1",
+      "publication_date_or_year": "2024",
+      "observed_on": "2026-11-10",
+      "review_scope": "primary publication page/index reviewed; not legal certification",
+      "reproduced": false
+    },
+    {
+      "id": "F04",
+      "type": "spec",
+      "title": "MCP security best practices",
+      "url": "https://github.com/modelcontextprotocol/modelcontextprotocol/blob/main/docs/docs/2026-07-28/tutorials/security/security_best_practices.mdx",
+      "publication_date_or_year": "2026-07-28",
+      "observed_on": "2026-11-10",
+      "review_scope": "primary indexed source identified; path/version must be pinned before implementation",
+      "reproduced": false
+    },
+    {
+      "id": "C01",
+      "type": "pricing",
+      "title": "Cloudflare plans",
+      "url": "https://www.cloudflare.com/en-gb/plans/",
+      "publication_date_or_year": null,
+      "observed_on": "2026-11-10",
+      "review_scope": "published USD pricing; tax, FX, checkout and service-provider rights not verified",
+      "reproduced": false
+    },
+    {
+      "id": "C02",
+      "type": "pricing",
+      "title": "Snyk current plans",
+      "url": "https://snyk.io/plans/",
+      "publication_date_or_year": null,
+      "observed_on": "2026-11-10",
+      "review_scope": "official pricing page reviewed; starting price not binding quote",
+      "reproduced": false
+    },
+    {
+      "id": "C03",
+      "type": "pricing",
+      "title": "Semgrep plans",
+      "url": "https://semgrep.dev/pricing/",
+      "publication_date_or_year": null,
+      "observed_on": "2026-11-10",
+      "review_scope": "official pricing page reviewed; CE/rules/SaaS terms separate",
+      "reproduced": false
+    },
+    {
+      "id": "C04",
+      "type": "service_terms",
+      "title": "VirusTotal public API",
+      "url": "https://docs.virustotal.com/reference/getting-started",
+      "publication_date_or_year": null,
+      "observed_on": "2026-11-10",
+      "review_scope": "commercial prohibition identified in official indexed docs; excluded from base commercial service",
+      "reproduced": false
+    },
+    {
+      "id": "R01",
+      "type": "project_notice",
+      "title": "Presidio project transition",
+      "url": "https://github.com/data-privacy-stack/presidio/blob/main/docs/project_transition.md",
+      "publication_date_or_year": null,
+      "observed_on": "2026-11-10",
+      "review_scope": "canonical transition identified and GitHub metadata fetched",
+      "reproduced": false
+    },
+    {
+      "id": "R02",
+      "type": "project_docs",
+      "title": "NVIDIA NeMo Guardrails",
+      "url": "https://github.com/NVIDIA-NeMo/Guardrails",
+      "publication_date_or_year": null,
+      "observed_on": "2026-11-10",
+      "review_scope": "canonical metadata fetched after redirect resolution",
+      "reproduced": false
+    }
+  ],
+  "repository_metadata": "repositories.json",
+  "research_source_refs": "source-refs.json"
+}

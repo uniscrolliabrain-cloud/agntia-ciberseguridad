@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "currency": "EUR",
+  "state": "DESIGN_ONLY_NOT_ENFORCED",
+  "cost_unit": "one pilot tenant/workspace per calendar month; scope must be confirmed before commercial offer",
+  "include": ["allocated security compute", "security storage and backups", "metered model APIs", "optional paid connectors", "tax_fx_and_overage_reserve"],
+  "exclude": ["human analyst labor", "legal review", "one_off_implementation", "customer_application_hosting", "existing_customer_licenses_not_purchased_by_us"],
+  "plans": {
+    "Lite": {"monthly_cap_eur": 30, "allocations_eur": {"compute": 10, "storage_backup": 2, "model_api": 5, "paid_services": 0, "tax_fx_overage_reserve": 13}, "pilot_quotas": {"repositories": 2, "web_apps": 1, "agents": 2, "scheduled_audits_per_week": 1}, "siem_required": false},
+    "L": {"monthly_cap_eur": 70, "allocations_eur": {"compute": 20, "storage_backup": 3, "model_api": 7, "paid_services": 30, "tax_fx_overage_reserve": 10}, "pilot_quotas": {"repositories": 5, "web_apps": 2, "agents": 5, "scheduled_audits_per_week": 3}, "siem_required": false},
+    "XL": {"monthly_cap_eur": 300, "allocations_eur": {"compute": 70, "storage_backup": 12, "model_api": 45, "paid_services": 100, "tax_fx_overage_reserve": 73}, "pilot_quotas": {"repositories": 15, "web_apps": 5, "agents": 15, "scheduled_audits_per_week": 7}, "siem_required": false}
+  },
+  "quota_status": "initial workload hypotheses, not tested capacity or contractual SLA",
+  "same_security_floor_all_plans": ["tenant_isolation", "scope_authorization", "secret_protection", "deterministic_policy", "audit_integrity", "human_approval_for_sensitive_effects"],
+  "purchase_policy": "manual approval required; no automatic trial conversion or tier upgrades"
+}

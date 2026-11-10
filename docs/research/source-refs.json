@@ -1,0 +1,70 @@
+{
+  "observed_on": "2026-11-10",
+  "purpose": "Research references, not approved install versions or a dependency lockfile",
+  "refs": [
+    {
+      "repository": "aquasecurity/trivy",
+      "url": "https://github.com/aquasecurity/trivy",
+      "branch": "main",
+      "sha": "0e40f8178a375c68aeca146e4dc4e89ff1009587",
+      "date": "2026-11-10T08:07:08Z",
+      "verification": "HEAD_OBSERVED_NOT_AUDITED"
+    },
+    {
+      "repository": "gitleaks/gitleaks",
+      "url": "https://github.com/gitleaks/gitleaks",
+      "branch": "master",
+      "sha": "5f6ec56cfa6f8c67648d863582c7ae2f206d5c1c",
+      "date": "2026-10-23T20:44:59Z",
+      "verification": "HEAD_OBSERVED_NOT_AUDITED"
+    },
+    {
+      "repository": "google/osv-scanner",
+      "url": "https://github.com/google/osv-scanner",
+      "branch": "main",
+      "sha": "02f96a40691c2d155fdda799af436e111231e365",
+      "date": "2026-11-09T03:39:40Z",
+      "verification": "HEAD_OBSERVED_NOT_AUDITED"
+    },
+    {
+      "repository": "semgrep/semgrep",
+      "url": "https://github.com/semgrep/semgrep",
+      "branch": "develop",
+      "sha": "692bfae4ca1bf070f7e8b603037a19886fa36b4f",
+      "date": "2026-11-03T02:09:59Z",
+      "verification": "HEAD_OBSERVED_NOT_AUDITED"
+    },
+    {
+      "repository": "zaproxy/zaproxy",
+      "url": "https://github.com/zaproxy/zaproxy",
+      "branch": "main",
+      "sha": "a1386d3e7bd9d1c7d2fb8d2eb6fee2ef855b728d",
+      "date": "2026-11-06T16:01:57Z",
+      "verification": "HEAD_OBSERVED_NOT_AUDITED"
+    },
+    {
+      "repository": "open-policy-agent/opa",
+      "url": "https://github.com/open-policy-agent/opa",
+      "branch": "main",
+      "sha": "2a4741f1c3ad5791011b098d03b30fec927f4a90",
+      "date": "2026-11-09T17:44:03Z",
+      "verification": "HEAD_OBSERVED_NOT_AUDITED"
+    },
+    {
+      "repository": "ethz-spylab/agentdojo",
+      "url": "https://github.com/ethz-spylab/agentdojo",
+      "branch": "main",
+      "sha": "089ed468cf3ed0322acc66b0211f26d9d90dbf60",
+      "date": "2026-06-02T09:59:58Z",
+      "verification": "HEAD_OBSERVED_NOT_AUDITED"
+    },
+    {
+      "repository": "google-research/camel-prompt-injection",
+      "url": "https://github.com/google-research/camel-prompt-injection",
+      "branch": "main",
+      "sha": "f083b6b396399d3b3c7f2ddaf613a5945eaf32d8",
+      "date": "2025-06-20T13:59:27Z",
+      "verification": "HEAD_OBSERVED_NOT_AUDITED"
+    }
+  ]
+}

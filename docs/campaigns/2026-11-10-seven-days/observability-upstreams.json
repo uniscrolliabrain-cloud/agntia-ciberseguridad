@@ -1,0 +1,76 @@
+{
+  "observed_on": "2026-11-10",
+  "purpose": "Observability candidates for campaign; metadata only, no tools installed",
+  "repositories": [
+    {
+      "repository": "open-telemetry/opentelemetry-collector-contrib",
+      "url": "https://github.com/open-telemetry/opentelemetry-collector-contrib",
+      "license_spdx": "Apache-2.0",
+      "default_branch": "main",
+      "archived": false,
+      "pushed_at": "2026-11-10T13:33:46Z",
+      "observed_on": "2026-11-10",
+      "review_scope": "GitHub metadata only; license conditions, release and installation not audited"
+    },
+    {
+      "repository": "open-telemetry/opentelemetry-python",
+      "url": "https://github.com/open-telemetry/opentelemetry-python",
+      "license_spdx": "Apache-2.0",
+      "default_branch": "main",
+      "archived": false,
+      "pushed_at": "2026-11-10T10:33:22Z",
+      "observed_on": "2026-11-10",
+      "review_scope": "GitHub metadata only; license conditions, release and installation not audited"
+    },
+    {
+      "repository": "prometheus/prometheus",
+      "url": "https://github.com/prometheus/prometheus",
+      "license_spdx": "Apache-2.0",
+      "default_branch": "main",
+      "archived": false,
+      "pushed_at": "2026-11-10T11:53:55Z",
+      "observed_on": "2026-11-10",
+      "review_scope": "GitHub metadata only; license conditions, release and installation not audited"
+    },
+    {
+      "repository": "grafana/grafana",
+      "url": "https://github.com/grafana/grafana",
+      "license_spdx": "AGPL-3.0",
+      "default_branch": "main",
+      "archived": false,
+      "pushed_at": "2026-11-10T13:31:25Z",
+      "observed_on": "2026-11-10",
+      "review_scope": "GitHub metadata only; license conditions, release and installation not audited"
+    },
+    {
+      "repository": "grafana/loki",
+      "url": "https://github.com/grafana/loki",
+      "license_spdx": "AGPL-3.0",
+      "default_branch": "main",
+      "archived": false,
+      "pushed_at": "2026-11-10T13:06:10Z",
+      "observed_on": "2026-11-10",
+      "review_scope": "GitHub metadata only; license conditions, release and installation not audited"
+    },
+    {
+      "repository": "grafana/tempo",
+      "url": "https://github.com/grafana/tempo",
+      "license_spdx": "AGPL-3.0",
+      "default_branch": "main",
+      "archived": false,
+      "pushed_at": "2026-11-10T12:52:06Z",
+      "observed_on": "2026-11-10",
+      "review_scope": "GitHub metadata only; license conditions, release and installation not audited"
+    },
+    {
+      "repository": "vectordotdev/vector",
+      "url": "https://github.com/vectordotdev/vector",
+      "license_spdx": "MPL-2.0",
+      "default_branch": "master",
+      "archived": false,
+      "pushed_at": "2026-11-10T11:05:29Z",
+      "observed_on": "2026-11-10",
+      "review_scope": "GitHub metadata only; license conditions, release and installation not audited"
+    }
+  ]
+}

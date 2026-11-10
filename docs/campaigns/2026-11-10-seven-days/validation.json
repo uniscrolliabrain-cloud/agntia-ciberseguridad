@@ -1,0 +1,41 @@
+{
+  "date": "2026-11-10",
+  "status": "PASS",
+  "scope": "documentation, configuration and campaign DAG only",
+  "results": [
+    {
+      "command": "python scripts/validate_foundation.py",
+      "exit_code": 0,
+      "result": {
+        "status": "PASS",
+        "scope": "documentation, repository metadata and planned budget consistency only",
+        "markdown_files": 35,
+        "repository_metadata_records": 31,
+        "security_scans_executed": 0,
+        "words": 30397
+      }
+    },
+    {
+      "command": "python scripts/validate_campaign.py",
+      "exit_code": 0,
+      "result": {
+        "status": "PASS",
+        "scope": "campaign structure, contracts, IDs and dependency graph only",
+        "days": 7,
+        "phases": 42,
+        "tasks": 294,
+        "planned_gate_scenarios": 84,
+        "phase_states": {
+          "NOT_STARTED": 42
+        },
+        "security_tests_executed_by_this_validator": 0
+      }
+    }
+  ],
+  "implementation_phases_executed": 0,
+  "security_scans_executed": 0,
+  "gate_scenarios_executed": 0,
+  "github_repository": "uniscrolliabrain-cloud/agntia-ciberseguridad",
+  "initial_remote_commit": "766a08f457f0fa2a502c2a7da0f739499dc70efa",
+  "publication_scope": "all documentation plus downloadable snapshot; verify final SHA on main"
+}
