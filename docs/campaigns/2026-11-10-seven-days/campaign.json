@@ -231,13 +231,14 @@
         {
           "id": "D1P2T6",
           "action": "Instalar en entorno limpio, exportar JSON Schema y validar round-trip y compatibilidad de versión.",
-          "status": "PARTIAL",
+          "status": "PASS",
           "depends_on": [
             "D1P2T5"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
           "evidence_refs": [
-            "docs/implementation/checkpoints/01-first-five/REPORT.md"
+            "docs/implementation/checkpoints/01-first-five/REPORT.md",
+            "docs/implementation/checkpoints/01-first-five/evidence/ci.json"
           ]
         },
         {
@@ -253,7 +254,7 @@
           ]
         }
       ],
-      "status": "PARTIAL",
+      "status": "PASS",
       "depends_on": [
         "D1P1"
       ],
@@ -285,7 +286,8 @@
       ],
       "evidence_refs": [
         "docs/implementation/checkpoints/01-first-five/REPORT.md",
-        "docs/implementation/checkpoints/01-first-five/GATES.md"
+        "docs/implementation/checkpoints/01-first-five/GATES.md",
+        "docs/implementation/checkpoints/01-first-five/evidence/ci.json"
       ]
     },
     {

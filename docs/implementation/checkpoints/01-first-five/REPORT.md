@@ -9,7 +9,7 @@ Se han trabajado D1P1–D1P5 y construido un núcleo instalable de API privada: 
 | Fase | Estado del entregable | Qué está demostrado | Qué falta para cierre completo |
 |---|---|---|---|
 | D1P1 | PASS | Baseline y entorno, dos tenants ficticios, preservación de cambios ajenos y Docker denegado registrado | Sin bloqueos del baseline |
-| D1P2 | PARTIAL | Paquete/CLI, factoría, DTOs, errores, límites, instalación editable y13 esquemas | Instalación con dependencias descargadas en entorno limpio; CI aún pendiente al emitir este informe |
+| D1P2 | PASS | Paquete/CLI, factoría, DTOs, errores, límites,13 esquemas e instalación limpia en Python3.11/3.12 por CI | Sin bloqueos de paquete; no implica habilitación de workers |
 | D1P3 | PARTIAL | Autenticación, scopes, roles, separación de revisión, revocación y aislamiento API | Identidad federada/secret-manager de producción y aplicación a jobs/exportaciones todavía inexistentes |
 | D1P4 | PARTIAL | Migraciones, backup/restore, rollback, dos procesos, unicidad, FKs, cadena y contención | Identidades/idempotencia de jobs/reservas e historial de findings; anclaje externo y cifrado de despliegue |
 | D1P5 | PARTIAL | Referencias de activos, consentimiento configurado, grants, CIDR/DNS/rutas, límites y revalidación | Snapshot de contenido y aislamiento/egress durante un trabajo real en D2; custodia de consentimientos reales fuera del piloto |
@@ -38,7 +38,7 @@ python scripts/validate_foundation.py
 python scripts/validate_campaign.py
 ```
 
-La venv local usa dependencias ya instaladas, por eso **no se declara instalación limpia verificada**. CI configura Python3.11/3.12 y dependencias desde cero; su resultado se registra separadamente cuando exista.
+La venv local usa dependencias ya instaladas, por eso **no se declara instalación limpia verificada**. CI ya completó instalación limpia en Python3.11 y3.12:29 pruebas aprobadas por versión, exportación reproducible de schemas y CLI. [Run42841629212](https://github.com/uniscrolliabrain-cloud/agntia-ciberseguridad/actions/runs/42841629212), SHA de código `713da0ae4735a2c51f5e92a8ed070d4c13d0f0f6`. Evidencia sanitizada en `evidence/ci.json`. Son58 ejecuciones CI de los mismos29 casos, no58 casos distintos. El estado de este primer checkpoint es **dos fases cerradas y tres parciales**.
 
 ## Rendimiento medido y costes
 
@@ -50,7 +50,7 @@ Docker/Compose están instalados pero el socket local da `permission_denied`. Ce
 
 Persisten: snapshots de repos, runner seguro, adaptadores Gitleaks/OSV/Semgrep, jobs/evidencia/reportes, observabilidad, gateway de agentes, controles legales, presupuesto, SDK/Hono/UI y E2E de las fases posteriores. **No se ha modificado `/agente`, desplegado, conectado clientes ni fusionado esta implementación a main.**
 
-Código y reporte se publican en rama/PR para preservar el trabajo. La autorización de publicar documentación en main no se extrapola a fusionar código automáticamente. No se solicita ninguna confirmación rutinaria para continuar el desarrollo autorizado.
+Código y reporte publicados en [PR#1](https://github.com/uniscrolliabrain-cloud/agntia-ciberseguridad/pull/1), rama `feat/cyber-d1-foundation`, para preservar el trabajo. El árbol de código publicado `ca64eb57941af10de2d5774238d446ca508fd0a2` coincide con el checkout local aunque sus commits tienen parent distinto por la publicación API inicial. La autorización de publicar documentación en main no se extrapola a fusionar código automáticamente. No se solicita ninguna confirmación rutinaria para continuar el desarrollo autorizado.
 
 ## Reversión
 
