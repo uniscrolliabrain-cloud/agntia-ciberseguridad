@@ -1,0 +1,17 @@
+{
+  "run_id": 42860081749,
+  "job_id": 129983537530,
+  "commit": "15968387dd7be3ed3f18f0774bcb0d4d6cea005b",
+  "status": "FAIL",
+  "tests_executed": 6,
+  "passed": 5,
+  "failed": 1,
+  "passed_profiles": [
+    "sandbox",
+    "Gitleaks",
+    "OSV",
+    "Semgrep"
+  ],
+  "failed_profile": "Trivy configuration returned exit1; no clean scan inferred.",
+  "next_step": "Bounded diagnostic of the exact fixed command using synthetic inputs only."
+}

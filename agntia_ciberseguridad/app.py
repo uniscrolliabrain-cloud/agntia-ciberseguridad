@@ -229,7 +229,17 @@ def create_app(settings: Settings | None = None):
         return findings.list(actor,tenant,limit=limit,after=after)
 
     @app.get("/v1/tenants/{tenant}/findings/{finding_id}/history")
-    async def finding_history(tenant: OpaqueId, finding_id: str, actor: Principal = Depends(principal)):
+    async def finding_history(tenant: OpaqueId, finding_id: str, actor: Principal = Depends(principal), limit: int = Query(100,ge=1,le=100), after: str = Query('',pattern=r'^(?:[a-f0-9]{32})?
+        import re
+        if not re.fullmatch('[a-f0-9]{64}',finding_id):raise DomainError('validation','Identificador inválido',422)
+        return findings.history(actor,tenant,finding_id,limit=limit,after=after)
+
+    @app.get("/v1/tenants/{tenant}/audit/integrity")
+    async def integrity(tenant: OpaqueId, actor: Principal = Depends(principal)):
+        return service.audit_integrity(actor, tenant)
+
+    return app
+)):
         import re
         if not re.fullmatch('[a-f0-9]{64}',finding_id):raise DomainError('validation','Identificador inválido',422)
         return findings.history(actor,tenant,finding_id)

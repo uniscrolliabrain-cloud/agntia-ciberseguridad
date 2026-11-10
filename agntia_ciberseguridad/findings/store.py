@@ -32,15 +32,21 @@ class FindingStore:
         with self.db.connection(readonly=True) as db:
             rows=db.execute('SELECT id,body FROM finding_current WHERE tenant_id=? AND id>? ORDER BY id LIMIT ?',(tenant,after,limit)).fetchall()
             return {'items':[json.loads(r['body']) for r in rows],'next_cursor':rows[-1]['id'] if len(rows)==limit else None}
-    def history(self,actor,tenant,finding_id):
+    def history(self,actor,tenant,finding_id,*,limit=100,after=''):
         self.service.authorize(actor,tenant,'findings.read')
+        if type(limit)is not int or not 1<=limit<=100:raise ValueError('Invalid page size')
         with self.db.connection(readonly=True) as db:
             current=db.execute('SELECT body FROM finding_current WHERE tenant_id=? AND id=?',(tenant,finding_id)).fetchone()
             if not current:not_found()
-            rows=db.execute('SELECT body,content_hash FROM finding_observations WHERE tenant_id=? AND finding_id=? ORDER BY rowid',(tenant,finding_id)).fetchall()
+            cursor=0
+            if after:
+                previous=db.execute('SELECT rowid FROM finding_observations WHERE tenant_id=? AND finding_id=? AND id=?',(tenant,finding_id,after)).fetchone()
+                if not previous:not_found()
+                cursor=previous[0]
+            rows=db.execute('SELECT id,body,content_hash FROM finding_observations WHERE tenant_id=? AND finding_id=? AND rowid>? ORDER BY rowid LIMIT ?',(tenant,finding_id,cursor,limit)).fetchall()
             observations=[]
             for row in rows:
                 observation=json.loads(row['body'])
                 if digest(observation)!=row['content_hash']:raise ValueError('Observation integrity failure')
                 observations.append(observation)
-            return {'finding':json.loads(current['body']),'observations':observations,'notice':'Observations, not proof of exploitation or verified remediation.'}
+            return {'finding':json.loads(current['body']),'observations':observations,'next_cursor':rows[-1]['id'] if len(rows)==limit else None,'notice':'Observations, not proof of exploitation or verified remediation.'}

@@ -39,3 +39,39 @@ class ExtendedScannerTests(unittest.IsolatedAsyncioTestCase):
         self.assertNotEqual(parsed['status'],'error',{'exit':control.exit_code,'error':control.error_code})
         self.assertFalse(any(f['rule_id']=='DS002' for f in parsed['findings']))
         self.assertEqual(parsed['coverage']['image_vulnerabilities'],'not_tested')
+
+    async def test_real_snapshot_job_worker_result_and_replay(self):
+        from tests.security import test_ingestion as ingestion
+        from agntia_ciberseguridad.jobs.contracts import AuditJobCreate
+        from agntia_ciberseguridad.jobs.store import JobStore
+        from agntia_ciberseguridad.jobs.worker import Worker
+        from agntia_ciberseguridad.findings.store import FindingStore
+        from agntia_ciberseguridad.scanning import StaticScanner
+        from agntia_ciberseguridad.safety import ReleaseGates
+        fixture=ingestion.SnapshotTests();fixture.setUp()
+        try:
+            secret='AGNTIA_TEST_SECRET_'+'J'*32
+            (fixture.f.repo/'canary.txt').write_text(secret)
+            manifest=fixture.acquire()
+            image=self.runner.images[Tool.gitleaks]
+            fixture.f.settings.tool_policy_hashes={'gitleaks':image.policy_hash}
+            # Only synthetic fixtures. This does not verify the independent release review.
+            gates=ReleaseGates(True,True,True)
+            store=JobStore(fixture.f.service,gates=gates)
+            scanner=StaticScanner(fixture.f.service,self.runner,gates=gates)
+            body=AuditJobCreate(asset_id=fixture.asset['id'],grant_id=fixture.body.grant_id,
+                snapshot_id=manifest['id'],snapshot_hash=manifest['manifest_hash'],expected_grant_revision=1,tool='gitleaks')
+            receipt=store.submit(fixture.actor,'tenantA',body,'real-worker-fixture','fixture')
+            done=await Worker(store,scanner,'fixture-worker').run_once()
+            self.assertEqual(done['state'],'completed')
+            self.assertEqual(done['id'],receipt['id'])
+            replay=store.submit(fixture.actor,'tenantA',body,'real-worker-fixture','replay')
+            self.assertEqual(replay['id'],receipt['id'])
+            self.assertIsNone(await Worker(store,scanner,'fixture-worker').run_once())
+            observations=FindingStore(fixture.f.service).list(fixture.actor,'tenantA')['items']
+            self.assertTrue(observations)
+            self.assertNotIn(secret,json.dumps(observations))
+            with store.db.connection(readonly=True) as db:
+                self.assertEqual(db.execute('SELECT count(*) FROM job_results').fetchone()[0],1)
+                self.assertEqual(db.execute('SELECT count(*) FROM job_reservations').fetchone()[0],1)
+        finally:fixture.tearDown()
