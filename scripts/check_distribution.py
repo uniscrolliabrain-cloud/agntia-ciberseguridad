@@ -17,4 +17,8 @@ with tempfile.TemporaryDirectory() as temporary:
             path='agntia_ciberseguridad/data/cyclonedx/'+name
             content=archive.read(path)
             hashes[name]=hashlib.sha256(content).hexdigest()
+        for name in ('console.html','console.js','console.css'):
+            content=archive.read('agntia_ciberseguridad/web/'+name)
+            assert content, 'Missing console resource'
+            hashes['web/'+name]=hashlib.sha256(content).hexdigest()
     print(json.dumps({'distribution_schema_resources_verified':True,'source_commit':'c320fc0f0b46873864927d9d5684eea7ba439728','schema_hashes':hashes},sort_keys=True))

@@ -3,6 +3,7 @@ from datetime import datetime,timedelta
 import json
 from ..errors import not_found
 from ..util import utcnow
+from ..risk import effective
 
 class Views:
     def __init__(self,service,*,clock=utcnow):self.service=service;self.clock=clock
@@ -10,9 +11,9 @@ class Views:
         self.service.authorize(actor,tenant,'jobs.read');instant=self.clock()
         with self.service.db.connection(readonly=True) as db:
             jobs=[dict(r) for r in db.execute('SELECT id,asset_id,state,tool,created_at,result_hash FROM jobs WHERE tenant_id=? ORDER BY created_at DESC LIMIT 20',(tenant,))]
-            result=db.execute('SELECT body FROM job_results WHERE tenant_id=? ORDER BY rowid DESC LIMIT 1',(tenant,)).fetchone()
-            latest=max((j['created_at'] for j in jobs),default=None)
-            partial=any(j['state'] not in ('completed','cancelled') for j in jobs)
+            result=db.execute('SELECT body,created_at FROM job_results WHERE tenant_id=? ORDER BY created_at DESC LIMIT 1',(tenant,)).fetchone()
+            latest=result['created_at'] if result else None
+            partial=bool(db.execute("SELECT 1 FROM jobs WHERE tenant_id=? AND state NOT IN ('completed','cancelled') LIMIT 1",(tenant,)).fetchone())
             coverage='not_tested'
             if result:
                 body=json.loads(result['body'])
@@ -22,7 +23,7 @@ class Views:
             logs=db.execute('SELECT count(*) FROM operational_logs WHERE tenant_id=? AND (expires_at>? OR legal_hold=1)',(tenant,instant.isoformat())).fetchone()[0]
             findings=[]
             for r in db.execute('SELECT body FROM finding_current WHERE tenant_id=? ORDER BY id LIMIT 20',(tenant,)):
-                f=json.loads(r['body']);findings.append({k:f.get(k) for k in ('id','asset_id','state','severity')})
+                f=effective(json.loads(r['body']),instant);findings.append({k:f.get(k) for k in ('id','asset_id','state','severity')})
             evidence=[dict(r) for r in db.execute('SELECT id,source_job_id FROM evidence WHERE tenant_id=? ORDER BY id LIMIT 20',(tenant,))]
         return {'tenant_id':tenant,'as_of':instant.isoformat(),'coverage':coverage,'freshness':'stale' if stale else 'observed_at_scan' if latest else 'unknown',
             'collector_status':'not_monitored','incident_status':'not_evaluated','budget_status':'not_evaluated','security_guarantee':False,

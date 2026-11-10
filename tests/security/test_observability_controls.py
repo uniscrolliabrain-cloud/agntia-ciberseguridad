@@ -160,6 +160,15 @@ class ViewsApiTests(NewSetup,unittest.IsolatedAsyncioTestCase):
             foreign=await client.get('/v1/tenants/tenantB/dashboard',headers=self.f.headers('viewerA'));self.assertEqual(foreign.status_code,404)
             logs=await client.get('/v1/tenants/tenantA/logs',headers=self.f.headers('viewerA'));self.assertTrue(logs.json()['records'])
             nohold=await client.post('/v1/tenants/tenantA/logs/hold',headers=self.f.headers('viewerA'),json={'enabled':True});self.assertEqual(nohold.status_code,403)
+    async def test_pending_job_does_not_invent_fresh_scan_and_completed_result_can_age(self):
+        from agntia_ciberseguridad.jobs.worker import Worker
+        self.store.submit(self.owner,'tenantA',self.body,'dashboard-pending','fixture')
+        views=Views(self.f.service,clock=lambda:self.clock[0])
+        self.assertEqual(views.dashboard(self.viewer,'tenantA')['freshness'],'unknown')
+        await Worker(self.store,self.scanner(self.result()),'dashboard-worker').run_once()
+        self.clock[0]+=timedelta(hours=25)
+        self.assertEqual(views.dashboard(self.viewer,'tenantA')['freshness'],'stale')
+
     async def test_signed_webhook_api_scope_and_denied_agent_privilege(self):
         event=self.event()
         async with self.f.client() as client:

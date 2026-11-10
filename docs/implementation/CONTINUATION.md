@@ -1,6 +1,6 @@
 # Continuidad de implementación
 
-**Estado vigente:** [corte16–20](checkpoints/04-phases-16-20/REPORT.md), rama feat/cyber-phases-16-20, PR#4 apilada sobre PR#3. Custodia cifrada, decisiones humanas, informes, OTel y métricas añadidos; gates completos siguen PARTIAL. Siguiente bloque21–25. Workspace restaurado y baseline remoto contrastado por hash.
+**Estado vigente:** [checkpoint21–25](checkpoints/05-phases-21-25/REPORT.md), rama feat/cyber-phases-21-25, PR#5 apilada sobre PR#4. Logs, consola, ingestión pasiva, límites/resiliencia y registro/delegación de lectura implementados. Gates completos PARTIAL; siguiente bloque26–30. La delegación no gobierna los caminos externos ni todas las rutas heredadas: cerrar esa frontera en gateway antes de habilitar clientes.
 
 ## Registro histórico después del primer checkpoint
 

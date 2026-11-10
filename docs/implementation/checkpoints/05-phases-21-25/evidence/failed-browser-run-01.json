@@ -1,0 +1,10 @@
+{
+  "sha": "4e5a05677a959070e8f6d74596cb5106c4a5e1d3",
+  "run": 42901486619,
+  "job": 130128302009,
+  "status": "FAIL",
+  "reason": "Playwright1.56 cannot install Chromium dependencies for ubuntu26.04 provided by ubuntu-latest",
+  "fix_sha": "a02e59300174e0f9d7bc4f697e889c64a111c1e5",
+  "fix": "Pin browser CI runner to supported ubuntu-24.04",
+  "later_browser_run": 42902060399
+}
