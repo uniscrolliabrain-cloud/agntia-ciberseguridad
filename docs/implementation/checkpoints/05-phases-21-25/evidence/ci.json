@@ -1,0 +1,107 @@
+{
+  "tested_sha": "ca6ae9a471d90ce7c987666b7104b88637afbe07",
+  "runs": [
+    {
+      "id": 42905086374,
+      "name": "Documentation foundation",
+      "status": "completed",
+      "conclusion": "success",
+      "event": "pull_request",
+      "head_sha": "ca6ae9a471d90ce7c987666b7104b88637afbe07"
+    },
+    {
+      "id": 42905086148,
+      "name": "Private observability contracts",
+      "status": "completed",
+      "conclusion": "success",
+      "event": "pull_request",
+      "head_sha": "ca6ae9a471d90ce7c987666b7104b88637afbe07"
+    },
+    {
+      "id": 42905086052,
+      "name": "Scoped observability browser",
+      "status": "completed",
+      "conclusion": "success",
+      "event": "pull_request",
+      "head_sha": "ca6ae9a471d90ce7c987666b7104b88637afbe07"
+    },
+    {
+      "id": 42905086132,
+      "name": "Foundation runtime",
+      "status": "completed",
+      "conclusion": "success",
+      "event": "pull_request",
+      "head_sha": "ca6ae9a471d90ce7c987666b7104b88637afbe07"
+    },
+    {
+      "id": 42905086109,
+      "name": "Offline scanner contracts",
+      "status": "completed",
+      "conclusion": "success",
+      "event": "pull_request",
+      "head_sha": "ca6ae9a471d90ce7c987666b7104b88637afbe07"
+    },
+    {
+      "id": 42905075708,
+      "name": "Documentation foundation",
+      "status": "completed",
+      "conclusion": "success",
+      "event": "push",
+      "head_sha": "ca6ae9a471d90ce7c987666b7104b88637afbe07"
+    },
+    {
+      "id": 42905075542,
+      "name": "Scoped observability browser",
+      "status": "completed",
+      "conclusion": "success",
+      "event": "push",
+      "head_sha": "ca6ae9a471d90ce7c987666b7104b88637afbe07"
+    },
+    {
+      "id": 42905075772,
+      "name": "Private observability contracts",
+      "status": "completed",
+      "conclusion": "success",
+      "event": "push",
+      "head_sha": "ca6ae9a471d90ce7c987666b7104b88637afbe07"
+    },
+    {
+      "id": 42905075537,
+      "name": "Foundation runtime",
+      "status": "completed",
+      "conclusion": "success",
+      "event": "push",
+      "head_sha": "ca6ae9a471d90ce7c987666b7104b88637afbe07"
+    },
+    {
+      "id": 42905075458,
+      "name": "Offline scanner contracts",
+      "status": "completed",
+      "conclusion": "success",
+      "event": "push",
+      "head_sha": "ca6ae9a471d90ce7c987666b7104b88637afbe07"
+    }
+  ],
+  "distinct_tests_passed": 119,
+  "core_passed": 112,
+  "docker_passed": 7,
+  "failed": 0,
+  "core_skipped_docker": 7,
+  "sdk_tests_run": 4,
+  "python_matrix": [
+    "3.11",
+    "3.12"
+  ],
+  "jobs": {
+    "core": [
+      130140831069,
+      130140831610
+    ],
+    "docker": 130140831128,
+    "observability": 130140832215,
+    "browser": 130140831159
+  },
+  "distribution_ui_resources": "PASS",
+  "production_verified": false,
+  "independent_review": false
+}

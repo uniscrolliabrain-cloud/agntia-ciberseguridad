@@ -21,6 +21,8 @@ class Service:
         self.auth = Authenticator(settings)
         self.telemetry = Telemetry(settings)
         self.db.telemetry=self.telemetry
+        from .telemetry.logging import OperationalLogs
+        self.logs=OperationalLogs(self)
 
     def authorize(self, actor: Principal, tenant: str, capability: str):
         with self.telemetry.span("policy.authorize",component="policy",operation="authorize"):

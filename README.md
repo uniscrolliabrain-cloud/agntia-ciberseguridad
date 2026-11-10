@@ -1,4 +1,4 @@
-> Implementación vigente: [checkpoint16–20](docs/implementation/checkpoints/04-phases-16-20/REPORT.md), PR#4 apilada. API y runtime disponibles en la rama; no habilitados para clientes ni instalados en `/agente`. Las secciones fundacionales siguientes describen el punto de partida.
+> Implementación vigente: [checkpoint21–25](docs/implementation/checkpoints/05-phases-21-25/REPORT.md), PR#5 apilada. Consola scoped, eventos pasivos firmados y delegación de lectura. Gates completos PARTIAL; no habilitado para clientes ni instalado en `/agente`.
 
 # Agntia Ciberseguridad
 

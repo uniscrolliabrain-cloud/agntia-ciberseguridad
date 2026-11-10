@@ -14,3 +14,4 @@ jobs:
       - run: python -m pip install -e '.[dev]'
       - run: python scripts/verify_observability.py
       - run: PYTHONPATH=. python scripts/measure_pilot.py
+      - run: PYTHONPATH=. python tests/performance/observability_workload.py
