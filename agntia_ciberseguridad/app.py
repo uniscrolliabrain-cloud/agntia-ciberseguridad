@@ -18,6 +18,9 @@ from .errors import DomainError
 from .service import Service
 from .storage import Database, CURRENT_SCHEMA
 from .snapshots import SnapshotStore
+from .jobs.store import JobStore
+from .jobs.contracts import AuditJobCreate,CancelJob
+from .findings.store import FindingStore
 
 
 class RequestBoundary:
@@ -91,6 +94,9 @@ def create_app(settings: Settings | None = None):
     service = Service(settings, database)
     app = FastAPI(title="Agntia Ciberseguridad", version=__version__, docs_url=None, redoc_url=None, openapi_url=None)
     app.state.service = service
+    jobs = JobStore(service)
+    app.state.jobs = jobs
+    findings = FindingStore(service)
     snapshots = SnapshotStore(service)
     app.state.snapshots = snapshots
     app.state.settings = settings
@@ -204,6 +210,29 @@ def create_app(settings: Settings | None = None):
         from starlette.concurrency import run_in_threadpool
         manifest, _ = await run_in_threadpool(snapshots.verify, actor, tenant, snapshot_id)
         return manifest
+
+    @app.post("/v1/tenants/{tenant}/audits", status_code=202)
+    async def submit_audit(tenant: OpaqueId, body: AuditJobCreate, request: Request, actor: Principal = Depends(principal)):
+        from starlette.concurrency import run_in_threadpool
+        return await run_in_threadpool(jobs.submit,actor,tenant,body,request.headers.get("Idempotency-Key"),correlation(request))
+
+    @app.get("/v1/tenants/{tenant}/jobs/{job_id}")
+    async def job_status(tenant: OpaqueId, job_id: ResourceId, actor: Principal = Depends(principal)):
+        return jobs.get(actor,tenant,job_id)
+
+    @app.post("/v1/tenants/{tenant}/jobs/{job_id}/cancel")
+    async def cancel_job(tenant: OpaqueId, job_id: ResourceId, body: CancelJob, request: Request, actor: Principal = Depends(principal)):
+        return jobs.cancel(actor,tenant,job_id,body.expected_revision,correlation(request))
+
+    @app.get("/v1/tenants/{tenant}/findings")
+    async def list_findings(tenant: OpaqueId, actor: Principal = Depends(principal), limit: int = Query(100,ge=1,le=100),after: str = Query("",pattern=r"^(?:[a-f0-9]{64})?$")):
+        return findings.list(actor,tenant,limit=limit,after=after)
+
+    @app.get("/v1/tenants/{tenant}/findings/{finding_id}/history")
+    async def finding_history(tenant: OpaqueId, finding_id: str, actor: Principal = Depends(principal)):
+        import re
+        if not re.fullmatch('[a-f0-9]{64}',finding_id):raise DomainError('validation','Identificador inválido',422)
+        return findings.history(actor,tenant,finding_id)
 
     @app.get("/v1/tenants/{tenant}/audit/integrity")
     async def integrity(tenant: OpaqueId, actor: Principal = Depends(principal)):

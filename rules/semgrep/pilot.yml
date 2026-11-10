@@ -1,0 +1,23 @@
+rules:
+  - id: agntia.python.dynamic-eval
+    languages: [python]
+    severity: WARNING
+    message: Dynamic evaluation requires a human review of input trust.
+    patterns:
+      - pattern: eval($EXPR)
+      - pattern-not: eval("...")
+    metadata:
+      category: security
+      confidence: MEDIUM
+      cwe: CWE-95
+  - id: agntia.javascript.dynamic-eval
+    languages: [javascript, typescript]
+    severity: WARNING
+    message: Dynamic evaluation requires a human review of input trust.
+    patterns:
+      - pattern: eval($EXPR)
+      - pattern-not: eval("...")
+    metadata:
+      category: security
+      confidence: MEDIUM
+      cwe: CWE-95

@@ -6,7 +6,7 @@ from typing import Annotated
 
 from pydantic import AwareDatetime, ConfigDict, Field, StrictInt, field_validator, model_validator
 
-from .contracts import AssetKind, Model, OpaqueId, Profile, Role
+from .contracts import AssetKind, Model, OpaqueId, Profile, Role, Hash
 
 EnvRef = Annotated[str, Field(pattern=r"^[A-Z][A-Z0-9_]{2,100}$")]
 
@@ -66,6 +66,7 @@ class Settings(Model):
     consents: dict[OpaqueId, ConsentConfig] = Field(default_factory=dict)
     approved_workspace_roots: list[Path] = Field(default_factory=list, max_length=32)
     lab_mode: bool = False
+    tool_policy_hashes: dict[Annotated[str,Field(pattern=r"^(gitleaks|osv|semgrep|trivy)$")],Hash] = Field(default_factory=dict)
     max_request_bytes: Annotated[StrictInt, Field(ge=1024, le=1024 * 1024)] = 64 * 1024
     db_timeout_seconds: float = Field(default=1.0, ge=0.05, le=10)
 

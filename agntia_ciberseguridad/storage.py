@@ -7,6 +7,7 @@ import sqlite3
 from typing import Iterable
 
 from .errors import reject
+from .jobs.schema import SCHEMA as JOB_SCHEMA
 from .util import canonical, digest, now, uid
 
 SCHEMA = [
@@ -32,7 +33,7 @@ SNAPSHOT_SCHEMA = [
         FOREIGN KEY(tenant_id,grant_id) REFERENCES grants(tenant_id,id))""",
     "CREATE INDEX snapshots_asset ON snapshots(tenant_id,asset_id)",
 ]
-MIGRATIONS = ((1, SCHEMA), (2, SNAPSHOT_SCHEMA))
+MIGRATIONS = ((1, SCHEMA), (2, SNAPSHOT_SCHEMA), (3, JOB_SCHEMA))
 CURRENT_SCHEMA = MIGRATIONS[-1][0]
 
 

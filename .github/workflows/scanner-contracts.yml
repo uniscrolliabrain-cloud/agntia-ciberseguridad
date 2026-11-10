@@ -17,7 +17,7 @@ jobs:
       - name: Real sandbox and scanner contracts, synthetic fixtures only
         env:
           AGNTIA_RUN_DOCKER_TESTS: '1'
-        run: python -m unittest tests.docker.test_real_scanners -v
+        run: python -m unittest tests.docker.test_real_scanners tests.docker.test_extended_scanners -v
       - name: Preserve image provenance without raw reports
         if: always()
         uses: actions/upload-artifact@v4

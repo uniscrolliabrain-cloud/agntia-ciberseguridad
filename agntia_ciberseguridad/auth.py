@@ -9,13 +9,13 @@ from .contracts import Role
 from .errors import not_found, reject
 from .util import utcnow
 
-READ = frozenset({"assets.read", "grants.read", "audits.preview", "audit.read"})
+READ = frozenset({"assets.read", "grants.read", "audits.preview", "audit.read", "jobs.read", "findings.read"})
 ROLE_CAPABILITIES = {
     Role.viewer: READ - {"audits.preview"},
-    Role.analyst: READ | {"assets.register", "grants.propose"},
-    Role.operator: READ | {"assets.register", "grants.propose"},
-    Role.reviewer: READ | {"assets.register", "grants.propose", "grants.approve", "grants.revoke"},
-    Role.owner: READ | {"assets.register", "grants.propose", "grants.approve", "grants.revoke"},
+    Role.analyst: READ | {"assets.register", "grants.propose", "jobs.submit", "jobs.cancel"},
+    Role.operator: READ | {"assets.register", "grants.propose", "jobs.submit", "jobs.cancel"},
+    Role.reviewer: READ | {"assets.register", "grants.propose", "grants.approve", "grants.revoke", "jobs.submit", "jobs.cancel", "jobs.reconcile"},
+    Role.owner: READ | {"assets.register", "grants.propose", "grants.approve", "grants.revoke", "jobs.submit", "jobs.cancel", "jobs.reconcile"},
 }
 
 

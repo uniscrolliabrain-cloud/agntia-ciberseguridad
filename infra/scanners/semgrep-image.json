@@ -1,0 +1,5 @@
+{
+  "reference": "semgrep/semgrep:1.185.0",
+  "state": "BOOTSTRAP_RESOLVE_DIGEST_IN_CI",
+  "policy": "Record verified upstream digest, then pin before delivery. Runtime accepts immutable IDs only."
+}
