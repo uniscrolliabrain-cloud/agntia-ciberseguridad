@@ -1,0 +1,80 @@
+{
+  "tested_sha": "fcc7e66b18ef1c62f923ea229ced4cc261dcb67b",
+  "runs": [
+    {
+      "id": 42870625487,
+      "name": "Private observability contracts",
+      "status": "completed",
+      "conclusion": "success",
+      "event": "pull_request",
+      "sha": "fcc7e66b18ef1c62f923ea229ced4cc261dcb67b"
+    },
+    {
+      "id": 42870625483,
+      "name": "Documentation foundation",
+      "status": "completed",
+      "conclusion": "success",
+      "event": "pull_request",
+      "sha": "fcc7e66b18ef1c62f923ea229ced4cc261dcb67b"
+    },
+    {
+      "id": 42870625337,
+      "name": "Foundation runtime",
+      "status": "completed",
+      "conclusion": "success",
+      "event": "pull_request",
+      "sha": "fcc7e66b18ef1c62f923ea229ced4cc261dcb67b"
+    },
+    {
+      "id": 42870625343,
+      "name": "Offline scanner contracts",
+      "status": "completed",
+      "conclusion": "success",
+      "event": "pull_request",
+      "sha": "fcc7e66b18ef1c62f923ea229ced4cc261dcb67b"
+    },
+    {
+      "id": 42870617488,
+      "name": "Private observability contracts",
+      "status": "completed",
+      "conclusion": "success",
+      "event": "push",
+      "sha": "fcc7e66b18ef1c62f923ea229ced4cc261dcb67b"
+    },
+    {
+      "id": 42870617422,
+      "name": "Foundation runtime",
+      "status": "completed",
+      "conclusion": "success",
+      "event": "push",
+      "sha": "fcc7e66b18ef1c62f923ea229ced4cc261dcb67b"
+    },
+    {
+      "id": 42870617557,
+      "name": "Documentation foundation",
+      "status": "completed",
+      "conclusion": "success",
+      "event": "push",
+      "sha": "fcc7e66b18ef1c62f923ea229ced4cc261dcb67b"
+    },
+    {
+      "id": 42870617535,
+      "name": "Offline scanner contracts",
+      "status": "completed",
+      "conclusion": "success",
+      "event": "push",
+      "sha": "fcc7e66b18ef1c62f923ea229ced4cc261dcb67b"
+    }
+  ],
+  "distinct_tests": 103,
+  "core_passed": 96,
+  "docker_passed": 7,
+  "failed": 0,
+  "sdk_tests_executed": 4,
+  "matrix_versions": [
+    "3.11",
+    "3.12"
+  ],
+  "independent_security_review": false,
+  "production": false
+}

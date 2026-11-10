@@ -238,4 +238,6 @@ def create_app(settings: Settings | None = None):
     async def integrity(tenant: OpaqueId, actor: Principal = Depends(principal)):
         return service.audit_integrity(actor, tenant)
 
+    from .features import register_features
+    register_features(app,service,principal)
     return app

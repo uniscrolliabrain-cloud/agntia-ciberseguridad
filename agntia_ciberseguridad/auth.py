@@ -9,13 +9,13 @@ from .contracts import Role
 from .errors import not_found, reject
 from .util import utcnow
 
-READ = frozenset({"assets.read", "grants.read", "audits.preview", "audit.read", "jobs.read", "findings.read"})
+READ = frozenset({"assets.read", "grants.read", "audits.preview", "audit.read", "jobs.read", "findings.read", "evidence.read", "reports.read", "risk.read"})
 ROLE_CAPABILITIES = {
     Role.viewer: READ - {"audits.preview"},
-    Role.analyst: READ | {"assets.register", "grants.propose", "jobs.submit", "jobs.cancel"},
-    Role.operator: READ | {"assets.register", "grants.propose", "jobs.submit", "jobs.cancel"},
-    Role.reviewer: READ | {"assets.register", "grants.propose", "grants.approve", "grants.revoke", "jobs.submit", "jobs.cancel", "jobs.reconcile"},
-    Role.owner: READ | {"assets.register", "grants.propose", "grants.approve", "grants.revoke", "jobs.submit", "jobs.cancel", "jobs.reconcile"},
+    Role.analyst: READ | {"assets.register", "grants.propose", "jobs.submit", "jobs.cancel", "evidence.create", "reviews.propose", "reports.create"},
+    Role.operator: READ | {"assets.register", "grants.propose", "jobs.submit", "jobs.cancel", "evidence.create", "reviews.propose", "reports.create"},
+    Role.reviewer: READ | {"assets.register", "grants.propose", "grants.approve", "grants.revoke", "jobs.submit", "jobs.cancel", "jobs.reconcile", "evidence.create", "evidence.original", "evidence.manage", "evidence.review", "reviews.propose", "reviews.approve", "reports.create"},
+    Role.owner: READ | {"assets.register", "grants.propose", "grants.approve", "grants.revoke", "jobs.submit", "jobs.cancel", "jobs.reconcile", "evidence.create", "evidence.original", "evidence.manage", "evidence.review", "reviews.propose", "reviews.approve", "reports.create"},
 }
 
 
@@ -71,3 +71,9 @@ class Authenticator:
         if capability not in ROLE_CAPABILITIES[principal.role]:
             reject("forbidden", "Capacidad no autorizada", 403)
         return principal
+
+
+def require_human(service,actor,tenant,capability):
+    service.authorize(actor,tenant,capability)
+    binding=next(p for p in service.settings.principals if p.id==actor.binding_id)
+    if binding.kind!='human':reject('human_required','Se requiere un principal humano autorizado',403)

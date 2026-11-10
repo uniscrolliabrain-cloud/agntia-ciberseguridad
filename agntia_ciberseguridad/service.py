@@ -10,6 +10,7 @@ from .contracts import AssetKind, AssetPublic, Profile
 from .errors import not_found, reject
 from .network_policy import local_target, pin_target
 from .storage import Database
+from .telemetry.tracing import Telemetry
 from .util import canonical, digest, now, uid, utcnow
 
 
@@ -18,9 +19,12 @@ class Service:
         self.settings = settings
         self.db = database
         self.auth = Authenticator(settings)
+        self.telemetry = Telemetry(settings)
+        self.db.telemetry=self.telemetry
 
     def authorize(self, actor: Principal, tenant: str, capability: str):
-        self.auth.authorize(actor, tenant, capability)
+        with self.telemetry.span("policy.authorize",component="policy",operation="authorize"):
+            self.auth.authorize(actor, tenant, capability)
         with self.db.connection(readonly=True) as db:
             if not db.execute("SELECT 1 FROM tenants WHERE id=?", (tenant,)).fetchone():
                 not_found()

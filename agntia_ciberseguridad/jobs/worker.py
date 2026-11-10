@@ -22,8 +22,12 @@ class Worker:
             options=self.cache_registry.get(body.tool.value,{})
             if self.store.heartbeat(row['tenant_id'],row['id'],self.owner,row['fence'],self.lease_seconds):
                 return self.store.fail(row,self.owner,row['fence'],'cancel_requested')
-            task=asyncio.create_task(self.scanner.scan(actor,row['tenant_id'],authorization,body.snapshot_id,body.tool,
-                row['correlation_id'],execution_key=row['id']+'-'+str(row['fence']),**options))
+            async def execute():
+                with self.store.service.telemetry.span('job.execute',parent=row.get('trace_parent'),component='worker',
+                        job_id=row['id'],correlation_id=row['correlation_id'],causation_id=row.get('causation_id') or row['correlation_id']):
+                    return await self.scanner.scan(actor,row['tenant_id'],authorization,body.snapshot_id,body.tool,
+                        row['correlation_id'],execution_key=row['id']+'-'+str(row['fence']),**options)
+            task=asyncio.create_task(execute())
             while not task.done():
                 await asyncio.wait({task},timeout=min(1,self.lease_seconds/3))
                 if task.done():break

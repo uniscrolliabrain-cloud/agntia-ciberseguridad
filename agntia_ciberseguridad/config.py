@@ -2,7 +2,7 @@
 import json
 import os
 from pathlib import Path
-from typing import Annotated
+from typing import Annotated,Literal
 
 from pydantic import AwareDatetime, ConfigDict, Field, StrictInt, field_validator, model_validator
 
@@ -15,6 +15,7 @@ class PrincipalBinding(Model):
     id: OpaqueId
     actor_id: OpaqueId
     role: Role
+    kind: Literal["human","agent","service"]="human"
     tenants: list[OpaqueId] = Field(min_length=1, max_length=100)
     token_env: EnvRef
     expires_at: AwareDatetime | None = None
@@ -58,6 +59,13 @@ class ConsentConfig(Model):
         return self
 
 
+class EvidencePolicy(Model):
+    key_refs: list[EnvRef] = Field(min_length=1,max_length=5)
+    legal_basis_ref: OpaqueId
+    custodian_ref: OpaqueId
+    retention_days: Annotated[StrictInt,Field(ge=1,le=3650)]=30
+
+
 class Settings(Model):
     model_config = ConfigDict(extra="forbid", arbitrary_types_allowed=False)
     data_dir: Path
@@ -67,6 +75,9 @@ class Settings(Model):
     approved_workspace_roots: list[Path] = Field(default_factory=list, max_length=32)
     lab_mode: bool = False
     tool_policy_hashes: dict[Annotated[str,Field(pattern=r"^(gitleaks|osv|semgrep|trivy)$")],Hash] = Field(default_factory=dict)
+    evidence_policies: dict[OpaqueId,EvidencePolicy] = Field(default_factory=dict)
+    telemetry_export: Literal['disabled','local_collector']='disabled'
+    metrics_token_env: EnvRef|None=None
     max_request_bytes: Annotated[StrictInt, Field(ge=1024, le=1024 * 1024)] = 64 * 1024
     db_timeout_seconds: float = Field(default=1.0, ge=0.05, le=10)
 
@@ -77,6 +88,11 @@ class Settings(Model):
             if len(values) != len(set(values)):
                 raise ValueError("Ambiguous principal registry")
         tenants = {t for p in self.principals for t in p.tenants}
+        refs=[r for p in self.evidence_policies.values() for r in p.key_refs]
+        if len(refs)!=len(set(refs)) or any(t not in tenants for t in self.evidence_policies):
+            raise ValueError('Ambiguous evidence key scope')
+        if self.metrics_token_env and self.metrics_token_env in {p.token_env for p in self.principals}:
+            raise ValueError('Metrics credential must be separate')
         for target in self.targets.values():
             if target.tenant_id not in tenants:
                 raise ValueError("Target has no provisioned tenant")

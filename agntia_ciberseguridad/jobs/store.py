@@ -44,6 +44,10 @@ class JobStore:
                 'revision','attempts','max_attempts','cancel_requested','error_code','result_hash','created_at','updated_at','correlation_id')}
 
     def submit(self,actor,tenant,body,key,correlation):
+        with self.service.telemetry.span('job.submit',component='jobs',correlation_id=correlation):
+            return self._submit(actor,tenant,body,key,correlation)
+
+    def _submit(self,actor,tenant,body,key,correlation):
         self.service.authorize(actor,tenant,'jobs.submit')
         if not isinstance(key,str) or not re.fullmatch('[A-Za-z0-9_-]{8,100}',key):reject('idempotency_key','Clave estable requerida',400)
         policy=self._authorize(actor,tenant,body)
@@ -67,9 +71,11 @@ class JobStore:
                 VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)''',
                 (tenant,job_id,body.asset_id,body.grant_id,body.snapshot_id,actor.actor_id,actor.binding_id,authorization_stamp(actor),
                  canonical(body.model_dump(mode='json')),request_hash,body.tool.value,policy,state,body.max_attempts,error,timestamp,timestamp,correlation))
+            db.execute('UPDATE jobs SET trace_parent=?,causation_id=? WHERE tenant_id=? AND id=?',(self.service.telemetry.current_parent(),correlation,tenant,job_id))
             db.execute('INSERT INTO job_idempotency VALUES(?,?,?,?,?,?)',(tenant,'audit',key,request_hash,job_id,actor.binding_id))
             db.execute('INSERT INTO job_reservations VALUES(?,?,?,?,?)',(tenant,job_id,body.max_attempts,0,'reserved' if state=='pending' else 'released'))
             self.db.audit(db,tenant,actor.actor_id,'job.admitted',job_id,correlation,{'job_id':job_id,'state':state,'request_hash':request_hash,'tool':body.tool.value})
+            self.db.after_commit(lambda:self.service.telemetry.metrics.job(body.tool.value,state))
             return {**self.public(self._row(db,tenant,job_id)),'replayed':False,'audit_completed':False}
 
     def get(self,actor,tenant,job_id):
@@ -100,6 +106,7 @@ class JobStore:
         db.execute('UPDATE jobs SET state=?,error_code=?,lease_owner=NULL,lease_until=NULL,revision=revision+1,updated_at=? WHERE tenant_id=? AND id=?',(state,error,now(),row['tenant_id'],row['id']))
         reservation='reconciliation_required' if state=='reconciliation_required' else ('released' if row['attempts']==0 else 'consumed')
         db.execute('UPDATE job_reservations SET state=? WHERE tenant_id=? AND job_id=?',(reservation,row['tenant_id'],row['id']))
+        self.db.after_commit(lambda:self.service.telemetry.metrics.job(row['tool'],state))
         self.db.audit(db,row['tenant_id'],row['actor_id'],'job.'+state,row['id'],row['correlation_id'],{'job_id':row['id'],'code':error})
 
     def claim(self,owner,*,lease_seconds=30,global_limit=2,tenant_limit=1,tool_limit=1):
@@ -159,6 +166,7 @@ class JobStore:
                 db.execute("UPDATE jobs SET state='pending',error_code=?,lease_owner=NULL,lease_until=NULL,next_attempt_at=?,revision=revision+1,updated_at=? WHERE tenant_id=? AND id=?",(code,self.clock()+delay,now(),row['tenant_id'],row['id']))
                 self.db.audit(db,row['tenant_id'],row['actor_id'],'job.retry_scheduled',row['id'],row['correlation_id'],{'job_id':row['id'],'code':code})
             else:self._terminal(db,current,state,code)
+            if current['attempts']>0:self.db.after_commit(lambda:self.service.telemetry.metrics.scan('error'))
             return self.public(self._row(db,row['tenant_id'],row['id']))
 
     def complete(self,row,owner,fence,result):
@@ -177,6 +185,7 @@ class JobStore:
             content_hash=digest(result)
             db.execute('INSERT INTO job_results VALUES(?,?,?,?,?)',(row['tenant_id'],row['id'],canonical(result),content_hash,now()))
             FindingStore.record(db,current,result)
+            self.db.after_commit(lambda:self.service.telemetry.metrics.scan('partial' if state=='partial' else result['status']))
             db.execute('UPDATE jobs SET result_hash=? WHERE tenant_id=? AND id=?',(content_hash,row['tenant_id'],row['id']))
             self._terminal(db,current,state,None)
             return self.public(self._row(db,row['tenant_id'],row['id']))
