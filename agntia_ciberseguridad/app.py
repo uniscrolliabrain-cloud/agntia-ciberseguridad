@@ -104,7 +104,12 @@ def create_app(settings: Settings | None = None):
     app.add_middleware(RequestBoundary, maximum=settings.max_request_bytes)
 
     async def principal(request: Request):
-        return service.auth.authenticate(request.headers.get("Authorization"))
+        actor=service.auth.authenticate(request.headers.get("Authorization"))
+        tenant=request.path_params.get('tenant')
+        if tenant:
+            service.authorize(actor,tenant,'assets.read')
+            request.state.authenticated_log_tenant=tenant
+        return actor
 
     def correlation(request):
         return request.state.correlation_id
@@ -240,4 +245,6 @@ def create_app(settings: Settings | None = None):
 
     from .features import register_features
     register_features(app,service,principal)
+    from .observability_routes import register_observability
+    register_observability(app,service,principal)
     return app

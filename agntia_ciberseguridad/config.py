@@ -66,6 +66,14 @@ class EvidencePolicy(Model):
     retention_days: Annotated[StrictInt,Field(ge=1,le=3650)]=30
 
 
+class EventSource(Model):
+    tenant_id: OpaqueId
+    key_env: EnvRef
+    target_refs: list[OpaqueId]=Field(min_length=1,max_length=32)
+    max_per_minute: Annotated[StrictInt,Field(ge=1,le=1000)]=60
+    enabled: bool=True
+
+
 class Settings(Model):
     model_config = ConfigDict(extra="forbid", arbitrary_types_allowed=False)
     data_dir: Path
@@ -78,6 +86,14 @@ class Settings(Model):
     evidence_policies: dict[OpaqueId,EvidencePolicy] = Field(default_factory=dict)
     telemetry_export: Literal['disabled','local_collector']='disabled'
     metrics_token_env: EnvRef|None=None
+    event_sources: dict[OpaqueId,EventSource]=Field(default_factory=dict)
+    event_max_records: Annotated[StrictInt,Field(ge=1,le=100000)]=10000
+    event_max_bytes: Annotated[StrictInt,Field(ge=1024,le=100000000)]=10000000
+    event_pending_limit: Annotated[StrictInt,Field(ge=1,le=10000)]=1000
+    log_max_records: Annotated[StrictInt,Field(ge=1,le=10000)]=500
+    log_max_bytes: Annotated[StrictInt,Field(ge=1024,le=10000000)]=256000
+    log_retention_days: Annotated[StrictInt,Field(ge=1,le=90)]=7
+    delegation_key_env: EnvRef|None=None
     max_request_bytes: Annotated[StrictInt, Field(ge=1024, le=1024 * 1024)] = 64 * 1024
     db_timeout_seconds: float = Field(default=1.0, ge=0.05, le=10)
 
@@ -93,6 +109,14 @@ class Settings(Model):
             raise ValueError('Ambiguous evidence key scope')
         if self.metrics_token_env and self.metrics_token_env in {p.token_env for p in self.principals}:
             raise ValueError('Metrics credential must be separate')
+        source_refs=[s.key_env for s in self.event_sources.values()]
+        other_refs={p.token_env for p in self.principals}|set(refs)|{self.metrics_token_env,self.delegation_key_env}
+        if len(source_refs)!=len(set(source_refs)) or set(source_refs)&other_refs:raise ValueError('Source keys require separate references')
+        if self.delegation_key_env and self.delegation_key_env in {p.token_env for p in self.principals}|set(refs)|{self.metrics_token_env}:raise ValueError('Delegation key requires separate reference')
+        for source in self.event_sources.values():
+            if source.tenant_id not in tenants:raise ValueError('Source tenant not provisioned')
+            for ref in source.target_refs:
+                if ref not in self.targets or self.targets[ref].tenant_id!=source.tenant_id:raise ValueError('Source target scope differs')
         for target in self.targets.values():
             if target.tenant_id not in tenants:
                 raise ValueError("Target has no provisioned tenant")

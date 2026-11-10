@@ -19,4 +19,4 @@ agntia-ciberseguridad = "agntia_ciberseguridad.cli:main"
 include = ["agntia_ciberseguridad*"]
 
 [tool.setuptools.package-data]
-agntia_ciberseguridad = ["data/cyclonedx/*.json", "data/cyclonedx/*.txt"]
+agntia_ciberseguridad = ["data/cyclonedx/*.json", "data/cyclonedx/*.txt", "web/*.html", "web/*.js", "web/*.css"]
