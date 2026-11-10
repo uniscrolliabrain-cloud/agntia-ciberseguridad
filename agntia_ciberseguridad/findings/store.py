@@ -3,6 +3,7 @@ import json
 from ..errors import not_found
 from ..util import canonical,digest,now,uid
 from .normalize import normalize
+from ..risk import effective
 
 class FindingStore:
     def __init__(self,service):self.service=service;self.db=service.db
@@ -13,12 +14,12 @@ class FindingStore:
             old=db.execute('SELECT body FROM finding_current WHERE tenant_id=? AND id=?',(job['tenant_id'],observation['finding_id'])).fetchone()
             if old:
                 current=json.loads(old['body'])
-                current.update(last_seen=timestamp,last_job_id=job['id'],last_snapshot_id=job['snapshot_id'],
+                current.update(revision=current.get('revision',0)+1,last_seen=timestamp,last_job_id=job['id'],last_snapshot_id=job['snapshot_id'],
                     severity=observation['severity'],observation_count=current['observation_count']+1)
                 if current['state'] in ('remediated','verified_fixed'):current['state']='suspected';current['reappeared']=True
             else:
                 current={'id':observation['finding_id'],'asset_id':job['asset_id'],'tool':job['tool'],'rule_id':observation['rule_id'],
-                    'path':observation['path'],'state':'suspected','severity':observation['severity'],'confidence':'tool_reported',
+                    'path':observation['path'],'revision':0,'state':'suspected','severity':observation['severity'],'confidence':'tool_reported',
                     'first_seen':timestamp,'last_seen':timestamp,'observation_count':1,'reappeared':False,
                     'last_job_id':job['id'],'last_snapshot_id':job['snapshot_id'],'relation_id':observation['relation_id'],
                     'exposure':'unknown','exception':None}
@@ -31,7 +32,7 @@ class FindingStore:
         if type(limit)is not int or not 1<=limit<=100:raise ValueError('Invalid page size')
         with self.db.connection(readonly=True) as db:
             rows=db.execute('SELECT id,body FROM finding_current WHERE tenant_id=? AND id>? ORDER BY id LIMIT ?',(tenant,after,limit)).fetchall()
-            return {'items':[json.loads(r['body']) for r in rows],'next_cursor':rows[-1]['id'] if len(rows)==limit else None}
+            return {'items':[effective(json.loads(r['body'])) for r in rows],'next_cursor':rows[-1]['id'] if len(rows)==limit else None}
     def history(self,actor,tenant,finding_id,*,limit=100,after=''):
         self.service.authorize(actor,tenant,'findings.read')
         if type(limit)is not int or not 1<=limit<=100:raise ValueError('Invalid page size')
@@ -49,4 +50,4 @@ class FindingStore:
                 observation=json.loads(row['body'])
                 if digest(observation)!=row['content_hash']:raise ValueError('Observation integrity failure')
                 observations.append(observation)
-            return {'finding':json.loads(current['body']),'observations':observations,'next_cursor':rows[-1]['id'] if len(rows)==limit else None,'notice':'Observations, not proof of exploitation or verified remediation.'}
+            return {'finding':effective(json.loads(current['body'])),'observations':observations,'next_cursor':rows[-1]['id'] if len(rows)==limit else None,'notice':'Observations, not proof of exploitation or verified remediation.'}

@@ -1,13 +1,15 @@
 """Single-node SQLite foundation with transactional additive migrations and backups."""
 import json
 import time
-from contextlib import contextmanager
+from contextlib import contextmanager,nullcontext
 from pathlib import Path
 import sqlite3
+import threading
 from typing import Iterable
 
 from .errors import reject
 from .jobs.schema import SCHEMA as JOB_SCHEMA
+from .evidence.schema import SCHEMA as EVIDENCE_SCHEMA
 from .util import canonical, digest, now, uid
 
 SCHEMA = [
@@ -33,7 +35,7 @@ SNAPSHOT_SCHEMA = [
         FOREIGN KEY(tenant_id,grant_id) REFERENCES grants(tenant_id,id))""",
     "CREATE INDEX snapshots_asset ON snapshots(tenant_id,asset_id)",
 ]
-MIGRATIONS = ((1, SCHEMA), (2, SNAPSHOT_SCHEMA), (3, JOB_SCHEMA))
+MIGRATIONS = ((1, SCHEMA), (2, SNAPSHOT_SCHEMA), (3, JOB_SCHEMA), (4, EVIDENCE_SCHEMA))
 CURRENT_SCHEMA = MIGRATIONS[-1][0]
 
 
@@ -43,6 +45,8 @@ class Database:
         self.root.mkdir(parents=True, exist_ok=True, mode=0o700)
         self.path = self.root / "cyber.sqlite3"
         self.timeout = timeout
+        self._local=threading.local()
+        self.telemetry=None
 
     @contextmanager
     def connection(self, *, readonly: bool = False):
@@ -52,7 +56,8 @@ class Database:
         if readonly:
             db.execute("PRAGMA query_only=ON")
         try:
-            yield db
+            context=self.telemetry.span('db.transaction',component='storage',operation='read' if readonly else 'write') if self.telemetry else nullcontext()
+            with context:yield db
             if not readonly:
                 db.commit()
         except sqlite3.OperationalError as exc:
@@ -68,9 +73,23 @@ class Database:
 
     @contextmanager
     def transaction(self):
-        with self.connection() as db:
-            db.execute("BEGIN IMMEDIATE")
-            yield db
+        if getattr(self._local,'callbacks',None) is not None:raise RuntimeError('Nested write transaction')
+        self._local.callbacks=[]
+        callbacks=[]
+        try:
+            with self.connection() as db:
+                db.execute("BEGIN IMMEDIATE")
+                yield db
+            callbacks=self._local.callbacks
+        finally:self._local.callbacks=None
+        for callback in callbacks:
+            try:callback()
+            except Exception:pass  # Telemetry failure cannot undo a committed business operation.
+
+    def after_commit(self,callback):
+        callbacks=getattr(self._local,'callbacks',None)
+        if callbacks is None:raise RuntimeError('No write transaction')
+        callbacks.append(callback)
 
     def migrate(self, migrations=None):
         migrations = migrations if migrations is not None else MIGRATIONS

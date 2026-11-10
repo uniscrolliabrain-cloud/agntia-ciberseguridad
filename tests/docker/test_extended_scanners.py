@@ -79,4 +79,35 @@ class ExtendedScannerTests(unittest.IsolatedAsyncioTestCase):
             with store.db.connection(readonly=True) as db:
                 self.assertEqual(db.execute('SELECT count(*) FROM job_results').fetchone()[0],1)
                 self.assertEqual(db.execute('SELECT count(*) FROM job_reservations').fetchone()[0],1)
+            import base64
+            from datetime import timedelta
+            from unittest.mock import patch
+            from agntia_ciberseguridad.config import EvidencePolicy
+            from agntia_ciberseguridad.evidence.vault import Vault
+            from agntia_ciberseguridad.reviews import Reviews,ReviewProposal,ReviewApproval
+            from agntia_ciberseguridad.reports import Reports,ReportRequest
+            from agntia_ciberseguridad.util import utcnow
+            with patch.dict(os.environ,{'SYNTHETIC_REPORT_KEY':base64.b64encode(os.urandom(32)).decode()}):
+                fixture.f.settings.evidence_policies={'tenantA':EvidencePolicy(key_refs=['SYNTHETIC_REPORT_KEY'],legal_basis_ref='synthetic-authority',custodian_ref='fixture-owner')}
+                reviewer=fixture.f.service.auth.authenticate(fixture.f.headers('reviewerA')['Authorization'])
+                vault=Vault(fixture.f.service)
+                evidence=vault.put(fixture.actor,'tenantA',('Nonfunctional fixture '+secret).encode(),'text/plain','fixture',source_job_id=receipt['id'])
+                vault.manage(reviewer,'tenantA',evidence['id'],0,'review','fixture',reason='Synthetic distinct human verification')
+                finding=next(f for f in observations if f['rule_id']=='agntia-canary')
+                reviews=Reviews(fixture.f.service)
+                proposal=reviews.propose(fixture.actor,'tenantA',ReviewProposal(finding_id=finding['id'],expected_finding_revision=finding.get('revision',0),action='false_positive',reason='Invented nonfunctional canary, not an actual credential',evidence_ids=[evidence['id']],expires_at=(utcnow()+timedelta(days=1)).isoformat()),'fixture')
+                reviews.approve(reviewer,'tenantA',proposal['id'],ReviewApproval(expected_revision=0,proposal_hash=proposal['proposal_hash']),'fixture')
+                reports=Reports(fixture.f.service)
+                report=reports.create(fixture.actor,'tenantA',ReportRequest(job_ids=[receipt['id']]),'fixture')
+                self.assertTrue(report['findings']);self.assertNotIn(secret,json.dumps(report))
+                self.assertIn('false_positive',{f['state'] for f in report['findings']})
+                self.assertEqual(reports.create(fixture.actor,'tenantA',ReportRequest(job_ids=[receipt['id']]),'fixture')['id'],report['id'])
+                (fixture.f.repo/'canary.txt').write_text('Ordinary benign fixture with no credentials')
+                benign_snapshot=fixture.acquire()
+                benign_body=body.model_copy(update={'snapshot_id':benign_snapshot['id'],'snapshot_hash':benign_snapshot['manifest_hash']})
+                benign=store.submit(fixture.actor,'tenantA',benign_body,'benign-report-fixture','fixture')
+                self.assertEqual((await Worker(store,scanner,'fixture-worker').run_once())['state'],'completed')
+                benign_report=reports.create(fixture.actor,'tenantA',ReportRequest(job_ids=[benign['id']]),'fixture')
+                self.assertEqual(benign_report['findings'],[])
+                self.assertFalse(benign_report['security_guarantee'])
         finally:fixture.tearDown()

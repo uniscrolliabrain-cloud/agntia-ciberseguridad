@@ -1,0 +1,1 @@
+{"collector":"otel/opentelemetry-collector-contrib:0.138.0","prometheus":"prom/prometheus:v3.7.2","state":"BOOTSTRAP_RESOLVE_IMMUTABLE_DIGEST_IN_CI"}

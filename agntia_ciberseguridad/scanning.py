@@ -29,7 +29,8 @@ class StaticScanner:
         def revoked():
             try:self.service.validate_authorization(actor,tenant,authorization);return False
             except DomainError:return True
-        run=await self.runner.run(tool,contents,cache=cache,cancelled=revoked,**({"execution_key":execution_key} if execution_key else {}))
+        with self.service.telemetry.span('scanner.run',component='runner',tool=tool.value,correlation_id=correlation):
+            run=await self.runner.run(tool,contents,cache=cache,cancelled=revoked,**({"execution_key":execution_key} if execution_key else {}))
         self.service.validate_authorization(actor,tenant,authorization)
         self.snapshots.verify(actor,tenant,snapshot_id)
         paths={file['path'] for file in manifest['files']}
