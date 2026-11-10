@@ -39,3 +39,7 @@ Detener el proceso detiene nuevas admisiones. Conservar `state` y backups, verif
 ## Segundo bloque
 
 Hay rutas POST/GET de snapshots y adaptadores de scanner internos. Consultar [checkpoint6–10](checkpoints/02-phases-06-10/REPORT.md) e [infra/scanners](../../infra/scanners/README.md). La API no ejecuta scanners; el opt-in Docker solo habilita fixtures sintéticas de CI, no aprobación de un piloto.
+
+## Tercer corte
+
+El [informe10–15](checkpoints/03-phases-10-15/REPORT.md) documenta POST audits202, GET/cancel jobs y findings/historial. Configurar tool_policy_hashes solo en servidor. Los jobs quedan bloqueados por defecto hasta verificar ReleaseGates; no copiar valores positivos de fixtures a producción. La distribución incluye validación CycloneDX1.5 sin red; los casos Docker reales siguen opt-in de laboratorio.
