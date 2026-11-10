@@ -10,7 +10,7 @@ from agntia_ciberseguridad.agents.policy import POLICY_HASH,ActionPolicy
 from agntia_ciberseguridad.agents.controls import Controls,ControlChange
 from agntia_ciberseguridad.agents.capabilities import UseRequest,GrantRequest
 from agntia_ciberseguridad.agents.flows import DataFlows,FlowCreate,ReleaseProposal
-from agntia_ciberseguridad.agents.tools import ToolRegistry,ToolDescriptor,MCP,RPC,PROTOCOL
+from agntia_ciberseguridad.agents.tools import ToolRegistry,ToolDescriptor,MCP,RPC,PROTOCOL,MCPReadArguments
 from agntia_ciberseguridad.agents.effects import Effects,NoteProposal,NoteApproval,NoteCommit
 from agntia_ciberseguridad.agents.registry import Manifest
 from agntia_ciberseguridad.errors import DomainError
@@ -31,7 +31,7 @@ class GatewaySetup(NewSetup):
         epoch=self.controls.list(self.reviewer,'tenantA')['epoch']
         return self.controls.change(self.reviewer,'tenantA',ControlChange(kind=kind,scope_id=scope_id,stopped=stopped,expected_epoch=epoch,reason='Synthetic emergency stop test'),'fixture',os.environ['CYBER_EMERGENCY_KEY'])
     def tool(self):
-        descriptor=ToolDescriptor(version='v1',description='Read synthetic metadata only',input_schema=UseRequest.model_json_schema(),skill_hash='b'*64)
+        descriptor=ToolDescriptor(version='v1',description='Read synthetic metadata only',input_schema=MCPReadArguments.model_json_schema(),skill_hash='b'*64)
         tool=self.tools.propose(self.owner,'tenantA',descriptor,'fixture');tool=self.tools.approve(self.reviewer,'tenantA',tool['id'],0,tool['descriptor_hash'],'fixture')
         body=Manifest(agent_binding='agentA',version='v1',artifact_hash='c'*64,capabilities=['assets.read'],resource_ids=[self.fixture.asset['id']],tool_ids=[tool['id']])
         manifest=self.registry.create(self.owner,'tenantA',body,'fixture');manifest=self.registry.approve(self.reviewer,'tenantA',manifest['id'],0,'fixture')
@@ -136,9 +136,10 @@ class ToolTests(GatewaySetup,unittest.TestCase):
         tool,_,manifest=self.tool();session=self.initialize(tool,manifest)
         listed,_=self.mcp.handle(self.agent,'tenantA',manifest['id'],tool['id'],RPC(jsonrpc='2.0',id=1,method='tools/list'),'fixture',session_id=session,protocol=PROTOCOL)
         self.assertEqual(listed['result']['tools'][0]['name'],'agntia.metadata.read')
+        self.assertNotIn('token',canonical(listed['result']['tools'][0]['inputSchema']))
         grant=self.delegations.issue(self.owner,'tenantA',self.grant(manifest),'fixture')
         request=UseRequest(token=grant['token'],capability='assets.read',resource_id=self.fixture.asset['id'])
-        result,_=self.mcp.handle(self.agent,'tenantA',manifest['id'],tool['id'],RPC(jsonrpc='2.0',id=2,method='tools/call',params={'name':'agntia.metadata.read','arguments':request.model_dump()}),'fixture',session_id=session,protocol=PROTOCOL)
+        result,_=self.mcp.handle(self.agent,'tenantA',manifest['id'],tool['id'],RPC(jsonrpc='2.0',id=2,method='tools/call',params={'name':'agntia.metadata.read','arguments':request.model_dump(exclude={'token'})}),'fixture',session_id=session,protocol=PROTOCOL,grant_token=grant['token'])
         self.assertTrue(result['result']['structuredContent']['data'])
         with self.assertRaises(DomainError):self.mcp.handle(self.agent,'tenantA',manifest['id'],tool['id'],RPC(jsonrpc='2.0',id=2,method='tools/list'),'fixture',session_id=session,protocol=PROTOCOL)
     def test_drift_invalidates_prior_session_grants_and_requires_new_approval(self):
@@ -238,4 +239,8 @@ class GatewayApiTests(GatewaySetup,unittest.IsolatedAsyncioTestCase):
             self.assertEqual(response.status_code,200);headers.update({'Mcp-Session-Id':response.headers['mcp-session-id'],'Mcp-Protocol-Version':PROTOCOL})
             initialized=await client.post(path,headers=headers,json={'jsonrpc':'2.0','method':'notifications/initialized'});self.assertEqual(initialized.status_code,202);self.assertEqual(initialized.content,b'')
             response=await client.post(path,headers=headers,json={'jsonrpc':'2.0','id':1,'method':'tools/list'});self.assertIn('tools',response.json()['result'])
-            bad=await client.post(path,headers=headers,json={'jsonrpc':'2.0','id':2,'method':'tools/call','params':{'name':'shell','arguments':{}}});self.assertEqual(bad.status_code,422)
+            grant=self.delegations.issue(self.owner,'tenantA',self.grant(manifest),'fixture')
+            headers['X-Agntia-Grant']=grant['token']
+            called=await client.post(path,headers=headers,json={'jsonrpc':'2.0','id':2,'method':'tools/call','params':{'name':'agntia.metadata.read','arguments':{'capability':'assets.read','resource_id':self.fixture.asset['id']}}})
+            self.assertEqual(called.status_code,200);self.assertTrue(called.json()['result']['structuredContent']['data'])
+            bad=await client.post(path,headers=headers,json={'jsonrpc':'2.0','id':3,'method':'tools/call','params':{'name':'shell','arguments':{}}});self.assertEqual(bad.status_code,422)

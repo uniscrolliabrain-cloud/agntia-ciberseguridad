@@ -49,8 +49,8 @@ def register_agent_gateway(app,service,principal):
     async def approve_tool(tenant:OpaqueId,tool_id:ResourceId,body:ToolApproval,request:Request,actor=Depends(principal)):return tools.approve(actor,tenant,tool_id,body.expected_revision,body.descriptor_hash,corr(request))
     @app.post('/v1/tenants/{tenant}/agent/mcp/{manifest_id}/{tool_id}')
     async def mcp_call(tenant:OpaqueId,manifest_id:ResourceId,tool_id:ResourceId,body:RPC,request:Request,
-                       mcp_session_id:str|None=Header(None,max_length=64),mcp_protocol_version:str|None=Header(None,max_length=32),origin:str|None=Header(None,max_length=1024),actor=Depends(principal)):
-        try:result,session=mcp.handle(actor,tenant,manifest_id,tool_id,body,corr(request),session_id=mcp_session_id,protocol=mcp_protocol_version,origin=origin)
+                       x_agntia_grant:str|None=Header(None,max_length=12000),mcp_session_id:str|None=Header(None,max_length=64),mcp_protocol_version:str|None=Header(None,max_length=32),origin:str|None=Header(None,max_length=1024),actor=Depends(principal)):
+        try:result,session=mcp.handle(actor,tenant,manifest_id,tool_id,body,corr(request),session_id=mcp_session_id,protocol=mcp_protocol_version,origin=origin,grant_token=x_agntia_grant)
         except ValidationError:reject('mcp_validation','Parámetros fuera del subconjunto MCP admitido',422)
         headers={'Mcp-Session-Id':session,'Cache-Control':'no-store'}
         return Response(status_code=202,headers=headers) if result is None else JSONResponse(result,headers=headers)

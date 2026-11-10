@@ -13,6 +13,12 @@ from ..util import canonical,digest,uid,utcnow
 
 PROTOCOL='2025-11-25'
 TOOL_NAME='agntia.metadata.read'
+class MCPReadArguments(Model):
+    capability: Literal['assets.read','findings.read','jobs.read']
+    resource_id: ResourceId
+    flow_ids: list[ResourceId]=Field(default_factory=list,max_length=5)
+    destination_ref: OpaqueId|None=None
+
 class ToolDescriptor(Model):
     protocol_version: Literal['2025-11-25']=PROTOCOL
     name: Literal['agntia.metadata.read']=TOOL_NAME
@@ -23,7 +29,7 @@ class ToolDescriptor(Model):
     dependency_hashes: list[Hash]=Field(default_factory=list,max_length=8)
     @model_validator(mode='after')
     def closed_schema(self):
-        if self.input_schema!=UseRequest.model_json_schema():raise ValueError('Only built-in governed-read schema is admitted')
+        if self.input_schema!=MCPReadArguments.model_json_schema():raise ValueError('Only built-in governed-read schema is admitted')
         return self
 class RPC(Model):
     jsonrpc: Literal['2.0']
@@ -43,7 +49,7 @@ class Initialize(Model):
     clientInfo: ClientInfo
 class Call(Model):
     name: Literal['agntia.metadata.read']
-    arguments: UseRequest
+    arguments: MCPReadArguments
 
 class ToolRegistry:
     def __init__(self,service):self.service=service
@@ -94,7 +100,7 @@ class ToolRegistry:
 
 class MCP:
     def __init__(self,service,*,clock=utcnow):self.service=service;self.clock=clock
-    def handle(self,actor,tenant,manifest_id,tool_id,request,correlation,*,session_id=None,protocol=None,origin=None):
+    def handle(self,actor,tenant,manifest_id,tool_id,request,correlation,*,session_id=None,protocol=None,origin=None,grant_token=None):
         self.service.authorize(actor,tenant,'agents.read')
         if origin is not None:reject('mcp_origin','Transporte reservado a backend sin Origin',403)
         with self.service.db.transaction() as db:
@@ -128,11 +134,13 @@ class MCP:
                     db.execute('UPDATE mcp_sessions SET last_request_id=? WHERE tenant_id=? AND id=?',(request.id,tenant,session_id))
                     if request.method=='tools/list':
                         if request.params:reject('mcp_params','No se admiten cursores externos',422)
-                        result={'tools':[{'name':TOOL_NAME,'description':'Read scoped metadata through a verified one-use grant.','inputSchema':UseRequest.model_json_schema()}]}
+                        result={'tools':[{'name':TOOL_NAME,'description':'Read scoped metadata through a verified one-use grant.','inputSchema':MCPReadArguments.model_json_schema()}]}
                     else:call=Call.model_validate(request.params);result=None
             self.service.db.audit(db,tenant,actor.actor_id,'mcp.request',session_id,correlation,{'method':request.method,'tool_id':tool_id,'descriptor_hash':tool['descriptor_hash'],'request_id':request.id})
         if request.method=='tools/call':
             # No upstream request or bearer passthrough. Delegations rechecks policy/epoch again.
-            content=Delegations(self.service,clock=self.clock).use(actor,tenant,call.arguments,correlation)
+            if not grant_token:reject('mcp_grant_required','Grant backend requerido fuera de argumentos de modelo',401)
+            internal=UseRequest.model_validate({**call.arguments.model_dump(),'token':grant_token})
+            content=Delegations(self.service,clock=self.clock).use(actor,tenant,internal,correlation)
             result={'content':[{'type':'text','text':'Scoped metadata returned; no external tool executed.'}],'structuredContent':content,'isError':False}
         return (None if request.method=='notifications/initialized' else {'jsonrpc':'2.0','id':request.id,'result':result}),session_id

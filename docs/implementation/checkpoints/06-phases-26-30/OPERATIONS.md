@@ -24,14 +24,14 @@ Para preparar una salida futura: approved_egress_refs contiene solo IDs web de s
 
 ## Tools y MCP
 
-POST `/agent/tools` propone ToolDescriptor: protocol_version2025-11-25, nombre fixed agntia.metadata.read, version, description, input_schema igual a UseRequest.model_json_schema(), skill_hash y dependency_hashes. Otro humano aprueba hash/revisión. Manifest.tool_ids vincula el ID admitido al agente. POST `/agent/tools/{id}/observe` con expected_revision y descriptor detecta cambio: descriptor idéntico es no-op; distinto crea versión pendiente y eleva epoch. No ejecutar skills descritas.
+POST `/agent/tools` propone ToolDescriptor: protocol_version2025-11-25, nombre fixed agntia.metadata.read, version, description, input_schema igual a MCPReadArguments.model_json_schema(), skill_hash y dependency_hashes. Otro humano aprueba hash/revisión. Manifest.tool_ids vincula el ID admitido al agente. POST `/agent/tools/{id}/observe` con expected_revision y descriptor detecta cambio: descriptor idéntico es no-op; distinto crea versión pendiente y eleva epoch. No ejecutar skills descritas.
 
 POST `/agent/mcp/{manifest_id}/{tool_id}` exige bearer propio, sin Origin. Secuencia:
 
 1. JSON-RPC2.0 initialize con ID entero, protocolVersion2025-11-25, capabilities={} y clientInfo cerrado(name/version).
 2. Guardar header Mcp-Session-Id; usarlo junto a Mcp-Protocol-Version en las siguientes peticiones.
 3. Enviar notifications/initialized sin ID y params vacíos; respuesta202 vacía.
-4. tools/list o tools/call con IDs enteros crecientes. tools/call solo admite name agntia.metadata.read y arguments UseRequest con grant de un uso.
+4. tools/list o tools/call con IDs enteros crecientes. tools/call solo admite name agntia.metadata.read y arguments MCPReadArguments sin credenciales; el backend inyecta el grant de un uso en X-Agntia-Grant, fuera del prompt y del schema de tools.
 
 SesiónTTL<=2min, sin passthrough de bearers, OAuth externo, SSE ni código remoto. No reutilizar tokens propios en otro proveedor. Ante drift/epoch nuevo/rotación reaprobar y crear sesión/grants nuevos.
 

@@ -6,7 +6,7 @@
 |---|---|
 |JSON-RPC2.0, initialize y notifications/initialized|Implementado en recurso propio, IDs enteros; notificación sin ID responde202 vacío|
 |Versión2025-11-25 y header de sesión/protocolo|Implementado y ligado a actor/tenant/manifest/descriptor/epoch/TTL|
-|tools/list, tools/call de lectura conocida|Implementado; schema/argumentos cerrados, autorización nuevamente en la llamada|
+|tools/list, tools/call de lectura conocida|Implementado; schema/argumentos cerrados sin credenciales; grant inyectado por backend en header, autorización nuevamente en la llamada|
 |Descriptores/skill/dependencias, drift y replay|Hash versionado, dos humanos, invalidación de permisos previos y tests|
 |OAuth/OIDC, clientes externos, callback/redirect|UNSUPPORTED: sin passthrough o registro automático|
 |Cliente hacia MCP externo, SSE/streams, batches, sampling/resources/prompts|UNSUPPORTED|
