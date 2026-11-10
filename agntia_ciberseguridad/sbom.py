@@ -7,7 +7,7 @@ ECOSYSTEMS={'PyPI':'pypi','npm':'npm','Go':'golang','Maven':'maven','crates.io':
 
 def purl(ecosystem,name,version):
     if ecosystem not in ECOSYSTEMS:return None
-    package=quote(name,safe='/@') if ecosystem=='npm' else quote(name,safe='/')
+    package=quote(name,safe='/')
     return 'pkg:'+ECOSYSTEMS[ecosystem]+'/'+package+'@'+quote(version,safe='')
 
 def build(components,snapshot_id):

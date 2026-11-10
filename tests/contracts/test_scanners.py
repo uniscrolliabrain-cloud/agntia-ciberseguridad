@@ -58,3 +58,16 @@ class ScannerContracts(unittest.TestCase):
         change=diff([{'id':'a','name':'old'}],[])
         self.assertEqual(change['not_observed'][0]['name'],'old')
         self.assertNotIn('fixed',change)
+
+    def test_cache_bytes_attestation_and_tampering(self):
+        from scripts.create_offline_fixture import create
+        from agntia_ciberseguridad.offline_database import verify_cache
+        from agntia_ciberseguridad.adapters.common import InvalidReport
+        from pathlib import Path
+        import tempfile
+        with tempfile.TemporaryDirectory() as temporary:
+            root=Path(temporary);metadata=create(root)
+            self.assertFalse(verify_cache(root,metadata,utcnow())['stale'])
+            (root/'osv-scalibr/PyPI/all.zip').write_bytes(b'corrupted')
+            with self.assertRaises(InvalidReport):verify_cache(root,metadata,utcnow())
+            with self.assertRaises(InvalidReport):verify_cache(root,{**metadata,'ecosystems':['..']},utcnow())

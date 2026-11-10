@@ -70,6 +70,7 @@ class RealScannerTests(unittest.IsolatedAsyncioTestCase):
 class RealSandboxTests(unittest.IsolatedAsyncioTestCase):
     def setUp(self):
         self.temp=tempfile.TemporaryDirectory();self.root=Path(self.temp.name)
+        self.root.chmod(0o755)  # Bind root must be readable by container UID65532.
         self.image=ToolImage(Tool.gitleaks,'8.30.1',(ROOT/'state/scanner-build/probe.id').read_text().strip(),'c'*64)
     def tearDown(self):self.temp.cleanup()
     async def run_mode(self,mode,limits=None):

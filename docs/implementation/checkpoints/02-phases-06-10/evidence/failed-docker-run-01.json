@@ -1,0 +1,12 @@
+{
+  "run_id": 42853937316,
+  "job_id": 129961737066,
+  "commit": "f332358467dd1ab4962510462c2578a84070a592",
+  "tests_executed": 4,
+  "passed": 2,
+  "failed": 2,
+  "scanner_contracts": "Gitleaks and OSV both passed with real pinned executables",
+  "sandbox_probe_failure": "Fixture bind root was mode0700, unreadable by the deliberate container UID65532; Python probe exited before assertions.",
+  "correction": "Make test-owned bind root readable. Retain non-root UID and read-only mount. Re-run the complete Docker block.",
+  "status": "FAIL"
+}

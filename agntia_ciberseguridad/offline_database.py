@@ -13,7 +13,7 @@ def validate_metadata(meta,instant):
     hours=meta.get('max_age_hours',24)
     if when.tzinfo is None or type(hours) is not int or not 1<=hours<=168 or when>instant+timedelta(minutes=5):raise InvalidReport('Invalid DB age')
     ecosystems=meta.get('ecosystems',[])
-    if not isinstance(ecosystems,list) or not ecosystems or len(ecosystems)>32 or any(not isinstance(e,str) or not re.fullmatch('[A-Za-z0-9._ -]{1,64}',e) for e in ecosystems):raise InvalidReport('Invalid ecosystems')
+    if not isinstance(ecosystems,list) or not ecosystems or len(ecosystems)>32 or any(not isinstance(e,str) or e not in {'PyPI','npm','Go','Maven','crates.io','NuGet','RubyGems'} for e in ecosystems):raise InvalidReport('Invalid ecosystems')
     return {**meta,'stale':instant-when>timedelta(hours=hours)}
 
 def verify_cache(path,meta,instant):
