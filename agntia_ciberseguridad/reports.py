@@ -100,10 +100,13 @@ class Reports:
     def _create(self,actor,tenant,request,correlation):
         with self.lock:
             content=self._snapshot(actor,tenant,request);source_hash=digest(content)
+            parents=[]
             with self.db.connection(readonly=True) as db:
                 for job in content['jobs'][:32]:
                     parent=db.execute('SELECT trace_parent FROM jobs WHERE tenant_id=? AND id=?',(tenant,job['id'])).fetchone()
-                    if parent:self.service.telemetry.link_internal(parent['trace_parent'])
+                    if parent:parents.append(parent['trace_parent'])
+            # Attach links to the report span after the nested DB span has closed.
+            for parent in parents:self.service.telemetry.link_internal(parent)
             with self.db.connection(readonly=True) as db:
                 previous=db.execute('SELECT id FROM reports WHERE tenant_id=? AND source_hash=?',(tenant,source_hash)).fetchone()
                 if previous:return self.get(actor,tenant,previous['id'],correlation)
