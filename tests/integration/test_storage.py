@@ -4,7 +4,7 @@ import sqlite3
 import tempfile
 import unittest
 
-from agntia_ciberseguridad.storage import Database,MIGRATIONS
+from agntia_ciberseguridad.storage import Database,MIGRATIONS,CURRENT_SCHEMA
 from agntia_ciberseguridad.util import canonical,digest
 
 
@@ -15,7 +15,7 @@ class StorageTests(unittest.TestCase):
     def test_fresh_upgrade_backup_and_idempotence(self):
         backup=self.db.migrate();self.assertTrue(backup.is_file());self.db.provision_tenants(['tenantA'])
         with self.db.transaction() as c:self.db.audit(c,'tenantA','actor','fixture','object','correlation',{'code':'safe'})
-        extended=(*MIGRATIONS,(2,['CREATE TABLE fixture_upgrade(id TEXT PRIMARY KEY)']))
+        extended=(*MIGRATIONS,(CURRENT_SCHEMA+1,['CREATE TABLE fixture_upgrade(id TEXT PRIMARY KEY)']))
         backup2=self.db.migrate(extended);self.assertTrue(backup2.is_file());self.assertIsNone(self.db.migrate(extended))
         with self.db.connection(readonly=True) as c:self.assertTrue(self.db.verify_audit(c,'tenantA')['valid']);self.assertEqual(c.execute('SELECT count(*) FROM tenants').fetchone()[0],1)
         with sqlite3.connect(backup2) as c:self.assertEqual(c.execute('SELECT count(*) FROM audit').fetchone()[0],1)
@@ -24,10 +24,10 @@ class StorageTests(unittest.TestCase):
     def test_failed_upgrade_rolls_back_existing_data_and_audit(self):
         self.db.migrate();self.db.provision_tenants(['tenantA'])
         with self.db.transaction() as c:self.db.audit(c,'tenantA','actor','before','object','correlation',{'code':'preserved'})
-        with self.assertRaises(sqlite3.OperationalError):self.db.migrate((*MIGRATIONS,(2,['CREATE TABLE must_rollback(id TEXT)','INVALID SQL'])))
+        with self.assertRaises(sqlite3.OperationalError):self.db.migrate((*MIGRATIONS,(CURRENT_SCHEMA+1,['CREATE TABLE must_rollback(id TEXT)','INVALID SQL'])))
         with self.db.connection(readonly=True) as c:
             self.assertIsNone(c.execute("SELECT name FROM sqlite_master WHERE name='must_rollback'").fetchone())
-            self.assertTrue(self.db.verify_audit(c,'tenantA')['valid']);self.assertEqual(c.execute('SELECT max(version) FROM schema_migrations').fetchone()[0],1)
+            self.assertTrue(self.db.verify_audit(c,'tenantA')['valid']);self.assertEqual(c.execute('SELECT max(version) FROM schema_migrations').fetchone()[0],CURRENT_SCHEMA)
 
     def test_foreign_keys_and_readonly_connections(self):
         self.db.migrate();self.db.provision_tenants(['tenantA','tenantB'])
@@ -102,5 +102,19 @@ class MultiprocessMigrationTests(unittest.TestCase):
                 self.assertEqual(process.returncode,0,error.decode())
             database=Database(Path(temporary))
             with database.connection(readonly=True) as db:
-                self.assertEqual(db.execute('SELECT version FROM schema_migrations').fetchall()[0][0],1)
+                self.assertEqual(db.execute('SELECT max(version) FROM schema_migrations').fetchone()[0],CURRENT_SCHEMA)
                 self.assertEqual(db.execute('PRAGMA integrity_check').fetchone()[0],'ok')
+
+
+class SnapshotMigrationUpgradeTests(unittest.TestCase):
+    def test_upgrade_from_previous_foundation_preserves_tenant_and_audit(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            db=Database(Path(temporary));db.migrate(MIGRATIONS[:1]);db.provision_tenants(['synthetic'])
+            with db.transaction() as connection:db.audit(connection,'synthetic','human','before.upgrade','object','correlation',{'status':'preserved'})
+            backup=db.migrate()
+            self.assertTrue(backup.is_file())
+            with db.connection(readonly=True) as connection:
+                self.assertEqual(connection.execute('SELECT max(version) FROM schema_migrations').fetchone()[0],CURRENT_SCHEMA)
+                self.assertEqual(connection.execute('SELECT count(*) FROM tenants').fetchone()[0],1)
+                self.assertTrue(db.verify_audit(connection,'synthetic')['valid'])
+                self.assertEqual(connection.execute('SELECT count(*) FROM snapshots').fetchone()[0],0)

@@ -142,7 +142,9 @@ class SnapshotStore:
                     reject('conflict', 'Autorización modificada', 409)
                 destination = bucket / manifest['id']
                 temp.rename(destination);temp = destination
-                self.service.db.audit(db,tenant,actor.actor_id,'snapshot.acquired',manifest['id'],correlation,
+                db.execute('INSERT INTO snapshots VALUES(?,?,?,?,?,?,?)',
+                           (tenant,manifest['id'],asset['id'],grant['id'],manifest['manifest_hash'],manifest['content_hash'],canonical(manifest)))
+                self.service.db.audit(db,tenant,actor.actor_id,'snapshot.acquired' ,manifest['id'],correlation,
                                       {'snapshot_id':manifest['id'],'manifest_hash':manifest['manifest_hash'],'content_hash':manifest['content_hash']})
             temp = None
             return manifest
@@ -164,12 +166,15 @@ class SnapshotStore:
         from pydantic import TypeAdapter
         TypeAdapter(ResourceId).validate_python(snapshot_id)
         self.service.authorize(actor,tenant,'assets.read')
+        with self.service.db.connection(readonly=True) as db:
+            record=db.execute('SELECT manifest_hash,content_hash,body FROM snapshots WHERE tenant_id=? AND id=?',(tenant,snapshot_id)).fetchone()
+            if not record:not_found()
         folder = self.root/tenant/snapshot_id
-        if not folder.is_dir():not_found()
+        if not folder.is_dir():reject('snapshot_integrity','Snapshot registrado sin contenido recuperable',409)
         try:
             manifest=json.loads((folder/'manifest.json').read_text())
             claimed=manifest.pop('manifest_hash')
-            if manifest['tenant_id'] != tenant or manifest['id'] != snapshot_id or digest(manifest) != claimed:
+            if manifest['tenant_id'] != tenant or manifest['id'] != snapshot_id or digest(manifest) != claimed or claimed != record['manifest_hash'] or manifest['content_hash'] != record['content_hash']:
                 raise ValueError()
             contents=folder/'content'
             actual=[]
@@ -183,6 +188,7 @@ class SnapshotStore:
             expected=sorted((f['path'],f['bytes'],f['sha256']) for f in manifest['files'])
             if sorted(actual) != expected or manifest['content_hash'] != digest(manifest['files']):raise ValueError()
             manifest['manifest_hash']=claimed
+            if canonical(manifest) != record['body']:raise ValueError()
             return manifest, contents
         except (OSError,ValueError,KeyError,TypeError):
             reject('snapshot_integrity', 'Snapshot ausente o alterado', 409)

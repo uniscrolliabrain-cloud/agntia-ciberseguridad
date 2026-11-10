@@ -16,7 +16,7 @@ from .config import Settings
 from .contracts import AssetCreate, AuditPreview, GrantApproval, GrantCreate, GrantRevocation, OpaqueId, ResourceId
 from .errors import DomainError
 from .service import Service
-from .storage import Database
+from .storage import Database, CURRENT_SCHEMA
 from .snapshots import SnapshotStore
 
 
@@ -148,7 +148,7 @@ def create_app(settings: Settings | None = None):
     async def ready():
         try:
             with database.connection(readonly=True) as db:
-                schema = db.execute("SELECT max(version) FROM schema_migrations").fetchone()[0] == 1
+                schema = db.execute("SELECT max(version) FROM schema_migrations").fetchone()[0] == CURRENT_SCHEMA
             credentials = False
             for binding in settings.principals:
                 try:

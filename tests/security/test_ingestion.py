@@ -102,3 +102,10 @@ class SnapshotTests(unittest.TestCase):
         (folder/'file').chmod(0o600);(folder/'file').write_text('altered')
         with self.assertRaises(DomainError) as error:self.store.verify(self.actor,'tenantA',manifest['id'])
         self.assertEqual(error.exception.code,'snapshot_integrity')
+
+    def test_orphan_manifest_never_becomes_registered_snapshot(self):
+        (self.f.repo/'file').write_text('original')
+        manifest=self.acquire()
+        with self.f.service.db.transaction() as db:db.execute('DELETE FROM snapshots WHERE id=?',(manifest['id'],))
+        with self.assertRaises(DomainError) as error:self.store.verify(self.actor,'tenantA',manifest['id'])
+        self.assertEqual(error.exception.status,404)
