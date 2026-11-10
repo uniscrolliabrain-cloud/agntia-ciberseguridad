@@ -20,7 +20,7 @@ class ExtendedParsers(unittest.TestCase):
         self.assertEqual(semgrep.parse(self.result(Tool.semgrep,data,1),'a'*32)['status'],'error')
         self.assertEqual(semgrep.parse(self.result(Tool.semgrep,{'version':'1.185.0','results':[],'errors':[]},0),'a'*32)['status'],'no_findings')
     def test_trivy_minimized_config_and_unknown_or_missing_coverage(self):
-        data={'SchemaVersion':2,'Results':[{'Class':'config','Target':'Dockerfile','Misconfigurations':[{'ID':'DS002','Status':'FAIL','Severity':'HIGH','Message':'PRIVATE_SENTINEL','CauseMetadata':{'StartLine':2}}]}]}
+        data={'SchemaVersion':2,'Results':[{'Class':'config','Target':'Dockerfile','Misconfigurations':[{'ID':'DS-0002','Status':'FAIL','Severity':'HIGH','Message':'PRIVATE_SENTINEL','CauseMetadata':{'StartLine':2}}]}]}
         result=trivy.parse(self.result(Tool.trivy,data,10),'a'*32)
         self.assertEqual(result['findings'][0]['severity'],'high');self.assertNotIn('PRIVATE_SENTINEL',json.dumps(result))
         self.assertEqual(result['coverage']['advisory_database'],'not_used')

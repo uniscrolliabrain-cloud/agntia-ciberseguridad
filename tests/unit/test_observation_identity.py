@@ -13,6 +13,8 @@ class IdentityTests(unittest.TestCase):
         self.assertNotEqual(osv['finding_id'],other['finding_id'])
         self.assertEqual(osv['relation_id'],other['relation_id'])
         self.assertEqual(osv['state'],'suspected')
+        self.assertEqual(osv['cve'],'CVE-2026-12345')
+        self.assertIsNone(osv['cwe'])
         self.assertEqual(osv['reachability'],'unknown')
         self.assertNotEqual(osv['finding_id'],normalize(self.row(tenant_id='B'),self.result())[0]['finding_id'])
     def test_changed_policy_separates_identity_and_raw_traversal_is_rejected(self):
