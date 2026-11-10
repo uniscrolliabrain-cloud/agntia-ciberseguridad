@@ -51,3 +51,13 @@ class SecurityMigrationTests(unittest.TestCase):
                 self.assertEqual(connection.execute('SELECT body FROM delegations').fetchone()[0],original)
                 self.assertTrue(db.verify_audit(connection,'synthetic')['valid'])
                 self.assertEqual(connection.execute('SELECT count(*) FROM agent_controls').fetchone()[0],0)
+    def test_schema6_upgrade_preserves_audit_and_adds_privacy_tables(self):
+        from agntia_ciberseguridad.util import canonical
+        with tempfile.TemporaryDirectory() as temporary:
+            db=Database(Path(temporary));db.migrate(MIGRATIONS[:6]);db.provision_tenants(['synthetic'])
+            with db.transaction() as connection:db.audit(connection,'synthetic','reviewer','before.privacy.upgrade','fixture','fixture',{'preserved':True})
+            backup=db.migrate();self.assertTrue(backup.is_file())
+            with db.connection(readonly=True) as connection:
+                self.assertTrue(db.verify_audit(connection,'synthetic')['valid'])
+                for table in ('governance_records','governance_history','evidence_privacy','report_source_scopes'):
+                    self.assertEqual(connection.execute('SELECT count(*) FROM '+table).fetchone()[0],0)

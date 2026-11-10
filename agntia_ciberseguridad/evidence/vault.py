@@ -53,11 +53,11 @@ class Vault:
         return canonical({'schema_version':1,'tenant_id':meta['tenant_id'],'id':meta['id'],
                           'variant':variant,'envelope':meta['envelope']}).encode()
 
-    def put(self,actor,tenant,content,media_type,correlation,*,source_job_id=None):
+    def put(self,actor,tenant,content,media_type,correlation,*,source_job_id=None,derived_source_ids=None):
         with self.service.telemetry.span('evidence.write',component='evidence',correlation_id=correlation):
-            return self._put(actor,tenant,content,media_type,correlation,source_job_id=source_job_id)
+            return self._put(actor,tenant,content,media_type,correlation,source_job_id=source_job_id,derived_source_ids=derived_source_ids)
 
-    def _put(self,actor,tenant,content,media_type,correlation,*,source_job_id=None):
+    def _put(self,actor,tenant,content,media_type,correlation,*,source_job_id=None,derived_source_ids=None):
         self.service.authorize(actor,tenant,'evidence.create')
         if not isinstance(content,bytes) or not content or len(content)>MAX_BYTES:reject('evidence_size','Tamaño de evidencia inválido',422)
         if media_type not in ('text/plain','application/json','application/pdf'):reject('evidence_type','Tipo no soportado',422)
@@ -76,6 +76,10 @@ class Vault:
               'key_ref':key_ref,'original_sha256':hashlib.sha256(content).hexdigest(),'original_bytes':len(content)}
         meta['envelope']={'media_type':media_type,'original_sha256':meta['original_sha256'],
                           'redacted_sha256':meta['redacted_sha256'],'key_ref':key_ref,'policy_hash':digest(policy.model_dump(mode='json'))}
+        if derived_source_ids is not None:
+            if len(derived_source_ids)>200:reject('evidence_dependencies','Demasiadas fuentes derivadas',422)
+            meta['derived_source_ids']=list(derived_source_ids)
+            meta['envelope']['derived_sources_hash']=digest(meta['derived_source_ids'])
         folder=self.root/tenant;folder.mkdir(mode=0o700,exist_ok=True)
         written=[]
         try:
@@ -86,6 +90,9 @@ class Vault:
                 file.chmod(0o400);written.append(file)
             with self.db.transaction() as db:
                 self.service.auth.authorize(actor,tenant,'evidence.create')
+                if derived_source_ids is not None:
+                    from ..governance.privacy_guard import ensure_readable
+                    for source_id in derived_source_ids:ensure_readable(db,tenant,source_id,self.clock())
                 if source_job_id:
                     if not db.execute('SELECT 1 FROM jobs WHERE tenant_id=? AND id=?',(tenant,source_job_id)).fetchone():not_found()
                 db.execute('INSERT INTO evidence VALUES(?,?,?,?,?)',(tenant,evidence_id,source_job_id,canonical(meta),0))
@@ -110,6 +117,8 @@ class Vault:
             if not isinstance(reason,str) or not 5<=len(reason)<=500:reject('evidence_purpose','Motivo de acceso requerido',422)
         else:self.service.authorize(actor,tenant,'evidence.read')
         with self.db.connection(readonly=True) as db:meta=self._row(db,tenant,evidence_id)
+        from ..governance.privacy_guard import ensure_readable
+        with self.db.connection(readonly=True) as db:ensure_readable(db,tenant,evidence_id,self.clock())
         if meta['state'] in ('deleted','purge_pending'):reject('evidence_unavailable','Evidencia no disponible',410)
         if not meta['legal_hold'] and datetime.fromisoformat(meta['expires_at'])<=self.clock():reject('evidence_expired','Evidencia fuera de retención',410)
         with self.db.transaction() as db:
@@ -124,6 +133,7 @@ class Vault:
         with self.db.transaction() as db:
             self.service.auth.authorize(actor,tenant,'evidence.original' if original else 'evidence.read')
             current=self._row(db,tenant,evidence_id)
+            ensure_readable(db,tenant,evidence_id,self.clock())
             if current['state'] in ('deleted','purge_pending'):reject('evidence_unavailable','Evidencia no disponible',410)
             self.db.audit(db,tenant,actor.actor_id,'evidence.accessed',evidence_id,correlation,
                           {'evidence_id':evidence_id,'variant':variant,'purpose_hash':digest(reason) if original else None})

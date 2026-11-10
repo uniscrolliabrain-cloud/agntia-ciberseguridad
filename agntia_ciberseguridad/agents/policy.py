@@ -10,7 +10,7 @@ RULES={'schema_version':1,'version':'agntia-actions-v1','reads':['assets.read','
        'proposal':'notes.propose','external_egress':False,'human_approval':'two_distinct_principals',
        'max_token_seconds':300,'mcp_protocol':'2025-11-25','executor':'local_metadata_only'}
 _ROOT=Path(__file__).resolve().parents[1]
-_SOURCE_PATHS=['auth.py','network_policy.py']+['agents/'+name+'.py' for name in ('policy','context','capabilities','controls','effects','flows','tools','registry','routes')]
+_SOURCE_PATHS=['auth.py','network_policy.py','evidence/vault.py','governance/privacy_guard.py','reports.py']+['agents/'+name+'.py' for name in ('policy','context','capabilities','controls','effects','flows','tools','registry','routes')]
 SOURCE_HASHES={name:hashlib.sha256((_ROOT/name).read_bytes()).hexdigest() for name in _SOURCE_PATHS}
 POLICY_HASH=digest({'rules':RULES,'source_hashes':SOURCE_HASHES})
 class ActionPolicy:
