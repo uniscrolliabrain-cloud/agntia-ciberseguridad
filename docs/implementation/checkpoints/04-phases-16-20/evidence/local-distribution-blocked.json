@@ -1,0 +1,7 @@
+{
+  "command": ".venv/bin/python scripts/check_distribution.py",
+  "status": "BLOCKED_LOCAL_NETWORK",
+  "reason": "Build isolation could not fetch setuptools>=75; proxy connection not permitted in local sandbox",
+  "ci_distribution": "PASS in foundation jobs130020623962 and130020624375",
+  "schema_export": "13 existing schemas regenerated unchanged"
+}

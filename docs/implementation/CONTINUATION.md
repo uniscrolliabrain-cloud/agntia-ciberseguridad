@@ -1,6 +1,6 @@
 # Continuidad de implementación
 
-**Estado vigente:** [corte10–15](checkpoints/03-phases-10-15/REPORT.md), rama feat/cyber-phases-10-15, PR#3. SBOM oficial offline, Semgrep/Trivy, jobs/worker e historial ya tienen CI; siguen gates de release pendientes. Siguiente bloque16–20. El executor local quedó unavailable; RECOVERY.md documenta la fuente remota preservada y su validación.
+**Estado vigente:** [corte16–20](checkpoints/04-phases-16-20/REPORT.md), rama feat/cyber-phases-16-20, PR#4 apilada sobre PR#3. Custodia cifrada, decisiones humanas, informes, OTel y métricas añadidos; gates completos siguen PARTIAL. Siguiente bloque21–25. Workspace restaurado y baseline remoto contrastado por hash.
 
 ## Registro histórico después del primer checkpoint
 
@@ -20,4 +20,4 @@ No cambiar nombres/IDs de la campaña ni marcar todo PASS para desbloquear el DA
 
 Orden posterior: D1P6, D2P1/D2P2 y adaptadores; D3jobs/evidencias/reportes; D4observabilidad; D5gateway agéntico; D6privacidad/legal/presupuesto; D7SDK/UI/E2E/operación. Seguir dependencias del JSON. Los tracks independientes pueden prepararse, pero no habilitar ejecuciones de impacto a través de gates pendientes.
 
-El ZIP de main es anterior al runtime y no se ha regenerado. No usarlo como instalador del servicio. Todo el código actual está en la rama/PR#1. Revisar SHA remoto antes de continuar y conservar cambios ajenos.
+El ZIP de main es anterior al runtime y no se ha regenerado. No usarlo como instalador del servicio. La implementación vigente está en PR#4 apilada; las referencias anteriores son históricas. Revisar SHA remoto antes de continuar y conservar cambios ajenos.

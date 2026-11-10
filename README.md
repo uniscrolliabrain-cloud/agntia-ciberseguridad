@@ -1,3 +1,5 @@
+> Implementación vigente: [checkpoint16–20](docs/implementation/checkpoints/04-phases-16-20/REPORT.md), PR#4 apilada. API y runtime disponibles en la rama; no habilitados para clientes ni instalados en `/agente`. Las secciones fundacionales siguientes describen el punto de partida.
+
 # Agntia Ciberseguridad
 
 **Middleware de ciberseguridad tradicional y agéntica para AgntiaPro y su repositorio madre `/agente`.** Observa activos autorizados, reúne evidencias, prepara auditorías y reportes, controla las acciones de agentes y propone remediaciones revisables.
@@ -76,7 +78,7 @@ Requiere únicamente Python3.12 recomendado, sin dependencias externas:
 python scripts/validate_foundation.py
 ```
 
-Comprueba enlaces locales, JSON, catálogo y coherencia de presupuesto. **No analiza vulnerabilidades ni demuestra protección.** No hay todavía comando para arrancar API, instalar el middleware en `/agente` o activar agentes. El siguiente incremento es core con identidad/scope y fixtures; después pocos adaptadores probados de extremo a extremo.
+Comprueba enlaces locales, JSON, catálogo y coherencia de presupuesto. **No analiza vulnerabilidades ni demuestra protección.** El runtime de la rama dispone de CLI/API y adaptadores probados con fixtures; consultar el checkpoint vigente para instalación y límites. La integración en `/agente` y activación de clientes siguen pendientes.
 
 ## Licencia, datos y seguridad
 
