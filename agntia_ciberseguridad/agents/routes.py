@@ -1,6 +1,6 @@
 """Explicit policy/flow/MCP/local-note routes, no shell or arbitrary HTTP proxy."""
 from fastapi import Depends,Header,Request
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse,Response
 from pydantic import ValidationError,Field,StrictInt
 from .capabilities import UseRequest,Delegations
 from .controls import Controls,ControlChange
@@ -52,7 +52,8 @@ def register_agent_gateway(app,service,principal):
                        mcp_session_id:str|None=Header(None,max_length=64),mcp_protocol_version:str|None=Header(None,max_length=32),origin:str|None=Header(None,max_length=1024),actor=Depends(principal)):
         try:result,session=mcp.handle(actor,tenant,manifest_id,tool_id,body,corr(request),session_id=mcp_session_id,protocol=mcp_protocol_version,origin=origin)
         except ValidationError:reject('mcp_validation','Parámetros fuera del subconjunto MCP admitido',422)
-        return JSONResponse(result,headers={'Mcp-Session-Id':session,'Cache-Control':'no-store'})
+        headers={'Mcp-Session-Id':session,'Cache-Control':'no-store'}
+        return Response(status_code=202,headers=headers) if result is None else JSONResponse(result,headers=headers)
     @app.post('/v1/tenants/{tenant}/agent/effects/proposals',status_code=201)
     async def propose_effect(tenant:OpaqueId,body:NoteProposal,request:Request,actor=Depends(principal)):return effects.propose(actor,tenant,body,corr(request))
     @app.post('/v1/tenants/{tenant}/agent/effects/{proposal_id}/approve')

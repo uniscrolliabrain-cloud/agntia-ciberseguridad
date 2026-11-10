@@ -26,10 +26,14 @@ class ToolDescriptor(Model):
         if self.input_schema!=UseRequest.model_json_schema():raise ValueError('Only built-in governed-read schema is admitted')
         return self
 class RPC(Model):
-    jsonrpc: Literal['2.0']='2.0'
-    id: StrictInt=Field(ge=0,le=2147483647)
-    method: Literal['initialize','tools/list','tools/call']
+    jsonrpc: Literal['2.0']
+    id: StrictInt|None=Field(default=None,ge=0,le=2147483647)
+    method: Literal['initialize','notifications/initialized','tools/list','tools/call']
     params: dict=Field(default_factory=dict,max_length=10)
+    @model_validator(mode='after')
+    def request_identity(self):
+        if (self.method=='notifications/initialized')!=(self.id is None):raise ValueError('Notification has no ID; requests require an integer ID')
+        return self
 class ClientInfo(Model):
     name: OpaqueId
     version: OpaqueId
@@ -104,7 +108,7 @@ class MCP:
                 if session_id:reject('mcp_session','No reutilizar sesión al inicializar',409)
                 if db.execute('SELECT count(*) FROM mcp_sessions WHERE tenant_id=?',(tenant,)).fetchone()[0]>=5000:reject('mcp_quota','Sesiones requieren mantenimiento',429)
                 session_id=uid();session={'id':session_id,'actor_stamp':digest(actor.__dict__),'manifest_id':manifest_id,'manifest_hash':manifest['manifest_hash'],
-                    'tool_id':tool_id,'descriptor_hash':tool['descriptor_hash'],'epoch':epoch,'expires_at':min(self.clock()+timedelta(minutes=2),self.service.settings.agent_policy_expires_at).isoformat()}
+                    'tool_id':tool_id,'descriptor_hash':tool['descriptor_hash'],'epoch':epoch,'initialized':False,'expires_at':min(self.clock()+timedelta(minutes=2),self.service.settings.agent_policy_expires_at).isoformat()}
                 db.execute('INSERT INTO mcp_sessions VALUES(?,?,?,?)',(tenant,session_id,canonical(session),request.id))
                 result={'protocolVersion':PROTOCOL,'capabilities':{'tools':{'listChanged':False}},'serverInfo':{'name':'agntia-closed-read','version':'1'}}
             else:
@@ -113,15 +117,22 @@ class MCP:
                 if not row:reject('mcp_session','Sesión no disponible',403)
                 session=json.loads(row[0])
                 if session['actor_stamp']!=digest(actor.__dict__) or session['manifest_id']!=manifest_id or session['manifest_hash']!=manifest['manifest_hash'] or session['tool_id']!=tool_id or session['descriptor_hash']!=tool['descriptor_hash'] or session['epoch']!=epoch or datetime.fromisoformat(session['expires_at'])<=self.clock():reject('mcp_stale','Sesión no vigente',403)
-                if request.id<=row['last_request_id']:reject('mcp_replay','ID de petición ya usado',409)
-                db.execute('UPDATE mcp_sessions SET last_request_id=? WHERE tenant_id=? AND id=?',(request.id,tenant,session_id))
-                if request.method=='tools/list':
-                    if request.params:reject('mcp_params','No se admiten cursores externos',422)
-                    result={'tools':[{'name':TOOL_NAME,'description':'Read scoped metadata through a verified one-use grant.','inputSchema':UseRequest.model_json_schema()}]}
-                else:call=Call.model_validate(request.params);result=None
+                if request.method=='notifications/initialized':
+                    if session['initialized'] or request.params:reject('mcp_replay','Notificación inicial ya recibida o parámetros inválidos',409)
+                    session['initialized']=True
+                    db.execute('UPDATE mcp_sessions SET body=? WHERE tenant_id=? AND id=?',(canonical(session),tenant,session_id))
+                    result=None
+                else:
+                    if not session['initialized']:reject('mcp_uninitialized','Falta notifications/initialized',409)
+                    if request.id<=row['last_request_id']:reject('mcp_replay','ID de petición ya usado',409)
+                    db.execute('UPDATE mcp_sessions SET last_request_id=? WHERE tenant_id=? AND id=?',(request.id,tenant,session_id))
+                    if request.method=='tools/list':
+                        if request.params:reject('mcp_params','No se admiten cursores externos',422)
+                        result={'tools':[{'name':TOOL_NAME,'description':'Read scoped metadata through a verified one-use grant.','inputSchema':UseRequest.model_json_schema()}]}
+                    else:call=Call.model_validate(request.params);result=None
             self.service.db.audit(db,tenant,actor.actor_id,'mcp.request',session_id,correlation,{'method':request.method,'tool_id':tool_id,'descriptor_hash':tool['descriptor_hash'],'request_id':request.id})
-        if result is None:
+        if request.method=='tools/call':
             # No upstream request or bearer passthrough. Delegations rechecks policy/epoch again.
             content=Delegations(self.service,clock=self.clock).use(actor,tenant,call.arguments,correlation)
             result={'content':[{'type':'text','text':'Scoped metadata returned; no external tool executed.'}],'structuredContent':content,'isError':False}
-        return {'jsonrpc':'2.0','id':request.id,'result':result},session_id
+        return (None if request.method=='notifications/initialized' else {'jsonrpc':'2.0','id':request.id,'result':result}),session_id
