@@ -38,3 +38,16 @@ class SecurityMigrationTests(unittest.TestCase):
                 self.assertTrue(db.verify_audit(connection,'synthetic')['valid'])
                 for table in ('operational_logs','passive_events','source_state','agent_manifests','delegations'):
                     self.assertEqual(connection.execute('SELECT count(*) FROM '+table).fetchone()[0],0)
+    def test_upgrade_from_phase25_keeps_old_grants_and_audit_for_reconciliation(self):
+        from agntia_ciberseguridad.util import canonical
+        with tempfile.TemporaryDirectory() as temporary:
+            db=Database(Path(temporary));db.migrate(MIGRATIONS[:5]);db.provision_tenants(['synthetic'])
+            original=canonical({'id':'b'*32,'policy_version':'delegated-read-v1','legacy':True})
+            with db.transaction() as connection:
+                connection.execute('INSERT INTO delegations VALUES(?,?,?,?,?,?,?)',('synthetic','b'*32,None,original,'c'*64,None,0))
+                db.audit(connection,'synthetic','reviewer','before.gateway.upgrade','b'*32,'fixture',{'preserved':True})
+            self.assertTrue(db.migrate().is_file())
+            with db.connection(readonly=True) as connection:
+                self.assertEqual(connection.execute('SELECT body FROM delegations').fetchone()[0],original)
+                self.assertTrue(db.verify_audit(connection,'synthetic')['valid'])
+                self.assertEqual(connection.execute('SELECT count(*) FROM agent_controls').fetchone()[0],0)

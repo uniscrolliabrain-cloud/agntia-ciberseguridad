@@ -6,17 +6,18 @@ from ..contracts import Model,OpaqueId,ResourceId,Hash
 from ..errors import reject,not_found
 from ..util import canonical,digest,uid,now
 
-CAPABILITIES={'assets.read','findings.read','jobs.read'}
+CAPABILITIES={'assets.read','findings.read','jobs.read','notes.propose'}
 class Manifest(Model):
     schema_version: Literal[1]=1
     agent_binding: OpaqueId
     version: OpaqueId
     artifact_hash: Hash
     provider: Literal['self_hosted','external_declared']='self_hosted'
-    capabilities: list[Literal['assets.read','findings.read','jobs.read']]=Field(min_length=1,max_length=3)
+    capabilities: list[Literal['assets.read','findings.read','jobs.read','notes.propose']]=Field(min_length=1,max_length=4)
     resource_ids: list[ResourceId]=Field(min_length=1,max_length=20)
     data_classification: Literal['redacted_metadata']='redacted_metadata'
     network: list[OpaqueId]=Field(default_factory=list,max_length=0)
+    tool_ids: list[ResourceId]=Field(default_factory=list,max_length=8)
     schema_ref: Literal['agntia.governed-read.v1']='agntia.governed-read.v1'
 
 class Registry:
@@ -32,6 +33,9 @@ class Registry:
             self.service.auth.authorize(actor,tenant,'agents.manage')
             for resource in body.resource_ids:
                 if not db.execute('SELECT 1 FROM assets WHERE tenant_id=? AND id=?',(tenant,resource)).fetchone():not_found()
+            for tool_id in body.tool_ids:
+                from .tools import ToolRegistry
+                ToolRegistry.current(db,tenant,tool_id)
             record={**body.model_dump(mode='json'),'id':uid(),'state':'pending_review','revision':0,'created_by':actor.actor_id,'created_at':now()}
             record['manifest_hash']=digest(body.model_dump(mode='json'))
             db.execute('INSERT INTO agent_manifests VALUES(?,?,?,?,?)',(tenant,record['id'],body.agent_binding,0,canonical(record)))
@@ -56,6 +60,6 @@ class Registry:
     def list(self,actor,tenant):
         self.service.authorize(actor,tenant,'agents.read')
         with self.service.db.connection(readonly=True) as db:
-            rows=db.execute('SELECT body FROM agent_manifests WHERE tenant_id=? ORDER BY id LIMIT 100',(tenant,)).fetchall()
+            rows=db.execute('SELECT body FROM agent_manifests WHERE tenant_id=?'+(' AND agent_binding=?' if self.service.auth.kind(actor)=='agent' else '')+' ORDER BY id LIMIT 100',(tenant,actor.binding_id) if self.service.auth.kind(actor)=='agent' else (tenant,)).fetchall()
         return {'manifests':[json.loads(r['body']) for r in rows],
-                'coverage':'governed read path only; external agent/tool activity is not observed','general_executor':False}
+                'coverage':'Agents require governed paths within this API; activity outside this service is not observed','general_executor':False}

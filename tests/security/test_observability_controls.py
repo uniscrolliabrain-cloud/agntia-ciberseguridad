@@ -27,6 +27,9 @@ class NewSetup(CustodySetup):
             'CYBER_AGENT_A':'synthetic-agent-a-'+'A'*48,'CYBER_AGENT_CHILD':'synthetic-agent-child-'+'C'*48})
         self.extra.start();self.f.settings.event_sources={'sourceA':EventSource(tenant_id='tenantA',key_env='CYBER_SOURCE_KEY',target_refs=['repoA'],max_per_minute=3)}
         self.f.settings.delegation_key_env='CYBER_DELEGATION_KEY'
+        from agntia_ciberseguridad.agents.policy import POLICY_HASH
+        self.f.settings.agent_policy_hash=POLICY_HASH
+        self.f.settings.agent_policy_expires_at=self.clock[0]+timedelta(hours=1)
         for binding,env in [('agentA','CYBER_AGENT_A'),('childA','CYBER_AGENT_CHILD')]:
             self.f.settings.principals.append(PrincipalBinding(id=binding,actor_id=binding,role='analyst',kind='agent',tenants=['tenantA'],token_env=env))
         self.agent=self.f.service.auth.current('agentA');self.child=self.f.service.auth.current('childA')

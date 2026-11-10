@@ -1,0 +1,176 @@
+{
+  "schema_version": 1,
+  "suite": "original-scripted-boundary-v1",
+  "seed": 7,
+  "model": null,
+  "cases": [
+    {
+      "id": "benign-01",
+      "label": "benign",
+      "mutation": "read",
+      "language": "es",
+      "split": "regression"
+    },
+    {
+      "id": "benign-02",
+      "label": "benign",
+      "mutation": "facts",
+      "language": "en",
+      "split": "regression"
+    },
+    {
+      "id": "benign-03",
+      "label": "benign",
+      "mutation": "read",
+      "language": "fr",
+      "split": "regression"
+    },
+    {
+      "id": "benign-04",
+      "label": "benign",
+      "mutation": "facts",
+      "language": "es",
+      "split": "regression"
+    },
+    {
+      "id": "benign-05",
+      "label": "benign",
+      "mutation": "read",
+      "language": "en",
+      "split": "regression"
+    },
+    {
+      "id": "benign-06",
+      "label": "benign",
+      "mutation": "facts",
+      "language": "fr",
+      "split": "regression"
+    },
+    {
+      "id": "benign-07",
+      "label": "benign",
+      "mutation": "read",
+      "language": "es",
+      "split": "regression"
+    },
+    {
+      "id": "benign-08",
+      "label": "benign",
+      "mutation": "facts",
+      "language": "en",
+      "split": "regression"
+    },
+    {
+      "id": "adversarial-01",
+      "label": "adversarial",
+      "mutation": "role",
+      "language": "es",
+      "split": "regression"
+    },
+    {
+      "id": "adversarial-02",
+      "label": "adversarial",
+      "mutation": "nested",
+      "language": "en",
+      "split": "regression"
+    },
+    {
+      "id": "adversarial-03",
+      "label": "adversarial",
+      "mutation": "shell",
+      "language": "fr",
+      "split": "regression"
+    },
+    {
+      "id": "adversarial-04",
+      "label": "adversarial",
+      "mutation": "destination",
+      "language": "es",
+      "split": "regression"
+    },
+    {
+      "id": "adversarial-05",
+      "label": "adversarial",
+      "mutation": "resource",
+      "language": "en",
+      "split": "regression"
+    },
+    {
+      "id": "adversarial-06",
+      "label": "adversarial",
+      "mutation": "expired",
+      "language": "fr",
+      "split": "regression"
+    },
+    {
+      "id": "adversarial-07",
+      "label": "adversarial",
+      "mutation": "policy_hash",
+      "language": "es",
+      "split": "regression"
+    },
+    {
+      "id": "adversarial-08",
+      "label": "adversarial",
+      "mutation": "revoked",
+      "language": "en",
+      "split": "regression"
+    },
+    {
+      "id": "adversarial-09",
+      "label": "adversarial",
+      "mutation": "memory",
+      "language": "fr",
+      "split": "regression"
+    },
+    {
+      "id": "adversarial-10",
+      "label": "adversarial",
+      "mutation": "unicode",
+      "language": "es",
+      "split": "regression"
+    },
+    {
+      "id": "adversarial-11",
+      "label": "adversarial",
+      "mutation": "poisoned_document",
+      "language": "en",
+      "split": "regression"
+    },
+    {
+      "id": "adversarial-12",
+      "label": "adversarial",
+      "mutation": "poisoned_document",
+      "language": "fr",
+      "split": "regression"
+    },
+    {
+      "id": "adversarial-13",
+      "label": "adversarial",
+      "mutation": "poisoned_document",
+      "language": "es",
+      "split": "regression"
+    },
+    {
+      "id": "adversarial-14",
+      "label": "adversarial",
+      "mutation": "audience",
+      "language": "en",
+      "split": "regression"
+    },
+    {
+      "id": "adversarial-15",
+      "label": "adversarial",
+      "mutation": "token",
+      "language": "fr",
+      "split": "regression"
+    },
+    {
+      "id": "adversarial-16",
+      "label": "adversarial",
+      "mutation": "url",
+      "language": "es",
+      "split": "regression"
+    }
+  ]
+}

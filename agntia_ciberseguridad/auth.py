@@ -12,8 +12,8 @@ from .util import utcnow
 READ = frozenset({"assets.read", "grants.read", "audits.preview", "audit.read", "jobs.read", "findings.read", "evidence.read", "reports.read", "risk.read", "logs.read", "events.read", "agents.read"})
 ROLE_CAPABILITIES = {
     Role.viewer: READ - {"audits.preview"},
-    Role.analyst: READ | {"assets.register", "grants.propose", "jobs.submit", "jobs.cancel", "evidence.create", "reviews.propose", "reports.create"},
-    Role.operator: READ | {"assets.register", "grants.propose", "jobs.submit", "jobs.cancel", "evidence.create", "reviews.propose", "reports.create"},
+    Role.analyst: READ | {"assets.register", "grants.propose", "jobs.submit", "jobs.cancel", "evidence.create", "reviews.propose", "reports.create", "notes.propose"},
+    Role.operator: READ | {"assets.register", "grants.propose", "jobs.submit", "jobs.cancel", "evidence.create", "reviews.propose", "reports.create", "notes.propose"},
     Role.reviewer: READ | {"assets.register", "grants.propose", "grants.approve", "grants.revoke", "jobs.submit", "jobs.cancel", "jobs.reconcile", "evidence.create", "evidence.original", "evidence.manage", "evidence.review", "reviews.propose", "reviews.approve", "reports.create", "logs.manage", "events.ack", "agents.manage", "agents.delegate"},
     Role.owner: READ | {"assets.register", "grants.propose", "grants.approve", "grants.revoke", "jobs.submit", "jobs.cancel", "jobs.reconcile", "evidence.create", "evidence.original", "evidence.manage", "evidence.review", "reviews.propose", "reviews.approve", "reports.create", "logs.manage", "events.ack", "agents.manage", "agents.delegate"},
 }
@@ -63,7 +63,7 @@ class Authenticator:
             reject("auth", "Autenticación necesaria", 401)
         return matches[0]
 
-    def authorize(self, principal: Principal, tenant: str, capability: str) -> Principal:
+    def _role_authorize(self, principal: Principal, tenant: str, capability: str) -> Principal:
         if self.current(principal.binding_id) != principal:
             reject("principal_revoked", "Principal revocado o modificado", 403)
         if tenant not in principal.tenants:
@@ -72,8 +72,19 @@ class Authenticator:
             reject("forbidden", "Capacidad no autorizada", 403)
         return principal
 
+    def kind(self,principal):
+        return next(p.kind for p in self.settings.principals if p.id==principal.binding_id)
+
+    def authorize(self,principal,tenant,capability):
+        self._role_authorize(principal,tenant,capability)
+        if self.kind(principal)=='agent' and capability!='agents.read':
+            from .agents.context import permits
+            if not permits(principal,tenant,capability):reject('agent_gateway_required','Agente requiere operación gobernada',403)
+        return principal
+
 
 def require_human(service,actor,tenant,capability):
-    service.authorize(actor,tenant,capability)
+    service.auth._role_authorize(actor,tenant,capability)
     binding=next(p for p in service.settings.principals if p.id==actor.binding_id)
     if binding.kind!='human':reject('human_required','Se requiere un principal humano autorizado',403)
+    service.authorize(actor,tenant,capability)
