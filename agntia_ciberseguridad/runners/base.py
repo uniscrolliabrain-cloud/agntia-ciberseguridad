@@ -7,6 +7,8 @@ import re
 class Tool(str, Enum):
     gitleaks='gitleaks'
     osv='osv'
+    semgrep='semgrep'
+    trivy='trivy'
 
 @dataclass(frozen=True)
 class ToolImage:
@@ -18,7 +20,7 @@ class ToolImage:
     def __post_init__(self):
         if not re.fullmatch(r'(?:[a-zA-Z0-9._/:-]+@)?sha256:[a-f0-9]{64}',self.image):
             raise ValueError('Immutable image ID/digest required')
-        versions={Tool.gitleaks:'8.30.1',Tool.osv:'2.7.1'}
+        versions={Tool.gitleaks:'8.30.1',Tool.osv:'2.7.1',Tool.semgrep:'1.185.0',Tool.trivy:'0.76.2'}
         if self.tool not in versions or self.version != versions[self.tool] or not re.fullmatch(r'[a-f0-9]{64}',self.policy_hash):
             raise ValueError('Unsupported tool contract')
 

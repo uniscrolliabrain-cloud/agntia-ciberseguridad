@@ -1,0 +1,4 @@
+# Fixed configuration profile; no repository-controlled policies.
+misconfiguration:
+  scanners:
+    - dockerfile

@@ -40,7 +40,7 @@ class ContainerRunner:
               '--mount=type=bind,src='+str(source.resolve())+',dst=/input,readonly,bind-propagation=rprivate',
               '--tmpfs=/tmp:rw,noexec,nosuid,nodev,size=16m,mode=1777',
               '--tmpfs=/out:rw,noexec,nosuid,nodev,size=8m,mode=1777',
-              '--env=HOME=/tmp','--env=TMPDIR=/tmp','--env=PATH=/','--env=GOMAXPROCS=2']
+              '--env=HOME=/tmp','--env=TMPDIR=/tmp','--env=PATH=/usr/local/bin:/usr/bin:/bin:/home/semgrep/bin','--env=GOMAXPROCS=2']
         if tool==Tool.osv:
             if cache is None or not Path(cache).is_absolute() or not Path(cache).is_dir() or Path(cache).is_symlink() or ',' in str(cache):
                 reject('offline_database','Base offline aprobada requerida',424)
@@ -52,9 +52,17 @@ class ContainerRunner:
                      '--config=/policy/gitleaks.toml','--gitleaks-ignore-path=/policy/empty.ignore',
                      '--ignore-gitleaks-allow','--report-format=json','--report-path=/dev/stdout','--exit-code=10',
                      '--max-archive-depth=0','--max-decode-depth=0']
-        else:
+        elif tool==Tool.osv:
             argv += ['scan','source','--offline','--format=json','--all-packages',
                      '--no-ignore','--no-call-analysis','--no-resolve','--config=/policy/osv.toml','-r','/input']
+        elif tool==Tool.semgrep:
+            argv += ['scan','--oss-only','--config=/policy/semgrep.yml','--metrics=off','--disable-version-check',
+                     '--disable-nosem','--no-git-ignore','--json','--quiet','--error','--jobs=1',
+                     '--timeout=10','--max-target-bytes=2097152','--x-ignore-semgrepignore-files','/input']
+        else:
+            argv += ['config','--config=/policy/trivy.yaml','--cache-dir=/tmp/trivy','--skip-check-update',
+                     '--disable-telemetry','--skip-version-check','--include-non-failures',
+                     '--ignorefile=/policy/empty.ignore','--format=json','--exit-code=10','/input']
         return argv
 
     async def _process(self, argv, *, cap, timeout):
@@ -102,8 +110,9 @@ class ContainerRunner:
             return check==0 and not data.strip()
         except Exception:return False
 
-    async def run(self, tool, input_path, *, cache=None, cancelled=lambda:False):
-        name='agntia-scan-'+uuid4().hex
+    async def run(self, tool, input_path, *, cache=None, cancelled=lambda:False, execution_key=None):
+        if execution_key is not None and not re.fullmatch(r'[a-f0-9]{32}-[1-9][0-9]{0,9}',execution_key):raise ValueError('Invalid internal execution key')
+        name='agntia-scan-'+(execution_key or uuid4().hex)
         command=self.command(tool,input_path,name,cache)
         image=self.images[tool];start=time.perf_counter();output=b'';code=None;status='error';error='runner_unavailable'
         task=None
@@ -117,7 +126,7 @@ class ContainerRunner:
                     await asyncio.sleep(.02)
                 if error!='cancelled':
                     code,output=await task
-                    known=(0,10) if tool==Tool.gitleaks else (0,1)
+                    known=(0,10) if tool in (Tool.gitleaks,Tool.trivy) else (0,1)
                     if code in known:status='completed';error=None
                     else:error='scanner_exit'
         except TimeoutError:error='timeout'

@@ -1,6 +1,6 @@
 # Continuidad de implementación
 
-**Estado vigente:** [checkpoint6–10](checkpoints/02-phases-06-10/REPORT.md), rama `feat/cyber-phases-06-10`, PR#2. Se han añadido snapshots, custodia, runner y adaptadores Gitleaks/OSV; cuatro tests Docker reales de CI pasan. No hay ejecución de clientes habilitada. Siguiente bloque11–15; revisar gates y límites de cobertura.
+**Estado vigente:** [corte10–15](checkpoints/03-phases-10-15/REPORT.md), rama feat/cyber-phases-10-15, PR#3. SBOM oficial offline, Semgrep/Trivy, jobs/worker e historial ya tienen CI; siguen gates de release pendientes. Siguiente bloque16–20. El executor local quedó unavailable; RECOVERY.md documenta la fuente remota preservada y su validación.
 
 ## Registro histórico después del primer checkpoint
 
