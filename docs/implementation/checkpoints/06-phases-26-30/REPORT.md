@@ -52,6 +52,16 @@ El registro de comandos/resultados está en evidence/. La suite ampliada cubre p
 
 El corpus propio contiene8 tareas benignas y16 candidatos adversariales estáticos. El runner completó8/8 y rechazó16/16 localmente. Los denominadores, FP/FN, latencias, hash de suite/esquema/código, seed y ausencia de modelo se conservan. No se llama a un modelo ni API de pago. No son ataques adaptativos ni un benchmark real de prompt injection; idiomas de las anotaciones/documentos no acreditan robustez multilingüe de un LLM. PDF/imagen/RAG real no evaluados. Ninguna métrica se hereda de CaMeL/AgentDojo u otro paper.
 
+## Cierre de validación ejecutada
+
+Código verificado SHA `06a5ddf933311da25dd8a75b65dd7af501df0e58`: **143 tests distintos correctos**,136 del núcleo en cada matriz Python3.11/3.12 con SDK real y7 Docker en job separado. No se suman matrices o eventos push/PR como tests nuevos. Suite local final:143 descubiertos,132 correctos,11 skips de entorno y0 fallos(9.658s).24 tests nuevos frente al baseline. Runtime/distribución, schemas, validadores, Collector/Prometheus/OTLP y navegador Chromium1440px/390px:PASS. Capturas sintéticas con hash/artefacto, sin atribuir revisión visual independiente.
+
+Evaluación original en CI:8/8 tareas benignas completas;16/16 candidatos adversariales rechazados; FP/FN0 dentro de ese corpus. Sin modelo real, sin API de pago, sin reproducción de papers. Gateway p50=1.566ms y p95=2.599ms en el runner scriptado, no SLA. Configuración/hash y denominadores completos en evaluation-ci.json.
+
+Parada local en CI con SDK:10 acuses y10 siguientes llamadas denegadas; p50 de acuse=3.663ms, p95=3.813ms. Son llamadas directas en un nodo SQLite, sin HTTP/TLS, red o proceso remoto. Las carreras commit/stop se prueban aparte: un efecto ya confirmado no se deshace.
+
+El esquema MCP visible al modelo no contiene token: el backend inyecta X-Agntia-Grant. Se comprobó también el recorrido HTTP completo con ese header, initialize/initialized y tool call autorizado. Egress/transporte externo, OAuth externo, modelos reales, remediación y MFA productivos continúan pendientes. Gates completos siguen PARTIAL.
+
 ## Continuidad
 
 Siguiente bloque31–35: aplicabilidad legal, privacidad/brechas, antifraude, incidentes/contención propuesta y remediación revisable/retest según sus IDs exactos. Antes de continuar leer campaign.json y los riesgos del checkpoint. No habilitar efectos externos o clientes por tener tests verdes. Mantener el aislamiento, las limitaciones de identidad y los gates de revisión independiente.

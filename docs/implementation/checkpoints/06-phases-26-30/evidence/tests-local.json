@@ -4,7 +4,7 @@
   "passed": 132,
   "skipped": 11,
   "failed": 0,
-  "duration_seconds": 8.693,
+  "duration_seconds": 9.658,
   "skip_reasons": {
     "Docker": 7,
     "SDK_unavailable_locally": 4

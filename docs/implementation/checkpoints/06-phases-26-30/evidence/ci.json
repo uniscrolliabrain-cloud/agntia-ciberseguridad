@@ -1,0 +1,108 @@
+{
+  "tested_sha": "06a5ddf933311da25dd8a75b65dd7af501df0e58",
+  "runs": [
+    {
+      "id": 42915817191,
+      "name": "Foundation runtime",
+      "status": "completed",
+      "conclusion": "success",
+      "event": "pull_request",
+      "head_sha": "06a5ddf933311da25dd8a75b65dd7af501df0e58"
+    },
+    {
+      "id": 42915816817,
+      "name": "Documentation foundation",
+      "status": "completed",
+      "conclusion": "success",
+      "event": "pull_request",
+      "head_sha": "06a5ddf933311da25dd8a75b65dd7af501df0e58"
+    },
+    {
+      "id": 42915816850,
+      "name": "Private observability contracts",
+      "status": "completed",
+      "conclusion": "success",
+      "event": "pull_request",
+      "head_sha": "06a5ddf933311da25dd8a75b65dd7af501df0e58"
+    },
+    {
+      "id": 42915816810,
+      "name": "Scoped observability browser",
+      "status": "completed",
+      "conclusion": "success",
+      "event": "pull_request",
+      "head_sha": "06a5ddf933311da25dd8a75b65dd7af501df0e58"
+    },
+    {
+      "id": 42915816814,
+      "name": "Offline scanner contracts",
+      "status": "completed",
+      "conclusion": "success",
+      "event": "pull_request",
+      "head_sha": "06a5ddf933311da25dd8a75b65dd7af501df0e58"
+    },
+    {
+      "id": 42915808026,
+      "name": "Documentation foundation",
+      "status": "completed",
+      "conclusion": "success",
+      "event": "push",
+      "head_sha": "06a5ddf933311da25dd8a75b65dd7af501df0e58"
+    },
+    {
+      "id": 42915807957,
+      "name": "Private observability contracts",
+      "status": "completed",
+      "conclusion": "success",
+      "event": "push",
+      "head_sha": "06a5ddf933311da25dd8a75b65dd7af501df0e58"
+    },
+    {
+      "id": 42915808107,
+      "name": "Foundation runtime",
+      "status": "completed",
+      "conclusion": "success",
+      "event": "push",
+      "head_sha": "06a5ddf933311da25dd8a75b65dd7af501df0e58"
+    },
+    {
+      "id": 42915807904,
+      "name": "Scoped observability browser",
+      "status": "completed",
+      "conclusion": "success",
+      "event": "push",
+      "head_sha": "06a5ddf933311da25dd8a75b65dd7af501df0e58"
+    },
+    {
+      "id": 42915807989,
+      "name": "Offline scanner contracts",
+      "status": "completed",
+      "conclusion": "success",
+      "event": "push",
+      "head_sha": "06a5ddf933311da25dd8a75b65dd7af501df0e58"
+    }
+  ],
+  "discovered_distinct_tests": 143,
+  "passed_distinct_tests": 143,
+  "core_passed": 136,
+  "docker_passed": 7,
+  "failed": 0,
+  "core_docker_skipped": 7,
+  "python_matrix": [
+    "3.11",
+    "3.12"
+  ],
+  "sdk_tests_executed": 4,
+  "jobs": {
+    "core": [
+      130177779191,
+      130177779583
+    ],
+    "docker": 130177778689,
+    "observability": 130177778650,
+    "browser": 130177778905
+  },
+  "independent_review": false,
+  "production": false,
+  "external_model_evaluation": false
+}

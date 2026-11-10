@@ -18,3 +18,5 @@ No se ha ejecutado benchmark comparativo de OPA/Cedar ni se afirma superioridad 
 8. Elegir una nota local con reserva monetaria0 como primer efecto aprobado. Su idempotencia transaccional no se extrapola a redes distribuidas.
 9. Segundo secreto de emergencia separado; reconocer que no equivale a MFA. Detener nuevos efectos, sin afirmar reversión de uno ya confirmado.
 10. Usar corpus propio y planner scriptado sin modelo/APIs. Medir utilidad junto a rechazo; registrar configuración exacta y no convertir el score en una promesa de defensa contra todos los LLM.
+
+11. Mantener el grant fuera del schema de argumentos MCP: header X-Agntia-Grant inyectado por backend tras validar el plan, nunca un valor que deba generar/ver el modelo.
