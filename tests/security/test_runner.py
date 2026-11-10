@@ -47,3 +47,14 @@ class RunnerTests(unittest.IsolatedAsyncioTestCase):
         with self.assertRaises(DomainError):runner.command(Tool.osv,self.input,'test')
         invalid=self.root/'bad,dst=/host';invalid.mkdir(parents=True)
         with self.assertRaises(DomainError):self.runner.command(Tool.gitleaks,invalid,'test')
+
+    async def test_bounded_pipe_drain_without_docker(self):
+        import asyncio
+        import sys
+        # A trusted synthetic helper tests launcher pipe mechanics, never a scanner fallback.
+        result=await self.runner._process([sys.executable,'-c','print("ok")'],cap=1024,timeout=2)
+        self.assertEqual(result,(0,b'ok\n'))
+        with self.assertRaises(OverflowError):
+            await asyncio.wait_for(self.runner._process([sys.executable,'-c','print("x"*2000000)'],cap=1024,timeout=2),5)
+        with self.assertRaises(TimeoutError):
+            await asyncio.wait_for(self.runner._process([sys.executable,'-c','import time; time.sleep(5)'],cap=1024,timeout=.05),5)

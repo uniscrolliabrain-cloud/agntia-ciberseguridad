@@ -64,21 +64,34 @@ class ContainerRunner:
         with tempfile.TemporaryDirectory(prefix='agntia-docker-client-') as config:
             env={'PATH':'/usr/bin:/bin','LANG':'C.UTF-8','DOCKER_CONFIG':config}
             proc=await asyncio.create_subprocess_exec(*argv,stdout=asyncio.subprocess.PIPE,stderr=asyncio.subprocess.PIPE,env=env)
-            collected=bytearray();seen=0
+            collected=bytearray();seen=0;overflow=False
             async def drain(stream, keep):
-                nonlocal seen
+                nonlocal seen,overflow
                 while True:
                     chunk=await stream.read(16384)
                     if not chunk:return
                     seen+=len(chunk)
-                    if seen>cap:raise OverflowError()
-                    if keep:collected.extend(chunk)
+                    if seen>cap:
+                        overflow=True
+                        if proc.returncode is None:
+                            try:proc.kill()
+                            except ProcessLookupError:pass
+                    elif keep:collected.extend(chunk)
+                    # Keep draining/discarding after the cap. Stopping a reader can
+                    # deadlock Process.wait() on a full pipe even after killing the CLI.
+            completion=asyncio.gather(drain(proc.stdout,True),drain(proc.stderr,False),proc.wait())
             try:
-                await asyncio.wait_for(asyncio.gather(drain(proc.stdout,True),drain(proc.stderr,False),proc.wait()),timeout)
+                await asyncio.wait_for(asyncio.shield(completion),timeout)
+                if overflow:raise OverflowError()
                 return proc.returncode,bytes(collected)
             finally:
                 if proc.returncode is None:
-                    proc.kill();await proc.wait()
+                    try:proc.kill()
+                    except ProcessLookupError:pass
+                try:
+                    await asyncio.wait_for(asyncio.shield(completion),2)
+                except TimeoutError:
+                    completion.cancel()
 
     async def _cleanup(self,name):
         prefix=[self.docker,'--host=unix:///var/run/docker.sock']
