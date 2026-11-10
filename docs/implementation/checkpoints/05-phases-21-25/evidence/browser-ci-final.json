@@ -1,0 +1,50 @@
+{
+  "tested_sha": "ca6ae9a471d90ce7c987666b7104b88637afbe07",
+  "run": 42905075542,
+  "job": 130140831159,
+  "status": "PASS",
+  "browser": "real Chromium",
+  "synthetic_only": true,
+  "results": [
+    {
+      "width": 1440,
+      "height": 1000,
+      "overflow": false,
+      "cross_tenant_denied": true,
+      "javascript_errors": 0,
+      "logout_race_denied": true
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "cross_tenant_denied": true,
+      "javascript_errors": 0,
+      "logout_race_denied": true
+    }
+  ],
+  "screenshots": {
+    "console-1440.png": "8298071f8c01383bf614e0701101e4586b79eafd10e6dacdb0852d366a434c7c",
+    "console-390.png": "c1b0cf9f53af2ab226c3f259bc9b531897bcb34dfc4f3b337ccb3d04b9bc27b7"
+  },
+  "artifact": {
+    "id": 13803584472,
+    "name": "synthetic-console-screenshots",
+    "size_in_bytes": 214998,
+    "url": "https://api.github.com/repos/uniscrolliabrain-cloud/agntia-ciberseguridad/actions/artifacts/13803584472",
+    "archive_download_url": "https://api.github.com/repos/uniscrolliabrain-cloud/agntia-ciberseguridad/actions/artifacts/13803584472/zip",
+    "expired": false,
+    "created_at": "2026-11-10T21:27:16Z",
+    "expires_at": "2027-02-08T21:26:32Z",
+    "updated_at": "2026-11-10T21:27:16Z",
+    "digest": "sha256:1465ae3a6a682cfffd4db630d4ae645e2def302c8d40d8ad5bb631f930e7632a",
+    "workflow_run": {
+      "id": 42905075542,
+      "repository_id": 1452699603,
+      "head_repository_id": 1452699603,
+      "head_branch": "feat/cyber-phases-21-25",
+      "head_sha": "ca6ae9a471d90ce7c987666b7104b88637afbe07"
+    }
+  },
+  "manual_visual_review": false
+}

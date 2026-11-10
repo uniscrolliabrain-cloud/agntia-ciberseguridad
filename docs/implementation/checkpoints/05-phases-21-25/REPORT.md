@@ -52,6 +52,12 @@ Batería local final:119 descubiertos,108 correctos,11 omitidos y0 fallos,5.729s
 
 Chromium real en CI:PASS en1440×1000 y390×844, sin overflow ni errores JS, cross-tenant rechazado y respuesta en vuelo tras logout descartada. Run42902060399, SHA a02e59300174e0f9d7bc4f697e889c64a111c1e5. Capturas sintéticas con hash y artefacto en evidence/browser-ci.json; no se atribuye revisión visual manual independiente. El primer runner ubuntu-latest no fue compatible con Playwright; se fijó ubuntu-24.04 y se conserva la causa del fallo.
 
+## Cierre de validación remota
+
+Código validado SHA `ca6ae9a471d90ce7c987666b7104b88637afbe07`: **119 tests distintos correctos**,112 del núcleo con SDK real en cada matriz Python3.11/3.12 y7 Docker en job separado. No se suman versiones ni push/PR duplicados como tests distintos. Los7 skips de runtime son los mismos tests ejecutados en el job Docker. Distribución wheel comprueba también HTML/JS/CSS de consola. Configuración/recepción OTLP y promtool:PASS. Chromium móvil/escritorio y carrera de logout:PASS. CI íntegra, artefactos y hashes en evidence/ci.json y browser-ci-final.json.
+
+Carga concurrente en CI con SDK activo:100 solicitudes,20 denegaciones esperadas,0 resultados inesperados, p50=3.627ms, p95=4.831ms,10 logs retenidos,2360bytes y71 drops declarados,20 series. RSS pico65652KiB de proceso. Estos resultados incluyen saturación/fallo opcional de logs y no prueban capacidad o coste de producción. Ver JSON sin redondear.
+
 ## Continuidad
 
 Siguiente bloque26–30: seguir los cinco IDs de la campaña relativos al gateway y evaluación de seguridad agéntica. Releer los IDs exactos antes de actuar. Mantener los gates PARTIAL, no modificar `/agente`, no desplegar ni fusionar automáticamente. Ver operaciones, riesgos y decisiones del checkpoint.
