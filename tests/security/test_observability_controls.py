@@ -115,7 +115,7 @@ class DelegationTests(NewSetup,unittest.TestCase):
         manifest=self.approved();grant=self.delegations.issue(self.owner,'tenantA',self.grant(manifest),'fixture')
         request=UseRequest(token=grant['token'],capability='assets.read',resource_id=self.fixture.asset['id'])
         with self.assertRaises(DomainError):self.delegations.use(self.child,'tenantA',request,'fixture')
-        with self.assertRaises(DomainError):self.delegations.use(self.agent,'tenantA',request.model_copy(update={'token':grant['token'][:-1]+'f'}),'fixture')
+        with self.assertRaises(DomainError):self.delegations.use(self.agent,'tenantA',request.model_copy(update={'token':grant['token'][:-1]+('f' if grant['token'][-1]!='f' else 'e')}),'fixture')
         with self.assertRaises(DomainError):self.delegations.use(self.agent,'tenantA',request.model_copy(update={'resource_id':'b'*32}),'fixture')
         result=self.delegations.use(self.agent,'tenantA',request,'fixture');self.assertEqual(result['data'][0]['id'],self.fixture.asset['id'])
         with self.assertRaises(DomainError):self.delegations.use(self.agent,'tenantA',request,'fixture')
@@ -130,6 +130,17 @@ class DelegationTests(NewSetup,unittest.TestCase):
         with self.assertRaises(DomainError):self.delegations.use(self.child,'tenantA',UseRequest(token=delegated['token'],capability='assets.read',resource_id=self.fixture.asset['id']),'fixture')
         root=self.delegations.issue(self.owner,'tenantA',self.grant(parent),'fixture');os.environ['CYBER_AGENT_A']='rotated-synthetic-'+'R'*50
         with self.assertRaises(DomainError):self.delegations.use(self.f.service.auth.current('agentA'),'tenantA',UseRequest(token=root['token'],capability='assets.read',resource_id=self.fixture.asset['id']),'fixture')
+    def test_child_positive_audience_rejection_and_foreign_scope_before_key(self):
+        parent=self.approved();child=self.approved('childA')
+        root=self.delegations.issue(self.owner,'tenantA',self.grant(parent),'fixture')
+        issued=self.delegations.issue(self.agent,'tenantA',self.grant(child,parent_token=root['token']),'fixture')
+        self.assertEqual(self.delegations.use(self.child,'tenantA',UseRequest(token=issued['token'],capability='assets.read',resource_id=self.fixture.asset['id']),'fixture')['data'][0]['id'],self.fixture.asset['id'])
+        body=self.delegations._decode(root['token']);body['audience']='wrong-audience'
+        with self.assertRaises(DomainError):self.delegations._decode(self.delegations._encode(body))
+        with patch.object(self.delegations,'_key',side_effect=AssertionError('Must reject tenant before key lookup')):
+            with self.assertRaises(DomainError) as error:self.delegations.use(self.agent,'tenantB',UseRequest(token=root['token'],capability='assets.read',resource_id=self.fixture.asset['id']),'fixture')
+            self.assertEqual(error.exception.status,404)
+
     def test_concurrent_use_only_one_succeeds_and_expiry_invalidates(self):
         manifest=self.approved();grant=self.delegations.issue(self.owner,'tenantA',self.grant(manifest),'fixture');request=UseRequest(token=grant['token'],capability='assets.read',resource_id=self.fixture.asset['id'])
         def use(_):

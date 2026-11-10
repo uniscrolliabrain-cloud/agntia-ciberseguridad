@@ -1,5 +1,6 @@
 """Real Chromium desktop/mobile against synthetic local API; no customer data."""
 import json
+import hashlib
 import os
 from pathlib import Path
 import socket
@@ -45,11 +46,21 @@ def main():
                 page.get_by_role('status').filter(has_text='404').wait_for()
                 assert page.locator('#overview').inner_text()==''
                 page.get_by_role('button',name='Cerrar sesión').click()
+                # A late dashboard response must not repopulate data after logout.
+                page.evaluate('() => { window.originalFetch=window.fetch; window.fetch=()=>new Promise(resolve=>{window.resolveDashboard=resolve;}); }')
+                page.get_by_label('Organización',exact=True).fill('tenantA')
+                page.get_by_label('Credencial de lectura').fill(fixture.tokens['viewerA'])
+                page.get_by_role('button',name='Consultar',exact=True).click()
+                page.get_by_role('button',name='Cerrar sesión').click()
+                page.evaluate('() => { window.resolveDashboard({ok:true,json:async()=>({tenant_id:"tenantA"})});window.fetch=window.originalFetch; }')
+                page.wait_for_timeout(50)
+                assert page.get_by_role('status').inner_text()=='Sesión cerrada.'
+                assert page.locator('#overview').inner_text()==''
                 assert not errors,errors
-                results.append({'width':width,'height':height,'overflow':False,'cross_tenant_denied':True,'javascript_errors':0})
+                results.append({'width':width,'height':height,'overflow':False,'cross_tenant_denied':True,'javascript_errors':0,'logout_race_denied':True})
                 page.close()
             browser.close()
-        print(json.dumps({'browser':'real Chromium','synthetic_only':True,'results':results,'screenshots':str(screens)}))
+        print(json.dumps({'browser':'real Chromium','synthetic_only':True,'results':results,'screenshots':{p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in screens.glob('*.png')}}))
     finally:
         server.should_exit=True;thread.join(timeout=3);fixture.service.telemetry.close();fixture.close()
 if __name__=='__main__':main()
