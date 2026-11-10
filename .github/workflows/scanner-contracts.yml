@@ -14,11 +14,14 @@ jobs:
       - run: python -m pip install -e '.[dev]'
       - run: python scripts/prepare_scanner_images.py
       - run: python scripts/build_probe_image.py
-      - run: python scripts/diagnose_trivy_fixture.py
       - name: Real sandbox and scanner contracts, synthetic fixtures only
+        id: scans
         env:
           AGNTIA_RUN_DOCKER_TESTS: '1'
         run: python -m unittest tests.docker.test_real_scanners tests.docker.test_extended_scanners -v
+      - name: Synthetic Trivy diagnostics on scan failure
+        if: failure() && steps.scans.outcome == 'failure'
+        run: python scripts/diagnose_trivy_fixture.py
       - name: Preserve image provenance without raw reports
         if: always()
         uses: actions/upload-artifact@v4

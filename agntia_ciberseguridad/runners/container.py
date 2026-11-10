@@ -61,7 +61,7 @@ class ContainerRunner:
                      '--timeout=10','--max-target-bytes=2097152','--x-ignore-semgrepignore-files','/input']
         else:
             argv += ['config','--config=/policy/trivy.yaml','--cache-dir=/tmp/trivy','--skip-check-update',
-                     '--offline-scan','--disable-telemetry','--skip-version-check','--include-non-failures',
+                     '--disable-telemetry','--skip-version-check','--include-non-failures',
                      '--ignorefile=/policy/empty.ignore','--format=json','--exit-code=10','/input']
         return argv
 
