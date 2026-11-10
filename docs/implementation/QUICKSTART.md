@@ -35,3 +35,7 @@ No se admiten URLs ni comandos libres en esos bodies. Referencias de recursos, c
 Antes de exponer servicio: TLS privado, control de red y rate limiting, secretos gestionados, cifrado/backup/retención, protocolo de identidad de `/agente` y revisión independiente. Estas tareas siguen pendientes. No abrir puertos al público ni montar `/var/run/docker.sock` en la API.
 
 Detener el proceso detiene nuevas admisiones. Conservar `state` y backups, verificar cadena antes de restaurar. Las migraciones son aditivas; no ejecutar un downgrade destructivo. Restaurar solo con el servicio detenido desde una copia consistente y probada. La suite ensaya restauración SQLite sintética, no recuperación del equipo ni de backups cloud.
+
+## Segundo bloque
+
+Hay rutas POST/GET de snapshots y adaptadores de scanner internos. Consultar [checkpoint6–10](checkpoints/02-phases-06-10/REPORT.md) e [infra/scanners](../../infra/scanners/README.md). La API no ejecuta scanners; el opt-in Docker solo habilita fixtures sintéticas de CI, no aprobación de un piloto.

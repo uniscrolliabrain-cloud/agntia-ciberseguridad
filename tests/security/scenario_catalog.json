@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "independent_review_verified": false,
+  "scope": "Catalogue and implementer review; not independent sign-off",
+  "boundaries": [
+    {
+      "id": "identity",
+      "benign": "Valid server-bound token",
+      "adversarial": "Revoked or forged role",
+      "owner": "Identity"
+    },
+    {
+      "id": "tenancy",
+      "benign": "Read owned resource",
+      "adversarial": "Known foreign asset/snapshot ID",
+      "owner": "Backend"
+    },
+    {
+      "id": "consent",
+      "benign": "Current separately approved grant",
+      "adversarial": "Self-approval or changed proposal",
+      "owner": "Policy"
+    },
+    {
+      "id": "filesystem",
+      "benign": "Bounded regular local file",
+      "adversarial": "Symlink, hardlink, FIFO, rename and file growth",
+      "owner": "Acquisition"
+    },
+    {
+      "id": "network",
+      "benign": "No outbound network in scanner",
+      "adversarial": "DNS/metadata/redirect or socket attempt",
+      "owner": "Sandbox"
+    },
+    {
+      "id": "process",
+      "benign": "Pinned scanner profile",
+      "adversarial": "Shell arguments, CPU/pid/output/time excess",
+      "owner": "Sandbox"
+    },
+    {
+      "id": "supply_chain",
+      "benign": "Checksummed release, fixed policy",
+      "adversarial": "Unknown image/version or repository override",
+      "owner": "AppSec"
+    },
+    {
+      "id": "results",
+      "benign": "Schema-valid minimized report",
+      "adversarial": "Malformed/contradictory output or raw canary",
+      "owner": "Evidence"
+    },
+    {
+      "id": "database",
+      "benign": "Transactional scoped write",
+      "adversarial": "Migration failure, duplicate identity or altered chain",
+      "owner": "Data"
+    },
+    {
+      "id": "release",
+      "benign": "Verified evidence for every gate",
+      "adversarial": "Privileged socket in scanner or missing review",
+      "owner": "Release"
+    }
+  ]
+}

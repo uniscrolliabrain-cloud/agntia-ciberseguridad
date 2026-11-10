@@ -176,3 +176,38 @@ class BoundaryTests(unittest.IsolatedAsyncioTestCase):
         await RequestBoundary(unexpected,1024)({'type':'http','headers':[]},receive,send)
         self.assertEqual(sent[0]['status'],413)
         self.assertLessEqual(count,257)
+
+
+class SnapshotApiTests(unittest.IsolatedAsyncioTestCase):
+    setUp=ApiTests.setUp
+    async def request(self,*args,**kwargs):
+        # The managed local sandbox can lose cross-thread selector wakeups.
+        # A bounded test-side ticker exercises the real ASGI call without changing production.
+        task=asyncio.create_task(ApiTests.request(self,*args,**kwargs))
+        try:
+            async with asyncio.timeout(4):
+                while not task.done():await asyncio.sleep(.01)
+            return await task
+        finally:
+            if not task.done():task.cancel()
+    asset=ApiTests.asset
+    approved=ApiTests.approved
+    async def test_snapshot_creation_scoped_and_reviewed(self):
+        asset,grant=await self.approved()
+        (self.f.repo/'source.txt').write_text('Synthetic API fixture')
+        result=await asyncio.wait_for(self.request('POST','tenantA/snapshots',json={'asset_id':asset['id'],'grant_id':grant['id'],'profile':'static_read'}),timeout=5)
+        self.assertEqual(result.status_code,201,result.text)
+        snapshot=result.json()
+        self.assertEqual(snapshot['files'][0]['path'],'source.txt')
+        found=await asyncio.wait_for(self.request('GET','tenantA/snapshots/'+snapshot['id']),timeout=5)
+        self.assertEqual(found.status_code,200,found.text)
+        self.assertNotIn(str(self.f.root),found.text)
+        self.assertEqual((await self.request('GET','tenantB/snapshots/'+snapshot['id'])).status_code,404)
+        unknown=await asyncio.wait_for(self.request('GET','tenantA/snapshots/'+'0'*32),timeout=5)
+        self.assertEqual(unknown.status_code,404)
+
+    def tearDown(self):
+        for base,dirs,files in os.walk(self.f.settings.data_dir/'snapshots'):
+            from pathlib import Path
+            Path(base).chmod(0o700)
+        self.f.close()

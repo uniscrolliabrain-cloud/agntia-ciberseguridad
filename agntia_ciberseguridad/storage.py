@@ -24,7 +24,16 @@ SCHEMA = [
     "CREATE TRIGGER audit_no_update BEFORE UPDATE ON audit BEGIN SELECT RAISE(ABORT,'append-only audit'); END",
     "CREATE TRIGGER audit_no_delete BEFORE DELETE ON audit BEGIN SELECT RAISE(ABORT,'append-only audit'); END",
 ]
-MIGRATIONS = ((1, SCHEMA),)
+SNAPSHOT_SCHEMA = [
+    """CREATE TABLE snapshots(tenant_id TEXT NOT NULL,id TEXT NOT NULL,asset_id TEXT NOT NULL,
+        grant_id TEXT NOT NULL,manifest_hash TEXT NOT NULL,content_hash TEXT NOT NULL,
+        body TEXT NOT NULL CHECK(json_valid(body)),PRIMARY KEY(tenant_id,id),
+        FOREIGN KEY(tenant_id,asset_id) REFERENCES assets(tenant_id,id),
+        FOREIGN KEY(tenant_id,grant_id) REFERENCES grants(tenant_id,id))""",
+    "CREATE INDEX snapshots_asset ON snapshots(tenant_id,asset_id)",
+]
+MIGRATIONS = ((1, SCHEMA), (2, SNAPSHOT_SCHEMA))
+CURRENT_SCHEMA = MIGRATIONS[-1][0]
 
 
 class Database:

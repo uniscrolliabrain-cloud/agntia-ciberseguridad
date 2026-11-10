@@ -3,7 +3,7 @@
   "name": "Agntia Ciberseguridad — campaña7días",
   "created_on": "2026-11-10",
   "start_date_planned": "2026-11-10",
-  "execution_state": "IN_PROGRESS_FOUNDATION_CHECKPOINT",
+  "execution_state": "IN_PROGRESS_SECOND_CHECKPOINT",
   "publication_scope": "foundation_code_tests_and_documentation_on_review_branch",
   "calendar_rule": "Día1..7 son ventanas de trabajo; si un gate falla no se comprime ni se inventa PASS para cumplir una fecha. Recalendarizar con evidencia.",
   "staffing_assumption": "Roles funcionales, no plantilla contratada ni subagentes desplegados. Capacidad/hours por persona no medidas. Reducir M1 antes de degradar gates M0.",
@@ -734,77 +734,91 @@
         {
           "id": "D1P6T1",
           "action": "Enumerar activos sensibles, adversarios, control del host, proveedor comprometido y amenazas fuera de alcance.",
-          "status": "PENDING",
+          "status": "PASS",
           "depends_on": [
             "D1P3T7",
             "D1P4T7",
             "D1P5T7"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/02-phases-06-10/REPORT.md"
+          ]
         },
         {
           "id": "D1P6T2",
           "action": "Dibujar flujos de código, secretos, prompts, evidencias, telemetría y certificados de confianza.",
-          "status": "PENDING",
+          "status": "PASS",
           "depends_on": [
             "D1P6T1"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/02-phases-06-10/REPORT.md"
+          ]
         },
         {
           "id": "D1P6T3",
           "action": "Asignar control/owner a aislamiento, egress, aprobaciones, supply chain, presupuestos y disponibilidad.",
-          "status": "PENDING",
+          "status": "PASS",
           "depends_on": [
             "D1P6T2"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/02-phases-06-10/REPORT.md"
+          ]
         },
         {
           "id": "D1P6T4",
           "action": "Crear catálogo de escenarios críticos y separar seguridad frente a prompts de compromiso del servidor.",
-          "status": "PENDING",
+          "status": "PASS",
           "depends_on": [
             "D1P6T3"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/02-phases-06-10/REPORT.md"
+          ]
         },
         {
           "id": "D1P6T5",
           "action": "Definir stop conditions para fuga tenant, ejecución arbitraria, secreto, pérdida de evidencia o gasto sin margen.",
-          "status": "PENDING",
+          "status": "PASS",
           "depends_on": [
             "D1P6T4"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/02-phases-06-10/REPORT.md"
+          ]
         },
         {
           "id": "D1P6T6",
           "action": "Realizar revisión cruzada del día1 y documentar defectos, aceptación temporal y pruebas pendientes.",
-          "status": "PENDING",
+          "status": "PARTIAL",
           "depends_on": [
             "D1P6T5"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/02-phases-06-10/REPORT.md"
+          ]
         },
         {
           "id": "D1P6T7",
           "action": "Emitir gateG1: ninguna ruta de alto impacto habilitada si falta autenticación, scope o persistencia probados.",
-          "status": "PENDING",
+          "status": "PARTIAL",
           "depends_on": [
             "D1P6T6"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/02-phases-06-10/REPORT.md"
+          ]
         }
       ],
-      "status": "NOT_STARTED",
+      "status": "PARTIAL",
       "depends_on": [
         "D1P3",
         "D1P4",
@@ -822,15 +836,25 @@
         {
           "id": "D1P6-TEST-1",
           "scenario": "Cada frontera crítica tiene al menos un caso benigno y uno adversarial planificado.",
-          "status": "NOT_EXECUTED",
-          "evidence_refs": []
+          "status": "PASS",
+          "evidence_refs": [
+            "docs/implementation/checkpoints/02-phases-06-10/GATES.md"
+          ]
         },
         {
           "id": "D1P6-TEST-2",
           "scenario": "El revisor identifica bypass del gateway o socket privilegiado y bloquea la habilitación.",
-          "status": "NOT_EXECUTED",
-          "evidence_refs": []
+          "status": "PARTIAL",
+          "evidence_refs": [
+            "docs/implementation/checkpoints/02-phases-06-10/GATES.md"
+          ]
         }
+      ],
+      "implementation_status": "IMPLEMENTED_TESTED_SYNTHETIC",
+      "release_gate": "BLOCKED_PENDING_INDEPENDENT_REVIEW_AND_DEPENDENCIES",
+      "evidence_refs": [
+        "docs/implementation/checkpoints/02-phases-06-10/REPORT.md",
+        "docs/implementation/checkpoints/02-phases-06-10/evidence/ci.json"
       ]
     },
     {
@@ -855,75 +879,89 @@
         {
           "id": "D2P1T1",
           "action": "Definir entradas Git/local/image/lockfile y permisos mínimos separados para su adquisición.",
-          "status": "PENDING",
+          "status": "PARTIAL",
           "depends_on": [
             "D1P6T7"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/02-phases-06-10/REPORT.md"
+          ]
         },
         {
           "id": "D2P1T2",
           "action": "Fijar commits/digests y verificar tamaño, número de ficheros, rutas canónicas y tipos antes de extraer.",
-          "status": "PENDING",
+          "status": "PARTIAL",
           "depends_on": [
             "D2P1T1"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/02-phases-06-10/REPORT.md"
+          ]
         },
         {
           "id": "D2P1T3",
           "action": "Deshabilitar hooks, recursion de submódulos, filtros y descargas LFS no aprobadas durante checkout.",
-          "status": "PENDING",
+          "status": "PASS",
           "depends_on": [
             "D2P1T2"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/02-phases-06-10/REPORT.md"
+          ]
         },
         {
           "id": "D2P1T4",
           "action": "Controlar enlaces, traversal, archivos especiales, compresión y ficheros binarios; no seguir enlaces fuera del snapshot.",
-          "status": "PENDING",
+          "status": "PASS",
           "depends_on": [
             "D2P1T3"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/02-phases-06-10/REPORT.md"
+          ]
         },
         {
           "id": "D2P1T5",
           "action": "Guardar inventario/hash/manifiesto del snapshot sin copiar secretos a logs o títulos.",
-          "status": "PENDING",
+          "status": "PASS",
           "depends_on": [
             "D2P1T4"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/02-phases-06-10/REPORT.md"
+          ]
         },
         {
           "id": "D2P1T6",
           "action": "Probar repos hostiles sintéticos y cancelación durante adquisición sin ejecución ni fuga fuera de scope.",
-          "status": "PENDING",
+          "status": "PASS",
           "depends_on": [
             "D2P1T5"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/02-phases-06-10/REPORT.md"
+          ]
         },
         {
           "id": "D2P1T7",
           "action": "Registrar cobertura y exclusiones por fichero/lenguaje para que la auditoría no invente análisis completo.",
-          "status": "PENDING",
+          "status": "PASS",
           "depends_on": [
             "D2P1T6"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/02-phases-06-10/REPORT.md"
+          ]
         }
       ],
-      "status": "NOT_STARTED",
+      "status": "PARTIAL",
       "depends_on": [
         "D1P6"
       ],
@@ -939,15 +977,25 @@
         {
           "id": "D2P1-TEST-1",
           "scenario": "Repo fixture con hooks, enlaces simbólicos y rutas escapadas no toca el host.",
-          "status": "NOT_EXECUTED",
-          "evidence_refs": []
+          "status": "PASS",
+          "evidence_refs": [
+            "docs/implementation/checkpoints/02-phases-06-10/GATES.md"
+          ]
         },
         {
           "id": "D2P1-TEST-2",
           "scenario": "Zip bomb, LFS/submódulo externo o fichero excesivo queda rechazado o explícitamente parcial.",
-          "status": "NOT_EXECUTED",
-          "evidence_refs": []
+          "status": "PASS",
+          "evidence_refs": [
+            "docs/implementation/checkpoints/02-phases-06-10/GATES.md"
+          ]
         }
+      ],
+      "implementation_status": "IMPLEMENTED_TESTED_SYNTHETIC",
+      "release_gate": "BLOCKED_PENDING_INDEPENDENT_REVIEW_AND_DEPENDENCIES",
+      "evidence_refs": [
+        "docs/implementation/checkpoints/02-phases-06-10/REPORT.md",
+        "docs/implementation/checkpoints/02-phases-06-10/evidence/ci.json"
       ]
     },
     {
@@ -973,75 +1021,89 @@
         {
           "id": "D2P2T1",
           "action": "Definir interfaz runner con argv cerrado, entorno permitido, entrada read-only y salida acotada.",
-          "status": "PENDING",
+          "status": "PASS",
           "depends_on": [
             "D1P6T7"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/02-phases-06-10/REPORT.md"
+          ]
         },
         {
           "id": "D2P2T2",
           "action": "Fijar herramientas por versión/digest, procedencia y licencia; registrar reglas y DB como artefactos distintos.",
-          "status": "PENDING",
+          "status": "PASS",
           "depends_on": [
             "D2P2T1"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/02-phases-06-10/REPORT.md"
+          ]
         },
         {
           "id": "D2P2T3",
           "action": "Aplicar UID no privilegiado, FS temporal, límites CPU/RAM/pids/tiempo y no-new-privileges.",
-          "status": "PENDING",
+          "status": "PASS",
           "depends_on": [
             "D2P2T2"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/02-phases-06-10/REPORT.md"
+          ]
         },
         {
           "id": "D2P2T4",
           "action": "Separar workers sin red y descarga controlada de bases; no pasar tokens de GitHub al scanner.",
-          "status": "PENDING",
+          "status": "PASS",
           "depends_on": [
             "D2P2T3"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/02-phases-06-10/REPORT.md"
+          ]
         },
         {
           "id": "D2P2T5",
           "action": "Validar códigos de salida, stdout/stderr, cancelación y limpieza sin reutilizar workspaces entre tenants.",
-          "status": "PENDING",
+          "status": "PASS",
           "depends_on": [
             "D2P2T4"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/02-phases-06-10/REPORT.md"
+          ]
         },
         {
           "id": "D2P2T6",
           "action": "Probar límites y accesos host/network en el runtime real, no solamente con mocks.",
-          "status": "PENDING",
+          "status": "PASS",
           "depends_on": [
             "D2P2T5"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/02-phases-06-10/REPORT.md"
+          ]
         },
         {
           "id": "D2P2T7",
           "action": "Marcar BLOCKED si no hay sandbox suficiente; no usar ejecución host insegura como fallback.",
-          "status": "PENDING",
+          "status": "PASS",
           "depends_on": [
             "D2P2T6"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/02-phases-06-10/REPORT.md"
+          ]
         }
       ],
-      "status": "NOT_STARTED",
+      "status": "PARTIAL",
       "depends_on": [
         "D1P6"
       ],
@@ -1057,15 +1119,25 @@
         {
           "id": "D2P2-TEST-1",
           "scenario": "Un proceso que intenta red/archivo fuera de política no accede al host ni a secretos.",
-          "status": "NOT_EXECUTED",
-          "evidence_refs": []
+          "status": "PASS",
+          "evidence_refs": [
+            "docs/implementation/checkpoints/02-phases-06-10/GATES.md"
+          ]
         },
         {
           "id": "D2P2-TEST-2",
           "scenario": "Timeout, fork excesivo o salida gigante produce fallo controlado y limpieza comprobada.",
-          "status": "NOT_EXECUTED",
-          "evidence_refs": []
+          "status": "PASS",
+          "evidence_refs": [
+            "docs/implementation/checkpoints/02-phases-06-10/GATES.md"
+          ]
         }
+      ],
+      "implementation_status": "IMPLEMENTED_TESTED_SYNTHETIC",
+      "release_gate": "BLOCKED_PENDING_INDEPENDENT_REVIEW_AND_DEPENDENCIES",
+      "evidence_refs": [
+        "docs/implementation/checkpoints/02-phases-06-10/REPORT.md",
+        "docs/implementation/checkpoints/02-phases-06-10/evidence/ci.json"
       ]
     },
     {
@@ -1090,76 +1162,90 @@
         {
           "id": "D2P3T1",
           "action": "Revisar licencia y formato de la release elegida; fijar configuración y modo de salida redactado.",
-          "status": "PENDING",
+          "status": "PASS",
           "depends_on": [
             "D2P1T7",
             "D2P2T7"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/02-phases-06-10/REPORT.md"
+          ]
         },
         {
           "id": "D2P3T2",
           "action": "Implementar parser versionado con límites y estados distinctos findings/no-findings/error.",
-          "status": "PENDING",
+          "status": "PASS",
           "depends_on": [
             "D2P3T1"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/02-phases-06-10/REPORT.md"
+          ]
         },
         {
           "id": "D2P3T3",
           "action": "Normalizar repositorio, commit, fichero, rango, rule_id, confianza y evidencia minimizada.",
-          "status": "PENDING",
+          "status": "PASS",
           "depends_on": [
             "D2P3T2"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/02-phases-06-10/REPORT.md"
+          ]
         },
         {
           "id": "D2P3T4",
           "action": "Deduplicar por ubicación/regla/snapshot sin usar valores secretos o hashes débiles públicamente correlacionables.",
-          "status": "PENDING",
+          "status": "PASS",
           "depends_on": [
             "D2P3T3"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/02-phases-06-10/REPORT.md"
+          ]
         },
         {
           "id": "D2P3T5",
           "action": "Crear fixtures de canario, falso positivo, binario omitido y parser roto.",
-          "status": "PENDING",
+          "status": "PASS",
           "depends_on": [
             "D2P3T4"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/02-phases-06-10/REPORT.md"
+          ]
         },
         {
           "id": "D2P3T6",
           "action": "Ejecutar contrato real con binario fijado y buscar centinelas en reportes/logs/eventos producidos.",
-          "status": "PENDING",
+          "status": "PASS",
           "depends_on": [
             "D2P3T5"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/02-phases-06-10/REPORT.md"
+          ]
         },
         {
           "id": "D2P3T7",
           "action": "Presentar guía de rotación como propuesta; nunca llamar al servicio externo para comprobar si una credencial funciona.",
-          "status": "PENDING",
+          "status": "PASS",
           "depends_on": [
             "D2P3T6"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/02-phases-06-10/REPORT.md"
+          ]
         }
       ],
-      "status": "NOT_STARTED",
+      "status": "PARTIAL",
       "depends_on": [
         "D2P1",
         "D2P2"
@@ -1176,15 +1262,25 @@
         {
           "id": "D2P3-TEST-1",
           "scenario": "Canario fixture genera finding, pero su valor no aparece en export/log/evento.",
-          "status": "NOT_EXECUTED",
-          "evidence_refs": []
+          "status": "PASS",
+          "evidence_refs": [
+            "docs/implementation/checkpoints/02-phases-06-10/GATES.md"
+          ]
         },
         {
           "id": "D2P3-TEST-2",
           "scenario": "Error de scanner, versión desconocida o JSON inválido no se convierte en scan limpio.",
-          "status": "NOT_EXECUTED",
-          "evidence_refs": []
+          "status": "PASS",
+          "evidence_refs": [
+            "docs/implementation/checkpoints/02-phases-06-10/GATES.md"
+          ]
         }
+      ],
+      "implementation_status": "IMPLEMENTED_TESTED_SYNTHETIC",
+      "release_gate": "BLOCKED_PENDING_INDEPENDENT_REVIEW_AND_DEPENDENCIES",
+      "evidence_refs": [
+        "docs/implementation/checkpoints/02-phases-06-10/REPORT.md",
+        "docs/implementation/checkpoints/02-phases-06-10/evidence/ci.json"
       ]
     },
     {
@@ -1210,76 +1306,90 @@
         {
           "id": "D2P4T1",
           "action": "Elegir release OSV-Scanner, modo offline/online permitido y fuentes/cache con límites.",
-          "status": "PENDING",
+          "status": "PASS",
           "depends_on": [
             "D2P1T7",
             "D2P2T7"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/02-phases-06-10/REPORT.md"
+          ]
         },
         {
           "id": "D2P4T2",
           "action": "Modelar componentes, purl, licencias observadas y relaciones directas/transitivas con valor unknown permitido.",
-          "status": "PENDING",
+          "status": "PASS",
           "depends_on": [
             "D2P4T1"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/02-phases-06-10/REPORT.md"
+          ]
         },
         {
           "id": "D2P4T3",
           "action": "Generar o importar SBOM CycloneDX/SPDX con esquema y tamaño validados; fijar herramienta productora.",
-          "status": "PENDING",
+          "status": "PARTIAL",
           "depends_on": [
             "D2P4T2"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/02-phases-06-10/REPORT.md"
+          ]
         },
         {
           "id": "D2P4T4",
           "action": "Asociar advisory, versión afectada, fix disponible y fecha de datos sin inventar reachability.",
-          "status": "PENDING",
+          "status": "PASS",
           "depends_on": [
             "D2P4T3"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/02-phases-06-10/REPORT.md"
+          ]
         },
         {
           "id": "D2P4T5",
           "action": "Probar fixtures de lockfiles, rango ambiguo, ecosistema ausente y paquetes sin versión exacta.",
-          "status": "PENDING",
+          "status": "PARTIAL",
           "depends_on": [
             "D2P4T4"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/02-phases-06-10/REPORT.md"
+          ]
         },
         {
           "id": "D2P4T6",
           "action": "Ejecutar scanner real y validar reproducibilidad y comportamiento offline/cache obsoleta.",
-          "status": "PENDING",
+          "status": "PARTIAL",
           "depends_on": [
             "D2P4T5"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/02-phases-06-10/REPORT.md"
+          ]
         },
         {
           "id": "D2P4T7",
           "action": "Exportar diferencias entre snapshots y distinguir paquete corregido de componente simplemente no analizado.",
-          "status": "PENDING",
+          "status": "PASS",
           "depends_on": [
             "D2P4T6"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/02-phases-06-10/REPORT.md"
+          ]
         }
       ],
-      "status": "NOT_STARTED",
+      "status": "PARTIAL",
       "depends_on": [
         "D2P1",
         "D2P2"
@@ -1296,15 +1406,25 @@
         {
           "id": "D2P4-TEST-1",
           "scenario": "Un lockfile vulnerable y otro benigno producen resultados esperados sin instalar paquetes del cliente.",
-          "status": "NOT_EXECUTED",
-          "evidence_refs": []
+          "status": "PASS",
+          "evidence_refs": [
+            "docs/implementation/checkpoints/02-phases-06-10/GATES.md"
+          ]
         },
         {
           "id": "D2P4-TEST-2",
           "scenario": "DB sin red/caducada o ecosistema no soportado produce partial/stale, no safe.",
-          "status": "NOT_EXECUTED",
-          "evidence_refs": []
+          "status": "PASS",
+          "evidence_refs": [
+            "docs/implementation/checkpoints/02-phases-06-10/GATES.md"
+          ]
         }
+      ],
+      "implementation_status": "IMPLEMENTED_TESTED_SYNTHETIC",
+      "release_gate": "BLOCKED_PENDING_INDEPENDENT_REVIEW_AND_DEPENDENCIES",
+      "evidence_refs": [
+        "docs/implementation/checkpoints/02-phases-06-10/REPORT.md",
+        "docs/implementation/checkpoints/02-phases-06-10/evidence/ci.json"
       ]
     },
     {
@@ -5118,5 +5238,6 @@
       ]
     }
   ],
-  "latest_checkpoint": "docs/implementation/checkpoints/01-first-five/REPORT.md"
+  "latest_checkpoint": "docs/implementation/checkpoints/02-phases-06-10/REPORT.md",
+  "customer_scanner_execution_enabled": false
 }

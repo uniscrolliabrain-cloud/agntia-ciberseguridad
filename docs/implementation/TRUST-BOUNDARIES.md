@@ -16,3 +16,7 @@
 El Docker del entorno existe pero su socket no es accesible. No se ha montado, expuesto ni evitado esa restricción. El contenedor de la API nunca debe recibir un socket privilegiado: el diseño de runner requiere otro servicio aislado y revisión.
 
 Una gráfica de arquitectura o un catálogo de escenarios no prueban estas fronteras futuras. Ver `THREAT-MODEL.md` y el estado machine-readable de la campaña. Ningún test de foundation cuenta como test de escáner, SOC o cumplimiento legal.
+
+## Actualización del segundo checkpoint
+
+Snapshots locales con hashes/custodia y perfiles Docker offline ya tienen pruebas sintéticas, incluidas cuatro reales en CI. La tabla anterior conserva las fronteras de diseño; consultar [checkpoint6–10](checkpoints/02-phases-06-10/REPORT.md) para evidencia y pendientes vigentes. El launcher no está desplegado como worker de clientes y la revisión independiente sigue pendiente.

@@ -1,0 +1,16 @@
+{
+  "at": "2026-11-10T16:31:49.706550+00:00",
+  "command": "python scripts/run_foundation_tests.py --output docs/implementation/checkpoints/02-phases-06-10/evidence",
+  "python": "3.12.14",
+  "executed": 56,
+  "passed": 52,
+  "failed": 0,
+  "errors": 0,
+  "skipped": 4,
+  "elapsed_seconds": 1.551538,
+  "status": "PASS",
+  "security_scanners_executed": 0,
+  "docker_tests_executed": 0,
+  "log_sha256": "54589cefeec5111449cf0dd016a9b106337106725114f7bfc58d32289e696eb4",
+  "scope": "Real SQLite, pure network preflight with injected DNS, ASGI API. No security scan or external target."
+}

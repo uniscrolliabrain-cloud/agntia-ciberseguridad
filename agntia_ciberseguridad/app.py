@@ -16,7 +16,8 @@ from .config import Settings
 from .contracts import AssetCreate, AuditPreview, GrantApproval, GrantCreate, GrantRevocation, OpaqueId, ResourceId
 from .errors import DomainError
 from .service import Service
-from .storage import Database
+from .storage import Database, CURRENT_SCHEMA
+from .snapshots import SnapshotStore
 
 
 class RequestBoundary:
@@ -90,6 +91,8 @@ def create_app(settings: Settings | None = None):
     service = Service(settings, database)
     app = FastAPI(title="Agntia Ciberseguridad", version=__version__, docs_url=None, redoc_url=None, openapi_url=None)
     app.state.service = service
+    snapshots = SnapshotStore(service)
+    app.state.snapshots = snapshots
     app.state.settings = settings
     app.state.db = database
     app.add_middleware(RequestBoundary, maximum=settings.max_request_bytes)
@@ -145,7 +148,7 @@ def create_app(settings: Settings | None = None):
     async def ready():
         try:
             with database.connection(readonly=True) as db:
-                schema = db.execute("SELECT max(version) FROM schema_migrations").fetchone()[0] == 1
+                schema = db.execute("SELECT max(version) FROM schema_migrations").fetchone()[0] == CURRENT_SCHEMA
             credentials = False
             for binding in settings.principals:
                 try:
@@ -189,6 +192,18 @@ def create_app(settings: Settings | None = None):
     @app.post("/v1/tenants/{tenant}/audits/preview")
     async def preview(tenant: OpaqueId, body: AuditPreview, request: Request, actor: Principal = Depends(principal)):
         return service.preview(actor, tenant, body, correlation(request))
+
+    @app.post("/v1/tenants/{tenant}/snapshots", status_code=201)
+    async def acquire_snapshot(tenant: OpaqueId, body: AuditPreview, request: Request, actor: Principal = Depends(principal)):
+        # IO is bounded by server limits; grant/principal revalidation occurs during the copy.
+        from starlette.concurrency import run_in_threadpool
+        return await run_in_threadpool(snapshots.acquire, actor, tenant, body, correlation(request))
+
+    @app.get("/v1/tenants/{tenant}/snapshots/{snapshot_id}")
+    async def snapshot(tenant: OpaqueId, snapshot_id: ResourceId, actor: Principal = Depends(principal)):
+        from starlette.concurrency import run_in_threadpool
+        manifest, _ = await run_in_threadpool(snapshots.verify, actor, tenant, snapshot_id)
+        return manifest
 
     @app.get("/v1/tenants/{tenant}/audit/integrity")
     async def integrity(tenant: OpaqueId, actor: Principal = Depends(principal)):
