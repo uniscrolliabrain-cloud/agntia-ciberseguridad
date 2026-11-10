@@ -3,8 +3,8 @@
   "name": "Agntia Ciberseguridad — campaña7días",
   "created_on": "2026-11-10",
   "start_date_planned": "2026-11-10",
-  "execution_state": "PLANNED_NOT_EXECUTED",
-  "publication_scope": "documents_and_execution_plan_only",
+  "execution_state": "IN_PROGRESS_FOUNDATION_CHECKPOINT",
+  "publication_scope": "foundation_code_tests_and_documentation_on_review_branch",
   "calendar_rule": "Día1..7 son ventanas de trabajo; si un gate falla no se comprime ni se inventa PASS para cumplir una fecha. Recalendarizar con evidencia.",
   "staffing_assumption": "Roles funcionales, no plantilla contratada ni subagentes desplegados. Capacidad/hours por persona no medidas. Reducir M1 antes de degradar gates M0.",
   "phase_count": 42,
@@ -34,73 +34,87 @@
         {
           "id": "D1P1T1",
           "action": "Anotar SHA remoto/local, árbol, ramas, estado Git y fecha de ejecución antes de instalar dependencias.",
-          "status": "PENDING",
+          "status": "PASS",
           "depends_on": [],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/01-first-five/REPORT.md"
+          ]
         },
         {
           "id": "D1P1T2",
           "action": "Inventariar Python, Node, pnpm, Docker/Compose, SO, arquitectura, memoria y límites del ejecutor.",
-          "status": "PENDING",
+          "status": "PASS",
           "depends_on": [
             "D1P1T1"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/01-first-five/REPORT.md"
+          ]
         },
         {
           "id": "D1P1T3",
           "action": "Leer AGENTS, fuentes y ADR; abrir un registro de decisiones nuevas con autor y motivo.",
-          "status": "PENDING",
+          "status": "PASS",
           "depends_on": [
             "D1P1T2"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/01-first-five/REPORT.md"
+          ]
         },
         {
           "id": "D1P1T4",
           "action": "Definir dos tenants ficticios, responsables humanos y repos fixture fuera de cualquier dato real.",
-          "status": "PENDING",
+          "status": "PASS",
           "depends_on": [
             "D1P1T3"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/01-first-five/REPORT.md"
+          ]
         },
         {
           "id": "D1P1T5",
           "action": "Fijar alcance Lite piloto, exclusiones, horarios y significado de observación continua frente a tareas programadas.",
-          "status": "PENDING",
+          "status": "PASS",
           "depends_on": [
             "D1P1T4"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/01-first-five/REPORT.md"
+          ]
         },
         {
           "id": "D1P1T6",
           "action": "Crear rama de implementación y plantilla de evidencias con estados PASS, FAIL, BLOCKED y NOT_VERIFIED.",
-          "status": "PENDING",
+          "status": "PASS",
           "depends_on": [
             "D1P1T5"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/01-first-five/REPORT.md"
+          ]
         },
         {
           "id": "D1P1T7",
           "action": "Comprobar que ningún documento o UI atribuya protección, certificación o equivalencia empresarial todavía no demostradas.",
-          "status": "PENDING",
+          "status": "PASS",
           "depends_on": [
             "D1P1T6"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/01-first-five/REPORT.md"
+          ]
         }
       ],
-      "status": "NOT_STARTED",
+      "status": "PASS",
       "depends_on": [],
       "required_evidence": [
         "implementation_commit_sha",
@@ -114,15 +128,23 @@
         {
           "id": "D1P1-TEST-1",
           "scenario": "Entorno sin Docker registra BLOCKED sin declarar pruebas runtime aprobadas.",
-          "status": "NOT_EXECUTED",
-          "evidence_refs": []
+          "status": "PASS",
+          "evidence_refs": [
+            "docs/implementation/checkpoints/01-first-five/GATES.md"
+          ]
         },
         {
           "id": "D1P1-TEST-2",
           "scenario": "Checkout con cambios ajenos se conserva y la implementación no los sobrescribe.",
-          "status": "NOT_EXECUTED",
-          "evidence_refs": []
+          "status": "PASS",
+          "evidence_refs": [
+            "docs/implementation/checkpoints/01-first-five/GATES.md"
+          ]
         }
+      ],
+      "evidence_refs": [
+        "docs/implementation/checkpoints/01-first-five/REPORT.md",
+        "docs/implementation/checkpoints/01-first-five/GATES.md"
       ]
     },
     {
@@ -149,75 +171,89 @@
         {
           "id": "D1P2T1",
           "action": "Crear paquete Python y CLI con factoría de aplicación, versión de API y configuración por entorno.",
-          "status": "PENDING",
+          "status": "PASS",
           "depends_on": [
             "D1P1T7"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/01-first-five/REPORT.md"
+          ]
         },
         {
           "id": "D1P2T2",
           "action": "Definir IDs opacos, fechas UTC, revisión optimista y cantidades monetarias en unidades enteras mínimas.",
-          "status": "PENDING",
+          "status": "PASS",
           "depends_on": [
             "D1P2T1"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/01-first-five/REPORT.md"
+          ]
         },
         {
           "id": "D1P2T3",
           "action": "Modelar Tenant, Principal, Asset, Grant, Job, Finding, Evidence, Approval y BudgetReservation sin secretos embebidos.",
-          "status": "PENDING",
+          "status": "PASS",
           "depends_on": [
             "D1P2T2"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/01-first-five/REPORT.md"
+          ]
         },
         {
           "id": "D1P2T4",
           "action": "Normalizar errores con code, correlation_id, retryable y reconciliation_required; ocultar excepciones internas.",
-          "status": "PENDING",
+          "status": "PASS",
           "depends_on": [
             "D1P2T3"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/01-first-five/REPORT.md"
+          ]
         },
         {
           "id": "D1P2T5",
           "action": "Añadir límites de body, listas, strings, archivos y cabeceras; separar liveness de dependencia disponible.",
-          "status": "PENDING",
+          "status": "PASS",
           "depends_on": [
             "D1P2T4"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/01-first-five/REPORT.md"
+          ]
         },
         {
           "id": "D1P2T6",
           "action": "Instalar en entorno limpio, exportar JSON Schema y validar round-trip y compatibilidad de versión.",
-          "status": "PENDING",
+          "status": "PARTIAL",
           "depends_on": [
             "D1P2T5"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/01-first-five/REPORT.md"
+          ]
         },
         {
           "id": "D1P2T7",
           "action": "Ejecutar casos de entrada inválida y guardar comandos/resultados reales, sin sustituirlos por ejemplos.",
-          "status": "PENDING",
+          "status": "PASS",
           "depends_on": [
             "D1P2T6"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/01-first-five/REPORT.md"
+          ]
         }
       ],
-      "status": "NOT_STARTED",
+      "status": "PARTIAL",
       "depends_on": [
         "D1P1"
       ],
@@ -233,15 +269,23 @@
         {
           "id": "D1P2-TEST-1",
           "scenario": "Un campo desconocido de identidad o shell provoca422 antes de cualquier efecto.",
-          "status": "NOT_EXECUTED",
-          "evidence_refs": []
+          "status": "PASS",
+          "evidence_refs": [
+            "docs/implementation/checkpoints/01-first-five/GATES.md"
+          ]
         },
         {
           "id": "D1P2-TEST-2",
           "scenario": "NaN, payload gigante o configuración insegura impiden arranque/admisión de manera explicable.",
-          "status": "NOT_EXECUTED",
-          "evidence_refs": []
+          "status": "PASS",
+          "evidence_refs": [
+            "docs/implementation/checkpoints/01-first-five/GATES.md"
+          ]
         }
+      ],
+      "evidence_refs": [
+        "docs/implementation/checkpoints/01-first-five/REPORT.md",
+        "docs/implementation/checkpoints/01-first-five/GATES.md"
       ]
     },
     {
@@ -267,75 +311,89 @@
         {
           "id": "D1P3T1",
           "action": "Especificar emisor, audiencia, expiración, revocación y autenticación local de laboratorio sin dueño implícito remoto.",
-          "status": "PENDING",
+          "status": "PASS",
           "depends_on": [
             "D1P2T7"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/01-first-five/REPORT.md"
+          ]
         },
         {
           "id": "D1P3T2",
           "action": "Definir roles viewer, analyst, reviewer y operator con capacidades separadas de proponer, aprobar y ejecutar.",
-          "status": "PENDING",
+          "status": "PASS",
           "depends_on": [
             "D1P3T1"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/01-first-five/REPORT.md"
+          ]
         },
         {
           "id": "D1P3T3",
           "action": "Resolver tenant/empresa desde claims verificados y rechazar identidades contradictorias enviadas en texto o JSON.",
-          "status": "PENDING",
+          "status": "PASS",
           "depends_on": [
             "D1P3T2"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/01-first-five/REPORT.md"
+          ]
         },
         {
           "id": "D1P3T4",
           "action": "Aplicar scope a cada consulta, export, evento, fichero y operación asíncrona antes de acceder a recursos.",
-          "status": "PENDING",
+          "status": "PARTIAL",
           "depends_on": [
             "D1P3T3"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/01-first-five/REPORT.md"
+          ]
         },
         {
           "id": "D1P3T5",
           "action": "Diseñar claves de servicio por tenant y referencias secret-manager; redactar logs y representaciones de error.",
-          "status": "PENDING",
+          "status": "PARTIAL",
           "depends_on": [
             "D1P3T4"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/01-first-five/REPORT.md"
+          ]
         },
         {
           "id": "D1P3T6",
           "action": "Probar acceso cruzado con IDs conocidos, token intercambiado, rol insuficiente y credencial caducada/revocada.",
-          "status": "PENDING",
+          "status": "PASS",
           "depends_on": [
             "D1P3T5"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/01-first-five/REPORT.md"
+          ]
         },
         {
           "id": "D1P3T7",
           "action": "Revisar que los nombres Pedro/Laia o un header capability nunca concedan autoridad sin política.",
-          "status": "PENDING",
+          "status": "PASS",
           "depends_on": [
             "D1P3T6"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/01-first-five/REPORT.md"
+          ]
         }
       ],
-      "status": "NOT_STARTED",
+      "status": "PARTIAL",
       "depends_on": [
         "D1P2"
       ],
@@ -351,15 +409,23 @@
         {
           "id": "D1P3-TEST-1",
           "scenario": "PrincipalA consulta IDB y recibe404 sin metadatos, tamaño o export deB.",
-          "status": "NOT_EXECUTED",
-          "evidence_refs": []
+          "status": "PASS",
+          "evidence_refs": [
+            "docs/implementation/checkpoints/01-first-five/GATES.md"
+          ]
         },
         {
           "id": "D1P3-TEST-2",
           "scenario": "Un token revocado entre petición y job no permite usar permisos antiguos.",
-          "status": "NOT_EXECUTED",
-          "evidence_refs": []
+          "status": "PARTIAL",
+          "evidence_refs": [
+            "docs/implementation/checkpoints/01-first-five/GATES.md"
+          ]
         }
+      ],
+      "evidence_refs": [
+        "docs/implementation/checkpoints/01-first-five/REPORT.md",
+        "docs/implementation/checkpoints/01-first-five/GATES.md"
       ]
     },
     {
@@ -385,75 +451,89 @@
         {
           "id": "D1P4T1",
           "action": "Escoger backend piloto y documentar límites de concurrencia, topología y evolución futura a PostgreSQL.",
-          "status": "PENDING",
+          "status": "PASS",
           "depends_on": [
             "D1P2T7"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/01-first-five/REPORT.md"
+          ]
         },
         {
           "id": "D1P4T2",
           "action": "Crear tablas tenant-scoped con FKs compuestas, índices, revisiones e identidades externas e idempotentes.",
-          "status": "PENDING",
+          "status": "PARTIAL",
           "depends_on": [
             "D1P4T1"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/01-first-five/REPORT.md"
+          ]
         },
         {
           "id": "D1P4T3",
           "action": "Implementar migraciones versionadas, backup previo, transacción y bloqueo para dos procesos inicializando a la vez.",
-          "status": "PENDING",
+          "status": "PASS",
           "depends_on": [
             "D1P4T2"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/01-first-five/REPORT.md"
+          ]
         },
         {
           "id": "D1P4T4",
           "action": "Añadir audit append-only con actor, política, correlación, hash y referencia de resultado minimizado.",
-          "status": "PENDING",
+          "status": "PASS",
           "depends_on": [
             "D1P4T3"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/01-first-five/REPORT.md"
+          ]
         },
         {
           "id": "D1P4T5",
           "action": "Separar historial de findings/propuestas de vistas actuales y definir checkpoints externos para integridad reforzada.",
-          "status": "PENDING",
+          "status": "PARTIAL",
           "depends_on": [
             "D1P4T4"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/01-first-five/REPORT.md"
+          ]
         },
         {
           "id": "D1P4T6",
           "action": "Ensayar fresh, upgrade, fallo intermedio, restauración y verificación de cadena con evidencia alterada.",
-          "status": "PENDING",
+          "status": "PASS",
           "depends_on": [
             "D1P4T5"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/01-first-five/REPORT.md"
+          ]
         },
         {
           "id": "D1P4T7",
           "action": "Medir contención y registrar limitaciones del almacenamiento sin anunciar soporte distribuido no probado.",
-          "status": "PENDING",
+          "status": "PASS",
           "depends_on": [
             "D1P4T6"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/01-first-five/REPORT.md"
+          ]
         }
       ],
-      "status": "NOT_STARTED",
+      "status": "PARTIAL",
       "depends_on": [
         "D1P2"
       ],
@@ -469,15 +549,23 @@
         {
           "id": "D1P4-TEST-1",
           "scenario": "Una migración fallida revierte DDL y preserva objetos/auditoría previos.",
-          "status": "NOT_EXECUTED",
-          "evidence_refs": []
+          "status": "PASS",
+          "evidence_refs": [
+            "docs/implementation/checkpoints/01-first-five/GATES.md"
+          ]
         },
         {
           "id": "D1P4-TEST-2",
           "scenario": "Dos escrituras concurrentes con la misma identidad no crean dos objetos ni reservas.",
-          "status": "NOT_EXECUTED",
-          "evidence_refs": []
+          "status": "PARTIAL",
+          "evidence_refs": [
+            "docs/implementation/checkpoints/01-first-five/GATES.md"
+          ]
         }
+      ],
+      "evidence_refs": [
+        "docs/implementation/checkpoints/01-first-five/REPORT.md",
+        "docs/implementation/checkpoints/01-first-five/GATES.md"
       ]
     },
     {
@@ -503,76 +591,90 @@
         {
           "id": "D1P5T1",
           "action": "Modelar titular/representación, recursos, entornos, paths, IP/hosts, perfiles, ventana y contactos de emergencia.",
-          "status": "PENDING",
+          "status": "PASS",
           "depends_on": [
             "D1P3T7",
             "D1P4T7"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/01-first-five/REPORT.md"
+          ]
         },
         {
           "id": "D1P5T2",
           "action": "Crear alta/revisión de assets con ownership verificado y snapshots inmutables; no descubrimiento de terceros abierto.",
-          "status": "PENDING",
+          "status": "PARTIAL",
           "depends_on": [
             "D1P5T1"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/01-first-five/REPORT.md"
+          ]
         },
         {
           "id": "D1P5T3",
           "action": "Aplicar DNS/IP allowlist y bloqueo de metadata, loopback no autorizado, IPv6 mapeada y credenciales en URLs.",
-          "status": "PENDING",
+          "status": "PASS",
           "depends_on": [
             "D1P5T2"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/01-first-five/REPORT.md"
+          ]
         },
         {
           "id": "D1P5T4",
           "action": "Definir redirects, cambios de resolución y subdominios: denegar expansión de alcance por defecto.",
-          "status": "PENDING",
+          "status": "PASS",
           "depends_on": [
             "D1P5T3"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/01-first-five/REPORT.md"
+          ]
         },
         {
           "id": "D1P5T5",
           "action": "Clasificar perfiles static_read, passive_web y active_lab con efectos y límites documentados.",
-          "status": "PENDING",
+          "status": "PASS",
           "depends_on": [
             "D1P5T4"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/01-first-five/REPORT.md"
+          ]
         },
         {
           "id": "D1P5T6",
           "action": "Probar grant cruzado, host homónimo, destino cambiado, expiración durante trabajo y salida de red no permitida.",
-          "status": "PENDING",
+          "status": "PARTIAL",
           "depends_on": [
             "D1P5T5"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/01-first-five/REPORT.md"
+          ]
         },
         {
           "id": "D1P5T7",
           "action": "Publicar inventario/grants revisables sin exponer credenciales ni infraestructura de otro tenant.",
-          "status": "PENDING",
+          "status": "PASS",
           "depends_on": [
             "D1P5T6"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/01-first-five/REPORT.md"
+          ]
         }
       ],
-      "status": "NOT_STARTED",
+      "status": "PARTIAL",
       "depends_on": [
         "D1P3",
         "D1P4"
@@ -589,15 +691,23 @@
         {
           "id": "D1P5-TEST-1",
           "scenario": "Una URL a metadata/link-local y un redirect fuera del grant se bloquean antes de conectar.",
-          "status": "NOT_EXECUTED",
-          "evidence_refs": []
+          "status": "PASS",
+          "evidence_refs": [
+            "docs/implementation/checkpoints/01-first-five/GATES.md"
+          ]
         },
         {
           "id": "D1P5-TEST-2",
           "scenario": "Un grant caducado o revocado impide iniciar/reintentar una auditoría.",
-          "status": "NOT_EXECUTED",
-          "evidence_refs": []
+          "status": "PARTIAL",
+          "evidence_refs": [
+            "docs/implementation/checkpoints/01-first-five/GATES.md"
+          ]
         }
+      ],
+      "evidence_refs": [
+        "docs/implementation/checkpoints/01-first-five/REPORT.md",
+        "docs/implementation/checkpoints/01-first-five/GATES.md"
       ]
     },
     {
@@ -5005,5 +5115,6 @@
         }
       ]
     }
-  ]
+  ],
+  "latest_checkpoint": "docs/implementation/checkpoints/01-first-five/REPORT.md"
 }

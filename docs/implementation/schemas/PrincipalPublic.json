@@ -1,0 +1,56 @@
+{
+  "$defs": {
+    "Role": {
+      "enum": [
+        "viewer",
+        "analyst",
+        "reviewer",
+        "operator",
+        "owner"
+      ],
+      "title": "Role",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "actor_id": {
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_-]{0,63}$",
+      "title": "Actor Id",
+      "type": "string"
+    },
+    "expires_at": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Expires At"
+    },
+    "role": {
+      "$ref": "#/$defs/Role"
+    },
+    "tenants": {
+      "items": {
+        "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_-]{0,63}$",
+        "type": "string"
+      },
+      "maxItems": 100,
+      "minItems": 1,
+      "title": "Tenants",
+      "type": "array"
+    }
+  },
+  "required": [
+    "actor_id",
+    "role",
+    "tenants"
+  ],
+  "title": "PrincipalPublic",
+  "type": "object"
+}

@@ -1,0 +1,17 @@
+# D1P6 · Modelo inicial de amenazas
+
+Estado: preparación de revisión; **NOT_VERIFIED por un revisor independiente**. Documento producido por el propio implementador. No habilita workers ni scanners. El checkpoint primero cubre D1P1–D1P5; este análisis deja trazado el siguiente gate.
+
+Activos: credenciales, binding de tenant, titularidad/consentimiento, repos de clientes, hallazgos, originales, costes, approvals y auditoría. Adversarios: usuario de otro tenant, viewer que intenta escribir, agente con instrucciones maliciosas, repo que contiene código hostil, respuesta de DNS/HTTP alterada y herramienta/proveedor comprometido. Un administrador del host o de la DB con privilegios totales puede alterar configuración y ficheros: el aislamiento frente a ese administrador requiere otra arquitectura y no se garantiza aquí.
+
+Fronteras actuales: request→contrato cerrado; Bearer→binding servidor; binding→tenant/capacidad; registro→referencia aprobada; consentimiento→propuesta hasheada; revisor distinto→grant; preflight→DNS/IP/ruta; operación→SQLite transaccional; SQL→cadena por tenant. Fuentes no confiables jamás eligen actor, URL, comando ni contexto de compañía. La API todavía no procesa contenido de repos ni documentos, no usa LLMs y no invoca ejecutables.
+
+Controles ejecutados: cuerpo/cabeceras ambiguas, autenticación revocada, rol y pertenencia, FKs de compañía, duplicados, hashes de configuración y propuesta, separación de funciones, expiración, nueva validación después de DNS, límites de red y rutas, transacciones SQLite, triggers append-only y restauración. Casos concretos en `tests/security` y `tests/integration`.
+
+Fronteras futuras que deben permanecer cerradas: adquisición inmutable y sin hooks; extracción de archivos hostiles; sandbox por trabajo sin privilegios, sin socket Docker, read-only y con cuotas; egress real fijado a IP aprobada y TLS/SNI correcto; licencias/versiones de herramientas; claves fuera del worker; parsing minimizado de resultados; presupuestos atómicos; lease/fencing/reintentos; gateway de herramientas; ingesta externa y exposición de UI. Una validación DNS en preflight no evita por sí sola que un futuro cliente HTTP vuelva a resolver otro destino. No existe ese cliente en la entrega actual.
+
+Condiciones de parada: fuga entre tenants, salida a destino no autorizado, invocación de shell por entrada del agente, aprobación propia/fabricada, secret sentinel en logs, auditoría perdida, duplicación de efecto o gasto no reservado. Ante una de ellas, no activar el flujo ni degradar a ejecución del host. Un error inesperado en mutación requiere comprobar estado antes de repetir.
+
+Revisión propia: se encontró una carrera de inicialización WAL, se añadió retry acotado; se acotó el número de frames y el plazo total de entrada; se corrigió readiness cuando el primer binding está revocado; se añadieron triggers de auditoría y prueba de manipulación privilegiada. Son correcciones con tests, no una auditoría independiente.
+
+Riesgos abiertos: autenticación local de laboratorio todavía sin issuer/audience federados; no rate limit/proxy TLS; fichero SQLite sin cifrado configurado; hashes sin anclaje externo; directorios mutables hasta D2; límites de grant no son reservas agregadas; no worker, egress aplicado a procesos ni sandbox; review independiente pendiente. El servicio se mantiene en modo foundation sin capacidad de ejecutar auditorías.

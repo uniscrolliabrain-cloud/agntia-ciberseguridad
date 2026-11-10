@@ -27,3 +27,7 @@ python scripts/create_handoff_zip.py
 El ZIP incluye únicamente archivos versionados, sin .git/secretos/datos de clientes. El script se ejecuta tras añadir/commitear la documentación. No arranca el middleware ni instala herramientas.
 
 La campaña parte de la [documentación técnica inicial](../../README.md). No modifica ni autoriza escribir en `/agente`, comprar servicios o activar producción. El usuario sí ha pedido publicar esta documentación en `uniscrolliabrain-cloud/agntia-ciberseguridad`; la implementación futura mantiene sus propios gates.
+
+## Ejecución actual
+
+La campaña ya tiene código provisional en rama de revisión. Consultar [primer checkpoint](../../implementation/checkpoints/01-first-five/REPORT.md) y `campaign.json`; la planificación y el ZIP anteriores no acreditan ejecución de scanners.
