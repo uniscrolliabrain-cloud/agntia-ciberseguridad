@@ -94,6 +94,10 @@ class Settings(Model):
     log_max_bytes: Annotated[StrictInt,Field(ge=1024,le=10000000)]=256000
     log_retention_days: Annotated[StrictInt,Field(ge=1,le=90)]=7
     delegation_key_env: EnvRef|None=None
+    emergency_token_env: EnvRef|None=None
+    agent_policy_hash: Hash|None=None
+    agent_policy_expires_at: AwareDatetime|None=None
+    approved_egress_refs: list[OpaqueId]=Field(default_factory=list,max_length=16)
     max_request_bytes: Annotated[StrictInt, Field(ge=1024, le=1024 * 1024)] = 64 * 1024
     db_timeout_seconds: float = Field(default=1.0, ge=0.05, le=10)
 
@@ -109,6 +113,9 @@ class Settings(Model):
             raise ValueError('Ambiguous evidence key scope')
         if self.metrics_token_env and self.metrics_token_env in {p.token_env for p in self.principals}:
             raise ValueError('Metrics credential must be separate')
+        if self.emergency_token_env and self.emergency_token_env in {p.token_env for p in self.principals}|set(refs)|{self.metrics_token_env,self.delegation_key_env}|{s.key_env for s in self.event_sources.values()}:raise ValueError('Emergency key requires separate reference')
+        for ref in self.approved_egress_refs:
+            if ref not in self.targets or self.targets[ref].kind!=AssetKind.web:raise ValueError('Egress reference must be an approved web target')
         source_refs=[s.key_env for s in self.event_sources.values()]
         other_refs={p.token_env for p in self.principals}|set(refs)|{self.metrics_token_env,self.delegation_key_env}
         if len(source_refs)!=len(set(source_refs)) or set(source_refs)&other_refs:raise ValueError('Source keys require separate references')

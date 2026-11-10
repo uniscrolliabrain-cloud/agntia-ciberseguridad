@@ -19,3 +19,5 @@ jobs:
       - run: git diff --exit-code -- docs/implementation/schemas
       - run: agntia-ciberseguridad --version
       - run: python scripts/check_distribution.py
+      - run: PYTHONPATH=. python scripts/evaluate_agent_gateway.py
+      - run: PYTHONPATH=. python scripts/measure_agent_stop.py

@@ -1,6 +1,6 @@
 # Continuidad de implementación
 
-**Estado vigente:** [checkpoint21–25](checkpoints/05-phases-21-25/REPORT.md), rama feat/cyber-phases-21-25, PR#5 apilada sobre PR#4. Logs, consola, ingestión pasiva, límites/resiliencia y registro/delegación de lectura implementados. Gates completos PARTIAL; siguiente bloque26–30. La delegación no gobierna los caminos externos ni todas las rutas heredadas: cerrar esa frontera en gateway antes de habilitar clientes.
+**Estado vigente:** [checkpoint26–30](checkpoints/06-phases-26-30/REPORT.md), rama feat/cyber-phases-26-30, PR#6 apilada sobre PR#5. Agentes sin acceso directo a rutas heredadas; policy/epoch, flows, subconjunto MCP, evaluación propia y notas locales revisadas implementados. Gates completos PARTIAL. Siguiente bloque31–35 según campaign.json. Egress y efectos externos no habilitados; no integrar `/agente` ni desplegar/mergear sin autorización.
 
 ## Registro histórico después del primer checkpoint
 

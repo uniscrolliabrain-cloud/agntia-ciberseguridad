@@ -107,7 +107,7 @@ def create_app(settings: Settings | None = None):
         actor=service.auth.authenticate(request.headers.get("Authorization"))
         tenant=request.path_params.get('tenant')
         if tenant:
-            service.authorize(actor,tenant,'assets.read')
+            service.authorize(actor,tenant,'agents.read' if service.auth.kind(actor)=='agent' else 'assets.read')
             request.state.authenticated_log_tenant=tenant
         return actor
 
@@ -121,7 +121,7 @@ def create_app(settings: Settings | None = None):
         tenant = request.path_params.get("tenant", "")
         try:
             actor = service.auth.authenticate(request.headers.get("Authorization"))
-            service.authorize(actor, tenant, "assets.read")
+            service.authorize(actor, tenant, "agents.read" if service.auth.kind(actor)=="agent" else "assets.read")
         except DomainError:
             return  # No trustworthy principal/tenant exists for a per-tenant audit entry.
         with database.transaction() as db:
@@ -247,4 +247,6 @@ def create_app(settings: Settings | None = None):
     register_features(app,service,principal)
     from .observability_routes import register_observability
     register_observability(app,service,principal)
+    from .agents.routes import register_agent_gateway
+    register_agent_gateway(app,service,principal)
     return app
