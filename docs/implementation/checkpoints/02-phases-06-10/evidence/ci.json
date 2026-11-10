@@ -1,0 +1,70 @@
+{
+  "commit": "29395da5671e6b063b54895f791de75d38d0792b",
+  "docker": {
+    "run_id": 42854842519,
+    "job_id": 129964941434,
+    "conclusion": "success",
+    "tests_executed": 4,
+    "passed": 4,
+    "failed": 0,
+    "skipped": 0,
+    "images": [
+      {
+        "reported_version_verified": true,
+        "tool": "gitleaks",
+        "version": "8.30.1",
+        "image": "sha256:302e7c078c14add6bb16cb8c9609d2ff82c26710bc5ea291c7fa82dcb540a48a",
+        "policy_hash": "ae5ab7416e1784719ea2213d56a31ae9d5db1932de2d5ee56b156def6791fadd",
+        "release_sha256": "551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb",
+        "license": "MIT"
+      },
+      {
+        "reported_version_verified": true,
+        "tool": "osv",
+        "version": "2.7.1",
+        "image": "sha256:06181926ddea07c150472a308c6f56d970fdb973e577361494a35e63b9520303",
+        "policy_hash": "ae5ab7416e1784719ea2213d56a31ae9d5db1932de2d5ee56b156def6791fadd",
+        "release_sha256": "fb7dab19a8bd9bbe5c3189f09d4b7ee1820c9553a23bac202648a56efd2f6ee8",
+        "license": "Apache-2.0"
+      }
+    ],
+    "log_extract": [
+      "##[group]Run python -m unittest tests.docker.test_real_scanners -v",
+      "\u001b[36;1mpython -m unittest tests.docker.test_real_scanners -v\u001b[0m",
+      "test_real_timeout_output_pids_and_cleanup (tests.docker.test_real_scanners.RealSandboxTests.test_real_timeout_output_pids_and_cleanup) ... ok",
+      "test_real_uid_files_network_proxy_and_secret_isolation (tests.docker.test_real_scanners.RealSandboxTests.test_real_uid_files_network_proxy_and_secret_isolation) ... ok",
+      "test_real_gitleaks_canary_and_clean_control (tests.docker.test_real_scanners.RealScannerTests.test_real_gitleaks_canary_and_clean_control) ... ok",
+      "test_real_osv_vulnerable_control_stale_and_missing_db (tests.docker.test_real_scanners.RealScannerTests.test_real_osv_vulnerable_control_stale_and_missing_db) ... ok",
+      "Ran 4 tests in 2.765s",
+      "OK"
+    ]
+  },
+  "foundation": {
+    "run_id": 42854836657,
+    "jobs": [
+      {
+        "job_id": 129964914556,
+        "name": "foundation (3.11)",
+        "status": "completed",
+        "conclusion": "success",
+        "summary": [
+          "2026-11-10T16:28:29.1737441Z Ran 56 tests in 1.641s",
+          "2026-11-10T16:28:29.1737633Z OK (skipped=4)"
+        ]
+      },
+      {
+        "job_id": 129964915315,
+        "name": "foundation (3.12)",
+        "status": "completed",
+        "conclusion": "success",
+        "summary": [
+          "2026-11-10T16:28:30.9821514Z Ran 56 tests in 1.517s",
+          "2026-11-10T16:28:30.9821804Z OK (skipped=4)"
+        ]
+      }
+    ]
+  },
+  "independent_review_verified": false,
+  "production_execution_enabled": false,
+  "scope": "Synthetic fixtures; real container sandbox and actual pinned Gitleaks/OSV binaries. No customer data or /agente."
+}

@@ -31,3 +31,5 @@ La campaña parte de la [documentación técnica inicial](../../README.md). No m
 ## Ejecución actual
 
 La campaña ya tiene código provisional en rama de revisión. Consultar [primer checkpoint](../../implementation/checkpoints/01-first-five/REPORT.md) y `campaign.json`; la planificación y el ZIP anteriores no acreditan ejecución de scanners.
+
+Segundo corte: [fases6–10](../../implementation/checkpoints/02-phases-06-10/REPORT.md), con contratos reales de Gitleaks/OSV y sandbox Docker en CI. Los gates de release independientes continúan pendientes.

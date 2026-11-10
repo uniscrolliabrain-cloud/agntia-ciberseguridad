@@ -1,4 +1,8 @@
-# Continuidad después del primer checkpoint
+# Continuidad de implementación
+
+**Estado vigente:** [checkpoint6–10](checkpoints/02-phases-06-10/REPORT.md), rama `feat/cyber-phases-06-10`, PR#2. Se han añadido snapshots, custodia, runner y adaptadores Gitleaks/OSV; cuatro tests Docker reales de CI pasan. No hay ejecución de clientes habilitada. Siguiente bloque11–15; revisar gates y límites de cobertura.
+
+## Registro histórico después del primer checkpoint
 
 Estado machine-readable: `docs/campaigns/2026-11-10-seven-days/campaign.json`. D1P1 y D1P2 PASS; D1P3–D1P5 PARTIAL. Otras37 fases NOT_STARTED. Se han preparado el modelo de amenazas y fronteras de D1P6; no se atribuye ejecución de esa revisión.
 

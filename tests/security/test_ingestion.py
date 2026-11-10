@@ -32,7 +32,8 @@ class SnapshotTests(unittest.TestCase):
         (self.f.repo/'hello.py').write_text('print("not executed")\n')
         hooks=self.f.repo/'.git/hooks';hooks.mkdir(parents=True)
         marker=self.f.root/'must-not-exist'
-        (hooks/'post-checkout').write_text('touch '+str(marker))
+        (hooks/'post-checkout').write_text('#!/bin/sh\ntouch '+str(marker))
+        (hooks/'post-checkout').chmod(0o755)
         manifest=self.acquire()
         self.assertFalse(marker.exists())
         self.assertEqual([f['path'] for f in manifest['files']],['hello.py'])

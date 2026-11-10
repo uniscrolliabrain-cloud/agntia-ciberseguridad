@@ -2,7 +2,7 @@
 
 **Middleware de ciberseguridad tradicional y agéntica para AgntiaPro y su repositorio madre `/agente`.** Observa activos autorizados, reúne evidencias, prepara auditorías y reportes, controla las acciones de agentes y propone remediaciones revisables.
 
-**Estado al2026-11-10: núcleo inicial de API en desarrollo, sobre la investigación y campaña documentadas.** Inventario, identidad por tenant, grants revisados y preflight sin ejecución. [Primer checkpoint de cinco fases](docs/implementation/checkpoints/01-first-five/REPORT.md). No hay scanners habilitados, protección activa, clientes conectados, cambios en `/agente`, compras ni despliegue. Las capacidades futuras no se consideran implementadas por aparecer en un esquema.
+**Estado al2026-11-10: núcleo de API, snapshots locales y adaptadores offline en desarrollo.** [Checkpoint1–5](docs/implementation/checkpoints/01-first-five/REPORT.md) y [checkpoint6–10](docs/implementation/checkpoints/02-phases-06-10/REPORT.md). Gitleaks y OSV ya se probaron realmente en Docker de CI con fixtures sintéticas. La ejecución de scanners para clientes sigue deshabilitada; no hay protección activa, clientes conectados, cambios en `/agente`, compras ni despliegue. Gates y cobertura pendientes permanecen explícitos.
 
 ## Campaña de implementación de siete días
 
