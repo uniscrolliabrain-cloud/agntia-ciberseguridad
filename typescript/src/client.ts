@@ -1,10 +1,16 @@
-import {asset,budget,closed,delegated,integer,job,object,page,id,tenant,str,type Asset,type Budget,type DelegatedRead,type Job,type Page,type RecordValue} from './contracts.js';
+import {asset,budget,closed as wireClosed,delegated,integer as wireInteger,job,object,page,id as wireId,tenant as wireTenant,str as wireStr,type Asset,type Budget,type DelegatedRead,type Job,type Page,type RecordValue} from './contracts.js';
 export type ErrorKind='auth'|'forbidden'|'not_found'|'validation'|'conflict'|'unavailable'|'timeout'|'contract'|'reconciliation_required'|'unsupported'|'rate_limit';
 export class CyberError extends Error{constructor(public readonly kind:ErrorKind,public readonly status:number,public readonly retryable=false,public readonly correlationId:string|null=null){super(`Cyber middleware: ${kind}`);this.name='CyberError';}}
+function checked<T>(parse:()=>T):T{try{return parse();}catch{throw new CyberError('validation',422);}}
+const closed=(...p:Parameters<typeof wireClosed>)=>checked(()=>wireClosed(...p));
+const integer=(...p:Parameters<typeof wireInteger>)=>checked(()=>wireInteger(...p));
+const id=(v:unknown)=>checked(()=>wireId(v));
+const tenant=(v:unknown)=>checked(()=>wireTenant(v));
+const str=(...p:Parameters<typeof wireStr>)=>checked(()=>wireStr(...p));
 type Options={baseUrl:string;approvedOrigins:readonly string[];tenantId:string;credential:()=>string|Promise<string>;timeoutMs?:number;fetch?:typeof fetch};
 export class CyberClient{
  #url:URL;#tenant:string;#credential:Options['credential'];#fetch:typeof fetch;#timeout:number;
- constructor(options:Options){if(typeof window!=='undefined')throw new CyberError('forbidden',403);const u=new URL(options.baseUrl);if(!options.approvedOrigins.includes(u.origin)||u.username||u.password||u.search||u.hash||u.pathname!=='/'||!(u.protocol==='https:'||(u.protocol==='http:'&&['localhost','127.0.0.1','[::1]'].includes(u.hostname))))throw new CyberError('validation',422);this.#url=u;this.#tenant=tenant(options.tenantId);this.#credential=options.credential;this.#fetch=options.fetch??fetch;this.#timeout=options.timeoutMs??5000;if(!Number.isInteger(this.#timeout)||this.#timeout<10||this.#timeout>30000)throw new CyberError('validation',422);}
+ constructor(options:Options){if(typeof window!=='undefined')throw new CyberError('forbidden',403);let u:URL;try{u=new URL(options.baseUrl);}catch{throw new CyberError('validation',422);}if(!options.approvedOrigins.includes(u.origin)||u.username||u.password||u.search||u.hash||u.pathname!=='/'||!(u.protocol==='https:'||(u.protocol==='http:'&&['localhost','127.0.0.1','[::1]'].includes(u.hostname))))throw new CyberError('validation',422);this.#url=u;this.#tenant=tenant(options.tenantId);this.#credential=options.credential;this.#fetch=options.fetch??fetch;this.#timeout=options.timeoutMs??5000;if(!Number.isInteger(this.#timeout)||this.#timeout<10||this.#timeout>30000)throw new CyberError('validation',422);}
  async #request<T>(method:'GET'|'POST',path:string,parse:(v:unknown)=>T,body?:unknown):Promise<T>{
   const controller=new AbortController();const timer=setTimeout(()=>controller.abort(),this.#timeout);
   try{const token=await this.#credential();if(!/^[\x21-\x7E]{24,512}$/.test(token))throw new CyberError('auth',401);

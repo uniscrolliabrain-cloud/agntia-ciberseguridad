@@ -9,6 +9,6 @@ export function cyberRoutes(resolve:(context:Context)=>Promise<CyberClient>){
  app.get('/findings',async c=>{const q=c.req.query();if(Object.keys(q).some(k=>!['after','limit'].includes(k)))return c.json({code:'validation'},422);return c.json(await(await resolve(c)).findings({...q,limit:q.limit===undefined?50:Number(q.limit)}));});
  app.get('/reports/:id',async c=>{if(Object.keys(c.req.query()).length)return c.json({code:'validation'},422);return c.json(await(await resolve(c)).report(c.req.param('id')));});
  app.get('/budget',async c=>{if(Object.keys(c.req.query()).length)return c.json({code:'validation'},422);return c.json(await(await resolve(c)).budget());});
- app.onError((e,c)=>{const error=e instanceof CyberError?e:new CyberError('validation',422);return new Response(JSON.stringify({code:error.kind,retryable:error.retryable,correlation_id:error.correlationId}),{status:error.status,headers:{'Content-Type':'application/json','Cache-Control':'no-store'}});});
+ app.onError((e,c)=>{const error=e instanceof CyberError?e:new CyberError('unavailable',503);return new Response(JSON.stringify({code:error.kind,retryable:error.retryable,correlation_id:error.correlationId}),{status:error.status,headers:{'Content-Type':'application/json','Cache-Control':'no-store'}});});
  app.all('*',c=>c.json({code:'not_found'},404));return app;
 }
