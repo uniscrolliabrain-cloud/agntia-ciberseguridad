@@ -58,7 +58,7 @@ class Control(Model):
 class Legal:
     def __init__(self,service,*,catalogue=None,clock=utcnow):
         self.service=service;self.clock=clock;self.cases=Cases(service,clock=clock)
-        self.catalogue=catalogue or json.loads(Path(__file__).with_name('legal_sources.json').read_text());self.bundle_hash=digest(self.catalogue)
+        self.catalogue=catalogue or json.loads(Path(__file__).with_name('legal_sources.json').read_text(encoding="utf-8"));self.bundle_hash=digest(self.catalogue)
     def sources(self,actor,tenant):
         self.service.authorize(actor,tenant,'governance.read');return {**self.catalogue,'source_bundle_hash':self.bundle_hash,'legal_certification':False}
     def inventory(self,actor,tenant,body,correlation):

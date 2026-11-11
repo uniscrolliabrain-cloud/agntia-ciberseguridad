@@ -172,7 +172,7 @@ class SnapshotStore:
         folder = self.root/tenant/snapshot_id
         if not folder.is_dir():reject('snapshot_integrity','Snapshot registrado sin contenido recuperable',409)
         try:
-            manifest=json.loads((folder/'manifest.json').read_text())
+            manifest=json.loads((folder/'manifest.json').read_text(encoding="utf-8"))
             claimed=manifest.pop('manifest_hash')
             if manifest['tenant_id'] != tenant or manifest['id'] != snapshot_id or digest(manifest) != claimed or claimed != record['manifest_hash'] or manifest['content_hash'] != record['content_hash']:
                 raise ValueError()

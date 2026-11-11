@@ -162,6 +162,6 @@ class Settings(Model):
         if not ref:
             raise ValueError("AGNTIA_CYBER_CONFIG_FILE must reference server configuration")
         try:
-            return cls.model_validate_json(Path(ref).read_text())
+            return cls.model_validate_json(Path(ref).read_text(encoding="utf-8"))
         except Exception:
             raise ValueError("Invalid server configuration") from None
