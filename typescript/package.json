@@ -14,7 +14,7 @@
     "test": "npm run build && node --test --test-isolation=none test/*.test.mjs"
   },
   "dependencies": {
-    "hono": "4.11.4"
+    "hono": "4.13.18"
   },
   "devDependencies": {
     "typescript": "5.9.3"
