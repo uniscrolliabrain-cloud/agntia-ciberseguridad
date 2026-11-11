@@ -1,6 +1,6 @@
 # Continuidad de implementación
 
-**Estado vigente:** [checkpoint31–35](checkpoints/07-phases-31-35/REPORT.md), rama feat/cyber-phases-31-35, PR#7 apilada sobre PR#6. Expedientes legales/privacidad/antifraude/incidentes y candidatos de fixes sintéticos implementados. Gates completos PARTIAL. Siguiente36–40; después41–42. No habilitar clientes, merge/deploy o `/agente`. Antes de restaurar copias hay que reconciliar restricciones actuales.
+**Estado vigente:** [checkpoint36–40](checkpoints/08-phases-36-40/REPORT.md), rama feat/cyber-phases-36-40 apilada sobre31–35. Ledger, SDK/Hono/tools de lectura, outbox/ACK, consola de revisión y recovery parcial de laboratorio. Cinco gates PARTIAL. Siguiente41–42, conservando pendientes anteriores. No habilitar clientes/merge/deploy ni tocar `/agente`.
 
 ## Registro histórico después del primer checkpoint
 

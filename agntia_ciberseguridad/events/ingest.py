@@ -28,6 +28,7 @@ class PassiveEvent(Model):
 class Ingest:
     def __init__(self,service,*,clock=utcnow):self.service=service;self.clock=clock
     def accept(self,tenant,source_id,body,signature):
+        if (self.service.db.root/"RESTORE_BLOCKED").exists():reject("restore_blocked","Restauración aislada pendiente de conciliación",503)
         source=self.service.settings.event_sources.get(source_id)
         if not source or source.tenant_id!=tenant or not source.enabled:not_found()
         if source.tenant_id!=body.tenant_id or body.source_id!=source_id:reject('source_scope','Fuente fuera de scope',403)

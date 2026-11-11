@@ -9,13 +9,13 @@ from .contracts import Role
 from .errors import not_found, reject
 from .util import utcnow
 
-READ = frozenset({"assets.read", "grants.read", "audits.preview", "audit.read", "jobs.read", "findings.read", "evidence.read", "reports.read", "risk.read", "logs.read", "events.read", "agents.read", "governance.read"})
+READ = frozenset({"assets.read", "grants.read", "audits.preview", "audit.read", "jobs.read", "findings.read", "evidence.read", "reports.read", "risk.read", "logs.read", "events.read", "agents.read", "governance.read", "budget.read"})
 ROLE_CAPABILITIES = {
     Role.viewer: READ - {"audits.preview"},
     Role.analyst: READ | {"assets.register", "grants.propose", "jobs.submit", "jobs.cancel", "evidence.create", "reviews.propose", "reports.create", "notes.propose", "governance.propose", "privacy.propose"},
     Role.operator: READ | {"assets.register", "grants.propose", "jobs.submit", "jobs.cancel", "evidence.create", "reviews.propose", "reports.create", "notes.propose", "governance.propose", "privacy.propose"},
-    Role.reviewer: READ | {"assets.register", "grants.propose", "grants.approve", "grants.revoke", "jobs.submit", "jobs.cancel", "jobs.reconcile", "evidence.create", "evidence.original", "evidence.manage", "evidence.review", "reviews.propose", "reviews.approve", "reports.create", "logs.manage", "events.ack", "agents.manage", "agents.delegate", "governance.propose", "governance.review", "privacy.propose", "privacy.read", "privacy.manage"},
-    Role.owner: READ | {"assets.register", "grants.propose", "grants.approve", "grants.revoke", "jobs.submit", "jobs.cancel", "jobs.reconcile", "evidence.create", "evidence.original", "evidence.manage", "evidence.review", "reviews.propose", "reviews.approve", "reports.create", "logs.manage", "events.ack", "agents.manage", "agents.delegate", "governance.propose", "governance.review", "privacy.propose", "privacy.read", "privacy.manage"},
+    Role.reviewer: READ | {"assets.register", "grants.propose", "grants.approve", "grants.revoke", "jobs.submit", "jobs.cancel", "jobs.reconcile", "evidence.create", "evidence.original", "evidence.manage", "evidence.review", "reviews.propose", "reviews.approve", "reports.create", "logs.manage", "events.ack", "agents.manage", "agents.delegate", "governance.propose", "governance.review", "privacy.propose", "privacy.read", "privacy.manage", "budget.manage"},
+    Role.owner: READ | {"assets.register", "grants.propose", "grants.approve", "grants.revoke", "jobs.submit", "jobs.cancel", "jobs.reconcile", "evidence.create", "evidence.original", "evidence.manage", "evidence.review", "reviews.propose", "reviews.approve", "reports.create", "logs.manage", "events.ack", "agents.manage", "agents.delegate", "governance.propose", "governance.review", "privacy.propose", "privacy.read", "privacy.manage", "budget.manage"},
 }
 
 

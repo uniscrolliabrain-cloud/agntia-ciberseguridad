@@ -81,6 +81,8 @@ class VerificationChannel(Model):
     enabled: bool=True
 
 
+from .billing.rates import BudgetPolicy
+
 class Settings(Model):
     model_config = ConfigDict(extra="forbid", arbitrary_types_allowed=False)
     data_dir: Path
@@ -89,6 +91,7 @@ class Settings(Model):
     consents: dict[OpaqueId, ConsentConfig] = Field(default_factory=dict)
     approved_workspace_roots: list[Path] = Field(default_factory=list, max_length=32)
     lab_mode: bool = False
+    budget_policies: dict[OpaqueId,BudgetPolicy] = Field(default_factory=dict)
     tool_policy_hashes: dict[Annotated[str,Field(pattern=r"^(gitleaks|osv|semgrep|trivy)$")],Hash] = Field(default_factory=dict)
     evidence_policies: dict[OpaqueId,EvidencePolicy] = Field(default_factory=dict)
     telemetry_export: Literal['disabled','local_collector']='disabled'
@@ -117,6 +120,7 @@ class Settings(Model):
             if len(values) != len(set(values)):
                 raise ValueError("Ambiguous principal registry")
         tenants = {t for p in self.principals for t in p.tenants}
+        if any(t not in tenants for t in self.budget_policies):raise ValueError("Budget tenant not provisioned")
         refs=[r for p in self.evidence_policies.values() for r in p.key_refs]
         if len(refs)!=len(set(refs)) or any(t not in tenants for t in self.evidence_policies):
             raise ValueError('Ambiguous evidence key scope')

@@ -61,3 +61,19 @@ class SecurityMigrationTests(unittest.TestCase):
                 self.assertTrue(db.verify_audit(connection,'synthetic')['valid'])
                 for table in ('governance_records','governance_history','evidence_privacy','report_source_scopes'):
                     self.assertEqual(connection.execute('SELECT count(*) FROM '+table).fetchone()[0],0)
+
+    def test_schema7_upgrade_preserves_governance_history_and_adds_budget(self):
+        from agntia_ciberseguridad.util import canonical
+        with tempfile.TemporaryDirectory() as temporary:
+            db=Database(Path(temporary));db.migrate(MIGRATIONS[:7]);db.provision_tenants(['synthetic'])
+            original=canonical({'id':'a'*32,'kind':'control','revision':0,'state':'proposed'})
+            with db.transaction() as connection:
+                connection.execute('INSERT INTO governance_records VALUES(?,?,?,?,?)',('synthetic','a'*32,'control',0,original))
+                connection.execute('INSERT INTO governance_history VALUES(?,?,?,?)',('synthetic','a'*32,0,original))
+                db.audit(connection,'synthetic','reviewer','before.budget.upgrade','fixture','fixture',{'preserved':True})
+            self.assertTrue(db.migrate().is_file())
+            with db.connection(readonly=True) as connection:
+                self.assertTrue(db.verify_audit(connection,'synthetic')['valid'])
+                self.assertEqual(connection.execute('SELECT body FROM governance_records').fetchone()[0],original)
+                self.assertEqual(connection.execute('SELECT count(*) FROM integration_outbox').fetchone()[0],0)
+                self.assertEqual(connection.execute('SELECT count(*) FROM budget_accounts').fetchone()[0],0)

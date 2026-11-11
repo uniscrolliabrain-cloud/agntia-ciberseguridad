@@ -1,4 +1,4 @@
-> Implementación vigente: [checkpoint31–35](docs/implementation/checkpoints/07-phases-31-35/REPORT.md), PR#7 apilada. Preparación legal, privacidad, antifraude, incidentes y candidatos de remediación de laboratorio. Gates completos PARTIAL; sin clientes, despliegue o integración `/agente`.
+> Implementación vigente: [checkpoint36–40](docs/implementation/checkpoints/08-phases-36-40/REPORT.md), rama feat/cyber-phases-36-40. Ledger presupuestario, SDK servidor TS/Hono, consola de revisión, E2E y recovery parcial cifrado. Gates PARTIAL; sin despliegue ni integración `/agente`.
 
 # Agntia Ciberseguridad
 
@@ -57,7 +57,7 @@ La selección inicial propuesta es Gitleaks + OSV-Scanner + Semgrep CE con regla
 | L | **70€** | Más frecuencia y conectores opcionales dentro de presupuesto |
 | XL | **300€** | Más activos/evaluación y servicios seleccionados; no cobertura ilimitada |
 
-Son límites de diseño por workspace/tenant piloto que deben confirmarse antes de una oferta. [plans.json](config/plans.json) distribuye cómputo, almacenamiento, APIs, servicios y reserva fiscal/FX. **No son cotizaciones ni un enforcement ya implementado.** No incluyen trabajo humano, puesta en marcha, asesoría jurídica o hosting de la aplicación del cliente. Las suscripciones no se activan automáticamente y las anualidades no se disfrazan de gasto mensual de caja.
+Son límites de diseño por workspace/tenant piloto que deben confirmarse antes de una oferta. [plans.json](config/plans.json) distribuye cómputo, almacenamiento, APIs, servicios y reserva fiscal/FX. **No son cotizaciones ni enforcement del gasto externo.** Existe un ledger local de reservas en céntimos por tenant/mes; solo controla operaciones admitidas por él y necesita tarifas revisadas. No está conectado a facturas o límites de proveedores. No incluyen trabajo humano, puesta en marcha, asesoría jurídica o hosting de la aplicación del cliente. Las suscripciones no se activan automáticamente y las anualidades no se disfrazan de gasto mensual de caja.
 
 Los tres planes mantienen el mismo suelo de aislamiento, autorización, secretos, auditoría y aprobación. Las cuotas cambian cobertura/frecuencia, no rebajan controles básicos. VirusTotal public API queda fuera de la base comercial por sus términos; servicios empresariales de precio no verificado no se anuncian como incluidos.
 

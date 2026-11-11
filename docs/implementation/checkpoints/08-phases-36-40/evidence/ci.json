@@ -1,0 +1,155 @@
+{
+  "verified_at": "2026-11-11",
+  "tested_commit": "7e271ae3dd16ed88891990b1a82cdb866ec081f0",
+  "python": {
+    "discovered": 187,
+    "core_passed": 179,
+    "docker_passed": 8,
+    "distinct_python_cases": 187,
+    "failed": 0,
+    "notes": "Core discovers 187 with 8 Docker skips; separate Docker job passes those 8. Python matrix and repeat scripts are not added together."
+  },
+  "node": {
+    "cases": 7,
+    "standalone_passed": 6,
+    "standalone_skipped": 1,
+    "live_contract_driver": "contracts.test_python_ts.PythonTypeScriptTests.test_actual_node_client_reads_python_dtos_and_safe_errors",
+    "live_contract": "PASS with Hono installed and loopback FastAPI; wrapper repeats the same Node cases, not additional distinct tests",
+    "typescript_strict": "PASS",
+    "locked_install": "npm ci --ignore-scripts --no-audit --no-fund"
+  },
+  "runs": [
+    {
+      "id": 43070829685,
+      "name": "Private observability contracts",
+      "conclusion": "success",
+      "url": "https://github.com/uniscrolliabrain-cloud/agntia-ciberseguridad/actions/runs/43070829685",
+      "jobs": [
+        {
+          "id": 130697914883,
+          "name": "observability",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 43070829183,
+      "name": "Documentation foundation",
+      "conclusion": "success",
+      "url": "https://github.com/uniscrolliabrain-cloud/agntia-ciberseguridad/actions/runs/43070829183",
+      "jobs": [
+        {
+          "id": 130698011161,
+          "name": "documentation",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 43070829350,
+      "name": "Scoped observability browser",
+      "conclusion": "success",
+      "url": "https://github.com/uniscrolliabrain-cloud/agntia-ciberseguridad/actions/runs/43070829350",
+      "jobs": [
+        {
+          "id": 130697913266,
+          "name": "browser",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 43070829308,
+      "name": "Foundation runtime",
+      "conclusion": "success",
+      "url": "https://github.com/uniscrolliabrain-cloud/agntia-ciberseguridad/actions/runs/43070829308",
+      "jobs": [
+        {
+          "id": 130697913050,
+          "name": "foundation (3.12)",
+          "conclusion": "success"
+        },
+        {
+          "id": 130697913261,
+          "name": "foundation (3.11)",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 43070829289,
+      "name": "Offline scanner contracts",
+      "conclusion": "success",
+      "url": "https://github.com/uniscrolliabrain-cloud/agntia-ciberseguridad/actions/runs/43070829289",
+      "jobs": [
+        {
+          "id": 130697912839,
+          "name": "docker-contracts",
+          "conclusion": "success"
+        }
+      ]
+    }
+  ],
+  "npm_runtime_audit": {
+    "auditReportVersion": 2,
+    "vulnerabilities": {},
+    "metadata": {
+      "vulnerabilities": {
+        "info": 0,
+        "low": 0,
+        "moderate": 0,
+        "high": 0,
+        "critical": 0,
+        "total": 0
+      },
+      "dependencies": {
+        "prod": 2,
+        "dev": 1,
+        "optional": 0,
+        "peer": 0,
+        "peerOptional": 0,
+        "total": 2
+      }
+    }
+  },
+  "browser": {
+    "artifact": [
+      {
+        "id": 13876794643,
+        "name": "synthetic-console-screenshots",
+        "size_in_bytes": 508034,
+        "url": "https://api.github.com/repos/uniscrolliabrain-cloud/agntia-ciberseguridad/actions/artifacts/13876794643",
+        "archive_download_url": "https://api.github.com/repos/uniscrolliabrain-cloud/agntia-ciberseguridad/actions/artifacts/13876794643/zip",
+        "expired": false,
+        "created_at": "2026-11-11T17:43:51Z",
+        "expires_at": "2027-02-09T17:43:02Z",
+        "updated_at": "2026-11-11T17:43:51Z",
+        "digest": "sha256:3375721372a6f09d6b4f993e04ad721115f3f92ba5f147a62313461ed67b39ba",
+        "workflow_run": {
+          "id": 43070829350,
+          "repository_id": 1452699603,
+          "head_repository_id": 1452699603,
+          "head_branch": "feat/cyber-phases-36-40",
+          "head_sha": "7e271ae3dd16ed88891990b1a82cdb866ec081f0"
+        }
+      }
+    ],
+    "checks": [
+      "desktop/mobile",
+      "viewer approval rejected",
+      "different human review recorded",
+      "redacted evidence download",
+      "positive tenant switch clears previous data",
+      "logout race prevented",
+      "exhausted budget shown",
+      "no overflow or JS errors"
+    ],
+    "scan_input": "synthetic normalized fixture, not real scanner"
+  },
+  "scope": [
+    "Synthetic data only",
+    "No independent review",
+    "No production enablement",
+    "All five phase gates remain PARTIAL"
+  ]
+}

@@ -25,9 +25,10 @@ from .findings.store import FindingStore
 
 class RequestBoundary:
     """Bound bytes before parsing; header/body contents never enter error responses."""
-    def __init__(self, app, maximum):
+    def __init__(self, app, maximum, restore_marker=None):
         self.app = app
         self.maximum = maximum
+        self.restore_marker = restore_marker
 
     async def __call__(self, scope, receive, send):
         if scope["type"] != "http":
@@ -42,6 +43,8 @@ class RequestBoundary:
         async def respond(error):
             logging.getLogger("agntia.security").warning(json.dumps({"event": "request.rejected", "code": error.code, "correlation_id": corr}))
             await JSONResponse(error.public(corr), status_code=error.status, headers={"X-Correlation-ID": corr})(scope, receive, send)
+        if self.restore_marker and self.restore_marker.exists() and scope.get("path", "").startswith("/v1/"):
+            return await respond(DomainError("restore_blocked", "Restauración aislada pendiente de conciliación", 503))
         for name in (b"authorization", b"content-length"):
             if sum(k.lower() == name for k, _ in headers) > 1:
                 return await respond(DomainError("validation", "Cabeceras ambiguas", 400))
@@ -101,7 +104,7 @@ def create_app(settings: Settings | None = None):
     app.state.snapshots = snapshots
     app.state.settings = settings
     app.state.db = database
-    app.add_middleware(RequestBoundary, maximum=settings.max_request_bytes)
+    app.add_middleware(RequestBoundary, maximum=settings.max_request_bytes, restore_marker=database.root/"RESTORE_BLOCKED")
 
     async def principal(request: Request):
         actor=service.auth.authenticate(request.headers.get("Authorization"))
@@ -167,7 +170,7 @@ def create_app(settings: Settings | None = None):
                     credentials = True
                 except DomainError:
                     continue
-            ok = bool(schema and credentials)
+            ok = bool(schema and credentials and not (database.root/"RESTORE_BLOCKED").exists())
         except Exception:
             ok = False
         return JSONResponse({"ready": ok, "scope": "foundation_only", "security_scanners_ready": False}, status_code=200 if ok else 503)
@@ -251,4 +254,8 @@ def create_app(settings: Settings | None = None):
     register_agent_gateway(app,service,principal)
     from .governance.routes import register_governance
     register_governance(app,service,principal)
+    from .billing.routes import register_billing
+    register_billing(app,service,principal)
+    from .workspace import register_workspace
+    register_workspace(app,service,principal)
     return app
