@@ -13,3 +13,17 @@ D7P6 entrega founder report, estado42/294, comparación con líderes sin paridad
 Pruebas nuevas: integridad de bundle ante extra/tamper/traversal; wheel inventory único/con proyecto; smoke API/recursos/scopes. Suite local y CI se registran en evidence/; la instalación editable local no acredita una instalación limpia. Docker local falla por permiso al socket; CI usa su daemon aislado. Firma, Windows y container quedan NOT_VERIFIED hasta recibir sus jobs. Las pruebas de3.11/3.12, scanners, browser y collector se vuelven a comprobar para el SHA publicado.
 
 Ver [runbook](../../../operations/RUNBOOK.md), [rollback](../../../operations/ROLLBACK.md), [informe founder](../../../release/FOUNDER-REPORT.md), [aceptación](../../../release/PILOT-ACCEPTANCE.md) y [compatibilidad](../../../release/COMPATIBILITY.md). El próximo trabajo es cerrar backlog/gates y revisar PRs, no inventar una fase43 ni habilitar clientes.
+
+## Corrección Windows y resultados observados
+
+Primer SHA5dc6e7e: Linux completó bundle/venv limpia/SDK/SBOM/container. Windows completó bundle/instalación/SBOM, pero el comprobador documental falló al decodificar UTF-8 con cp1252. Se conservan run/job y causa en evidence/first-windows-failure.json. La revisión6ad9b971 corrigió lecturas explícitas UTF-8, modo del proceso Python en PowerShell y LF mediante .gitattributes: los seis workflows pasaron, incluido paquete Windows y atestación Linux. Se amplía después el job para atestar/verificar también el manifiesto Windows; el SHA final6ff332cb y sus resultados se registrarán en evidence/ci.json.
+
+Las tres validaciones locales Compose config --quiet (Lite/L/XL) pasan sin daemon o contenedores. El bundle Linux inicial fue descargado y verificado por hashes localmente; no se ejecutó código de artefacto durante esa comprobación. Publisher verification queda separado de checksum y de aceptación del producto.
+
+Suite local:190 casos descubiertos,177 correctos,13 skips (8 Docker,4 SDK local,1 loopback). Runtime remoto6ad9b971:190 descubiertos,182 núcleo correctos y8 Docker correctos aparte, cero fallos. Tsc/Hono/contrato HTTP, Chromium/collector y matrices conservan sus propios jobs y no se suman duplicados. La compatibilidad final es la acotada en la matriz, no soporte universal de Windows.
+
+## Cierre remoto definitivo
+
+SHA probado `6ff332cba6622dfaef9faafac2ada7e702f5c263`: seis workflows de push SUCCESS.190 casos Python distintos correctos:182 núcleo y8 Docker aparte; matriz3.11/3.12 sin sumar duplicados. Instalación limpia Python/SDK en Ubuntu y Windows,39 wheels por bundle, lock por hashes y SBOM1.5 validados. Imagen Linux no root/read-only/network=none correcta. Los manifiestos Linux y Windows se atestaron y verificaron ambos con gh; no extrapolar la firma de uno al otro. IDs, hashes y expiración de artifacts, image/base digest y jobs están en [evidence/ci.json](evidence/ci.json) y [runtime-image.json](evidence/runtime-image.json).
+
+La entrega completa está publicada en PR#9, draft y apilada. Los commits posteriores de cierre son documentales; no cambian el código probado. Se han recorrido las42 fases y consolidado294 tareas:2 gates históricos PASS,40 PARTIAL. No queda una fase sin abordar, pero sí gates/alcances abiertos. Clasificación demo sintética, no piloto de clientes ni producción aceptados. No se ha modificado `/agente`, fusionado main, comprado servicios o desplegado.

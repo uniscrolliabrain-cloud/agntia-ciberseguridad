@@ -1,0 +1,10 @@
+{
+  "base_tag_resolved": "python:3.12.14-slim-bookworm",
+  "immutable_base": "python@sha256:392307d22300de8b5986851a12d9176dfc0fc073e65bf6523ebd7dcbeb23564e",
+  "runtime_image_id": "sha256:e2476dfd02acab8810e78b9323106674c13d795758cdabc8f5d556f3a7b8b8bb",
+  "network": "none",
+  "read_only": true,
+  "uid": "65532:65532",
+  "container_smoke": "PASS",
+  "scope": "synthetic API in-process only, no source snapshots/daemon socket/external target"
+}

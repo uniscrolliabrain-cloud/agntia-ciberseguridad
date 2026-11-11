@@ -3,7 +3,7 @@
   "owner_acceptance": "PENDING",
   "independent_review": "PENDING",
   "production_enabled": false,
-  "campaign_sha256": "7884fbd7802d3e9a7e32227b5c0a393f99fcef534791c6e18cf28627e82e4bba",
+  "campaign_sha256": "fbc3cfa3593cb01c15786f18358414333a017e0bfb38a032f91aa17d3d13ae72",
   "phase_counts": {
     "PASS": 2,
     "PARTIAL": 40

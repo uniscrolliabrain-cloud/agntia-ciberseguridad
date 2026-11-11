@@ -70,5 +70,15 @@
     "base": "feat/cyber-phases-31-35",
     "draft": true,
     "merged": false
+  },
+  {
+    "number": 9,
+    "url": "https://github.com/uniscrolliabrain-cloud/agntia-ciberseguridad/pull/9",
+    "head": "6ff332cba6622dfaef9faafac2ada7e702f5c263",
+    "branch": "feat/cyber-phases-41-42",
+    "base": "feat/cyber-phases-36-40",
+    "draft": true,
+    "merged": false,
+    "note": "Code head at verification; later documentation commits are recorded by GitHub history."
   }
 ]

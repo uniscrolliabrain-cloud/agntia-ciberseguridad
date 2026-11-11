@@ -5708,16 +5708,23 @@
         {
           "id": "D7P5-TEST-1",
           "scenario": "Instalación limpia en el entorno declarado ejecuta demo/tests del alcance o registra plataforma no verificada.",
-          "status": "NOT_EXECUTED",
-          "evidence_refs": []
+          "status": "PASS",
+          "evidence_refs": [
+            "docs/implementation/checkpoints/09-phases-41-42/evidence/ci.json",
+            "docs/implementation/checkpoints/09-phases-41-42/GATES.md"
+          ]
         },
         {
           "id": "D7P5-TEST-2",
           "scenario": "Rollback conserva evidencia y no borra cambios del usuario ni contactos/proyectos ajenos.",
-          "status": "NOT_EXECUTED",
-          "evidence_refs": []
+          "status": "PARTIAL",
+          "evidence_refs": [
+            "docs/implementation/checkpoints/09-phases-41-42/evidence/ci.json",
+            "docs/implementation/checkpoints/09-phases-41-42/GATES.md"
+          ]
         }
-      ]
+      ],
+      "execution_note": "Final synthetic demo evidence verified at 6ff332cb; complete product gate PARTIAL, not owner acceptance."
     },
     {
       "id": "D7P6",
@@ -5840,16 +5847,23 @@
         {
           "id": "D7P6-TEST-1",
           "scenario": "Cada claim de producto tiene evidencia enlazada o etiqueta not_verified/deferred.",
-          "status": "NOT_EXECUTED",
-          "evidence_refs": []
+          "status": "PARTIAL",
+          "evidence_refs": [
+            "docs/implementation/checkpoints/09-phases-41-42/evidence/ci.json",
+            "docs/implementation/checkpoints/09-phases-41-42/GATES.md"
+          ]
         },
         {
           "id": "D7P6-TEST-2",
           "scenario": "El owner puede reproducir el piloto y comprender qué no está protegido sin leer todo el código.",
-          "status": "NOT_EXECUTED",
-          "evidence_refs": []
+          "status": "PARTIAL",
+          "evidence_refs": [
+            "docs/implementation/checkpoints/09-phases-41-42/evidence/ci.json",
+            "docs/implementation/checkpoints/09-phases-41-42/GATES.md"
+          ]
         }
-      ]
+      ],
+      "execution_note": "Final synthetic demo evidence verified at 6ff332cb; complete product gate PARTIAL, not owner acceptance."
     }
   ],
   "latest_checkpoint": "docs/implementation/checkpoints/09-phases-41-42/REPORT.md",
