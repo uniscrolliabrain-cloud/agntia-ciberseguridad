@@ -54,10 +54,10 @@ def register_observability(app,service,principal):
     async def revoke(tenant:OpaqueId,delegation_id:ResourceId,request:Request,actor=Depends(principal)):return delegations.revoke(actor,tenant,delegation_id,corr(request))
     @app.get('/console',response_class=HTMLResponse)
     async def console():
-        return HTMLResponse((Path(__file__).parent/'web'/'console.html').read_text(),headers={'Cache-Control':'no-store','Content-Security-Policy':"default-src 'none'; style-src 'self'; script-src 'self'; connect-src 'self'; form-action 'self'; frame-ancestors 'none'",'X-Content-Type-Options':'nosniff','Referrer-Policy':'no-referrer'})
+        return HTMLResponse((Path(__file__).parent/'web'/'console.html').read_text(encoding="utf-8"),headers={'Cache-Control':'no-store','Content-Security-Policy':"default-src 'none'; style-src 'self'; script-src 'self'; connect-src 'self'; form-action 'self'; frame-ancestors 'none'",'X-Content-Type-Options':'nosniff','Referrer-Policy':'no-referrer'})
     @app.get('/console/{asset}')
     async def console_asset(asset:str):
         if asset not in ('console.js','console.css'):
             from .errors import not_found
             not_found()
-        return Response((Path(__file__).parent/'web'/asset).read_text(),media_type='text/javascript' if asset.endswith('.js') else 'text/css',headers={'X-Content-Type-Options':'nosniff'})
+        return Response((Path(__file__).parent/'web'/asset).read_text(encoding="utf-8"),media_type='text/javascript' if asset.endswith('.js') else 'text/css',headers={'X-Content-Type-Options':'nosniff'})

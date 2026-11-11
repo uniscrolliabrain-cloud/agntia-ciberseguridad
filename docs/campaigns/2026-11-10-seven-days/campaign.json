@@ -3,7 +3,7 @@
   "name": "Agntia Ciberseguridad — campaña7días",
   "created_on": "2026-11-10",
   "start_date_planned": "2026-11-10",
-  "execution_state": "IN_PROGRESS_EIGHTH_CHECKPOINT",
+  "execution_state": "IMPLEMENTATION_DEMO_DELIVERED_GATES_OPEN",
   "publication_scope": "foundation_code_tests_and_documentation_on_review_branch",
   "calendar_rule": "Día1..7 son ventanas de trabajo; si un gate falla no se comprime ni se inventa PASS para cumplir una fecha. Recalendarizar con evidencia.",
   "staffing_assumption": "Roles funcionales, no plantilla contratada ni subagentes desplegados. Capacidad/hours por persona no medidas. Reducir M1 antes de degradar gates M0.",
@@ -5610,75 +5610,89 @@
         {
           "id": "D7P5T1",
           "action": "Construir paquetePython/SDK y Dockerfiles sin latest variable ni copiar secretos al contexto.",
-          "status": "PENDING",
+          "status": "PARTIAL",
           "depends_on": [
             "D7P4T7"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/09-phases-41-42/REPORT.md"
+          ]
         },
         {
           "id": "D7P5T2",
           "action": "Preparar Compose de laboratorio con redes/puertos mínimos, volúmenes y límites por perfil.",
-          "status": "PENDING",
+          "status": "PARTIAL",
           "depends_on": [
             "D7P5T1"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/09-phases-41-42/REPORT.md"
+          ]
         },
         {
           "id": "D7P5T3",
           "action": "Escribir PowerShell/servidorLinux con comprobación de entorno, sin cambiar políticas globales o reset destructivo.",
-          "status": "PENDING",
+          "status": "PARTIAL",
           "depends_on": [
             "D7P5T2"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/09-phases-41-42/REPORT.md"
+          ]
         },
         {
           "id": "D7P5T4",
           "action": "Emitir SBOM, checksums, notas de licencia y avisos; firmar/verificar artefactos cuando la infraestructura lo permita.",
-          "status": "PENDING",
+          "status": "PARTIAL",
           "depends_on": [
             "D7P5T3"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/09-phases-41-42/REPORT.md"
+          ]
         },
         {
           "id": "D7P5T5",
           "action": "Documentar instalación, rotación, backup, restore, upgrade, incidentes y rollback con comandos reales.",
-          "status": "PENDING",
+          "status": "PARTIAL",
           "depends_on": [
             "D7P5T4"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/09-phases-41-42/REPORT.md"
+          ]
         },
         {
           "id": "D7P5T6",
           "action": "Probar instalación desde artefacto limpio, no solo import editable dentro del checkout.",
-          "status": "PENDING",
+          "status": "PARTIAL",
           "depends_on": [
             "D7P5T5"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/09-phases-41-42/REPORT.md"
+          ]
         },
         {
           "id": "D7P5T7",
           "action": "Registrar matrices SO/arquitectura/runtime verificadas y no prometer soporte de combinaciones no ensayadas.",
-          "status": "PENDING",
+          "status": "PARTIAL",
           "depends_on": [
             "D7P5T6"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/09-phases-41-42/REPORT.md"
+          ]
         }
       ],
-      "status": "NOT_STARTED",
+      "status": "PARTIAL",
       "depends_on": [
         "D7P4"
       ],
@@ -5694,16 +5708,23 @@
         {
           "id": "D7P5-TEST-1",
           "scenario": "Instalación limpia en el entorno declarado ejecuta demo/tests del alcance o registra plataforma no verificada.",
-          "status": "NOT_EXECUTED",
-          "evidence_refs": []
+          "status": "PASS",
+          "evidence_refs": [
+            "docs/implementation/checkpoints/09-phases-41-42/evidence/ci.json",
+            "docs/implementation/checkpoints/09-phases-41-42/GATES.md"
+          ]
         },
         {
           "id": "D7P5-TEST-2",
           "scenario": "Rollback conserva evidencia y no borra cambios del usuario ni contactos/proyectos ajenos.",
-          "status": "NOT_EXECUTED",
-          "evidence_refs": []
+          "status": "PARTIAL",
+          "evidence_refs": [
+            "docs/implementation/checkpoints/09-phases-41-42/evidence/ci.json",
+            "docs/implementation/checkpoints/09-phases-41-42/GATES.md"
+          ]
         }
-      ]
+      ],
+      "execution_note": "Final synthetic demo evidence verified at 6ff332cb; complete product gate PARTIAL, not owner acceptance."
     },
     {
       "id": "D7P6",
@@ -5728,75 +5749,89 @@
         {
           "id": "D7P6T1",
           "action": "Consolidar estados de294 tareas y42 fases con pruebas ejecutadas, fallos y dependencias bloqueadas.",
-          "status": "PENDING",
+          "status": "PARTIAL",
           "depends_on": [
             "D7P5T7"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/09-phases-41-42/REPORT.md"
+          ]
         },
         {
           "id": "D7P6T2",
           "action": "Comparar alcance con matriz de líderes por dominio y señalar datos/sensores/licencias/personas ausentes.",
-          "status": "PENDING",
+          "status": "PARTIAL",
           "depends_on": [
             "D7P6T1"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/09-phases-41-42/REPORT.md"
+          ]
         },
         {
           "id": "D7P6T3",
           "action": "Preparar founder report con SHAs, conteos, comandos, métricas medidas y gasto real frente a caps.",
-          "status": "PENDING",
+          "status": "PARTIAL",
           "depends_on": [
             "D7P6T2"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/09-phases-41-42/REPORT.md"
+          ]
         },
         {
           "id": "D7P6T4",
           "action": "Revisar canal de seguridad, contratos/DPA, licencia propia, retención y responsables humanos pendientes.",
-          "status": "PENDING",
+          "status": "PARTIAL",
           "depends_on": [
             "D7P6T3"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/09-phases-41-42/REPORT.md"
+          ]
         },
         {
           "id": "D7P6T5",
           "action": "Clasificar release como documental, demo, piloto o producción según gates reales, no por fecha del día7.",
-          "status": "PENDING",
+          "status": "PARTIAL",
           "depends_on": [
             "D7P6T4"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/09-phases-41-42/REPORT.md"
+          ]
         },
         {
           "id": "D7P6T6",
           "action": "Entregar backlog30/60/90días para cloud/DAST/runtime/SIEM/antifraude/alto volumen y pruebas faltantes.",
-          "status": "PENDING",
+          "status": "PARTIAL",
           "depends_on": [
             "D7P6T5"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/09-phases-41-42/REPORT.md"
+          ]
         },
         {
           "id": "D7P6T7",
           "action": "Publicar PR/artefactos/evidencia sanitizada y pedir aceptación solo sobre un resultado concreto cuando sea necesaria.",
-          "status": "PENDING",
+          "status": "PARTIAL",
           "depends_on": [
             "D7P6T6"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/09-phases-41-42/REPORT.md"
+          ]
         }
       ],
-      "status": "NOT_STARTED",
+      "status": "PARTIAL",
       "depends_on": [
         "D7P5"
       ],
@@ -5812,18 +5847,25 @@
         {
           "id": "D7P6-TEST-1",
           "scenario": "Cada claim de producto tiene evidencia enlazada o etiqueta not_verified/deferred.",
-          "status": "NOT_EXECUTED",
-          "evidence_refs": []
+          "status": "PARTIAL",
+          "evidence_refs": [
+            "docs/implementation/checkpoints/09-phases-41-42/evidence/ci.json",
+            "docs/implementation/checkpoints/09-phases-41-42/GATES.md"
+          ]
         },
         {
           "id": "D7P6-TEST-2",
           "scenario": "El owner puede reproducir el piloto y comprender qué no está protegido sin leer todo el código.",
-          "status": "NOT_EXECUTED",
-          "evidence_refs": []
+          "status": "PARTIAL",
+          "evidence_refs": [
+            "docs/implementation/checkpoints/09-phases-41-42/evidence/ci.json",
+            "docs/implementation/checkpoints/09-phases-41-42/GATES.md"
+          ]
         }
-      ]
+      ],
+      "execution_note": "Final synthetic demo evidence verified at 6ff332cb; complete product gate PARTIAL, not owner acceptance."
     }
   ],
-  "latest_checkpoint": "docs/implementation/checkpoints/08-phases-36-40/REPORT.md",
+  "latest_checkpoint": "docs/implementation/checkpoints/09-phases-41-42/REPORT.md",
   "customer_scanner_execution_enabled": false
 }

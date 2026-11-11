@@ -1,4 +1,4 @@
-> Implementación vigente: [checkpoint36–40](docs/implementation/checkpoints/08-phases-36-40/REPORT.md), rama feat/cyber-phases-36-40. Ledger presupuestario, SDK servidor TS/Hono, consola de revisión, E2E y recovery parcial cifrado. Gates PARTIAL; sin despliegue ni integración `/agente`.
+> Entrega vigente: [cierre41–42](docs/implementation/checkpoints/09-phases-41-42/REPORT.md), rama feat/cyber-phases-41-42. Demo sintética empaquetable; [informe founder](docs/release/FOUNDER-REPORT.md), [runbook](docs/operations/RUNBOOK.md) y [aceptación pendiente](docs/release/PILOT-ACCEPTANCE.md). Gates abiertos; sin merge, despliegue o integración `/agente`.
 
 # Agntia Ciberseguridad
 

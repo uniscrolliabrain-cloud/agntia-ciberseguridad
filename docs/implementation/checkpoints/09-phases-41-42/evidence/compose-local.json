@@ -1,0 +1,8 @@
+{
+  "scope": "Compose config validation only; daemon denied locally, no container started",
+  "profiles": {
+    "Lite": "PASS",
+    "l": "PASS",
+    "xl": "PASS"
+  }
+}

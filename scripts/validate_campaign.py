@@ -22,7 +22,7 @@ def acyclic(graph):
     for node in graph:visit(node)
 
 def main():
-    plan=json.loads((FOLDER/'campaign.json').read_text())
+    plan=json.loads((FOLDER/'campaign.json').read_text(encoding="utf-8"))
     phases=plan['phases'];check(len(phases)==plan['phase_count']==42,'Expected42 phases')
     check({p['day'] for p in phases}==set(range(1,8)),'Expected7 days')
     counts=Counter(p['day'] for p in phases);check(all(v==6 for v in counts.values()),'Expected6 phases/day')
@@ -52,7 +52,7 @@ def main():
     check(len(tasks)==plan['task_count']==294,'Expected294 tasks')
     check(len(test_ids)==plan['test_case_count']==84,'Expected84 scenarios')
     for day in range(1,8):
-        content=(FOLDER/f'{day:02d}-dia-{day}.md').read_text()
+        content=(FOLDER/f'{day:02d}-dia-{day}.md').read_text(encoding="utf-8")
         for p in phases:
             if p['day']==day:
                 for t in p['tasks']:check(t['id'] in content,'Task missing from day documentation')

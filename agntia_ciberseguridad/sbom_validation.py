@@ -12,7 +12,7 @@ def validator():
     registry=Registry(retrieve=refuse)
     root=files('agntia_ciberseguridad').joinpath('data/cyclonedx');main=None
     for name in ('bom-1.5.schema.json','spdx.schema.json','jsf-0.82.schema.json'):
-        schema=json.loads(root.joinpath(name).read_text())
+        schema=json.loads(root.joinpath(name).read_text(encoding="utf-8"))
         registry=registry.with_resource(schema['$id'],Resource.from_contents(schema))
         if name.startswith('bom-'):main=schema
     return Draft7Validator(main,registry=registry,format_checker=FormatChecker())
