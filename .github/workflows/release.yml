@@ -1,0 +1,69 @@
+name: Synthetic release artifacts
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  package:
+    strategy:
+      matrix:
+        os: [ubuntu-24.04, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: python scripts/release_bundle.py --output dist/release
+      - run: python scripts/release_bundle.py --verify dist/release
+      - name: Independent installed schema check
+        shell: bash
+        run: |
+          python -m pip install -e '.[dev]'
+          python -c 'import json,jsonschema; from pathlib import Path; s=json.loads(Path("agntia_ciberseguridad/data/cyclonedx/bom-1.5.schema.json").read_text()); jsonschema.Draft7Validator(s).validate(json.loads(Path("dist/release/sbom.cdx.json").read_text())); print("RELEASE_SBOM_SCHEMA_PASS")'
+      - if: runner.os == 'Windows'
+        shell: pwsh
+        run: ./scripts/verify_lab.ps1
+      - if: runner.os == 'Linux'
+        run: bash scripts/verify_lab.sh
+      - if: runner.os == 'Linux'
+        run: python scripts/release_container.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: synthetic-release-${{ runner.os }}-py312
+          path: dist/release/
+          retention-days: 7
+      - if: runner.os == 'Linux'
+        uses: actions/upload-artifact@v4
+        with:
+          name: synthetic-runtime-image-provenance
+          path: state/runtime-image.json
+          retention-days: 7
+  attest:
+    if: github.event_name == 'push'
+    needs: package
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      id-token: write
+      attestations: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: synthetic-release-Linux-py312
+          path: bundle
+      - uses: actions/attest-build-provenance@v3
+        with:
+          subject-path: bundle/manifest.json
+      - name: Verify publisher provenance, not product acceptance
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh attestation verify bundle/manifest.json --repo "$GITHUB_REPOSITORY" --format json > attestation-verification.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: synthetic-manifest-attestation-verification
+          path: attestation-verification.json
+          retention-days: 7

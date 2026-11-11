@@ -4,7 +4,7 @@ from . import __version__
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Agntia Cyber foundation; no scanners enabled yet")
+    parser = argparse.ArgumentParser(description="Agntia Cyber middleware; scoped execution remains gated")
     parser.add_argument("--version", action="version", version=__version__)
     sub = parser.add_subparsers(dest="command", required=True)
     serve = sub.add_parser("serve", help="Start the private foundation API")

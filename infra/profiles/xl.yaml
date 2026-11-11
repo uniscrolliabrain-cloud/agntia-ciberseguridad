@@ -1,0 +1,4 @@
+services:
+  api:
+    mem_limit: 2048m
+    cpus: 2.0

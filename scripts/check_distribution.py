@@ -24,4 +24,4 @@ with tempfile.TemporaryDirectory() as temporary:
         legal=archive.read('agntia_ciberseguridad/governance/legal_sources.json')
         assert json.loads(legal)['version']=='2026-11-10-primary-v1'
         hashes['governance/legal_sources.json']=hashlib.sha256(legal).hexdigest()
-    print(json.dumps({'distribution_schema_resources_verified':True,'source_commit':'c320fc0f0b46873864927d9d5684eea7ba439728','schema_hashes':hashes},sort_keys=True))
+    print(json.dumps({'distribution_schema_resources_verified':True,'source_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=root,text=True).strip(),'schema_hashes':hashes},sort_keys=True))

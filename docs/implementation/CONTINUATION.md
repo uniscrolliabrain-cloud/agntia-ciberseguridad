@@ -1,6 +1,6 @@
 # Continuidad de implementación
 
-**Estado vigente:** [checkpoint36–40](checkpoints/08-phases-36-40/REPORT.md), rama feat/cyber-phases-36-40 apilada sobre31–35. Ledger, SDK/Hono/tools de lectura, outbox/ACK, consola de revisión y recovery parcial de laboratorio. Cinco gates PARTIAL. Siguiente41–42, conservando pendientes anteriores. No habilitar clientes/merge/deploy ni tocar `/agente`.
+**Estado vigente:** [checkpoint41–42](checkpoints/09-phases-41-42/REPORT.md), rama feat/cyber-phases-41-42 apilada sobre36–40. Campaña recorrida como demo sintética, no aceptación productiva. Empezar por [informe founder](../release/FOUNDER-REPORT.md) y status.json, preservar gates parciales y PRs draft. No modificar `/agente`, main, compras o producción sin autorización.
 
 ## Registro histórico después del primer checkpoint
 

@@ -1,0 +1,74 @@
+[
+  {
+    "number": 1,
+    "url": "https://github.com/uniscrolliabrain-cloud/agntia-ciberseguridad/pull/1",
+    "head": "548692c829fad3279a1bb87ba96286458c46b697",
+    "branch": "feat/cyber-d1-foundation",
+    "base": "main",
+    "draft": true,
+    "merged": false
+  },
+  {
+    "number": 2,
+    "url": "https://github.com/uniscrolliabrain-cloud/agntia-ciberseguridad/pull/2",
+    "head": "f61a36e823a185c8cfde9278a8689e6bb9877883",
+    "branch": "feat/cyber-phases-06-10",
+    "base": "feat/cyber-d1-foundation",
+    "draft": true,
+    "merged": false
+  },
+  {
+    "number": 3,
+    "url": "https://github.com/uniscrolliabrain-cloud/agntia-ciberseguridad/pull/3",
+    "head": "4bc761c199a7868bbf93e30c44e1d0eb5f721aea",
+    "branch": "feat/cyber-phases-10-15",
+    "base": "feat/cyber-phases-06-10",
+    "draft": true,
+    "merged": false
+  },
+  {
+    "number": 4,
+    "url": "https://github.com/uniscrolliabrain-cloud/agntia-ciberseguridad/pull/4",
+    "head": "4f1e5d84b2eb8f7b4caca7f743efecdb64e429b8",
+    "branch": "feat/cyber-phases-16-20",
+    "base": "feat/cyber-phases-10-15",
+    "draft": true,
+    "merged": false
+  },
+  {
+    "number": 5,
+    "url": "https://github.com/uniscrolliabrain-cloud/agntia-ciberseguridad/pull/5",
+    "head": "d41e29b075e994803b409018ef07ca8ea75d3268",
+    "branch": "feat/cyber-phases-21-25",
+    "base": "feat/cyber-phases-16-20",
+    "draft": true,
+    "merged": false
+  },
+  {
+    "number": 6,
+    "url": "https://github.com/uniscrolliabrain-cloud/agntia-ciberseguridad/pull/6",
+    "head": "ef862fe771ed28dc5c41c6688e208f623b00c9fd",
+    "branch": "feat/cyber-phases-26-30",
+    "base": "feat/cyber-phases-21-25",
+    "draft": true,
+    "merged": false
+  },
+  {
+    "number": 7,
+    "url": "https://github.com/uniscrolliabrain-cloud/agntia-ciberseguridad/pull/7",
+    "head": "231db083db6d647ea1ff672e5f600ce49afc4c56",
+    "branch": "feat/cyber-phases-31-35",
+    "base": "feat/cyber-phases-26-30",
+    "draft": true,
+    "merged": false
+  },
+  {
+    "number": 8,
+    "url": "https://github.com/uniscrolliabrain-cloud/agntia-ciberseguridad/pull/8",
+    "head": "6146077ae0d2df585d5db633d28959e4ec6033ab",
+    "branch": "feat/cyber-phases-36-40",
+    "base": "feat/cyber-phases-31-35",
+    "draft": true,
+    "merged": false
+  }
+]
