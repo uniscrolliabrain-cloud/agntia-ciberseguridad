@@ -20,7 +20,7 @@ La consulta de fuentes oficiales detectó la modificación de AI Act de2026. El 
 
 ## Privacidad y brechas
 
-Las solicitudes se ligan a IDs y revisiones de evidencia del tenant, base/finalidad referenciadas y otra revisión humana. Una restricción se comprueba antes de devolver originales o vistas; se propaga a hechos tipados e informes, incluso accediendo al artefacto de un informe por la API de evidencias. El linaje forma parte de la autenticación del artefacto derivado. Informes antiguos sin linaje verificable quedan bloqueados para reconciliación, sin borrar su ciphertext.
+Las solicitudes se ligan a IDs y revisiones de evidencia del tenant, base/finalidad referenciadas y otra revisión humana. Una restricción se comprueba antes de devolver originales o vistas; se propaga a hechos tipados e informes, incluso accediendo al artefacto de un informe por la API de evidencias. El linaje forma parte de la autenticación del artefacto derivado. Informes antiguos registrados sin linaje verificable quedan bloqueados para reconciliación, sin borrar su ciphertext.
 
 Levantar una restricción exige propuesta y revisión nuevas. El hash del overlay impide que una aprobación antigua borre una restricción posterior. La exportación es de metadatos minimizados y declara no ser un SAR completo. Purga solo procede si expiró retención y no hay legal hold; conserva historia/tombstones y acaba awaiting_backup_reconciliation. No afirma haber borrado backups o todos los datos de una persona. No hay limpieza automática de todas las bases, snapshots o sistemas del cliente.
 
@@ -47,3 +47,11 @@ Las evidencias separan baseline, primera ejecución, CI y revisión final. La ba
 Los resultados remotos, SHA/jobs, capturas y comandos quedan en evidence/. Los gates completos permanecen PARTIAL por los pendientes indicados; revisión independiente y uso de clientes no se habilitan por un resultado verde. No se modifica `/agente`, se compra, se despliega ni se fusiona main.
 
 Siguiente bloque36–40: reservas económicas, SDK TS/Hono, interfaz, E2E y hardening. Quedan41–42 para empaquetado/aceptación. Leer sus IDs exactos y preservar todos los límites antes de continuar.
+
+## Cierre de CI verificado — 11 de noviembre de 2026
+
+Commit de código probado: `4f74b8e7e34755a63b1f42a106f961351a61513e`. Los cinco workflows de push terminaron en success. La matriz Python 3.11/3.12 ejecuta el núcleo; Python 3.12 descubre168 pruebas, pasa160 y omite8 Docker. El job Docker separado pasa esas8: total168 pruebas distintas, cero fallos, sin sumar dos veces la matriz. El SDK de observabilidad se ejecutó en CI.
+
+El retest gobernado real ejecutó Gitleaks y Semgrep sobre los dos candidatos sintéticos y comprobó origen intacto; sigue sin equivaler a reparación de clientes. Chromium real comprobó1440×1000 y390×844, sin overflow ni errores JS y con rechazo cross-tenant/logout. El collector OTLP y Prometheus sintéticos pasaron sus contratos; wheel/schemas y catálogo legal empaquetado también se verificaron. IDs, URLs y resultados están en [evidence/ci.json](evidence/ci.json). Estos resultados pertenecen al SHA indicado; los commits posteriores de documentación no cambian código.
+
+Sigue pendiente inventariar artefactos históricos huérfanos sin fila de informe para resolver su procedencia antes de producción. No se afirma descubrimiento completo de datos personales.
