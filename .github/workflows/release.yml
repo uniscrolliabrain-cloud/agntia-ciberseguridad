@@ -53,17 +53,20 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4
         with:
-          name: synthetic-release-Linux-py312
-          path: bundle
+          pattern: synthetic-release-*-py312
+          path: bundles
+          merge-multiple: false
       - uses: actions/attest-build-provenance@v3
         with:
-          subject-path: bundle/manifest.json
+          subject-path: bundles/*/manifest.json
       - name: Verify publisher provenance, not product acceptance
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh attestation verify bundle/manifest.json --repo "$GITHUB_REPOSITORY" --format json > attestation-verification.json
+        run: |
+          gh attestation verify bundles/synthetic-release-Linux-py312/manifest.json --repo "$GITHUB_REPOSITORY" --format json > attestation-Linux.json
+          gh attestation verify bundles/synthetic-release-Windows-py312/manifest.json --repo "$GITHUB_REPOSITORY" --format json > attestation-Windows.json
       - uses: actions/upload-artifact@v4
         with:
           name: synthetic-manifest-attestation-verification
-          path: attestation-verification.json
+          path: attestation-*.json
           retention-days: 7
