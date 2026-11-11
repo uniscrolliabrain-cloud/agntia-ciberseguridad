@@ -25,8 +25,10 @@ class Views:
             for r in db.execute('SELECT body FROM finding_current WHERE tenant_id=? ORDER BY id LIMIT 20',(tenant,)):
                 f=effective(json.loads(r['body']),instant);findings.append({k:f.get(k) for k in ('id','asset_id','state','severity')})
             evidence=[dict(r) for r in db.execute('SELECT id,source_job_id FROM evidence WHERE tenant_id=? ORDER BY id LIMIT 20',(tenant,))]
-        return {'tenant_id':tenant,'as_of':instant.isoformat(),'coverage':coverage,'freshness':'stale' if stale else 'observed_at_scan' if latest else 'unknown',
-            'collector_status':'not_monitored','incident_status':'not_evaluated','budget_status':'not_evaluated','security_guarantee':False,
+        from ..billing.reservations import Ledger
+        budget=Ledger(self.service,clock=self.clock).summary(actor,tenant)
+        return {'budget':budget,'tenant_id':tenant,'as_of':instant.isoformat(),'coverage':coverage,'freshness':'stale' if stale else 'observed_at_scan' if latest else 'unknown',
+            'collector_status':'not_monitored','incident_status':'not_evaluated','budget_status':budget['status'],'security_guarantee':False,
             'jobs':jobs,'findings':findings,'evidence':evidence,'signals':{'events':events[0],'pending_events':events[1] or 0,'operational_logs':logs},
             'limitations':['Latest twenty rows are a bounded view, not the complete inventory.','Signals are not confirmed incidents.','No global trace backend is exposed.']}
     def investigation(self,actor,tenant,job_id):

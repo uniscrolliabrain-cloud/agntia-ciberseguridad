@@ -1,0 +1,25 @@
+{
+  "name": "@agntia/ciberseguridad",
+  "version": "0.1.0-alpha.1",
+  "private": true,
+  "type": "module",
+  "description": "Server-only typed middleware client",
+  "exports": {
+    ".": "./dist/client.js",
+    "./hono": "./dist/hono.js",
+    "./agent-tools": "./dist/agent-tools.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "npm run build && node --test --test-isolation=none test/*.test.mjs"
+  },
+  "dependencies": {
+    "hono": "4.11.4"
+  },
+  "devDependencies": {
+    "typescript": "5.9.3"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

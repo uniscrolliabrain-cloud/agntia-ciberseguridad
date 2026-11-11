@@ -25,6 +25,8 @@ class Service:
         self.logs=OperationalLogs(self)
 
     def authorize(self, actor: Principal, tenant: str, capability: str):
+        if (self.db.root / "RESTORE_BLOCKED").exists():
+            reject("restore_blocked", "Restauración aislada pendiente de conciliación", 503)
         with self.telemetry.span("policy.authorize",component="policy",operation="authorize"):
             self.auth.authorize(actor, tenant, capability)
         with self.db.connection(readonly=True) as db:

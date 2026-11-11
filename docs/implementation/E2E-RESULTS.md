@@ -1,0 +1,7 @@
+# Recorridos reproducibles del piloto
+
+Ejecutar `PYTHONPATH=. python scripts/demo_synthetic.py`. La suite tests/e2e/test_pilot_journeys.py enlaza snapshot/grant, admisión y finalización durable de job con resultado sintético normalizado, hallazgo, documento cifrado revisado, propuesta, aprobación humana, consulta de workspace, reporte y outbox/consumidor con replay. Dos tenants permanecen separados; viewer no aprueba; segundo commit de aprobación da409; credencial revocada da401. Otro recorrido combina aplicabilidad insufficient_information y presupuesto exhausted sin afirmar seguridad global.
+
+La herramienta real no se invoca en este script. Los contratos Docker existentes ejecutan Gitleaks, Semgrep, OSV y Trivy sobre fixtures y verifican los candidatos gobernados. La evaluación agéntica y pruebas de gateway existentes prueban tareas permitidas y rechazo de salidas adversariales; no se equipara eso a resistencia universal contra un modelo hostil. No se suman tests repetidos por estos scripts a los conteos de pruebas distintas.
+
+Sigue pendiente un recorrido único con todos los conectores productivos, aprobación externa del host, egress autorizado y herramienta real como una sola demo grabada. Gates M1/productivos parciales no se activan para completar la narrativa. Los reportes distinguen fuente, cobertura, no probado y revisión. Las evidencias actuales están en [checkpoint36–40](checkpoints/08-phases-36-40/REPORT.md).

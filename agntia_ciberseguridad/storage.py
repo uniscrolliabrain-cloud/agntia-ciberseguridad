@@ -13,6 +13,7 @@ from .evidence.schema import SCHEMA as EVIDENCE_SCHEMA
 from .observability_schema import SCHEMA as OBSERVABILITY_SCHEMA
 from .agents.schema import SCHEMA as AGENT_SCHEMA
 from .governance.schema import SCHEMA as GOVERNANCE_SCHEMA
+from .billing.schema import SCHEMA as BILLING_SCHEMA
 from .util import canonical, digest, now, uid
 
 SCHEMA = [
@@ -38,7 +39,7 @@ SNAPSHOT_SCHEMA = [
         FOREIGN KEY(tenant_id,grant_id) REFERENCES grants(tenant_id,id))""",
     "CREATE INDEX snapshots_asset ON snapshots(tenant_id,asset_id)",
 ]
-MIGRATIONS = ((1, SCHEMA), (2, SNAPSHOT_SCHEMA), (3, JOB_SCHEMA), (4, EVIDENCE_SCHEMA), (5, OBSERVABILITY_SCHEMA), (6, AGENT_SCHEMA), (7, GOVERNANCE_SCHEMA))
+MIGRATIONS = ((1, SCHEMA), (2, SNAPSHOT_SCHEMA), (3, JOB_SCHEMA), (4, EVIDENCE_SCHEMA), (5, OBSERVABILITY_SCHEMA), (6, AGENT_SCHEMA), (7, GOVERNANCE_SCHEMA), (8, BILLING_SCHEMA))
 CURRENT_SCHEMA = MIGRATIONS[-1][0]
 
 
@@ -147,6 +148,8 @@ class Database:
                  "detail": detail, "content_hash": digest(detail),
                  "previous_hash": previous["hash"] if previous else "0" * 64}
         db.execute("INSERT INTO audit VALUES(?,?,?,?)", (tenant, sequence, canonical(event), digest(event)))
+        from .events.outbox import enqueue_audit
+        enqueue_audit(db,event)
 
     @staticmethod
     def verify_audit(db, tenant: str):

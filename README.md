@@ -1,4 +1,4 @@
-> Implementación vigente: [checkpoint31–35](docs/implementation/checkpoints/07-phases-31-35/REPORT.md), PR#7 apilada. Preparación legal, privacidad, antifraude, incidentes y candidatos de remediación de laboratorio. Gates completos PARTIAL; sin clientes, despliegue o integración `/agente`.
+> Implementación vigente: [checkpoint36–40](docs/implementation/checkpoints/08-phases-36-40/REPORT.md), rama feat/cyber-phases-36-40. Ledger presupuestario, SDK servidor TS/Hono, consola de revisión, E2E y recovery parcial cifrado. Gates PARTIAL; sin despliegue ni integración `/agente`.
 
 # Agntia Ciberseguridad
 
