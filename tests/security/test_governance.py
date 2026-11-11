@@ -126,6 +126,14 @@ class PrivacyTests(GovernanceSetup,unittest.IsolatedAsyncioTestCase):
         with self.assertRaises(DomainError) as error:self.vault.read(self.actor,'tenantA',artifact['id'],'fixture')
         self.assertEqual(error.exception.code,'privacy_reconciliation_required')
 
+    async def test_lifting_requires_fresh_review_and_cannot_clear_newer_restriction(self):
+        evidence=self.reviewed_document();stale=self.rights(evidence,'release_restriction');self.review(stale)
+        restrict=self.rights(evidence);self.review(restrict);self.privacy.apply(self.reviewer,'tenantA',restrict['id'],'fixture')
+        with self.assertRaises(DomainError):self.privacy.apply(self.reviewer,'tenantA',stale['id'],'fixture')
+        fresh=self.rights(evidence,'release_restriction');self.review(fresh)
+        self.assertEqual(self.privacy.apply(self.reviewer,'tenantA',fresh['id'],'fixture')['state'],'restriction_released')
+        self.assertTrue(self.vault.read(self.actor,'tenantA',evidence['id'],'fixture'))
+
     async def test_technical_alert_does_not_start_gdpr_clock(self):
         body=Breach(resource_id=self.fixture.asset['id'],owner_ref='reviewerA',detected_at=utcnow()-timedelta(hours=1),awareness_at=utcnow(),personal_data='no',breach_confirmed='unknown',gdpr_role='controller',risk='high')
         case=self.privacy.breach(self.actor,'tenantA',body,'fixture');self.review(case)

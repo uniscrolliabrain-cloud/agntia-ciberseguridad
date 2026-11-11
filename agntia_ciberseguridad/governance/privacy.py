@@ -15,7 +15,7 @@ class EvidenceTarget(Model):
     evidence_id: ResourceId
     expected_revision: StrictInt=Field(ge=0)
 class RightsRequest(Model):
-    action: Literal['restrict','delete','export_metadata']
+    action: Literal['restrict','release_restriction','delete','export_metadata']
     targets: list[EvidenceTarget]=Field(min_length=1,max_length=10)
     legal_basis_ref: OpaqueId
     purpose_ref: OpaqueId
@@ -39,21 +39,28 @@ class Privacy:
             meta=self.vault.metadata(actor,tenant,target.evidence_id)
             if meta['revision']!=target.expected_revision:reject('conflict','Revisión de fuente distinta',409)
             sources.append(meta)
-        return self.cases.create(actor,tenant,'privacy_request',{**body.model_dump(mode='json'),'source_snapshots':sources,'execution_status':'not_executed','backups_reconciled':False,'whole_subject_coverage':'not_evaluated'},correlation)
+        with self.service.db.connection(readonly=True) as db:
+            overlays={}
+            for target in body.targets:
+                row=db.execute('SELECT restricted,body FROM evidence_privacy WHERE tenant_id=? AND evidence_id=?',(tenant,target.evidence_id)).fetchone()
+                overlays[target.evidence_id]=digest(dict(row)) if row else digest(None)
+        return self.cases.create(actor,tenant,'privacy_request',{**body.model_dump(mode='json'),'source_snapshots':sources,'privacy_overlay_hashes':overlays,'execution_status':'not_executed','backups_reconciled':False,'whole_subject_coverage':'not_evaluated'},correlation)
     def apply(self,actor,tenant,record_id,correlation):
         require_human(self.service,actor,tenant,'privacy.manage')
         with self.service.db.transaction() as db:
             self.service.auth.authorize(actor,tenant,'privacy.manage');record=self.cases.row(db,tenant,record_id,'privacy_request');self.cases.current_review(record)
-            if record['state'] in ('restricted','prepared_metadata','awaiting_backup_reconciliation'):return record
+            if record['state'] in ('restricted','restriction_released','prepared_metadata','awaiting_backup_reconciliation'):return record
             if record['state']!='reviewed':reject('privacy_reconciliation_required','Solicitud no lista o estado incierto',409)
             for source in record['fields']['source_snapshots']:
                 current=Vault._row(db,tenant,source['id'])
                 if current['revision']!=source['revision']:reject('conflict','Fuente modificada tras revisión',409)
+                overlay=db.execute('SELECT restricted,body FROM evidence_privacy WHERE tenant_id=? AND evidence_id=?',(tenant,source['id'])).fetchone()
+                if (digest(dict(overlay)) if overlay else digest(None))!=record['fields']['privacy_overlay_hashes'][source['id']]:reject('conflict','Restricción cambió tras propuesta',409)
             action=record['fields']['action']
-            if action=='restrict':
+            if action in ('restrict','release_restriction'):
                 for target in record['fields']['targets']:
-                    db.execute('INSERT INTO evidence_privacy VALUES(?,?,?,?) ON CONFLICT(tenant_id,evidence_id) DO UPDATE SET restricted=excluded.restricted,body=excluded.body',(tenant,target['evidence_id'],1,canonical({'request_id':record_id,'reviewed_by':actor.actor_id})))
-                record['state']='restricted';record['fields']['execution_status']='read_restriction_active'
+                    db.execute('INSERT INTO evidence_privacy VALUES(?,?,?,?) ON CONFLICT(tenant_id,evidence_id) DO UPDATE SET restricted=excluded.restricted,body=excluded.body',(tenant,target['evidence_id'],int(action=='restrict'),canonical({'request_id':record_id,'reviewed_by':actor.actor_id})))
+                record['state']='restricted' if action=='restrict' else 'restriction_released';record['fields']['execution_status']='read_restriction_active' if action=='restrict' else 'reviewed_restriction_release'
             elif action=='export_metadata':
                 record['fields']['export']=[self.vault.public(Vault._row(db,tenant,t['evidence_id'])) for t in record['fields']['targets']]
                 record['state']='prepared_metadata';record['fields']['execution_status']='metadata_only_not_full_sar'
