@@ -51,3 +51,19 @@ Baseline:168 descubiertas,156 correctas,12 skips. Primera suite con el bloque:18
 La CI se configura para instalar paquetes fijados, typecheck real, contrato Node↔FastAPI, browser de revisión/descarga y contratos Docker/observabilidad. El estado remoto se añadirá con SHA/jobs cuando termine; hasta entonces es NOT_VERIFIED para los nuevos checks. No extrapolar el PASS de la PR anterior al código nuevo. El informe y evidence/ distinguirán el SHA probado de commits documentales posteriores.
 
 No hay compras, envío de correo/notificaciones, despliegue, merge a main ni cambios en `/agente`. Los servicios de pago, egress externo y uso de clientes siguen sin habilitar. El siguiente bloque no borra los pendientes de gates anteriores.
+
+## Cierre de dependencias y verificación remota
+
+La primera implementación `416705d7c712a64dff6e8a485dc3b169aa143774` pasó los cinco workflows. El cierre consultó la [release oficial Hono4.13.18](https://github.com/honojs/hono/releases/tag/v4.13.18), publicada el11-11-2026; se fijó esa versión en lugar del pin inicial4.11.4. CI `5f6960d170e72426b2f022b5bc3122a7bdfd2a9b` compiló tsc estricto y pasó Node/Hono, la batería Python y `npm audit --omit=dev --audit-level=high --json`, sin vulnerabilidades notificadas para las dependencias runtime de npm en esa consulta. No cubre las dependencias Python, feeds futuros ni revisión de código/licencia.
+
+El lockfile se recuperó del resultado real de npm en CI, con integrities de Hono4.13.18 y TypeScript5.9.3; no se inventaron checksums. La última revisión cambia a npm ci y normaliza errores de validación del SDK. Su SHA probado y resultados definitivos se registrarán en evidence/ci.json. La compilación offline local sigue sin sustituir tsc ni el contrato HTTP.
+
+## Resultado final verificado
+
+Código final probado: `7e271ae3dd16ed88891990b1a82cdb866ec081f0`. Cinco workflows de push terminados en success. Python3.11/3.12:187 casos descubiertos,179 pasan en el núcleo y8 Docker se ejecutan en su job separado con8 correctos; total187 casos Python distintos, cero fallos. No se suman las dos versiones de Python ni las repeticiones de demo/recovery. El wrapper contractual Python ejecuta también Node contra FastAPI real en loopback.
+
+Node descubre7 casos: en ejecución standalone pasan6 y omite el caso que requiere servidor Python; dentro del wrapper con servidor real y Hono instalado ese caso también se ejecuta. No se cuentan esas dos ejecuciones como14 casos distintos. tsc estricto y npm ci con lock e integrities verificados pasan; npm audit runtime devuelve0 avisos en esta consulta. Esto no declara que el código esté libre de vulnerabilidades ni cubre toda la cadena Python/transitiva.
+
+Chromium real verifica escritorio/móvil, rechazo de viewer, aprobación por otro humano, descarga de vista, cambio positivo de tenant, limpieza ante logout, presupuesto agotado visible, cero errores JS y sin overflow. Capturas sintéticas de la revisión previa5f6960 fueron descargadas e inspeccionadas visualmente; las capturas de la revisión final, hashes y artifactID están en evidence/ci.json. Collector OTLP/Prometheus y los contratos reales offline de scanners también pasan.
+
+Las evidencias guardan URLs de runs/jobs y diferencian este SHA de commits posteriores exclusivamente documentales. Los cinco gates completos conservan PARTIAL: sin proveedor pagado conectado, wiring real de AgntiaPro, aceptación independiente, UX final, recuperación productiva integral ni demostración universal de seguridad/cumplimiento. PR#8 queda abierta en draft y apilada; main y despliegue permanecen sin cambios. Siguiente bloque:41–42.

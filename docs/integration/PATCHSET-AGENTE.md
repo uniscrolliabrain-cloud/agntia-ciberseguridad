@@ -4,7 +4,7 @@ Este repositorio entrega un cliente servidor y una consola piloto. No se ha abie
 
 ## Instalación revisable
 
-Desde el checkout de este repo: `cd typescript`, `npm install --ignore-scripts`, `npm test`. Para pnpm usar `pnpm install --ignore-scripts` y `pnpm test`; el lock de pnpm debe generarse y revisarse en el consumidor, no se afirma que ya exista. El paquete es privado y no está publicado en npm. Puede consumirse mediante workspace local o artefacto empaquetado de una revisión aprobada. `private=true` y la licencia pendiente impiden presentar el paquete como distribución comercial terminada.
+Desde el checkout de este repo: `cd typescript`, `npm ci --ignore-scripts`, `npm test`. Para pnpm usar `pnpm install --ignore-scripts` y `pnpm test`; el lock de pnpm debe generarse y revisarse en el consumidor, no se afirma que ya exista. El paquete es privado y no está publicado en npm. Puede consumirse mediante workspace local o artefacto empaquetado de una revisión aprobada. `private=true` y la licencia pendiente impiden presentar el paquete como distribución comercial terminada.
 
 Importar `CyberClient` del paquete `@agntia/ciberseguridad` y `cyberRoutes` de `@agntia/ciberseguridad/hono`. El resolver de rutas recibe un Context Hono: debe validar la sesión interna, seleccionar en servidor el tenant permitido y obtener una credencial acotada desde un secret manager. El cliente fija tenant y origen aprobado; el navegador no elige ninguno. No reenviar Authorization, cookies, tenant_id o URL enviados por el cliente como prueba de autorización. El resolver es un límite obligatorio a implementar en el host, no autenticación suministrada por el SDK.
 

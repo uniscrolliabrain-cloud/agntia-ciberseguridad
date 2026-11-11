@@ -4999,16 +4999,23 @@
         {
           "id": "D6P6-TEST-1",
           "scenario": "Dos llamadas concurrentes no consumen el mismo saldo ni elevan el cap al agotar cuota.",
-          "status": "NOT_EXECUTED",
-          "evidence_refs": []
+          "status": "PASS",
+          "evidence_refs": [
+            "docs/implementation/checkpoints/08-phases-36-40/evidence/ci.json",
+            "docs/implementation/checkpoints/08-phases-36-40/GATES.md"
+          ]
         },
         {
           "id": "D6P6-TEST-2",
           "scenario": "Tarifa/proveedor sin hard limit fiable queda bloqueado o usa margen explícito revisado.",
-          "status": "NOT_EXECUTED",
-          "evidence_refs": []
+          "status": "PASS",
+          "evidence_refs": [
+            "docs/implementation/checkpoints/08-phases-36-40/evidence/ci.json",
+            "docs/implementation/checkpoints/08-phases-36-40/GATES.md"
+          ]
         }
-      ]
+      ],
+      "execution_note": "Implemented synthetic pilot; final CI evidence in checkpoint08; complete gate remains PARTIAL."
     },
     {
       "id": "D7P1",
@@ -5134,16 +5141,23 @@
         {
           "id": "D7P1-TEST-1",
           "scenario": "ClienteTS y API coinciden en errores, estados y validación de entradas desconocidas.",
-          "status": "NOT_EXECUTED",
-          "evidence_refs": []
+          "status": "PASS",
+          "evidence_refs": [
+            "docs/implementation/checkpoints/08-phases-36-40/evidence/ci.json",
+            "docs/implementation/checkpoints/08-phases-36-40/GATES.md"
+          ]
         },
         {
           "id": "D7P1-TEST-2",
           "scenario": "Tool agéntica no puede aprobar, elevar permisos, cambiar presupuesto o ejecutar comandos arbitrarios.",
-          "status": "NOT_EXECUTED",
-          "evidence_refs": []
+          "status": "PASS",
+          "evidence_refs": [
+            "docs/implementation/checkpoints/08-phases-36-40/evidence/ci.json",
+            "docs/implementation/checkpoints/08-phases-36-40/GATES.md"
+          ]
         }
-      ]
+      ],
+      "execution_note": "Implemented synthetic pilot; final CI evidence in checkpoint08; complete gate remains PARTIAL."
     },
     {
       "id": "D7P2",
@@ -5265,16 +5279,23 @@
         {
           "id": "D7P2-TEST-1",
           "scenario": "Usuario cambia de tenant y no conserva datos/caché del anterior.",
-          "status": "NOT_EXECUTED",
-          "evidence_refs": []
+          "status": "PARTIAL",
+          "evidence_refs": [
+            "docs/implementation/checkpoints/08-phases-36-40/evidence/ci.json",
+            "docs/implementation/checkpoints/08-phases-36-40/GATES.md"
+          ]
         },
         {
           "id": "D7P2-TEST-2",
           "scenario": "Vista parcial/stale o presupuesto agotado no muestra un indicador global seguro/verde.",
-          "status": "NOT_EXECUTED",
-          "evidence_refs": []
+          "status": "PARTIAL",
+          "evidence_refs": [
+            "docs/implementation/checkpoints/08-phases-36-40/evidence/ci.json",
+            "docs/implementation/checkpoints/08-phases-36-40/GATES.md"
+          ]
         }
-      ]
+      ],
+      "execution_note": "Implemented synthetic pilot; final CI evidence in checkpoint08; complete gate remains PARTIAL."
     },
     {
       "id": "D7P3",
@@ -5408,16 +5429,23 @@
         {
           "id": "D7P3-TEST-1",
           "scenario": "Dos tenants, canarios y grants cruzados no contaminan reportes/artefactos/eventos.",
-          "status": "NOT_EXECUTED",
-          "evidence_refs": []
+          "status": "PARTIAL",
+          "evidence_refs": [
+            "docs/implementation/checkpoints/08-phases-36-40/evidence/ci.json",
+            "docs/implementation/checkpoints/08-phases-36-40/GATES.md"
+          ]
         },
         {
           "id": "D7P3-TEST-2",
           "scenario": "Una tarea legítima se completa y una salida adversarial se bloquea aun con modelo hostil.",
-          "status": "NOT_EXECUTED",
-          "evidence_refs": []
+          "status": "PARTIAL",
+          "evidence_refs": [
+            "docs/implementation/checkpoints/08-phases-36-40/evidence/ci.json",
+            "docs/implementation/checkpoints/08-phases-36-40/GATES.md"
+          ]
         }
-      ]
+      ],
+      "execution_note": "Implemented synthetic pilot; final CI evidence in checkpoint08; complete gate remains PARTIAL."
     },
     {
       "id": "D7P4",
@@ -5540,16 +5568,23 @@
         {
           "id": "D7P4-TEST-1",
           "scenario": "Pérdida de proceso/collector/DB temporal se recupera sin permitir acciones indebidas ni duplicar efectos.",
-          "status": "NOT_EXECUTED",
-          "evidence_refs": []
+          "status": "PARTIAL",
+          "evidence_refs": [
+            "docs/implementation/checkpoints/08-phases-36-40/evidence/ci.json",
+            "docs/implementation/checkpoints/08-phases-36-40/GATES.md"
+          ]
         },
         {
           "id": "D7P4-TEST-2",
           "scenario": "Restauración reproduce scopes/evidencia y no requiere secretos publicados en Git.",
-          "status": "NOT_EXECUTED",
-          "evidence_refs": []
+          "status": "PARTIAL",
+          "evidence_refs": [
+            "docs/implementation/checkpoints/08-phases-36-40/evidence/ci.json",
+            "docs/implementation/checkpoints/08-phases-36-40/GATES.md"
+          ]
         }
-      ]
+      ],
+      "execution_note": "Implemented synthetic pilot; final CI evidence in checkpoint08; complete gate remains PARTIAL."
     },
     {
       "id": "D7P5",

@@ -11,3 +11,5 @@ Todos PARTIAL hasta aceptación independiente y cierre de sus límites.
 | D7P4 | Fuzz acotado, concurrencia, recovery cifrado parcial y métricas reales de API | Revisión independiente, restore integral de snapshots/claves/privacidad, fallos combinados, SBOM/scan propio completo y capacidad/coste reales |
 
 El código probado no acredita cobertura universal, SOC24/7, SLA, certificación legal o permiso para clientes. ReleaseGates continúa cerrado por defecto.
+
+CI final7e271ae3: cinco workflows PASS,187 casos Python distintos correctos (179 núcleo+8 Docker), tsc/Hono/contrato HTTP y Chromium correctos. npm audit runtime0 avisos al consultar. Este PASS técnico no cambia los cinco gates completos a PASS. Ver [evidencia](evidence/ci.json).
