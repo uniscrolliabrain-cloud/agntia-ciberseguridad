@@ -1,6 +1,6 @@
 # Continuidad de implementación
 
-**Estado vigente:** [checkpoint26–30](checkpoints/06-phases-26-30/REPORT.md), rama feat/cyber-phases-26-30, PR#6 apilada sobre PR#5. Agentes sin acceso directo a rutas heredadas; policy/epoch, flows, subconjunto MCP, evaluación propia y notas locales revisadas implementados. Gates completos PARTIAL. Siguiente bloque31–35 según campaign.json. Egress y efectos externos no habilitados; no integrar `/agente` ni desplegar/mergear sin autorización.
+**Estado vigente:** [checkpoint31–35](checkpoints/07-phases-31-35/REPORT.md), rama feat/cyber-phases-31-35, PR#7 apilada sobre PR#6. Expedientes legales/privacidad/antifraude/incidentes y candidatos de fixes sintéticos implementados. Gates completos PARTIAL. Siguiente36–40; después41–42. No habilitar clientes, merge/deploy o `/agente`. Antes de restaurar copias hay que reconciliar restricciones actuales.
 
 ## Registro histórico después del primer checkpoint
 

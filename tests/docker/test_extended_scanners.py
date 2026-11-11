@@ -111,3 +111,36 @@ class ExtendedScannerTests(unittest.IsolatedAsyncioTestCase):
                 self.assertEqual(benign_report['findings'],[])
                 self.assertFalse(benign_report['security_guarantee'])
         finally:fixture.tearDown()
+    async def test_real_governed_remediation_candidates_preserve_source(self):
+        from tests.security.test_governance import GovernanceSetup
+        from agntia_ciberseguridad.scanning import StaticScanner
+        from agntia_ciberseguridad.jobs.store import JobStore
+        from agntia_ciberseguridad.jobs.worker import Worker
+        from agntia_ciberseguridad.findings.store import FindingStore
+        from agntia_ciberseguridad.governance.remediation import RemediationPlan
+        from agntia_ciberseguridad.safety import ReleaseGates
+        gates=ReleaseGates(True,True,True)
+        for rule,path,tool,rule_id,content in [
+            ('remove_synthetic_canary','canary.txt',Tool.gitleaks,'agntia-canary','AGNTIA_TEST_SECRET_'+'R'*32+'\n'),
+            ('remove_fixture_eval','fixture_eval.py',Tool.semgrep,'agntia.python.dynamic-eval','def run(value):\n    return eval(value)\n')]:
+            fixture=GovernanceSetup();fixture.setUp()
+            try:
+                (fixture.f.repo/'file.py').write_text('# benign synthetic fixture\n')
+                (fixture.f.repo/path).write_text(content)
+                fixture.f.settings.tool_policy_hashes={name.value:image.policy_hash for name,image in self.runner.images.items()}
+                manifest=fixture.fixture.acquire();store=JobStore(fixture.f.service,gates=gates)
+                scanner=StaticScanner(fixture.f.service,self.runner,gates=gates)
+                body=fixture.body.model_copy(update={'snapshot_id':manifest['id'],'snapshot_hash':manifest['manifest_hash'],'tool':tool})
+                receipt=store.submit(fixture.actor,'tenantA',body,'real-remediation-'+tool.value,'fixture')
+                done=await Worker(store,scanner,'real-remediation-worker').run_once()
+                self.assertEqual(done['state'],'completed')
+                finding=next(f for f in FindingStore(fixture.f.service).list(fixture.actor,'tenantA')['items'] if f['rule_id']==rule_id and f['path']==path)
+                plan=fixture.remediation.plan(fixture.actor,'tenantA',RemediationPlan(snapshot_id=manifest['id'],finding_id=finding['id'],expected_finding_revision=finding.get('revision',0),rule=rule,source_license_ref='original-synthetic-fixture'),'fixture')
+                fixture.review(plan);fixture.remediation.materialize(fixture.reviewer,'tenantA',plan['id'],'fixture')
+                result=await fixture.remediation.retest(fixture.reviewer,'tenantA',plan['id'],self.runner,'fixture',gates=gates)
+                self.assertEqual(result['state'],'retest_passed_fixture',result['fields'].get('retest'))
+                self.assertEqual((fixture.f.repo/path).read_text(),content)
+                self.assertFalse(result['fields']['verified_fixed']);self.assertFalse(result['fields']['merge_enabled'])
+                unchanged=FindingStore(fixture.f.service).history(fixture.actor,'tenantA',finding['id'])['finding']
+                self.assertNotEqual(unchanged['state'],'verified_fixed')
+            finally:fixture.tearDown()

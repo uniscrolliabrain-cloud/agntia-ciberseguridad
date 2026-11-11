@@ -249,4 +249,6 @@ def create_app(settings: Settings | None = None):
     register_observability(app,service,principal)
     from .agents.routes import register_agent_gateway
     register_agent_gateway(app,service,principal)
+    from .governance.routes import register_governance
+    register_governance(app,service,principal)
     return app

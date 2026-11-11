@@ -12,6 +12,7 @@ from .jobs.schema import SCHEMA as JOB_SCHEMA
 from .evidence.schema import SCHEMA as EVIDENCE_SCHEMA
 from .observability_schema import SCHEMA as OBSERVABILITY_SCHEMA
 from .agents.schema import SCHEMA as AGENT_SCHEMA
+from .governance.schema import SCHEMA as GOVERNANCE_SCHEMA
 from .util import canonical, digest, now, uid
 
 SCHEMA = [
@@ -37,7 +38,7 @@ SNAPSHOT_SCHEMA = [
         FOREIGN KEY(tenant_id,grant_id) REFERENCES grants(tenant_id,id))""",
     "CREATE INDEX snapshots_asset ON snapshots(tenant_id,asset_id)",
 ]
-MIGRATIONS = ((1, SCHEMA), (2, SNAPSHOT_SCHEMA), (3, JOB_SCHEMA), (4, EVIDENCE_SCHEMA), (5, OBSERVABILITY_SCHEMA), (6, AGENT_SCHEMA))
+MIGRATIONS = ((1, SCHEMA), (2, SNAPSHOT_SCHEMA), (3, JOB_SCHEMA), (4, EVIDENCE_SCHEMA), (5, OBSERVABILITY_SCHEMA), (6, AGENT_SCHEMA), (7, GOVERNANCE_SCHEMA))
 CURRENT_SCHEMA = MIGRATIONS[-1][0]
 
 

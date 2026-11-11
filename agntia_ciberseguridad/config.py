@@ -74,6 +74,13 @@ class EventSource(Model):
     enabled: bool=True
 
 
+class VerificationChannel(Model):
+    tenant_id: OpaqueId
+    directory_ref: OpaqueId
+    method: Literal['callback_directory','in_person']
+    enabled: bool=True
+
+
 class Settings(Model):
     model_config = ConfigDict(extra="forbid", arbitrary_types_allowed=False)
     data_dir: Path
@@ -97,6 +104,8 @@ class Settings(Model):
     emergency_token_env: EnvRef|None=None
     agent_policy_hash: Hash|None=None
     agent_policy_expires_at: AwareDatetime|None=None
+    verification_channels: dict[OpaqueId,VerificationChannel]=Field(default_factory=dict)
+    remediation_fixture_refs: list[OpaqueId]=Field(default_factory=list,max_length=16)
     approved_egress_refs: list[OpaqueId]=Field(default_factory=list,max_length=16)
     max_request_bytes: Annotated[StrictInt, Field(ge=1024, le=1024 * 1024)] = 64 * 1024
     db_timeout_seconds: float = Field(default=1.0, ge=0.05, le=10)
@@ -124,6 +133,10 @@ class Settings(Model):
             if source.tenant_id not in tenants:raise ValueError('Source tenant not provisioned')
             for ref in source.target_refs:
                 if ref not in self.targets or self.targets[ref].tenant_id!=source.tenant_id:raise ValueError('Source target scope differs')
+        for channel in self.verification_channels.values():
+            if channel.tenant_id not in tenants:raise ValueError('Channel tenant not provisioned')
+        for ref in self.remediation_fixture_refs:
+            if ref not in self.targets or self.targets[ref].kind not in (AssetKind.repository,AssetKind.directory):raise ValueError('Fixture must be an approved repository/directory')
         for target in self.targets.values():
             if target.tenant_id not in tenants:
                 raise ValueError("Target has no provisioned tenant")

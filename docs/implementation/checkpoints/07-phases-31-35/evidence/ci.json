@@ -1,0 +1,101 @@
+{
+  "verified_at": "2026-11-11",
+  "tested_commit": "4f74b8e7e34755a63b1f42a106f961351a61513e",
+  "distinct_tests": 168,
+  "core_passed": 160,
+  "docker_passed": 8,
+  "failed": 0,
+  "counting": "Core discovers 168 with 8 Docker skips; separate Docker job runs those 8. Python matrix runs are not added together.",
+  "runs": [
+    {
+      "id": 43022493891,
+      "name": "Foundation runtime",
+      "status": "completed",
+      "conclusion": "success",
+      "event": "push",
+      "sha": "4f74b8e7e34755a63b1f42a106f961351a61513e",
+      "url": "https://github.com/uniscrolliabrain-cloud/agntia-ciberseguridad/actions/runs/43022493891",
+      "jobs": [
+        {
+          "id": 130528870592,
+          "name": "foundation (3.12)",
+          "conclusion": "success"
+        },
+        {
+          "id": 130528870922,
+          "name": "foundation (3.11)",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 43022493892,
+      "name": "Scoped observability browser",
+      "status": "completed",
+      "conclusion": "success",
+      "event": "push",
+      "sha": "4f74b8e7e34755a63b1f42a106f961351a61513e",
+      "url": "https://github.com/uniscrolliabrain-cloud/agntia-ciberseguridad/actions/runs/43022493892",
+      "jobs": [
+        {
+          "id": 130528870942,
+          "name": "browser",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 43022493885,
+      "name": "Documentation foundation",
+      "status": "completed",
+      "conclusion": "success",
+      "event": "push",
+      "sha": "4f74b8e7e34755a63b1f42a106f961351a61513e",
+      "url": "https://github.com/uniscrolliabrain-cloud/agntia-ciberseguridad/actions/runs/43022493885",
+      "jobs": [
+        {
+          "id": 130528870677,
+          "name": "documentation",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 43022494300,
+      "name": "Private observability contracts",
+      "status": "completed",
+      "conclusion": "success",
+      "event": "push",
+      "sha": "4f74b8e7e34755a63b1f42a106f961351a61513e",
+      "url": "https://github.com/uniscrolliabrain-cloud/agntia-ciberseguridad/actions/runs/43022494300",
+      "jobs": [
+        {
+          "id": 130528871943,
+          "name": "observability",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 43022493984,
+      "name": "Offline scanner contracts",
+      "status": "completed",
+      "conclusion": "success",
+      "event": "push",
+      "sha": "4f74b8e7e34755a63b1f42a106f961351a61513e",
+      "url": "https://github.com/uniscrolliabrain-cloud/agntia-ciberseguridad/actions/runs/43022493984",
+      "jobs": [
+        {
+          "id": 130528871913,
+          "name": "docker-contracts",
+          "conclusion": "success"
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Synthetic fixtures only",
+    "No independent review or production acceptance",
+    "Five campaign gates remain PARTIAL"
+  ]
+}

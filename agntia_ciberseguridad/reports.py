@@ -112,12 +112,13 @@ class Reports:
                 if previous:return self.get(actor,tenant,previous['id'],correlation)
             report_id=uid();content.update(id=report_id,source_hash=source_hash,generated_at=self.clock().isoformat(),
                                           generated_by=actor.actor_id,review_status='not_reviewed')
-            metadata=self.vault.put(actor,tenant,canonical(content).encode(),'application/json',correlation)
+            metadata=self.vault.put(actor,tenant,canonical(content).encode(),'application/json',correlation,derived_source_ids=[m['id'] for m in content['evidence']])
             record={'id':report_id,'tenant_id':tenant,'source_hash':source_hash,'evidence_id':metadata['id'],
                     'generated_at':content['generated_at'],'generated_by':actor.actor_id,'review_status':'not_reviewed'}
             try:
                 with self.db.transaction() as db:
                     self.service.auth.authorize(actor,tenant,'reports.create')
+                    db.execute('INSERT INTO report_source_scopes VALUES(?,?,?)',(tenant,metadata['id'],canonical([m['id'] for m in content['evidence']])))
                     db.execute('INSERT INTO reports VALUES(?,?,?,?,?)',(tenant,report_id,source_hash,metadata['id'],canonical(record)))
                     self.db.audit(db,tenant,actor.actor_id,'report.created',report_id,correlation,
                                   {'report_id':report_id,'source_hash':source_hash,'evidence_id':metadata['id']})

@@ -3,7 +3,7 @@
   "name": "Agntia Ciberseguridad — campaña7días",
   "created_on": "2026-11-10",
   "start_date_planned": "2026-11-10",
-  "execution_state": "IN_PROGRESS_SIXTH_CHECKPOINT",
+  "execution_state": "IN_PROGRESS_SEVENTH_CHECKPOINT",
   "publication_scope": "foundation_code_tests_and_documentation_on_review_branch",
   "calendar_rule": "Día1..7 son ventanas de trabajo; si un gate falla no se comprime ni se inventa PASS para cumplir una fecha. Recalendarizar con evidencia.",
   "staffing_assumption": "Roles funcionales, no plantilla contratada ni subagentes desplegados. Capacidad/hours por persona no medidas. Reducir M1 antes de degradar gates M0.",
@@ -4218,75 +4218,89 @@
         {
           "id": "D6P1T1",
           "action": "Modelar proveedor/deployerIA, responsable/encargadoRGPD, fabricanteCRA y sector sin inferirlos del nombre del cliente.",
-          "status": "PENDING",
+          "status": "PARTIAL",
           "depends_on": [
             "D1P6T7"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/07-phases-31-35/REPORT.md"
+          ]
         },
         {
           "id": "D6P1T2",
           "action": "Crear inventario de sistemas/modelos/datos/proveedores y preguntas mínimas de aplicabilidad.",
-          "status": "PENDING",
+          "status": "PARTIAL",
           "depends_on": [
             "D6P1T1"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/07-phases-31-35/REPORT.md"
+          ]
         },
         {
           "id": "D6P1T3",
           "action": "Versionar fuentes oficiales y fechas; cotejar cambios AI Act y textos que quedaron inaccesibles en investigación.",
-          "status": "PENDING",
+          "status": "PARTIAL",
           "depends_on": [
             "D6P1T2"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/07-phases-31-35/REPORT.md"
+          ]
         },
         {
           "id": "D6P1T4",
           "action": "Mapear controles técnicos a requisitos con owner y estados evidencia pendiente/presente/no revisada/revisada.",
-          "status": "PENDING",
+          "status": "PARTIAL",
           "depends_on": [
             "D6P1T3"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/07-phases-31-35/REPORT.md"
+          ]
         },
         {
           "id": "D6P1T5",
           "action": "Separar AI Act, RGPD, CRA, NIS2, DORA y ENS y no reutilizar plazos automáticamente entre regímenes.",
-          "status": "PENDING",
+          "status": "PARTIAL",
           "depends_on": [
             "D6P1T4"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/07-phases-31-35/REPORT.md"
+          ]
         },
         {
           "id": "D6P1T6",
           "action": "Probar casos aplicable/no aplicable/datos faltantes y cambios de versión con revisión humana.",
-          "status": "PENDING",
+          "status": "PARTIAL",
           "depends_on": [
             "D6P1T5"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/07-phases-31-35/REPORT.md"
+          ]
         },
         {
           "id": "D6P1T7",
           "action": "Entregar expediente de preparación con limitaciones y canal de revisión competente, sin sello de conformidad.",
-          "status": "PENDING",
+          "status": "PARTIAL",
           "depends_on": [
             "D6P1T6"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/07-phases-31-35/REPORT.md"
+          ]
         }
       ],
-      "status": "NOT_STARTED",
+      "status": "PARTIAL",
       "depends_on": [
         "D1P6"
       ],
@@ -4311,7 +4325,11 @@
           "status": "NOT_EXECUTED",
           "evidence_refs": []
         }
-      ]
+      ],
+      "evidence_refs": [
+        "docs/implementation/checkpoints/07-phases-31-35/REPORT.md"
+      ],
+      "gate_result": "PARTIAL: mecanismos y fixtures verificados; revisión competente/independiente y operación productiva pendientes"
     },
     {
       "id": "D6P2",
@@ -4335,76 +4353,90 @@
         {
           "id": "D6P2T1",
           "action": "Inventariar datos, finalidades, bases, subencargados, regiones, transferencias y retenciones del servicio.",
-          "status": "PENDING",
+          "status": "PARTIAL",
           "depends_on": [
             "D3P4T7",
             "D6P1T7"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/07-phases-31-35/REPORT.md"
+          ]
         },
         {
           "id": "D6P2T2",
           "action": "Implementar vistas minimizadas y acceso por necesidad con registro de lectura/descarga.",
-          "status": "PENDING",
+          "status": "PARTIAL",
           "depends_on": [
             "D6P2T1"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/07-phases-31-35/REPORT.md"
+          ]
         },
         {
           "id": "D6P2T3",
           "action": "Diseñar export/borrado/restricción y legal hold con autorización y reconciliación de backups.",
-          "status": "PENDING",
+          "status": "PARTIAL",
           "depends_on": [
             "D6P2T2"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/07-phases-31-35/REPORT.md"
+          ]
         },
         {
           "id": "D6P2T4",
           "action": "Crear expediente de brecha con detección, constancia, afectados, riesgo y responsable de decisión.",
-          "status": "PENDING",
+          "status": "PARTIAL",
           "depends_on": [
             "D6P2T3"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/07-phases-31-35/REPORT.md"
+          ]
         },
         {
           "id": "D6P2T5",
           "action": "Distinguir deber del encargado al responsable y eventual notificación/comunicación por régimen aplicable.",
-          "status": "PENDING",
+          "status": "PARTIAL",
           "depends_on": [
             "D6P2T4"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/07-phases-31-35/REPORT.md"
+          ]
         },
         {
           "id": "D6P2T6",
           "action": "Probar retención, restauración, claves y centinelas en prompts/export/proveedores.",
-          "status": "PENDING",
+          "status": "PARTIAL",
           "depends_on": [
             "D6P2T5"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/07-phases-31-35/REPORT.md"
+          ]
         },
         {
           "id": "D6P2T7",
           "action": "Actualizar documentación de privacidad del piloto y registrar pendientes jurídicos antes de usar datos reales.",
-          "status": "PENDING",
+          "status": "PARTIAL",
           "depends_on": [
             "D6P2T6"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/07-phases-31-35/REPORT.md"
+          ]
         }
       ],
-      "status": "NOT_STARTED",
+      "status": "PARTIAL",
       "depends_on": [
         "D3P4",
         "D6P1"
@@ -4430,7 +4462,11 @@
           "status": "NOT_EXECUTED",
           "evidence_refs": []
         }
-      ]
+      ],
+      "evidence_refs": [
+        "docs/implementation/checkpoints/07-phases-31-35/REPORT.md"
+      ],
+      "gate_result": "PARTIAL: mecanismos y fixtures verificados; revisión competente/independiente y operación productiva pendientes"
     },
     {
       "id": "D6P3",
@@ -4454,76 +4490,90 @@
         {
           "id": "D6P3T1",
           "action": "Definir permisos de lectura de correo/URLs y minimizar datos antes de análisis.",
-          "status": "PENDING",
+          "status": "PARTIAL",
           "depends_on": [
             "D5P3T7",
             "D6P2T7"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/07-phases-31-35/REPORT.md"
+          ]
         },
         {
           "id": "D6P3T2",
           "action": "Normalizar dominios, Unicode, cabeceras y relaciones de remitente sin visitar destinos arbitrarios.",
-          "status": "PENDING",
+          "status": "PARTIAL",
           "depends_on": [
             "D6P3T1"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/07-phases-31-35/REPORT.md"
+          ]
         },
         {
           "id": "D6P3T3",
           "action": "Recoger SPF/DKIM/DMARC/reputación solo cuando la fuente/licencia y autenticidad estén comprobadas.",
-          "status": "PENDING",
+          "status": "PARTIAL",
           "depends_on": [
             "D6P3T2"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/07-phases-31-35/REPORT.md"
+          ]
         },
         {
           "id": "D6P3T4",
           "action": "Diseñar flujo de verificación fuera de banda para pagos, destinatarios y solicitudes urgentes.",
-          "status": "PENDING",
+          "status": "PARTIAL",
           "depends_on": [
             "D6P3T3"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/07-phases-31-35/REPORT.md"
+          ]
         },
         {
           "id": "D6P3T5",
           "action": "Tratar deepfake/provenance como señales falibles y explicar ausencia de evidencia sin concluir falsedad.",
-          "status": "PENDING",
+          "status": "PARTIAL",
           "depends_on": [
             "D6P3T4"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/07-phases-31-35/REPORT.md"
+          ]
         },
         {
           "id": "D6P3T6",
           "action": "Probar casos sintéticos benignos, suplantación, cambioIBAN y confirmación por canal no confiable.",
-          "status": "PENDING",
+          "status": "PARTIAL",
           "depends_on": [
             "D6P3T5"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/07-phases-31-35/REPORT.md"
+          ]
         },
         {
           "id": "D6P3T7",
           "action": "Entregar recomendaciones citadas y revisión humana; ningún envío, transferencia o bloqueo real por defecto.",
-          "status": "PENDING",
+          "status": "PARTIAL",
           "depends_on": [
             "D6P3T6"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/07-phases-31-35/REPORT.md"
+          ]
         }
       ],
-      "status": "NOT_STARTED",
+      "status": "PARTIAL",
       "depends_on": [
         "D5P3",
         "D6P2"
@@ -4549,7 +4599,11 @@
           "status": "NOT_EXECUTED",
           "evidence_refs": []
         }
-      ]
+      ],
+      "evidence_refs": [
+        "docs/implementation/checkpoints/07-phases-31-35/REPORT.md"
+      ],
+      "gate_result": "PARTIAL: mecanismos y fixtures verificados; revisión competente/independiente y operación productiva pendientes"
     },
     {
       "id": "D6P4",
@@ -4573,76 +4627,90 @@
         {
           "id": "D6P4T1",
           "action": "Definir estados detected/triaged/contained/recovering/resolved y responsables según horario real.",
-          "status": "PENDING",
+          "status": "PARTIAL",
           "depends_on": [
             "D3P6T7",
             "D5P6T7"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/07-phases-31-35/REPORT.md"
+          ]
         },
         {
           "id": "D6P4T2",
           "action": "Correlacionar eventos/findings y preservar evidencia antes de cualquier propuesta de limpieza.",
-          "status": "PENDING",
+          "status": "PARTIAL",
           "depends_on": [
             "D6P4T1"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/07-phases-31-35/REPORT.md"
+          ]
         },
         {
           "id": "D6P4T3",
           "action": "Crear playbooks solo de laboratorio y propuestas para revocar grants o aislar un recurso específico.",
-          "status": "PENDING",
+          "status": "PARTIAL",
           "depends_on": [
             "D6P4T2"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/07-phases-31-35/REPORT.md"
+          ]
         },
         {
           "id": "D6P4T4",
           "action": "Ligar aprobación a diff/objetivo/riesgo/coste y separar contención de declaración regulatoria.",
-          "status": "PENDING",
+          "status": "PARTIAL",
           "depends_on": [
             "D6P4T3"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/07-phases-31-35/REPORT.md"
+          ]
         },
         {
           "id": "D6P4T5",
           "action": "Implementar estados inciertos y conciliación con el proveedor antes de reintentar.",
-          "status": "PENDING",
+          "status": "PARTIAL",
           "depends_on": [
             "D6P4T4"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/07-phases-31-35/REPORT.md"
+          ]
         },
         {
           "id": "D6P4T6",
           "action": "Ensayar alerta duplicada, falso positivo, fallo parcial y recuperación con roles distintos.",
-          "status": "PENDING",
+          "status": "PARTIAL",
           "depends_on": [
             "D6P4T5"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/07-phases-31-35/REPORT.md"
+          ]
         },
         {
           "id": "D6P4T7",
           "action": "Entregar runbook/escalado y cobertura real, sin prometer MDR humano24/7 o respuesta global.",
-          "status": "PENDING",
+          "status": "PARTIAL",
           "depends_on": [
             "D6P4T6"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/07-phases-31-35/REPORT.md"
+          ]
         }
       ],
-      "status": "NOT_STARTED",
+      "status": "PARTIAL",
       "depends_on": [
         "D3P6",
         "D5P6"
@@ -4668,7 +4736,11 @@
           "status": "NOT_EXECUTED",
           "evidence_refs": []
         }
-      ]
+      ],
+      "evidence_refs": [
+        "docs/implementation/checkpoints/07-phases-31-35/REPORT.md"
+      ],
+      "gate_result": "PARTIAL: mecanismos y fixtures verificados; revisión competente/independiente y operación productiva pendientes"
     },
     {
       "id": "D6P5",
@@ -4692,76 +4764,90 @@
         {
           "id": "D6P5T1",
           "action": "Seleccionar pocos fixes deterministas de fixtures y permitir explicaciónIA solo como propuesta.",
-          "status": "PENDING",
+          "status": "PARTIAL",
           "depends_on": [
             "D3P6T7",
             "D5P2T7"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/07-phases-31-35/REPORT.md"
+          ]
         },
         {
           "id": "D6P5T2",
           "action": "Crear diff/rama de laboratorio con origen inmutable, licencia y validación de rutas permitidas.",
-          "status": "PENDING",
+          "status": "PARTIAL",
           "depends_on": [
             "D6P5T1"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/07-phases-31-35/REPORT.md"
+          ]
         },
         {
           "id": "D6P5T3",
           "action": "Restringir cambios a ficheros previstos y detectar modificación de workflows, permisos o secretos no autorizada.",
-          "status": "PENDING",
+          "status": "PARTIAL",
           "depends_on": [
             "D6P5T2"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/07-phases-31-35/REPORT.md"
+          ]
         },
         {
           "id": "D6P5T4",
           "action": "Capturar aprobación de contenido exacto y mantener merge/deploy como operaciones distintas no habilitadas.",
-          "status": "PENDING",
+          "status": "PARTIAL",
           "depends_on": [
             "D6P5T3"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/07-phases-31-35/REPORT.md"
+          ]
         },
         {
           "id": "D6P5T5",
           "action": "Ejecutar retest y regresión en sandbox con política explícita antes de declarar arreglado.",
-          "status": "PENDING",
+          "status": "PARTIAL",
           "depends_on": [
             "D6P5T4"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/07-phases-31-35/REPORT.md"
+          ]
         },
         {
           "id": "D6P5T6",
           "action": "Probar rebase/conflicto, replay, prueba fallida y rollback sin pérdida de trabajo.",
-          "status": "PENDING",
+          "status": "PARTIAL",
           "depends_on": [
             "D6P5T5"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/07-phases-31-35/REPORT.md"
+          ]
         },
         {
           "id": "D6P5T7",
           "action": "Publicar PR propuesta en remoto solo con instrucción/alcance concretos; ningún envío externo derivado de un prompt hostil.",
-          "status": "PENDING",
+          "status": "PARTIAL",
           "depends_on": [
             "D6P5T6"
           ],
           "acceptance": "Acción demostrada con artefacto/evidencia y gate de fase ejecutado; no marcar por texto generado.",
-          "evidence_refs": []
+          "evidence_refs": [
+            "docs/implementation/checkpoints/07-phases-31-35/REPORT.md"
+          ]
         }
       ],
-      "status": "NOT_STARTED",
+      "status": "PARTIAL",
       "depends_on": [
         "D3P6",
         "D5P2"
@@ -4787,7 +4873,11 @@
           "status": "NOT_EXECUTED",
           "evidence_refs": []
         }
-      ]
+      ],
+      "evidence_refs": [
+        "docs/implementation/checkpoints/07-phases-31-35/REPORT.md"
+      ],
+      "gate_result": "PARTIAL: mecanismos y fixtures verificados; revisión competente/independiente y operación productiva pendientes"
     },
     {
       "id": "D6P6",
@@ -5629,6 +5719,6 @@
       ]
     }
   ],
-  "latest_checkpoint": "docs/implementation/checkpoints/06-phases-26-30/REPORT.md",
+  "latest_checkpoint": "docs/implementation/checkpoints/07-phases-31-35/REPORT.md",
   "customer_scanner_execution_enabled": false
 }

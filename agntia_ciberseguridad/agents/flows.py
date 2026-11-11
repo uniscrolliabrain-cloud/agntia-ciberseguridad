@@ -55,6 +55,8 @@ class DataFlows:
         result=[]
         for flow_id in flow_ids:
             record=self.row(db,tenant,flow_id)
+            from ..governance.privacy_guard import ensure_readable
+            ensure_readable(db,tenant,record['evidence_id'],self.clock())
             if record['resource_id']!=resource_id:reject('flow_scope','Fuente fuera de recurso',403)
             source=db.execute('SELECT body FROM evidence WHERE tenant_id=? AND id=?',(tenant,record['evidence_id'])).fetchone()
             if not source:not_found()
