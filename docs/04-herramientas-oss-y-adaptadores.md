@@ -1,3 +1,8 @@
+> **ACTUALIZACIÓN 2026-11-14 — CONTEXTO VIGENTE ANTES DEL TEXTO HISTÓRICO**
+> La implementación de las ramas y la documentación de recuperación se integraron en `main` (PR #10/#11). Este texto puede contener propuestas ya implementadas o referencias a ramas anteriores: comprobar el código de `main` antes de actuar. Estado del producto: demo sintética, no producción ni piloto aceptado; CI Python/SDK, scanner Docker y navegador reejecutada satisfactoriamente sobre el head de implementación. `docs/release/status.json` mantiene 2 fases PASS y 40 PARTIAL. Consultar primero `docs/auditoria-runtime/AUDITORIA-FUNCIONAL-2026-11-14.md` y `docs/auditoria-runtime/PROGRAMA-DIFERENCIAL-12-CAMPANAS.md`. **Contenido histórico conservado sin cambios debajo.**
+
+---
+
 # 04 · Catálogo OSS y estrategia de integración
 
 Se consultaron metadatos GitHub de31 repos el2026-11-10. [repositories.json](research/repositories.json) conserva canonical URL, licencia SPDX informada, rama y última actividad. [source-refs.json](research/source-refs.json) registra ocho heads observados. Ninguno se ha instalado, ejecutado o auditado en profundidad; metadata no demuestra ausencia de malware ni autorización comercial de todos sus componentes.
