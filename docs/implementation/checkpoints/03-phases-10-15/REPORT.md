@@ -1,3 +1,8 @@
+> **ACTUALIZACIÓN 2026-11-14 — CHECKPOINT HISTÓRICO**
+> Este reporte registra resultados de un SHA/etapa anterior, no el estado completo de `main`. Las ramas de implementación se integraron en PR #10 y #11. La entrega sigue siendo demo sintética no productiva; el estado global conserva 2 fases PASS y 40 PARTIAL en `docs/release/status.json`. Antes de ejecutar pendientes, consultar `docs/auditoria-runtime/AUDITORIA-FUNCIONAL-2026-11-14.md` y `docs/auditoria-runtime/PROGRAMA-DIFERENCIAL-12-CAMPANAS.md`; contrastar cada test, fix y supuesto con HEAD. **Evidencia histórica original preservada debajo.**
+
+---
+
 # Informe03 · Fase10 revisada y fases11–15
 
 Fecha:2026-11-10. Repositorio uniscrolliabrain-cloud/agntia-ciberseguridad. Rama feat/cyber-phases-10-15; [PR#3](https://github.com/uniscrolliabrain-cloud/agntia-ciberseguridad/pull/3), apilada sobre PR#2. Este corte retoma el pendiente SBOM de la fase10 y entrega las cinco fases nuevas11–15. No duplica una fase para inflar el progreso.
