@@ -1,0 +1,19 @@
+export type RecordValue=Record<string,unknown>;
+export function object(v:unknown):RecordValue{if(!v||typeof v!=='object'||Array.isArray(v))throw Error('contract');return v as RecordValue;}
+export function closed(v:unknown,keys:readonly string[]):RecordValue{const r=object(v);if(Object.keys(r).some(k=>!keys.includes(k)))throw Error('contract');return r;}
+export function str(v:unknown,re?:RegExp):string{if(typeof v!=='string'||v.length>16000||(re&&!re.test(v)))throw Error('contract');return v;}
+export const id=(v:unknown)=>str(v,/^[a-f0-9]{32}$/);
+export const tenant=(v:unknown)=>str(v,/^[a-zA-Z0-9][a-zA-Z0-9_-]{0,63}$/);
+export function integer(v:unknown,max=100000000):number{if(typeof v!=='number'||!Number.isSafeInteger(v)||v<0||v>max)throw Error('contract');return v;}
+export function list(v:unknown):unknown[]{if(!Array.isArray(v)||v.length>100)throw Error('contract');return v;}
+export type Asset={schema_version:1;id:string;tenant_id:string;target_ref:string;kind:'repository'|'directory'|'image'|'web';display_name:string;state:'registered'|'disabled';revision:number;created_at:string};
+export function asset(v:unknown):Asset{const r=closed(v,['schema_version','id','tenant_id','target_ref','kind','display_name','state','revision','created_at']);id(r.id);tenant(r.tenant_id);tenant(r.target_ref);integer(r.revision);str(r.display_name);str(r.created_at);if(r.schema_version!==1||!['registered','disabled'].includes(String(r.state))||!['repository','directory','image','web'].includes(String(r.kind)))throw Error('contract');return r as Asset;}
+export type Page<T>={items:T[];next_cursor:string|null};
+export function page<T>(v:unknown,parse:(v:unknown)=>T,re:RegExp):Page<T>{const r=closed(v,['items','next_cursor']);return {items:list(r.items).map(parse),next_cursor:r.next_cursor===null?null:str(r.next_cursor,re)};}
+export const JOB_STATES=['pending','running','completed','partial','failed','cancelled','blocked','reconciliation_required'] as const;
+export type Job={id:string;tenant_id:string;state:typeof JOB_STATES[number];tool:string;revision:number;result_hash:string|null};
+export function job(v:unknown):Job{const r=object(v);id(r.id);tenant(r.tenant_id);integer(r.revision);str(r.tool);if(!JOB_STATES.includes(r.state as Job['state']))throw Error('contract');if(r.result_hash!==null)str(r.result_hash,/^[a-f0-9]{64}$/);return {id:r.id as string,tenant_id:r.tenant_id as string,state:r.state as Job['state'],tool:r.tool as string,revision:r.revision as number,result_hash:r.result_hash as string|null};}
+export type Budget={tenant_id:string;status:'not_configured'|'policy_changed'|'frozen'|'exhausted'|'warning'|'available';currency:'EUR';available_cents?:number;reserved_cents?:number;spent_cents?:number;cap_cents?:number;security_controls_degraded:false};
+export function budget(v:unknown):Budget{const r=object(v);tenant(r.tenant_id);if(r.currency!=='EUR'||r.security_controls_degraded!==false||!['not_configured','policy_changed','frozen','exhausted','warning','available'].includes(String(r.status)))throw Error('contract');const out:Budget={tenant_id:r.tenant_id as string,status:r.status as Budget['status'],currency:'EUR',security_controls_degraded:false};if(r.status!=='not_configured'){out.available_cents=integer(r.available_cents);out.reserved_cents=integer(r.reserved_cents);out.spent_cents=integer(r.spent_cents);out.cap_cents=integer(r.cap_cents);}return out;}
+export type DelegatedRead={delegation_id:string;data:RecordValue[];flows:RecordValue[];limit:number;security_guarantee:false};
+export function delegated(v:unknown):DelegatedRead{const r=closed(v,['delegation_id','data','flows','limit','security_guarantee']);id(r.delegation_id);if(r.security_guarantee!==false)throw Error('contract');return {delegation_id:r.delegation_id as string,data:list(r.data).map(object),flows:list(r.flows).map(object),limit:integer(r.limit,100),security_guarantee:false};}

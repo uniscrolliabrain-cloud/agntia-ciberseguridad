@@ -1,8 +1,10 @@
+> Entrega vigente: [cierre41–42](docs/implementation/checkpoints/09-phases-41-42/REPORT.md), rama feat/cyber-phases-41-42. Demo sintética empaquetable; [informe founder](docs/release/FOUNDER-REPORT.md), [runbook](docs/operations/RUNBOOK.md) y [aceptación pendiente](docs/release/PILOT-ACCEPTANCE.md). Gates abiertos; sin merge, despliegue o integración `/agente`.
+
 # Agntia Ciberseguridad
 
 **Middleware de ciberseguridad tradicional y agéntica para AgntiaPro y su repositorio madre `/agente`.** Observa activos autorizados, reúne evidencias, prepara auditorías y reportes, controla las acciones de agentes y propone remediaciones revisables.
 
-**Estado al2026-11-10: fundación documental e investigación. No hay un servicio de protección implementado ni activo.** No se han instalado scanners, conectado clientes, modificado `/agente`, comprado suscripciones o desplegado infraestructura. Los controles descritos son el objetivo de implementación; las comprobaciones iniciales solo validan documentación/configuración.
+**Estado al2026-11-10: middleware en desarrollo con API, snapshots, cuatro adaptadores offline, jobs, custodia, informes, observabilidad y gateway de agentes.** El checkpoint vigente distingue código probado, limitaciones y gates pendientes; consultar su evidencia para conteos actuales. No hay ejecución de clientes habilitada, compras, despliegue o cambios en `/agente`.
 
 ## Campaña de implementación de siete días
 
@@ -55,7 +57,7 @@ La selección inicial propuesta es Gitleaks + OSV-Scanner + Semgrep CE con regla
 | L | **70€** | Más frecuencia y conectores opcionales dentro de presupuesto |
 | XL | **300€** | Más activos/evaluación y servicios seleccionados; no cobertura ilimitada |
 
-Son límites de diseño por workspace/tenant piloto que deben confirmarse antes de una oferta. [plans.json](config/plans.json) distribuye cómputo, almacenamiento, APIs, servicios y reserva fiscal/FX. **No son cotizaciones ni un enforcement ya implementado.** No incluyen trabajo humano, puesta en marcha, asesoría jurídica o hosting de la aplicación del cliente. Las suscripciones no se activan automáticamente y las anualidades no se disfrazan de gasto mensual de caja.
+Son límites de diseño por workspace/tenant piloto que deben confirmarse antes de una oferta. [plans.json](config/plans.json) distribuye cómputo, almacenamiento, APIs, servicios y reserva fiscal/FX. **No son cotizaciones ni enforcement del gasto externo.** Existe un ledger local de reservas en céntimos por tenant/mes; solo controla operaciones admitidas por él y necesita tarifas revisadas. No está conectado a facturas o límites de proveedores. No incluyen trabajo humano, puesta en marcha, asesoría jurídica o hosting de la aplicación del cliente. Las suscripciones no se activan automáticamente y las anualidades no se disfrazan de gasto mensual de caja.
 
 Los tres planes mantienen el mismo suelo de aislamiento, autorización, secretos, auditoría y aprobación. Las cuotas cambian cobertura/frecuencia, no rebajan controles básicos. VirusTotal public API queda fuera de la base comercial por sus términos; servicios empresariales de precio no verificado no se anuncian como incluidos.
 
@@ -76,7 +78,7 @@ Requiere únicamente Python3.12 recomendado, sin dependencias externas:
 python scripts/validate_foundation.py
 ```
 
-Comprueba enlaces locales, JSON, catálogo y coherencia de presupuesto. **No analiza vulnerabilidades ni demuestra protección.** No hay todavía comando para arrancar API, instalar el middleware en `/agente` o activar agentes. El siguiente incremento es core con identidad/scope y fixtures; después pocos adaptadores probados de extremo a extremo.
+Comprueba enlaces locales, JSON, catálogo y coherencia de presupuesto. **No analiza vulnerabilidades ni demuestra protección.** El runtime de la rama dispone de CLI/API y adaptadores probados con fixtures; consultar el checkpoint vigente para instalación y límites. La integración en `/agente` y activación de clientes siguen pendientes.
 
 ## Licencia, datos y seguridad
 

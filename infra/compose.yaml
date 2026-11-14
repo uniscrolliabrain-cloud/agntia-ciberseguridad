@@ -1,0 +1,31 @@
+name: agntia-cyber-lab
+services:
+  api:
+    image: ${AGNTIA_RUNTIME_IMAGE:?Use a locally built image with immutable sha256 ID}
+    user: "65532:65532"
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    pids_limit: 128
+    mem_limit: 512m
+    cpus: 1.0
+    tmpfs: [/tmp:size=64m,mode=1777]
+    ports: ["127.0.0.1:8012:8012"]
+    env_file: ["${AGNTIA_SECRET_ENV_FILE:?Private external file of environment credentials}"]
+    volumes:
+      - state:/state
+      - type: bind
+        source: ${AGNTIA_SERVER_CONFIG:?Absolute server config path with references only}
+        target: /run/config/server.json
+        read_only: true
+    networks: [private]
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8012/health/ready',timeout=3)"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+volumes:
+  state:
+networks:
+  private:
+    internal: true

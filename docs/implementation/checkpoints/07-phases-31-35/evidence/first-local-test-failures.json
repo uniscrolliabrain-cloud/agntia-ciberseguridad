@@ -1,0 +1,14 @@
+{
+  "suite": "new_governance_cases",
+  "discovered": 21,
+  "errors": 5,
+  "causes": [
+    "Fixture model_copy used str instead of Tool enum",
+    "Replay test generated fresh evidence rather than repeating identical payload"
+  ],
+  "resolution": [
+    "Use Tool enum in fixture update",
+    "Replay the same input and separately assert409 on changed content"
+  ],
+  "production_assertions_relaxed": false
+}

@@ -1,0 +1,82 @@
+test_cache_bytes_attestation_and_tampering (contracts.test_scanners.ScannerContracts.test_cache_bytes_attestation_and_tampering) ... ok
+test_gitleaks_canary_minimized_and_duplicate_stable (contracts.test_scanners.ScannerContracts.test_gitleaks_canary_minimized_and_duplicate_stable) ... ok
+test_gitleaks_error_malformed_exit_and_unknown_version_never_clean (contracts.test_scanners.ScannerContracts.test_gitleaks_error_malformed_exit_and_unknown_version_never_clean) ... ok
+test_missing_component_not_claimed_fixed (contracts.test_scanners.ScannerContracts.test_missing_component_not_claimed_fixed) ... ok
+test_osv_components_advisory_fix_and_sbom_without_exploit_claim (contracts.test_scanners.ScannerContracts.test_osv_components_advisory_fix_and_sbom_without_exploit_claim) ... ok
+test_osv_stale_missing_unknown_and_unpinned_not_safe (contracts.test_scanners.ScannerContracts.test_osv_stale_missing_unknown_and_unpinned_not_safe) ... ok
+test_real_timeout_output_pids_and_cleanup (docker.test_real_scanners.RealSandboxTests.test_real_timeout_output_pids_and_cleanup) ... skipped 'Docker integration not requested; no sandbox claim'
+test_real_uid_files_network_proxy_and_secret_isolation (docker.test_real_scanners.RealSandboxTests.test_real_uid_files_network_proxy_and_secret_isolation) ... skipped 'Docker integration not requested; no sandbox claim'
+test_real_gitleaks_canary_and_clean_control (docker.test_real_scanners.RealScannerTests.test_real_gitleaks_canary_and_clean_control) ... skipped 'Docker integration not requested; no sandbox claim'
+test_real_osv_vulnerable_control_stale_and_missing_db (docker.test_real_scanners.RealScannerTests.test_real_osv_vulnerable_control_stale_and_missing_db) ... skipped 'Docker integration not requested; no sandbox claim'
+test_concurrent_duplicate_asset_yields_one_object (integration.test_storage.DuplicateMutationTests.test_concurrent_duplicate_asset_yields_one_object) ... ok
+test_two_processes_initialize_without_lost_schema (integration.test_storage.MultiprocessMigrationTests.test_two_processes_initialize_without_lost_schema) ... ok
+test_upgrade_from_previous_foundation_preserves_tenant_and_audit (integration.test_storage.SnapshotMigrationUpgradeTests.test_upgrade_from_previous_foundation_preserves_tenant_and_audit) ... ok
+test_concurrent_initialization_and_tenant_sequences (integration.test_storage.StorageTests.test_concurrent_initialization_and_tenant_sequences) ... ok
+test_failed_upgrade_rolls_back_existing_data_and_audit (integration.test_storage.StorageTests.test_failed_upgrade_rolls_back_existing_data_and_audit) ... ok
+test_foreign_keys_and_readonly_connections (integration.test_storage.StorageTests.test_foreign_keys_and_readonly_connections) ... ok
+test_fresh_upgrade_backup_and_idempotence (integration.test_storage.StorageTests.test_fresh_upgrade_backup_and_idempotence) ... ok
+test_restore_backup_and_detect_tampering (integration.test_storage.StorageTests.test_restore_backup_and_detect_tampering) ... ok
+test_auth_required_and_duplicate_credentials_denied (security.test_api_foundation.ApiTests.test_auth_required_and_duplicate_credentials_denied) ... {"event": "request.rejected", "code": "validation", "correlation_id": "c3928d54-5879-46ab-b582-3f82e5368f9c"}
+ok
+test_bounds_errors_correlation_and_no_secret_reflection (security.test_api_foundation.ApiTests.test_bounds_errors_correlation_and_no_secret_reflection) ... {"event": "request.rejected", "code": "request_too_large", "correlation_id": "ec842707-e2ec-4b12-8082-973968b27372"}
+{"event": "request.rejected", "code": "validation", "correlation_id": "f3dba6f0-f4c9-4a10-ab35-d89996513db8"}
+ok
+test_duplicate_asset_is_conflict_and_failed_attempt_audited (security.test_api_foundation.ApiTests.test_duplicate_asset_is_conflict_and_failed_attempt_audited) ... {"event": "request.rejected", "code": "conflict", "correlation_id": "a17e20ff-13f6-438f-8dc4-e91fb1973e0f"}
+ok
+test_expired_grant_and_changed_config_fail_closed (security.test_api_foundation.ApiTests.test_expired_grant_and_changed_config_fail_closed) ... {"event": "request.rejected", "code": "grant_expired", "correlation_id": "25574e8c-1aac-47a9-ada2-deb02fc98ea3"}
+{"event": "request.rejected", "code": "configuration_changed", "correlation_id": "05c0990b-9c04-4e7d-afd1-6a3fbf65e297"}
+ok
+test_grant_cannot_expand_consent_or_accept_llm_identity (security.test_api_foundation.ApiTests.test_grant_cannot_expand_consent_or_accept_llm_identity) ... {"event": "request.rejected", "code": "grant_expansion", "correlation_id": "16373a60-197f-4763-a38f-744499fffd0f"}
+{"event": "request.rejected", "code": "grant_expansion", "correlation_id": "3b1129a6-afa9-477c-947b-edbf8fa1c059"}
+{"event": "request.rejected", "code": "validation", "correlation_id": "0b80329e-a239-41ed-b30e-dab1fb60d2fc"}
+{"event": "request.rejected", "code": "validation", "correlation_id": "1f1e81a2-1bde-4ab4-959e-4bc8c0443c3a"}
+{"event": "request.rejected", "code": "grant_interval", "correlation_id": "df33ff7a-9637-4564-ae8a-38ed5f76308c"}
+ok
+test_human_review_preview_and_revocation (security.test_api_foundation.ApiTests.test_human_review_preview_and_revocation) ... {"event": "request.rejected", "code": "grant_not_active", "correlation_id": "aceb131b-f20f-4228-a3b3-493e1190729e"}
+ok
+test_revocation_during_dns_preflight_denied (security.test_api_foundation.ApiTests.test_revocation_during_dns_preflight_denied) ... ok
+test_revoked_principal_and_rotated_token_fail_closed (security.test_api_foundation.ApiTests.test_revoked_principal_and_rotated_token_fail_closed) ... {"event": "request.rejected", "code": "principal_revoked", "correlation_id": "d23197e2-f63a-4207-826f-71b4bafbbbcd"}
+ok
+test_separation_revision_and_hash_checks (security.test_api_foundation.ApiTests.test_separation_revision_and_hash_checks) ... {"event": "request.rejected", "code": "separation_of_duties", "correlation_id": "714b892d-5bcb-440b-838e-c05d94cd48c1"}
+{"event": "request.rejected", "code": "forbidden", "correlation_id": "6a8e0f0c-5bbc-4db8-9c46-6b4e94e6583b"}
+{"event": "request.rejected", "code": "conflict", "correlation_id": "85fc5274-ab8f-464f-9756-476c43462e64"}
+{"event": "request.rejected", "code": "conflict", "correlation_id": "b20d44b7-4911-4859-a0e7-0b70cf4e1e5a"}
+ok
+test_tenant_asset_isolation_and_no_server_paths (security.test_api_foundation.ApiTests.test_tenant_asset_isolation_and_no_server_paths) ... {"event": "request.rejected", "code": "not_found", "correlation_id": "b9482e91-90b1-410b-9b10-edddedcb82b7"}
+ok
+test_viewer_cannot_mutate_or_preview (security.test_api_foundation.ApiTests.test_viewer_cannot_mutate_or_preview) ... {"event": "request.rejected", "code": "forbidden", "correlation_id": "94c5b0a6-2a7d-4083-a522-25e383a14120"}
+{"event": "request.rejected", "code": "forbidden", "correlation_id": "bc699e46-2c80-4106-bc16-ee0a57a9ad00"}
+ok
+test_empty_frame_stream_is_bounded (security.test_api_foundation.BoundaryTests.test_empty_frame_stream_is_bounded) ... {"event": "request.rejected", "code": "request_too_large", "correlation_id": "f69832fb-298d-491e-9c1f-c1cd767b98c8"}
+ok
+test_snapshot_creation_scoped_and_reviewed (security.test_api_foundation.SnapshotApiTests.test_snapshot_creation_scoped_and_reviewed) ... ok
+test_cancel_and_source_mutation_leave_no_snapshot (security.test_ingestion.SnapshotTests.test_cancel_and_source_mutation_leave_no_snapshot) ... ok
+test_capture_seal_manifest_and_no_hook_execution (security.test_ingestion.SnapshotTests.test_capture_seal_manifest_and_no_hook_execution) ... ok
+test_content_tampering_detected (security.test_ingestion.SnapshotTests.test_content_tampering_detected) ... ok
+test_lfs_submodules_and_binary_coverage_explicit (security.test_ingestion.SnapshotTests.test_lfs_submodules_and_binary_coverage_explicit) ... ok
+test_limits_empty_directory_bomb_and_unsupported_archive (security.test_ingestion.SnapshotTests.test_limits_empty_directory_bomb_and_unsupported_archive) ... ok
+test_orphan_manifest_never_becomes_registered_snapshot (security.test_ingestion.SnapshotTests.test_orphan_manifest_never_becomes_registered_snapshot) ... ok
+test_symlink_hardlink_and_fifo_rejected_before_read (security.test_ingestion.SnapshotTests.test_symlink_hardlink_and_fifo_rejected_before_read) ... ok
+test_insecure_loopback_requires_both_lab_flags (security.test_network_scope.NetworkScopeTests.test_insecure_loopback_requires_both_lab_flags) ... ok
+test_local_path_and_symlink_escape_denied (security.test_network_scope.NetworkScopeTests.test_local_path_and_symlink_escape_denied) ... ok
+test_metadata_denied_even_with_broad_allowlist (security.test_network_scope.NetworkScopeTests.test_metadata_denied_even_with_broad_allowlist) ... ok
+test_pin_all_dns_answers_and_no_metadata (security.test_network_scope.NetworkScopeTests.test_pin_all_dns_answers_and_no_metadata) ... ok
+test_url_credentials_redirect_and_path_cannot_expand (security.test_network_scope.NetworkScopeTests.test_url_credentials_redirect_and_path_cannot_expand) ... ok
+test_every_boundary_has_benign_adversarial_cases_and_owner (security.test_release_gates.SafetyGateTests.test_every_boundary_has_benign_adversarial_cases_and_owner) ... ok
+test_missing_review_or_sandbox_never_activates_customer_execution (security.test_release_gates.SafetyGateTests.test_missing_review_or_sandbox_never_activates_customer_execution) ... ok
+test_bounded_pipe_drain_without_docker (security.test_runner.RunnerTests.test_bounded_pipe_drain_without_docker) ... ok
+test_cache_required_and_mount_path_injection_rejected (security.test_runner.RunnerTests.test_cache_required_and_mount_path_injection_rejected) ... ok
+test_profile_is_immutable_no_shell_socket_or_network (security.test_runner.RunnerTests.test_profile_is_immutable_no_shell_socket_or_network) ... ok
+test_revocation_cancels_before_launch (security.test_runner.RunnerTests.test_revocation_cancels_before_launch) ... ok
+test_timeout_output_limit_and_cleanup_failures (security.test_runner.RunnerTests.test_timeout_output_limit_and_cleanup_failures) ... ok
+test_release_denied_before_runner_and_validated_fixture_flow (security.test_scan_boundary.ScanBoundaryTests.test_release_denied_before_runner_and_validated_fixture_flow) ... ok
+test_closed_fields_and_schema_roundtrip (unit.test_contracts.ContractTests.test_closed_fields_and_schema_roundtrip) ... ok
+test_grant_requires_timezone_and_bounded_window (unit.test_contracts.ContractTests.test_grant_requires_timezone_and_bounded_window) ... ok
+test_money_is_strict_integer_and_nonfinite_rejected (unit.test_contracts.ContractTests.test_money_is_strict_integer_and_nonfinite_rejected) ... ok
+test_no_implicit_configuration_and_ambiguous_principal_denied (unit.test_contracts.ContractTests.test_no_implicit_configuration_and_ambiguous_principal_denied) ... ok
+test_inventory_preserves_unrelated_edits_and_reports_unavailable_docker (unit.test_environment.EnvironmentTests.test_inventory_preserves_unrelated_edits_and_reports_unavailable_docker) ... ok
+
+----------------------------------------------------------------------
+Ran 56 tests in 1.260s
+
+OK (skipped=4)

@@ -1,0 +1,14 @@
+{
+  "python": "3.12.14",
+  "command": ".venv/bin/python -m unittest discover -s tests -v",
+  "discovered": 103,
+  "passed": 92,
+  "failed": 0,
+  "skipped": 11,
+  "skip_reasons": {
+    "Docker": 7,
+    "OpenTelemetry_SDK_unavailable": 4
+  },
+  "duration_seconds": 4.046,
+  "production_verified": false
+}

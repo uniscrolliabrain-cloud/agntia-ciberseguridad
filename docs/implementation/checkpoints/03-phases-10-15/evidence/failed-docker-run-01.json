@@ -1,0 +1,9 @@
+{
+  "run_id": 42859779250,
+  "job_id": 129982462051,
+  "commit": "a2e6c65e6b89670a62452be2825d08c85e90eb72",
+  "status": "FAIL",
+  "scope": "Build/version validation; no extended scan tests executed",
+  "cause": "Semgrep distribution does not place its CLI at /usr/local/bin/semgrep.",
+  "correction": "Use the installed command with fixed approved PATH, including the upstream native-engine directory; pin the observed image digest."
+}

@@ -1,0 +1,11 @@
+{
+  "executor_status": "unavailable",
+  "local_commit_verified": false,
+  "last_observed_command": "python -m unittest discover -s tests -v",
+  "discovered": 72,
+  "passed": 66,
+  "failed": 0,
+  "skipped_docker": 6,
+  "scope": "Observed before execution transport disconnected; not attributed to recovered remote bytes.",
+  "remote_validation": "ci.json"
+}

@@ -1,0 +1,763 @@
+{
+  "classification": "SYNTHETIC_DEMO_NOT_PRODUCTION",
+  "owner_acceptance": "PENDING",
+  "independent_review": "PENDING",
+  "production_enabled": false,
+  "campaign_sha256": "fbc3cfa3593cb01c15786f18358414333a017e0bfb38a032f91aa17d3d13ae72",
+  "phase_counts": {
+    "PASS": 2,
+    "PARTIAL": 40
+  },
+  "task_counts": {
+    "PASS": 80,
+    "PARTIAL": 214
+  },
+  "phases": [
+    {
+      "id": "D1P1",
+      "title": "Baseline, alcance y contrato de servicio",
+      "status": "PASS",
+      "tasks": {
+        "D1P1T1": "PASS",
+        "D1P1T2": "PASS",
+        "D1P1T3": "PASS",
+        "D1P1T4": "PASS",
+        "D1P1T5": "PASS",
+        "D1P1T6": "PASS",
+        "D1P1T7": "PASS"
+      },
+      "depends_on": []
+    },
+    {
+      "id": "D1P2",
+      "title": "Paquete, configuración y contratos tipados",
+      "status": "PASS",
+      "tasks": {
+        "D1P2T1": "PASS",
+        "D1P2T2": "PASS",
+        "D1P2T3": "PASS",
+        "D1P2T4": "PASS",
+        "D1P2T5": "PASS",
+        "D1P2T6": "PASS",
+        "D1P2T7": "PASS"
+      },
+      "depends_on": [
+        "D1P1"
+      ]
+    },
+    {
+      "id": "D1P3",
+      "title": "Identidad, tenancy y capacidades",
+      "status": "PARTIAL",
+      "tasks": {
+        "D1P3T1": "PASS",
+        "D1P3T2": "PASS",
+        "D1P3T3": "PASS",
+        "D1P3T4": "PARTIAL",
+        "D1P3T5": "PARTIAL",
+        "D1P3T6": "PASS",
+        "D1P3T7": "PASS"
+      },
+      "depends_on": [
+        "D1P2"
+      ]
+    },
+    {
+      "id": "D1P4",
+      "title": "Persistencia, migraciones y auditoría",
+      "status": "PARTIAL",
+      "tasks": {
+        "D1P4T1": "PASS",
+        "D1P4T2": "PARTIAL",
+        "D1P4T3": "PASS",
+        "D1P4T4": "PASS",
+        "D1P4T5": "PARTIAL",
+        "D1P4T6": "PASS",
+        "D1P4T7": "PASS"
+      },
+      "depends_on": [
+        "D1P2"
+      ]
+    },
+    {
+      "id": "D1P5",
+      "title": "Inventario de activos y autorización de trabajo",
+      "status": "PARTIAL",
+      "tasks": {
+        "D1P5T1": "PASS",
+        "D1P5T2": "PARTIAL",
+        "D1P5T3": "PASS",
+        "D1P5T4": "PASS",
+        "D1P5T5": "PASS",
+        "D1P5T6": "PARTIAL",
+        "D1P5T7": "PASS"
+      },
+      "depends_on": [
+        "D1P3",
+        "D1P4"
+      ]
+    },
+    {
+      "id": "D1P6",
+      "title": "Threat model y revisión de fronteras",
+      "status": "PARTIAL",
+      "tasks": {
+        "D1P6T1": "PASS",
+        "D1P6T2": "PASS",
+        "D1P6T3": "PASS",
+        "D1P6T4": "PASS",
+        "D1P6T5": "PASS",
+        "D1P6T6": "PARTIAL",
+        "D1P6T7": "PARTIAL"
+      },
+      "depends_on": [
+        "D1P3",
+        "D1P4",
+        "D1P5"
+      ]
+    },
+    {
+      "id": "D2P1",
+      "title": "Adquisición de snapshots sin ejecutar código",
+      "status": "PARTIAL",
+      "tasks": {
+        "D2P1T1": "PARTIAL",
+        "D2P1T2": "PARTIAL",
+        "D2P1T3": "PASS",
+        "D2P1T4": "PASS",
+        "D2P1T5": "PASS",
+        "D2P1T6": "PASS",
+        "D2P1T7": "PASS"
+      },
+      "depends_on": [
+        "D1P6"
+      ]
+    },
+    {
+      "id": "D2P2",
+      "title": "Runner y sandbox de herramientas",
+      "status": "PARTIAL",
+      "tasks": {
+        "D2P2T1": "PASS",
+        "D2P2T2": "PASS",
+        "D2P2T3": "PASS",
+        "D2P2T4": "PASS",
+        "D2P2T5": "PASS",
+        "D2P2T6": "PASS",
+        "D2P2T7": "PASS"
+      },
+      "depends_on": [
+        "D1P6"
+      ]
+    },
+    {
+      "id": "D2P3",
+      "title": "Adaptador Gitleaks y protección de secretos",
+      "status": "PARTIAL",
+      "tasks": {
+        "D2P3T1": "PASS",
+        "D2P3T2": "PASS",
+        "D2P3T3": "PASS",
+        "D2P3T4": "PASS",
+        "D2P3T5": "PASS",
+        "D2P3T6": "PASS",
+        "D2P3T7": "PASS"
+      },
+      "depends_on": [
+        "D2P1",
+        "D2P2"
+      ]
+    },
+    {
+      "id": "D2P4",
+      "title": "OSV, inventario de dependencias y SBOM",
+      "status": "PARTIAL",
+      "tasks": {
+        "D2P4T1": "PASS",
+        "D2P4T2": "PASS",
+        "D2P4T3": "PASS",
+        "D2P4T4": "PASS",
+        "D2P4T5": "PARTIAL",
+        "D2P4T6": "PARTIAL",
+        "D2P4T7": "PASS"
+      },
+      "depends_on": [
+        "D2P1",
+        "D2P2"
+      ]
+    },
+    {
+      "id": "D2P5",
+      "title": "Semgrep CE y reglas propias revisadas",
+      "status": "PARTIAL",
+      "tasks": {
+        "D2P5T1": "PASS",
+        "D2P5T2": "PASS",
+        "D2P5T3": "PASS",
+        "D2P5T4": "PASS",
+        "D2P5T5": "PASS",
+        "D2P5T6": "PASS",
+        "D2P5T7": "PARTIAL"
+      },
+      "depends_on": [
+        "D2P1",
+        "D2P2"
+      ]
+    },
+    {
+      "id": "D2P6",
+      "title": "Trivy para imágenes e IaC del piloto",
+      "status": "PARTIAL",
+      "tasks": {
+        "D2P6T1": "PARTIAL",
+        "D2P6T2": "PARTIAL",
+        "D2P6T3": "PASS",
+        "D2P6T4": "PARTIAL",
+        "D2P6T5": "PARTIAL",
+        "D2P6T6": "PARTIAL",
+        "D2P6T7": "PASS"
+      },
+      "depends_on": [
+        "D2P1",
+        "D2P2"
+      ]
+    },
+    {
+      "id": "D3P1",
+      "title": "Jobs, idempotencia y estados fiables",
+      "status": "PARTIAL",
+      "tasks": {
+        "D3P1T1": "PASS",
+        "D3P1T2": "PARTIAL",
+        "D3P1T3": "PASS",
+        "D3P1T4": "PASS",
+        "D3P1T5": "PASS",
+        "D3P1T6": "PASS",
+        "D3P1T7": "PASS"
+      },
+      "depends_on": [
+        "D1P6"
+      ]
+    },
+    {
+      "id": "D3P2",
+      "title": "Worker con leases, fencing y retries",
+      "status": "PARTIAL",
+      "tasks": {
+        "D3P2T1": "PASS",
+        "D3P2T2": "PASS",
+        "D3P2T3": "PASS",
+        "D3P2T4": "PASS",
+        "D3P2T5": "PARTIAL",
+        "D3P2T6": "PARTIAL",
+        "D3P2T7": "PARTIAL"
+      },
+      "depends_on": [
+        "D3P1",
+        "D2P2"
+      ]
+    },
+    {
+      "id": "D3P3",
+      "title": "Normalización, deduplicación y contexto",
+      "status": "PARTIAL",
+      "tasks": {
+        "D3P3T1": "PASS",
+        "D3P3T2": "PASS",
+        "D3P3T3": "PASS",
+        "D3P3T4": "PARTIAL",
+        "D3P3T5": "PARTIAL",
+        "D3P3T6": "PARTIAL",
+        "D3P3T7": "PASS"
+      },
+      "depends_on": [
+        "D2P3",
+        "D2P4",
+        "D2P5"
+      ]
+    },
+    {
+      "id": "D3P4",
+      "title": "Custodia, redacción y cadena de evidencia",
+      "status": "PARTIAL",
+      "tasks": {
+        "D3P4T1": "PARTIAL",
+        "D3P4T2": "PARTIAL",
+        "D3P4T3": "PARTIAL",
+        "D3P4T4": "PARTIAL",
+        "D3P4T5": "PARTIAL",
+        "D3P4T6": "PARTIAL",
+        "D3P4T7": "PARTIAL"
+      },
+      "depends_on": [
+        "D1P6"
+      ]
+    },
+    {
+      "id": "D3P5",
+      "title": "Priorización, excepciones y revisión humana",
+      "status": "PARTIAL",
+      "tasks": {
+        "D3P5T1": "PARTIAL",
+        "D3P5T2": "PARTIAL",
+        "D3P5T3": "PARTIAL",
+        "D3P5T4": "PARTIAL",
+        "D3P5T5": "PARTIAL",
+        "D3P5T6": "PARTIAL",
+        "D3P5T7": "PARTIAL"
+      },
+      "depends_on": [
+        "D3P3"
+      ]
+    },
+    {
+      "id": "D3P6",
+      "title": "Reportes y primera vertical AppSec",
+      "status": "PARTIAL",
+      "tasks": {
+        "D3P6T1": "PARTIAL",
+        "D3P6T2": "PARTIAL",
+        "D3P6T3": "PARTIAL",
+        "D3P6T4": "PARTIAL",
+        "D3P6T5": "PARTIAL",
+        "D3P6T6": "PARTIAL",
+        "D3P6T7": "PARTIAL"
+      },
+      "depends_on": [
+        "D3P2",
+        "D3P3",
+        "D3P4",
+        "D3P5"
+      ]
+    },
+    {
+      "id": "D4P1",
+      "title": "OpenTelemetry y correlación extremo a extremo",
+      "status": "PARTIAL",
+      "tasks": {
+        "D4P1T1": "PARTIAL",
+        "D4P1T2": "PARTIAL",
+        "D4P1T3": "PARTIAL",
+        "D4P1T4": "PARTIAL",
+        "D4P1T5": "PARTIAL",
+        "D4P1T6": "PARTIAL",
+        "D4P1T7": "PARTIAL"
+      },
+      "depends_on": [
+        "D3P1"
+      ]
+    },
+    {
+      "id": "D4P2",
+      "title": "Métricas, SLIs y presupuesto de error",
+      "status": "PARTIAL",
+      "tasks": {
+        "D4P2T1": "PARTIAL",
+        "D4P2T2": "PARTIAL",
+        "D4P2T3": "PARTIAL",
+        "D4P2T4": "PARTIAL",
+        "D4P2T5": "PARTIAL",
+        "D4P2T6": "PARTIAL",
+        "D4P2T7": "PARTIAL"
+      },
+      "depends_on": [
+        "D4P1"
+      ]
+    },
+    {
+      "id": "D4P3",
+      "title": "Logs estructurados y privacidad de telemetría",
+      "status": "PARTIAL",
+      "tasks": {
+        "D4P3T1": "PARTIAL",
+        "D4P3T2": "PARTIAL",
+        "D4P3T3": "PARTIAL",
+        "D4P3T4": "PARTIAL",
+        "D4P3T5": "PARTIAL",
+        "D4P3T6": "PARTIAL",
+        "D4P3T7": "PARTIAL"
+      },
+      "depends_on": [
+        "D3P4",
+        "D4P1"
+      ]
+    },
+    {
+      "id": "D4P4",
+      "title": "Dashboards y navegación de investigación",
+      "status": "PARTIAL",
+      "tasks": {
+        "D4P4T1": "PARTIAL",
+        "D4P4T2": "PARTIAL",
+        "D4P4T3": "PARTIAL",
+        "D4P4T4": "PARTIAL",
+        "D4P4T5": "PARTIAL",
+        "D4P4T6": "PARTIAL",
+        "D4P4T7": "PARTIAL"
+      },
+      "depends_on": [
+        "D4P2",
+        "D4P3"
+      ]
+    },
+    {
+      "id": "D4P5",
+      "title": "Ingestión de eventos y conectores pasivos",
+      "status": "PARTIAL",
+      "tasks": {
+        "D4P5T1": "PARTIAL",
+        "D4P5T2": "PARTIAL",
+        "D4P5T3": "PARTIAL",
+        "D4P5T4": "PARTIAL",
+        "D4P5T5": "PARTIAL",
+        "D4P5T6": "PARTIAL",
+        "D4P5T7": "PARTIAL"
+      },
+      "depends_on": [
+        "D4P3",
+        "D3P3"
+      ]
+    },
+    {
+      "id": "D4P6",
+      "title": "Carga, retención y resiliencia de observabilidad",
+      "status": "PARTIAL",
+      "tasks": {
+        "D4P6T1": "PARTIAL",
+        "D4P6T2": "PARTIAL",
+        "D4P6T3": "PARTIAL",
+        "D4P6T4": "PARTIAL",
+        "D4P6T5": "PARTIAL",
+        "D4P6T6": "PARTIAL",
+        "D4P6T7": "PARTIAL"
+      },
+      "depends_on": [
+        "D4P2",
+        "D4P3"
+      ]
+    },
+    {
+      "id": "D5P1",
+      "title": "Registro de agentes, tools y capacidades delegadas",
+      "status": "PARTIAL",
+      "tasks": {
+        "D5P1T1": "PARTIAL",
+        "D5P1T2": "PARTIAL",
+        "D5P1T3": "PARTIAL",
+        "D5P1T4": "PARTIAL",
+        "D5P1T5": "PARTIAL",
+        "D5P1T6": "PARTIAL",
+        "D5P1T7": "PARTIAL"
+      },
+      "depends_on": [
+        "D1P6",
+        "D3P4"
+      ]
+    },
+    {
+      "id": "D5P2",
+      "title": "Policy engine y control determinista de acciones",
+      "status": "PARTIAL",
+      "tasks": {
+        "D5P2T1": "PARTIAL",
+        "D5P2T2": "PARTIAL",
+        "D5P2T3": "PARTIAL",
+        "D5P2T4": "PARTIAL",
+        "D5P2T5": "PARTIAL",
+        "D5P2T6": "PARTIAL",
+        "D5P2T7": "PARTIAL"
+      },
+      "depends_on": [
+        "D5P1"
+      ]
+    },
+    {
+      "id": "D5P3",
+      "title": "Flujos de datos, egress y cuarentena",
+      "status": "PARTIAL",
+      "tasks": {
+        "D5P3T1": "PARTIAL",
+        "D5P3T2": "PARTIAL",
+        "D5P3T3": "PARTIAL",
+        "D5P3T4": "PARTIAL",
+        "D5P3T5": "PARTIAL",
+        "D5P3T6": "PARTIAL",
+        "D5P3T7": "PARTIAL"
+      },
+      "depends_on": [
+        "D5P1",
+        "D5P2"
+      ]
+    },
+    {
+      "id": "D5P4",
+      "title": "MCP, skills y cambios de supply chain",
+      "status": "PARTIAL",
+      "tasks": {
+        "D5P4T1": "PARTIAL",
+        "D5P4T2": "PARTIAL",
+        "D5P4T3": "PARTIAL",
+        "D5P4T4": "PARTIAL",
+        "D5P4T5": "PARTIAL",
+        "D5P4T6": "PARTIAL",
+        "D5P4T7": "PARTIAL"
+      },
+      "depends_on": [
+        "D5P1",
+        "D5P2"
+      ]
+    },
+    {
+      "id": "D5P5",
+      "title": "Evaluaciones adversariales con utilidad",
+      "status": "PARTIAL",
+      "tasks": {
+        "D5P5T1": "PARTIAL",
+        "D5P5T2": "PARTIAL",
+        "D5P5T3": "PARTIAL",
+        "D5P5T4": "PARTIAL",
+        "D5P5T5": "PARTIAL",
+        "D5P5T6": "PARTIAL",
+        "D5P5T7": "PARTIAL"
+      },
+      "depends_on": [
+        "D5P2",
+        "D5P3",
+        "D5P4"
+      ]
+    },
+    {
+      "id": "D5P6",
+      "title": "Revocación, kill switch y aprobación de efectos",
+      "status": "PARTIAL",
+      "tasks": {
+        "D5P6T1": "PARTIAL",
+        "D5P6T2": "PARTIAL",
+        "D5P6T3": "PARTIAL",
+        "D5P6T4": "PARTIAL",
+        "D5P6T5": "PARTIAL",
+        "D5P6T6": "PARTIAL",
+        "D5P6T7": "PARTIAL"
+      },
+      "depends_on": [
+        "D5P1",
+        "D5P2"
+      ]
+    },
+    {
+      "id": "D6P1",
+      "title": "Aplicabilidad legal y controles de cumplimiento",
+      "status": "PARTIAL",
+      "tasks": {
+        "D6P1T1": "PARTIAL",
+        "D6P1T2": "PARTIAL",
+        "D6P1T3": "PARTIAL",
+        "D6P1T4": "PARTIAL",
+        "D6P1T5": "PARTIAL",
+        "D6P1T6": "PARTIAL",
+        "D6P1T7": "PARTIAL"
+      },
+      "depends_on": [
+        "D1P6"
+      ]
+    },
+    {
+      "id": "D6P2",
+      "title": "Privacidad, retención y brechas de datos",
+      "status": "PARTIAL",
+      "tasks": {
+        "D6P2T1": "PARTIAL",
+        "D6P2T2": "PARTIAL",
+        "D6P2T3": "PARTIAL",
+        "D6P2T4": "PARTIAL",
+        "D6P2T5": "PARTIAL",
+        "D6P2T6": "PARTIAL",
+        "D6P2T7": "PARTIAL"
+      },
+      "depends_on": [
+        "D3P4",
+        "D6P1"
+      ]
+    },
+    {
+      "id": "D6P3",
+      "title": "Antifraude y verificación por contexto",
+      "status": "PARTIAL",
+      "tasks": {
+        "D6P3T1": "PARTIAL",
+        "D6P3T2": "PARTIAL",
+        "D6P3T3": "PARTIAL",
+        "D6P3T4": "PARTIAL",
+        "D6P3T5": "PARTIAL",
+        "D6P3T6": "PARTIAL",
+        "D6P3T7": "PARTIAL"
+      },
+      "depends_on": [
+        "D5P3",
+        "D6P2"
+      ]
+    },
+    {
+      "id": "D6P4",
+      "title": "Incidentes y contención propuesta",
+      "status": "PARTIAL",
+      "tasks": {
+        "D6P4T1": "PARTIAL",
+        "D6P4T2": "PARTIAL",
+        "D6P4T3": "PARTIAL",
+        "D6P4T4": "PARTIAL",
+        "D6P4T5": "PARTIAL",
+        "D6P4T6": "PARTIAL",
+        "D6P4T7": "PARTIAL"
+      },
+      "depends_on": [
+        "D3P6",
+        "D5P6"
+      ]
+    },
+    {
+      "id": "D6P5",
+      "title": "Remediación revisable y retest",
+      "status": "PARTIAL",
+      "tasks": {
+        "D6P5T1": "PARTIAL",
+        "D6P5T2": "PARTIAL",
+        "D6P5T3": "PARTIAL",
+        "D6P5T4": "PARTIAL",
+        "D6P5T5": "PARTIAL",
+        "D6P5T6": "PARTIAL",
+        "D6P5T7": "PARTIAL"
+      },
+      "depends_on": [
+        "D3P6",
+        "D5P2"
+      ]
+    },
+    {
+      "id": "D6P6",
+      "title": "Reservas económicas y servicios comerciales",
+      "status": "PARTIAL",
+      "tasks": {
+        "D6P6T1": "PARTIAL",
+        "D6P6T2": "PARTIAL",
+        "D6P6T3": "PARTIAL",
+        "D6P6T4": "PARTIAL",
+        "D6P6T5": "PARTIAL",
+        "D6P6T6": "PARTIAL",
+        "D6P6T7": "PARTIAL"
+      },
+      "depends_on": [
+        "D3P1"
+      ]
+    },
+    {
+      "id": "D7P1",
+      "title": "SDK TypeScript/Hono y contrato hacia /agente",
+      "status": "PARTIAL",
+      "tasks": {
+        "D7P1T1": "PARTIAL",
+        "D7P1T2": "PARTIAL",
+        "D7P1T3": "PARTIAL",
+        "D7P1T4": "PARTIAL",
+        "D7P1T5": "PARTIAL",
+        "D7P1T6": "PARTIAL",
+        "D7P1T7": "PARTIAL"
+      },
+      "depends_on": [
+        "D3P6",
+        "D5P6"
+      ]
+    },
+    {
+      "id": "D7P2",
+      "title": "Interfaz operativa y experiencia humana",
+      "status": "PARTIAL",
+      "tasks": {
+        "D7P2T1": "PARTIAL",
+        "D7P2T2": "PARTIAL",
+        "D7P2T3": "PARTIAL",
+        "D7P2T4": "PARTIAL",
+        "D7P2T5": "PARTIAL",
+        "D7P2T6": "PARTIAL",
+        "D7P2T7": "PARTIAL"
+      },
+      "depends_on": [
+        "D7P1"
+      ]
+    },
+    {
+      "id": "D7P3",
+      "title": "E2E de dos tenants y recorridos de referencia",
+      "status": "PARTIAL",
+      "tasks": {
+        "D7P3T1": "PARTIAL",
+        "D7P3T2": "PARTIAL",
+        "D7P3T3": "PARTIAL",
+        "D7P3T4": "PARTIAL",
+        "D7P3T5": "PARTIAL",
+        "D7P3T6": "PARTIAL",
+        "D7P3T7": "PARTIAL"
+      },
+      "depends_on": [
+        "D3P6",
+        "D4P6",
+        "D5P5",
+        "D5P6",
+        "D6P2",
+        "D6P6",
+        "D7P1"
+      ]
+    },
+    {
+      "id": "D7P4",
+      "title": "Hardening, rendimiento y recuperación",
+      "status": "PARTIAL",
+      "tasks": {
+        "D7P4T1": "PARTIAL",
+        "D7P4T2": "PARTIAL",
+        "D7P4T3": "PARTIAL",
+        "D7P4T4": "PARTIAL",
+        "D7P4T5": "PARTIAL",
+        "D7P4T6": "PARTIAL",
+        "D7P4T7": "PARTIAL"
+      },
+      "depends_on": [
+        "D7P3"
+      ]
+    },
+    {
+      "id": "D7P5",
+      "title": "Empaquetado, Windows/Linux y supply chain de release",
+      "status": "PARTIAL",
+      "tasks": {
+        "D7P5T1": "PARTIAL",
+        "D7P5T2": "PARTIAL",
+        "D7P5T3": "PARTIAL",
+        "D7P5T4": "PARTIAL",
+        "D7P5T5": "PARTIAL",
+        "D7P5T6": "PARTIAL",
+        "D7P5T7": "PARTIAL"
+      },
+      "depends_on": [
+        "D7P4"
+      ]
+    },
+    {
+      "id": "D7P6",
+      "title": "Aceptación, reporte al founder y próximos90días",
+      "status": "PARTIAL",
+      "tasks": {
+        "D7P6T1": "PARTIAL",
+        "D7P6T2": "PARTIAL",
+        "D7P6T3": "PARTIAL",
+        "D7P6T4": "PARTIAL",
+        "D7P6T5": "PARTIAL",
+        "D7P6T6": "PARTIAL",
+        "D7P6T7": "PARTIAL"
+      },
+      "depends_on": [
+        "D7P5"
+      ]
+    }
+  ]
+}

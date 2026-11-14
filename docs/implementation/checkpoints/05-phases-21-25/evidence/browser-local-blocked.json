@@ -1,0 +1,8 @@
+{
+  "command": "AGNTIA_CHROMIUM_PATH=/usr/bin/chromium PYTHONPATH=. .venv/bin/python scripts/browser_observability.py",
+  "status": "BLOCKED",
+  "reason": "PermissionError [Errno1] Operation not permitted creating local socket",
+  "chromium_installed": true,
+  "playwright_installed": true,
+  "next": "CI real Chromium screenshots"
+}

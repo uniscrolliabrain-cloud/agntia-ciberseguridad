@@ -1,6 +1,6 @@
 # Instrucciones para IAs implementadoras
 
-Proyecto independiente: agntia-ciberseguridad. No modificar otros checkouts, incluido `/agente`, sin autorización expresa. Esta edición es investigación/especificación; no atribuirle protección activa.
+Proyecto independiente: agntia-ciberseguridad. No modificar otros checkouts, incluido `/agente`, sin autorización expresa. El propietario ha autorizado implementar la campaña de42 fases con checkpoint tras cinco; no atribuir protección activa al núcleo de API ni marcar gates futuros por documentación. Mantener ramas/PR revisables y no fusionar/desplegar automáticamente.
 
 - Leer README, docs/README y el registro de fuentes antes de diseñar código.
 - Identidad, tenant y activos se derivan del servidor autenticado y una autorización de trabajo vigente, nunca de texto de un modelo.

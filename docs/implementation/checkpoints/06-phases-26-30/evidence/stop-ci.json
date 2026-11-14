@@ -1,0 +1,17 @@
+{
+  "tested_sha": "06a5ddf933311da25dd8a75b65dd7af501df0e58",
+  "run": 42915808107,
+  "job": 130177779583,
+  "python": "3.12",
+  "scope": "Synthetic single-node SQLite direct business calls; no HTTP/TLS/remote processes",
+  "policy_hash": "735c2c02d110255a313fd96ae60e4e653e3e6a4de29cf263359586158d317e41",
+  "stops": 10,
+  "next_calls_denied_after_ack": 10,
+  "stop_ack_p50_ms": 3.6629445000002647,
+  "stop_ack_p95_ms": 3.8126590000047145,
+  "next_call_check_p50_ms": 1.4447305000011568,
+  "next_call_check_p95_ms": 1.4679459999982214,
+  "already_committed_effects_undone": false,
+  "external_model_calls": 0,
+  "sdk_available": true
+}

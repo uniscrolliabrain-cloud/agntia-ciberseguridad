@@ -1,0 +1,12 @@
+{
+  "command": ".venv/bin/python -m unittest discover -s tests -v",
+  "discovered": 119,
+  "passed": 108,
+  "skipped": 11,
+  "failed": 0,
+  "duration_seconds": 5.729,
+  "skip_reasons": {
+    "Docker": 7,
+    "SDK": 4
+  }
+}

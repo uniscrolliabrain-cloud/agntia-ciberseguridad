@@ -1,0 +1,79 @@
+{
+  "additionalProperties": false,
+  "description": "Versioned future worker contract; no execution endpoint enabled in foundation.",
+  "properties": {
+    "actor_id": {
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_-]{0,63}$",
+      "title": "Actor Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "pattern": "^[a-f0-9]{32}$",
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "correlation_id": {
+      "maxLength": 64,
+      "minLength": 1,
+      "title": "Correlation Id",
+      "type": "string"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "grant_id": {
+      "pattern": "^[a-f0-9]{32}$",
+      "title": "Grant Id",
+      "type": "string"
+    },
+    "id": {
+      "pattern": "^[a-f0-9]{32}$",
+      "title": "Id",
+      "type": "string"
+    },
+    "revision": {
+      "default": 0,
+      "minimum": 0,
+      "title": "Revision",
+      "type": "integer"
+    },
+    "schema_version": {
+      "const": 1,
+      "default": 1,
+      "title": "Schema Version",
+      "type": "integer"
+    },
+    "state": {
+      "enum": [
+        "pending",
+        "running",
+        "succeeded",
+        "failed",
+        "cancelled",
+        "blocked",
+        "reconciliation_required"
+      ],
+      "title": "State",
+      "type": "string"
+    },
+    "tenant_id": {
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_-]{0,63}$",
+      "title": "Tenant Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "tenant_id",
+    "asset_id",
+    "grant_id",
+    "actor_id",
+    "state",
+    "correlation_id",
+    "created_at"
+  ],
+  "title": "Job",
+  "type": "object"
+}

@@ -1,0 +1,38 @@
+groups:
+  - name: agntia-pilot-hypotheses
+    rules:
+      - alert: AgntiaApiSignalAbsent
+        expr: up{job="agntia-api"} == 0 or absent(up{job="agntia-api"})
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: API signal missing; state is unknown, not healthy
+      - alert: AgntiaTraceDeliveryIncomplete
+        expr: increase(agntia_telemetry_dropped_total[10m]) > 0 or increase(agntia_telemetry_export_failures_total[10m]) > 0
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: Trace delivery lost or failed; inspect bounded export pipeline
+      - alert: AgntiaDeclaredScanCoverageIncomplete
+        expr: increase(agntia_scan_coverage_total{coverage="incomplete"}[15m]) > 0
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: One or more scans incomplete; no security guarantee inferred
+      - alert: AgntiaScanSignalAbsentOrOld
+        expr: agntia_last_scan_timestamp_seconds == 0 or time() - agntia_last_scan_timestamp_seconds > 86400
+        for: 10m
+        labels:
+          severity: info
+        annotations:
+          summary: No recent scan signal; check the authorized schedule and freshness
+      - alert: AgntiaApiPilotErrorBudgetFastBurn
+        expr: (sum(rate(agntia_http_requests_total{status="5xx"}[5m])) / clamp_min(sum(rate(agntia_http_requests_total[5m])), 0.000001)) > 0.05
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: Pilot error fraction above hypothesis; this is not an SLA

@@ -1,0 +1,64 @@
+{
+  "additionalProperties": false,
+  "description": "Wire contract only; reservation ledger/enforcement belongs to D6P6.",
+  "properties": {
+    "amount_cents": {
+      "maximum": 1000000,
+      "minimum": 0,
+      "title": "Amount Cents",
+      "type": "integer"
+    },
+    "id": {
+      "pattern": "^[a-f0-9]{32}$",
+      "title": "Id",
+      "type": "string"
+    },
+    "idempotency_key": {
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_-]{0,63}$",
+      "title": "Idempotency Key",
+      "type": "string"
+    },
+    "job_id": {
+      "pattern": "^[a-f0-9]{32}$",
+      "title": "Job Id",
+      "type": "string"
+    },
+    "revision": {
+      "default": 0,
+      "minimum": 0,
+      "title": "Revision",
+      "type": "integer"
+    },
+    "schema_version": {
+      "const": 1,
+      "default": 1,
+      "title": "Schema Version",
+      "type": "integer"
+    },
+    "state": {
+      "enum": [
+        "reserved",
+        "settled",
+        "released",
+        "reconciliation_required"
+      ],
+      "title": "State",
+      "type": "string"
+    },
+    "tenant_id": {
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_-]{0,63}$",
+      "title": "Tenant Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "tenant_id",
+    "job_id",
+    "amount_cents",
+    "state",
+    "idempotency_key"
+  ],
+  "title": "BudgetReservation",
+  "type": "object"
+}

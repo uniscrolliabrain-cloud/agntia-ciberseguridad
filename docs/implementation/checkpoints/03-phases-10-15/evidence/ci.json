@@ -1,0 +1,82 @@
+{
+  "commit": "92cada0863e8f05a85aa78a8e6868970f5cfd354",
+  "core": {
+    "run_id": 42861337075,
+    "jobs": [
+      {
+        "job_id": 129987946553,
+        "name": "foundation (3.12)",
+        "conclusion": "success",
+        "summary": [
+          "2026-11-10T17:05:56.1447184Z Ran 79 tests in 2.133s",
+          "2026-11-10T17:05:56.1447452Z OK (skipped=7)",
+          "2026-11-10T17:05:58.0473893Z {\"distribution_schema_resources_verified\": true, \"schema_hashes\": {\"LICENSE.txt\": \"6c29f22a4a7385285c6f579ec9f33c5e989f00739d6b257243a0b082ec9447ae\", \"bom-1.5.schema.json\": \"067f7824b08653839ea050ae9e09ca48375eadc2652b0e2a299476e7db90335b\", \"jsf-0.82.schema.json\": \"8bae002c25e723db7ee1f26afde680ae1a2b1a8f6b4b4b0fd65dc3becb090aae\", \"spdx.schema.json\": \"4f6e2b05c05d26a4f2dc5879fbc2fca94b0a28db46289d0c51345621b71cfbfc\"}, \"source_commit\": \"c320fc0f0b46873864927d9d5684eea7ba439728\"}"
+        ]
+      },
+      {
+        "job_id": 129987947053,
+        "name": "foundation (3.11)",
+        "conclusion": "success",
+        "summary": [
+          "2026-11-10T17:05:56.7671252Z Ran 79 tests in 2.651s",
+          "2026-11-10T17:05:56.7671518Z OK (skipped=7)",
+          "2026-11-10T17:05:59.0197120Z {\"distribution_schema_resources_verified\": true, \"schema_hashes\": {\"LICENSE.txt\": \"6c29f22a4a7385285c6f579ec9f33c5e989f00739d6b257243a0b082ec9447ae\", \"bom-1.5.schema.json\": \"067f7824b08653839ea050ae9e09ca48375eadc2652b0e2a299476e7db90335b\", \"jsf-0.82.schema.json\": \"8bae002c25e723db7ee1f26afde680ae1a2b1a8f6b4b4b0fd65dc3becb090aae\", \"spdx.schema.json\": \"4f6e2b05c05d26a4f2dc5879fbc2fca94b0a28db46289d0c51345621b71cfbfc\"}, \"source_commit\": \"c320fc0f0b46873864927d9d5684eea7ba439728\"}"
+        ]
+      }
+    ]
+  },
+  "docker": {
+    "run_id": 42861322183,
+    "job_id": 129987894380,
+    "conclusion": "success",
+    "executed": 7,
+    "passed": 7,
+    "failed": 0,
+    "skipped": 0,
+    "provenance": [
+      {
+        "reported_version_verified": true,
+        "tool": "gitleaks",
+        "version": "8.30.1",
+        "image": "sha256:ec38b6878e7c3970317337978c287fd03190b95eb46d0577b978c3df6607dd21",
+        "policy_hash": "ca4b9f8be3f913448bec59afd65dfdf7ec420979ab1eb6cf9a34d36d98a9f0e5",
+        "release_sha256": "551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb",
+        "license": "MIT"
+      },
+      {
+        "reported_version_verified": true,
+        "tool": "trivy",
+        "version": "0.76.2",
+        "image": "sha256:11d197f46aa8a6fc954cfbdaf1da90896bf7f8b8ad9d07720352da47a92696c7",
+        "policy_hash": "ca4b9f8be3f913448bec59afd65dfdf7ec420979ab1eb6cf9a34d36d98a9f0e5",
+        "release_sha256": "bc0fc726e017b8927a62b2d3531d7a84ee01769daf5c99ed866dced54089fdbf",
+        "license": "Apache-2.0"
+      },
+      {
+        "reported_version_verified": true,
+        "tool": "osv",
+        "version": "2.7.1",
+        "image": "sha256:8615dfa607989a835825405d8b0bb476a9357678995c092a4562dcaf3883ae09",
+        "policy_hash": "ca4b9f8be3f913448bec59afd65dfdf7ec420979ab1eb6cf9a34d36d98a9f0e5",
+        "release_sha256": "fb7dab19a8bd9bbe5c3189f09d4b7ee1820c9553a23bac202648a56efd2f6ee8",
+        "license": "Apache-2.0"
+      },
+      {
+        "tool": "semgrep",
+        "version": "1.185.0",
+        "image": "sha256:73ec235b93a66261a6759c9633e7f8f3c5b482212d5b69aae36fe440b556cd2d",
+        "policy_hash": "fa5801db2587bc3d4950ccf686770e9240a6454218993b8fd474adc8e3704703",
+        "upstream_digest": "semgrep/semgrep@sha256:67518c174185a2043fdbed16c70631b79209499b3671178e7194379b48295a0d",
+        "license": "LGPL-2.1",
+        "reported_version_verified": true
+      }
+    ],
+    "summary": [
+      "2026-11-10T17:06:34.9141823Z Ran 7 tests in 13.022s",
+      "2026-11-10T17:06:34.9142085Z OK"
+    ]
+  },
+  "independent_review_verified": false,
+  "customer_execution_enabled": false,
+  "scope": "Synthetic fixtures, real SQLite/API/leases plus pinned container tools; not a production security certification."
+}

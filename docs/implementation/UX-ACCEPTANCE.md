@@ -1,0 +1,9 @@
+# Consola piloto36–40
+
+La consola `/console` muestra cobertura/frescura, collector explícitamente no monitorizado, estado presupuestario, activos, jobs, hallazgos y propuestas. Sin datos muestra not_tested/unknown; sin presupuesto configurado muestra not_configured, y agotamiento muestra exhausted. No existe indicador global seguro ni certificación legal.
+
+Cada clic vuelve a consultar la API scoped. Job → referencias de evidencia/trace; finding → historial; propuesta → motivo, hash, destino local, revisión, caducidad y evidencia. Una casilla explícita habilita el botón de aprobación, pero no concede permisos: el backend exige otro humano, rol autorizado, evidencia revisada y hash/revisión vigentes. Propuestas aprobadas/caducadas no se ofrecen como acciones nuevas. Un409 indica refrescar; no hay retry automático. Las descargas son vistas redactadas, con nuevo control de acceso. No se abre el original por defecto.
+
+Se usan textContent, eventos locales, CSP sin scripts remotos, labels, controles de46px, foco visible y layouts móvil/escritorio. Cambiar tenant o cerrar sesión elimina DOM y credencial en memoria; la generación de sesión impide repoblar vistas con respuestas tardías, incluso después de parsear JSON. No se usa localStorage/sessionStorage ni contenido activo del cliente.
+
+Validación: scripts/browser_observability.py conserva las pruebas iniciales; scripts/browser_pilot.py añade viewport1440×1000 y390×844, rechazo de aprobación por viewer, revisión por otro humano, descarga, cambio positivo de tenant, presupuesto agotado visible y cero errores JS/overflow. Los resultados de ejecución están en el checkpoint vigente. No se afirma auditoría WCAG completa ni interfaz final integrada en AgntiaPro. Datos de scan en esta prueba UX son una fixture normalizada, no salida de scanner real.

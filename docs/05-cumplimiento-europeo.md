@@ -1,3 +1,5 @@
+> Actualización: consultar el [catálogo y límites del checkpoint31–35](implementation/checkpoints/07-phases-31-35/SOURCES.md). Las fechas de investigación inicial siguientes no deben usarse como motor sin cotejar modificaciones posteriores, incluida la edición AI Act observada2026-07-27.
+
 # 05 · Cumplimiento europeo como evaluación con evidencias
 
 Fecha de consulta: 2026-11-10. «GEPR» en la petición se interpreta como GDPR/RGPD. El producto ayuda a inventariar, evaluar y documentar controles; no certifica por sí solo cumplimiento ni sustituye decisiones del responsable, DPO o asesor competente.

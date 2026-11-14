@@ -1,0 +1,12 @@
+{
+  "commit": "4701c51295d5bfe269522155e2e1a9337e5d2b64",
+  "run_id": 42860888661,
+  "job_id": 129986381061,
+  "status": "FAIL",
+  "tests_executed": 7,
+  "passed": 6,
+  "failed": 1,
+  "cause": "Real Trivy0.76.2 reports DS-0002; the fixture still asserted legacy DS002.",
+  "scope": "The actual parser and config scan produced findings; corrected expected upstream rule ID without suppressing findings.",
+  "real_worker_vertical": "Passed before fixture correction."
+}

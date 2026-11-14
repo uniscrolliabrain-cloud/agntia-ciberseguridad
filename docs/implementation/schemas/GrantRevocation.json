@@ -1,0 +1,22 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "expected_revision": {
+      "minimum": 0,
+      "title": "Expected Revision",
+      "type": "integer"
+    },
+    "notes": {
+      "maxLength": 1000,
+      "minLength": 5,
+      "title": "Notes",
+      "type": "string"
+    }
+  },
+  "required": [
+    "expected_revision",
+    "notes"
+  ],
+  "title": "GrantRevocation",
+  "type": "object"
+}

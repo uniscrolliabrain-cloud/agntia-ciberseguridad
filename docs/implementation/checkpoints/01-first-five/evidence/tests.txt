@@ -1,0 +1,55 @@
+test_concurrent_duplicate_asset_yields_one_object (integration.test_storage.DuplicateMutationTests.test_concurrent_duplicate_asset_yields_one_object) ... ok
+test_two_processes_initialize_without_lost_schema (integration.test_storage.MultiprocessMigrationTests.test_two_processes_initialize_without_lost_schema) ... ok
+test_concurrent_initialization_and_tenant_sequences (integration.test_storage.StorageTests.test_concurrent_initialization_and_tenant_sequences) ... ok
+test_failed_upgrade_rolls_back_existing_data_and_audit (integration.test_storage.StorageTests.test_failed_upgrade_rolls_back_existing_data_and_audit) ... ok
+test_foreign_keys_and_readonly_connections (integration.test_storage.StorageTests.test_foreign_keys_and_readonly_connections) ... ok
+test_fresh_upgrade_backup_and_idempotence (integration.test_storage.StorageTests.test_fresh_upgrade_backup_and_idempotence) ... ok
+test_restore_backup_and_detect_tampering (integration.test_storage.StorageTests.test_restore_backup_and_detect_tampering) ... ok
+test_auth_required_and_duplicate_credentials_denied (security.test_api_foundation.ApiTests.test_auth_required_and_duplicate_credentials_denied) ... {"event": "request.rejected", "code": "validation", "correlation_id": "92a73221-2551-4c5f-a2ba-95654521d886"}
+ok
+test_bounds_errors_correlation_and_no_secret_reflection (security.test_api_foundation.ApiTests.test_bounds_errors_correlation_and_no_secret_reflection) ... {"event": "request.rejected", "code": "request_too_large", "correlation_id": "c91e7d99-8198-4772-8ea5-d171275e138d"}
+{"event": "request.rejected", "code": "validation", "correlation_id": "1b9f2c87-4be0-4f02-b8b4-5fdedf64ba9b"}
+ok
+test_duplicate_asset_is_conflict_and_failed_attempt_audited (security.test_api_foundation.ApiTests.test_duplicate_asset_is_conflict_and_failed_attempt_audited) ... {"event": "request.rejected", "code": "conflict", "correlation_id": "b182d2fc-d0e6-4b66-b443-ea525795d236"}
+ok
+test_expired_grant_and_changed_config_fail_closed (security.test_api_foundation.ApiTests.test_expired_grant_and_changed_config_fail_closed) ... {"event": "request.rejected", "code": "grant_expired", "correlation_id": "c9a6366a-5d87-4b4b-8355-fd0a04e77cab"}
+{"event": "request.rejected", "code": "configuration_changed", "correlation_id": "72814cf0-aebf-4025-ba74-64b4f73fc349"}
+ok
+test_grant_cannot_expand_consent_or_accept_llm_identity (security.test_api_foundation.ApiTests.test_grant_cannot_expand_consent_or_accept_llm_identity) ... {"event": "request.rejected", "code": "grant_expansion", "correlation_id": "c8f6353d-861e-4cee-ad13-0ee3a427a782"}
+{"event": "request.rejected", "code": "grant_expansion", "correlation_id": "28073a59-defe-4950-a2ef-cf190d51d553"}
+{"event": "request.rejected", "code": "validation", "correlation_id": "4b4e50e4-f76c-4e06-90ab-540151ad613a"}
+{"event": "request.rejected", "code": "validation", "correlation_id": "4af3127e-348a-456e-ad08-660424a454d2"}
+{"event": "request.rejected", "code": "grant_interval", "correlation_id": "57cfe0f6-6001-4dc2-872e-246d143be113"}
+ok
+test_human_review_preview_and_revocation (security.test_api_foundation.ApiTests.test_human_review_preview_and_revocation) ... {"event": "request.rejected", "code": "grant_not_active", "correlation_id": "66cfb8e1-728a-4c70-99cb-6debfb02a4d7"}
+ok
+test_revocation_during_dns_preflight_denied (security.test_api_foundation.ApiTests.test_revocation_during_dns_preflight_denied) ... ok
+test_revoked_principal_and_rotated_token_fail_closed (security.test_api_foundation.ApiTests.test_revoked_principal_and_rotated_token_fail_closed) ... {"event": "request.rejected", "code": "principal_revoked", "correlation_id": "1d4666d2-f807-4166-8b9d-cfbf22418310"}
+ok
+test_separation_revision_and_hash_checks (security.test_api_foundation.ApiTests.test_separation_revision_and_hash_checks) ... {"event": "request.rejected", "code": "separation_of_duties", "correlation_id": "f6d5c089-6761-46b1-b0d4-17e3b2edfa7b"}
+{"event": "request.rejected", "code": "forbidden", "correlation_id": "9a165346-80db-4277-8c4b-47083487e874"}
+{"event": "request.rejected", "code": "conflict", "correlation_id": "ed30f1b2-1bdc-4bef-9596-2014195bb846"}
+{"event": "request.rejected", "code": "conflict", "correlation_id": "98a64f3c-322b-45fd-8f26-b44c1100a35d"}
+ok
+test_tenant_asset_isolation_and_no_server_paths (security.test_api_foundation.ApiTests.test_tenant_asset_isolation_and_no_server_paths) ... {"event": "request.rejected", "code": "not_found", "correlation_id": "fa10961d-c434-466d-90ac-33e3cbb1b108"}
+ok
+test_viewer_cannot_mutate_or_preview (security.test_api_foundation.ApiTests.test_viewer_cannot_mutate_or_preview) ... {"event": "request.rejected", "code": "forbidden", "correlation_id": "e6d0a040-31bd-49ee-9f39-07d87a1d7512"}
+{"event": "request.rejected", "code": "forbidden", "correlation_id": "b3e896ff-b671-4f8d-a85d-34e4e06b5037"}
+ok
+test_empty_frame_stream_is_bounded (security.test_api_foundation.BoundaryTests.test_empty_frame_stream_is_bounded) ... {"event": "request.rejected", "code": "request_too_large", "correlation_id": "aa5021a2-ac25-43c2-a306-9b10f5b6386d"}
+ok
+test_insecure_loopback_requires_both_lab_flags (security.test_network_scope.NetworkScopeTests.test_insecure_loopback_requires_both_lab_flags) ... ok
+test_local_path_and_symlink_escape_denied (security.test_network_scope.NetworkScopeTests.test_local_path_and_symlink_escape_denied) ... ok
+test_metadata_denied_even_with_broad_allowlist (security.test_network_scope.NetworkScopeTests.test_metadata_denied_even_with_broad_allowlist) ... ok
+test_pin_all_dns_answers_and_no_metadata (security.test_network_scope.NetworkScopeTests.test_pin_all_dns_answers_and_no_metadata) ... ok
+test_url_credentials_redirect_and_path_cannot_expand (security.test_network_scope.NetworkScopeTests.test_url_credentials_redirect_and_path_cannot_expand) ... ok
+test_closed_fields_and_schema_roundtrip (unit.test_contracts.ContractTests.test_closed_fields_and_schema_roundtrip) ... ok
+test_grant_requires_timezone_and_bounded_window (unit.test_contracts.ContractTests.test_grant_requires_timezone_and_bounded_window) ... ok
+test_money_is_strict_integer_and_nonfinite_rejected (unit.test_contracts.ContractTests.test_money_is_strict_integer_and_nonfinite_rejected) ... ok
+test_no_implicit_configuration_and_ambiguous_principal_denied (unit.test_contracts.ContractTests.test_no_implicit_configuration_and_ambiguous_principal_denied) ... ok
+test_inventory_preserves_unrelated_edits_and_reports_unavailable_docker (unit.test_environment.EnvironmentTests.test_inventory_preserves_unrelated_edits_and_reports_unavailable_docker) ... ok
+
+----------------------------------------------------------------------
+Ran 29 tests in 0.600s
+
+OK

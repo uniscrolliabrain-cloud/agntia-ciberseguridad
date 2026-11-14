@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "scope": "Pilot hypotheses; not verified production sizing or price",
+  "runtime": {"workers": 1, "log_records_per_tenant": 500, "log_bytes_per_tenant": 256000, "log_retention_days": 7, "event_records_per_tenant": 10000, "event_bytes_per_tenant": 10000000, "event_pending_per_tenant": 1000, "source_events_per_minute": 60, "delegation_records_per_tenant": 10000},
+  "trace_export": {"queue_spans": 128, "batch_spans": 32, "http_timeout_seconds": 0.5},
+  "plans": {"lite": {"monthly_limit_eur": 30, "initial_optional_collector": false}, "L": {"monthly_limit_eur": 70, "initial_optional_collector": false}, "XL": {"monthly_limit_eur": 300, "initial_optional_collector": false}},
+  "price_verified": false,
+  "storage_formula": "events_per_day * average_bytes_per_event * retention_days * replication_factor",
+  "disk_warning": "Record quotas bound payload ingestion, not WAL, audit, backups or total filesystem. Operator volume quotas and SQLite backup/maintenance are still required."
+}

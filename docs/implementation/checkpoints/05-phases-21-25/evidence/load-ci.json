@@ -1,0 +1,21 @@
+{
+  "tested_sha": "ca6ae9a471d90ce7c987666b7104b88637afbe07",
+  "run": 42905075772,
+  "job": 130140832215,
+  "scope": "Synthetic ASGI, concurrency10, no TCP/TLS or scans; no contractual SLA",
+  "requests": 100,
+  "expected_cross_tenant_denials": 20,
+  "unexpected_results": 0,
+  "p50_ms": 3.6266349999998226,
+  "p95_ms": 4.831369999998003,
+  "operational_log_records": 10,
+  "operational_log_bytes": 2360,
+  "bytes_per_record": 236,
+  "peak_rss_kib_linux": 65652,
+  "process_cpu_seconds": 0.669821,
+  "metric_series": 20,
+  "optional_log_failure_does_not_bypass_auth": true,
+  "sdk_available": true,
+  "signals": "{('logs', 'dropped'): 71}",
+  "cost_formula": "storage_bytes=events_per_day*average_bytes*retention_days*replication_factor; price requires provider quote"
+}

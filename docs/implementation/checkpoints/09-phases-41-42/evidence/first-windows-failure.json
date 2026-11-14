@@ -1,0 +1,15 @@
+{
+  "commit": "5dc6e7e039534afb5ea813658a757f154ac4a27f",
+  "workflow_run": 43090686408,
+  "job": 130766622167,
+  "platform": "windows-latest Python3.12",
+  "clean_python_install": "PASS",
+  "clean_sdk_install": "PASS",
+  "bundle_hashes": "PASS",
+  "sbom_schema": "PASS",
+  "failed_step": "verify_lab.ps1 -> validate_foundation.py",
+  "error": "UnicodeDecodeError with platform cp1252 decoding UTF-8 source JSON",
+  "attestation": "SKIPPED because the package matrix gate failed",
+  "correction": "Explicit UTF-8 resource/config/documentation reads, process-only Python UTF-8 flag in PowerShell, .gitattributes LF for stable source bytes",
+  "final_status": "See final CI evidence; failure is retained, not erased"
+}

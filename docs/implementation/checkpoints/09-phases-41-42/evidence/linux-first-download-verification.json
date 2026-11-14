@@ -1,0 +1,9 @@
+{
+  "source_commit": "5dc6e7e039534afb5ea813658a757f154ac4a27f",
+  "artifact_id": 13887204189,
+  "archive_sha256": "128505bf517bfacb362889bd09b5e2da5ea2d2c6ad71adc2c94b3181fa409fb7",
+  "local_integrity_verification": "PASS",
+  "files": 44,
+  "execution": "no artifact code executed; manifest/hash verification only",
+  "publisher_authentication": "recorded CI repository artifact; signature check is separate"
+}

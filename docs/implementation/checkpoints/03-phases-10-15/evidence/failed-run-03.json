@@ -1,0 +1,14 @@
+{
+  "commit": "c896a35022d0f54992affe2b64b05fb5c2b7152e",
+  "core_runs": [
+    42860490277,
+    42860479006
+  ],
+  "docker_run": 42860478890,
+  "status": "FAIL",
+  "causes": [
+    "API pagination edit introduced invalid Python syntax through JavaScript string-replacement dollar expansion; rebuilt using literal replacement callbacks.",
+    "Trivy config does not accept --offline-scan; removed that command-specific flag, retaining --network=none and disabled check updates."
+  ],
+  "scope": "No successful execution inferred from either failure"
+}

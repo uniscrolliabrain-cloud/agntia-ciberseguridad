@@ -1,0 +1,8 @@
+title = "Agntia pinned defaults plus synthetic contract canary"
+[extend]
+useDefault = true
+[[rules]]
+id = "agntia-canary"
+description = "Synthetic non-functional fixture token"
+regex = '''AGNTIA_TEST_SECRET_[A-Z0-9]{32}'''
+keywords = ["AGNTIA_TEST_SECRET_"]

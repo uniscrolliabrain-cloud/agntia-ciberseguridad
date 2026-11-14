@@ -1,0 +1,130 @@
+{
+  "schema_version": 1,
+  "version": "2026-11-10-primary-v1",
+  "observed_on": "2026-11-10",
+  "review_valid_until": "2026-12-10",
+  "full_document_hashes_captured": false,
+  "source_bundle_hash_is": "metadata_and_curated_milestones_only",
+  "sources": [
+    {
+      "id": "ai_act",
+      "edition": "02024R1689-20260727",
+      "url": "https://eur-lex.europa.eu/eli/reg/2024/1689/2026-07-27/eng",
+      "articles": [
+        "2",
+        "4",
+        "50",
+        "113"
+      ],
+      "verification": "primary_text_read",
+      "amending_act": "2026/1744"
+    },
+    {
+      "id": "ai_amendment",
+      "edition": "32026R1744",
+      "url": "https://eur-lex.europa.eu/eli/reg/2026/1744/oj/eng",
+      "articles": [
+        "1"
+      ],
+      "verification": "primary_text_read"
+    },
+    {
+      "id": "gdpr",
+      "edition": "32016R0679",
+      "url": "https://eur-lex.europa.eu/eli/reg/2016/679/oj/eng",
+      "articles": [
+        "5",
+        "17",
+        "28",
+        "30",
+        "32",
+        "33",
+        "34"
+      ],
+      "verification": "primary_text_read"
+    },
+    {
+      "id": "cra",
+      "edition": "32024R2847",
+      "url": "https://eur-lex.europa.eu/eli/reg/2024/2847/oj/eng",
+      "articles": [
+        "2",
+        "14",
+        "71"
+      ],
+      "verification": "primary_text_read"
+    },
+    {
+      "id": "nis2",
+      "edition": "32022L2555",
+      "url": "https://eur-lex.europa.eu/eli/dir/2022/2555/oj/eng",
+      "articles": [
+        "2",
+        "21",
+        "23"
+      ],
+      "verification": "primary_text_read",
+      "spanish_transposition": "not_verified_in_this_release"
+    },
+    {
+      "id": "dora",
+      "edition": "32022R2554",
+      "url": "https://eur-lex.europa.eu/eli/reg/2022/2554/oj/eng",
+      "articles": [
+        "2",
+        "19",
+        "64"
+      ],
+      "verification": "primary_text_read"
+    },
+    {
+      "id": "ens",
+      "edition": "BOE-A-2022-7191-consolidation-2024-11-06",
+      "url": "https://www.boe.es/eli/es/rd/2022/05/03/311/con",
+      "articles": [
+        "2",
+        "33"
+      ],
+      "verification": "consolidated_text_read_informational"
+    },
+    {
+      "id": "aepd_breach",
+      "edition": "observed-2026-11-10",
+      "url": "https://www.aepd.es/preguntas-frecuentes/2-tus-obligaciones-como-responsable-del-tratamiento/11-brechas-de-datos-personales/FAQ-0233-a-quien-hay-que-notificar-las-brechas-de-datos-personales",
+      "articles": [],
+      "verification": "official_guidance_read"
+    }
+  ],
+  "milestones": {
+    "ai_general": {
+      "date": "2026-08-02",
+      "source": "ai_act",
+      "article": "113"
+    },
+    "ai_high_risk_annex_iii": {
+      "date": "2027-12-02",
+      "source": "ai_act",
+      "article": "113(c)(i)"
+    },
+    "ai_high_risk_annex_i": {
+      "date": "2028-08-02",
+      "source": "ai_act",
+      "article": "113(c)(ii)"
+    },
+    "cra_reporting": {
+      "date": "2026-09-11",
+      "source": "cra",
+      "article": "71/14"
+    },
+    "cra_general": {
+      "date": "2027-12-11",
+      "source": "cra",
+      "article": "71"
+    },
+    "dora_general": {
+      "date": "2025-01-17",
+      "source": "dora",
+      "article": "64"
+    }
+  }
+}

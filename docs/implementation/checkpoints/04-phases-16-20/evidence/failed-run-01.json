@@ -1,0 +1,13 @@
+{
+  "sha": "a2215c06ab5da4f38db6b2da35234c33e8739490",
+  "run": 42870435210,
+  "job": 130019963127,
+  "discovered": 103,
+  "failures": 1,
+  "skipped": 7,
+  "test": "test_persisted_trace_propagates_to_worker_and_report_link",
+  "reason": "Link attached to nested db.transaction span instead of report.build",
+  "fix_sha": "fcc7e66b18ef1c62f923ea229ced4cc261dcb67b",
+  "fix": "Collect trusted parents inside DB read; attach after DB span closes",
+  "later_run": 42870617422
+}

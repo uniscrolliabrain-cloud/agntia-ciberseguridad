@@ -1,0 +1,30 @@
+{
+  "commit": "713da0ae4735a2c51f5e92a8ed070d4c13d0f0f6",
+  "tree": "ca64eb57941af10de2d5774238d446ca508fd0a2",
+  "pr": 1,
+  "url": "https://github.com/uniscrolliabrain-cloud/agntia-ciberseguridad/actions/runs/42841629212",
+  "run_id": 42841629212,
+  "jobs": [
+    {
+      "job_id": 129918070760,
+      "name": "foundation (3.12)",
+      "conclusion": "success",
+      "log_extract": [
+        "2026-11-10T15:10:49.2693270Z Successfully installed agntia-ciberseguridad-0.1.0a1 annotated-doc-0.0.5 annotated-types-0.8.0 anyio-4.16.0 certifi-2026.10.23 click-8.5.1 fastapi-0.162.3 h11-0.16.0 httpcore-1.0.9 httpx-0.28.1 idna-3.20 opentelemetry-api-1.45.2 pydantic-2.14.3 pydantic-core-2.50.4 starlette-1.10.0 typing-extensions-4.16.0 typing-inspection-0.4.5 uvicorn-0.54.0",
+        "2026-11-10T15:10:50.4676375Z Ran 29 tests in 0.646s",
+        "2026-11-10T15:10:50.4676661Z OK"
+      ]
+    },
+    {
+      "job_id": 129918071432,
+      "name": "foundation (3.11)",
+      "conclusion": "success",
+      "log_extract": [
+        "2026-11-10T15:10:53.0094248Z Successfully installed agntia-ciberseguridad-0.1.0a1 annotated-doc-0.0.5 annotated-types-0.8.0 anyio-4.16.0 certifi-2026.10.23 click-8.5.1 fastapi-0.162.3 h11-0.16.0 httpcore-1.0.9 httpx-0.28.1 idna-3.20 opentelemetry-api-1.45.2 pydantic-2.14.3 pydantic-core-2.50.4 starlette-1.10.0 typing-extensions-4.16.0 typing-inspection-0.4.5 uvicorn-0.54.0",
+        "2026-11-10T15:10:55.2566973Z Ran 29 tests in 0.804s",
+        "2026-11-10T15:10:55.2567161Z OK"
+      ]
+    }
+  ],
+  "scope": "Clean hosted Python install and foundation tests; no Docker/scanner execution"
+}

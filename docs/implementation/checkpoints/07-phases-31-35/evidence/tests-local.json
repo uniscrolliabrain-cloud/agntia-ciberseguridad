@@ -1,0 +1,12 @@
+{
+  "discovered": 168,
+  "passed": 156,
+  "failed": 0,
+  "skipped": 12,
+  "duration_seconds": 18.534,
+  "skip_reasons": {
+    "docker_not_requested": 8,
+    "SDK_unavailable": 4
+  },
+  "new_distinct_tests": 25
+}

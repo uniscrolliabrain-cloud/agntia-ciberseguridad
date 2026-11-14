@@ -1,0 +1,291 @@
+{
+  "at": "2026-11-10T14:48:45.660707+00:00",
+  "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+  "python": "3.12.14",
+  "cpu_count": 3,
+  "packages": {
+    "fastapi": "0.141.1",
+    "pydantic": "2.13.4",
+    "httpx": "0.28.1",
+    "cryptography": "50.0.0",
+    "uvicorn": "0.52.1",
+    "setuptools": "84.2.1",
+    "pytest": null
+  },
+  "local_head": "6fd6b5ebdd81ced2004fdc417c4ba39229cf5b50",
+  "remote_baseline_sha": "00ee50d2adf672d9815c97aa6fb8cd4bfe00de87",
+  "source_tree": "ddbfbe8f33ba8e2cc814d5441325014bd1aeb6d9",
+  "git_status": "?? scripts/verify_environment.py",
+  "tools": {
+    "node": true,
+    "pnpm": true,
+    "docker": true,
+    "gitleaks": false,
+    "osv-scanner": false,
+    "semgrep": false,
+    "trivy": false
+  },
+  "docker_local_socket": {
+    "exit_code": 1,
+    "output": "\"\"",
+    "error_class": "permission_denied"
+  },
+  "source_inventory": [
+    {
+      "path": ".github/workflows/docs.yml",
+      "bytes": 366,
+      "sha256": "3cfe026fc05ad7bfe7de3c943197cacbe6ebadced569b401c1bd5c90e184c22b"
+    },
+    {
+      "path": ".gitignore",
+      "bytes": 262,
+      "sha256": "0094f77c9c42bb847ea36955615dce334712b6c0871978e9e0580311ecafe212"
+    },
+    {
+      "path": "AGENTS.md",
+      "bytes": 2341,
+      "sha256": "ea89d0255cc5556106078eb704beff376ef93aa7bb2c3816b5e549d907ebcf50"
+    },
+    {
+      "path": "README.md",
+      "bytes": 7738,
+      "sha256": "6dd1bd2ea0a7e284d3b77f41f70da2d5ed89e56ff7e945194c640e51a944a57a"
+    },
+    {
+      "path": "SECURITY.md",
+      "bytes": 619,
+      "sha256": "e15d4d5eedbf0c3a8ba646d9f5cfb7c4f3c0944d1fc3cb6dda9193bb846388cc"
+    },
+    {
+      "path": "config/plans.json",
+      "bytes": 1751,
+      "sha256": "ed67f3a8e84716ce240db2da21d37f25363135afdcadec300e22aed55105210e"
+    },
+    {
+      "path": "docs/01-vision-y-requisitos.md",
+      "bytes": 5899,
+      "sha256": "f7bdaee7b2aa85d6404b3ada2232c99d6439e896c0cb34dc2bfae15a6506a110"
+    },
+    {
+      "path": "docs/02-arquitectura-y-confianza.md",
+      "bytes": 6590,
+      "sha256": "95a9504f0d330934c2c343a2db9d194aab95b45dd54ce5991f655014b007b145"
+    },
+    {
+      "path": "docs/03-seguridad-agentica-y-conceptos-propios.md",
+      "bytes": 6365,
+      "sha256": "6748120bc8742c564991e706d7c73ce19e5a25d2f110925b233be9eb174a7b2f"
+    },
+    {
+      "path": "docs/04-herramientas-oss-y-adaptadores.md",
+      "bytes": 7935,
+      "sha256": "9e6c0da535d55b1993cd2431e0d640661be3839eb274a86aeb6956b8f958d1db"
+    },
+    {
+      "path": "docs/05-cumplimiento-europeo.md",
+      "bytes": 6694,
+      "sha256": "63d9688b261f3b9fe573ddf8e0e266548666ab1abb118932d6bfcfedca4ff37b"
+    },
+    {
+      "path": "docs/06-planes-presupuesto-y-servicios.md",
+      "bytes": 5365,
+      "sha256": "f0abc3c183ce6691a483244cd95242a113c67f9cd8c861df7e2d34e42b2e30d1"
+    },
+    {
+      "path": "docs/09-contrato-con-agente.md",
+      "bytes": 5360,
+      "sha256": "787a4c23a5d25246dee4b0bfaa9adc080d6b0969a27ed274f6b653931599a394"
+    },
+    {
+      "path": "docs/10-roadmap-operaciones-y-aceptacion.md",
+      "bytes": 5521,
+      "sha256": "cb9b624e0832902e290bba62d48f304c9611ba925ce181e2fbc0cba40a064b9b"
+    },
+    {
+      "path": "docs/11-reportes-y-casos-de-uso.md",
+      "bytes": 4287,
+      "sha256": "99b5aca69b36534b36f33a56911a8b8f3b6c74d866eef4a6c7337bbaa678aa68"
+    },
+    {
+      "path": "docs/12-estado-inicial-y-handoff.md",
+      "bytes": 4433,
+      "sha256": "42aff400dfbc4c1ba263bcda3d2b1b8379697f3fecdd31a223f3fd99f420c610"
+    },
+    {
+      "path": "docs/README.md",
+      "bytes": 3133,
+      "sha256": "5b2daa229805e0990b2aab508a9ec4fb1c7f8ee2b724de7e5784cd727b7ffa74"
+    },
+    {
+      "path": "docs/adr/0001-fundacion-documental.md",
+      "bytes": 1221,
+      "sha256": "46139d82ad64fecf3ab425ca15f1487414dde7e828127a190936b46153e47360"
+    },
+    {
+      "path": "docs/campaigns/2026-11-10-seven-days/00-campana-maestra.md",
+      "bytes": 7472,
+      "sha256": "17316cb5dc8a01652fe8fe4afd043e224656b5e8ddab17d09a1ddf47c150c517"
+    },
+    {
+      "path": "docs/campaigns/2026-11-10-seven-days/01-dia-1.md",
+      "bytes": 15415,
+      "sha256": "c289dbbd62ffd7a208ef51987809a8c7341ef9727fee48db17b2901342d98209"
+    },
+    {
+      "path": "docs/campaigns/2026-11-10-seven-days/02-dia-2.md",
+      "bytes": 14935,
+      "sha256": "d7adf74692bc1b5ee3843ab21ea44d59da0172431bc055795eccd260b66f681a"
+    },
+    {
+      "path": "docs/campaigns/2026-11-10-seven-days/03-dia-3.md",
+      "bytes": 14799,
+      "sha256": "21b115a1a10f9ae3ee7387ce1598af3eff71c374be3027b360b8ca9faf98edf4"
+    },
+    {
+      "path": "docs/campaigns/2026-11-10-seven-days/04-dia-4.md",
+      "bytes": 14854,
+      "sha256": "fe45888eebeee7bb2aff2263e1d0a969ca9144ec513afc34d4d533d57ea3801f"
+    },
+    {
+      "path": "docs/campaigns/2026-11-10-seven-days/05-dia-5.md",
+      "bytes": 14900,
+      "sha256": "c90de5d45b0e01ded2cc43206fbadcc1a324220baf72767ffa226e61f51f97aa"
+    },
+    {
+      "path": "docs/campaigns/2026-11-10-seven-days/06-dia-6.md",
+      "bytes": 14990,
+      "sha256": "46e37dd278cf6a0b42dded510a16471193f691cd9c102b591b9769a499918891"
+    },
+    {
+      "path": "docs/campaigns/2026-11-10-seven-days/07-dia-7.md",
+      "bytes": 15069,
+      "sha256": "e4571aa3be4dd3d96ef5ac26cd54e97c96fe791a59b2d0a6af79e199e4c610e5"
+    },
+    {
+      "path": "docs/campaigns/2026-11-10-seven-days/08-matriz-de-pruebas-y-evidencia.md",
+      "bytes": 5150,
+      "sha256": "2128a5e30883746e641f6642df3d7cbab13e9cd3bec3438f133d36e5b2c06f70"
+    },
+    {
+      "path": "docs/campaigns/2026-11-10-seven-days/09-calidad-y-comparacion-con-lideres.md",
+      "bytes": 4894,
+      "sha256": "5ef3478ba7d2e185df83d443c9ee7b37fee265e48ba4208247aefbe2d4f2f700"
+    },
+    {
+      "path": "docs/campaigns/2026-11-10-seven-days/10-operacion-y-prompts.md",
+      "bytes": 4548,
+      "sha256": "765140def2b1bb1e084cac6934e7af8adc29f5d54e6d6d69dcc2f26c4d12a97d"
+    },
+    {
+      "path": "docs/campaigns/2026-11-10-seven-days/11-continuidad-30-60-90.md",
+      "bytes": 4410,
+      "sha256": "b232016814e21eed74dc4eaa43b76192251b95cbd47e346092354253d1b9cec1"
+    },
+    {
+      "path": "docs/campaigns/2026-11-10-seven-days/12-contratos-y-artefactos.md",
+      "bytes": 3560,
+      "sha256": "2f9e0cf3ba53a9f63074d94e58538def3c0a217e595449fd7af429b70ee86a86"
+    },
+    {
+      "path": "docs/campaigns/2026-11-10-seven-days/README.md",
+      "bytes": 1972,
+      "sha256": "5646a5a1f33b7bbdc22d9862da5655790426c5c3172f5938c6450e176493bd56"
+    },
+    {
+      "path": "docs/campaigns/2026-11-10-seven-days/campaign.json",
+      "bytes": 201403,
+      "sha256": "865f5192f7f29df56451aa829f228a79a8a3ef071728175dbd916051aa903d72"
+    },
+    {
+      "path": "docs/campaigns/2026-11-10-seven-days/evidence/README.md",
+      "bytes": 564,
+      "sha256": "7e9a566d195cd7cc041dcd20bf1dbe4a1ba87eef760fad06779ad8ecba7defc3"
+    },
+    {
+      "path": "docs/campaigns/2026-11-10-seven-days/gate-scenarios.md",
+      "bytes": 13289,
+      "sha256": "7a0ee6c0002c43f6fe73597fe689da21dec5f4305d0927de8b81639cc3b86cfe"
+    },
+    {
+      "path": "docs/campaigns/2026-11-10-seven-days/observability-upstreams.json",
+      "bytes": 2891,
+      "sha256": "f42d980e6d6e7acff8826ef251389d275acc9a933c4b254235cc6cb84fdb3000"
+    },
+    {
+      "path": "docs/campaigns/2026-11-10-seven-days/templates/founder-report.md",
+      "bytes": 1212,
+      "sha256": "a84742597778ef37123ac979d1115b9411cb5836c4951681a517116ee1a6649b"
+    },
+    {
+      "path": "docs/campaigns/2026-11-10-seven-days/templates/phase-report.md",
+      "bytes": 883,
+      "sha256": "80ec30db21d1d17a85c5341b3cf1cee55179989a14db34ef8b243d0cb088fd83"
+    },
+    {
+      "path": "docs/campaigns/2026-11-10-seven-days/validation.json",
+      "bytes": 1288,
+      "sha256": "2dd3b40ef9f98ab0f061604dc1d77858819286cf1e553f872b49882010c661b9"
+    },
+    {
+      "path": "docs/research/07-papers-y-noticias.md",
+      "bytes": 5814,
+      "sha256": "f59f9d3eb8797245d10f9aaf92666ca0e1d9827a024af828b28b6a557351028d"
+    },
+    {
+      "path": "docs/research/08-companias-y-capacidades.md",
+      "bytes": 5496,
+      "sha256": "7e0eee9455534c1d7f9e7aa93abf451b3bfc88500c008b106e3b9a5374e93d8d"
+    },
+    {
+      "path": "docs/research/repositories.json",
+      "bytes": 18093,
+      "sha256": "8ad71207da595e2e950ca10b8370555f78fd0e364fef0119027d9a957d3f27e1"
+    },
+    {
+      "path": "docs/research/source-refs.json",
+      "bytes": 2409,
+      "sha256": "6a30b83039f2733ef296cac63e02de9e47b2f8ba0548cb08e547630bb7094f0a"
+    },
+    {
+      "path": "docs/research/sources.json",
+      "bytes": 13266,
+      "sha256": "e44b1494a0be3106d5e5cd3fa443c5bd539392f676a715786a2a124ac2539e0c"
+    },
+    {
+      "path": "docs/research/validation.json",
+      "bytes": 639,
+      "sha256": "d9d27ddf247385b57930cb93168688cee7872712d440201ceba8beaa153f9c23"
+    },
+    {
+      "path": "downloads/README.md",
+      "bytes": 793,
+      "sha256": "105644eace1c18c2ae35620a272a58fad3911865ef3d1b92e927b78cb6f89bd9"
+    },
+    {
+      "path": "downloads/agntia-ciberseguridad-documentacion-7-dias-2026-11-10.zip",
+      "bytes": 154056,
+      "sha256": "4b6ceaa1bc41fc452d157caee978db1b60a65b539acd3b36ae032fc879a2ae74"
+    },
+    {
+      "path": "downloads/agntia-ciberseguridad-documentacion-7-dias-2026-11-10.zip.sha256",
+      "bytes": 124,
+      "sha256": "fa80e58ada918893d002d25f339f5237bd13f6b25561a85e706fd7daf8e534a8"
+    },
+    {
+      "path": "scripts/create_handoff_zip.py",
+      "bytes": 3255,
+      "sha256": "90c123e68062d2b0f2c31d7f70cb82952df700188aae0b2f1fa6f1a9cecb7100"
+    },
+    {
+      "path": "scripts/validate_campaign.py",
+      "bytes": 3278,
+      "sha256": "9a91cfcea2c019fc45a768df5934eab0f9a240e5aeddcf0bd61e9904e0916405"
+    },
+    {
+      "path": "scripts/validate_foundation.py",
+      "bytes": 2430,
+      "sha256": "1694c0aa31f5c4402fc45fd6227ddb5ab48d6b7d969076ee988aed11e262a6a4"
+    }
+  ],
+  "security_scans_executed": 0
+}

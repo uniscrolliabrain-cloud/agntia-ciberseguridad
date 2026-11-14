@@ -1,0 +1,28 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "expected_revision": {
+      "minimum": 0,
+      "title": "Expected Revision",
+      "type": "integer"
+    },
+    "notes": {
+      "maxLength": 1000,
+      "minLength": 5,
+      "title": "Notes",
+      "type": "string"
+    },
+    "proposal_hash": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Proposal Hash",
+      "type": "string"
+    }
+  },
+  "required": [
+    "expected_revision",
+    "proposal_hash",
+    "notes"
+  ],
+  "title": "GrantApproval",
+  "type": "object"
+}

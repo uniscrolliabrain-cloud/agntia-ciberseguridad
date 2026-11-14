@@ -1,0 +1,50 @@
+{
+  "$defs": {
+    "Profile": {
+      "enum": [
+        "static_read",
+        "passive_web",
+        "active_lab"
+      ],
+      "title": "Profile",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "asset_id": {
+      "pattern": "^[a-f0-9]{32}$",
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "grant_id": {
+      "pattern": "^[a-f0-9]{32}$",
+      "title": "Grant Id",
+      "type": "string"
+    },
+    "maximum_cost_cents": {
+      "default": 0,
+      "maximum": 1000000,
+      "minimum": 0,
+      "title": "Maximum Cost Cents",
+      "type": "integer"
+    },
+    "profile": {
+      "$ref": "#/$defs/Profile"
+    },
+    "requests": {
+      "default": 1,
+      "maximum": 10000,
+      "minimum": 1,
+      "title": "Requests",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "asset_id",
+    "grant_id",
+    "profile"
+  ],
+  "title": "AuditPreview",
+  "type": "object"
+}
