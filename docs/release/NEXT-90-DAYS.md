@@ -1,3 +1,8 @@
+> **ACTUALIZACIÓN 2026-11-14 — LECTURA OBLIGATORIA ANTES DEL DOCUMENTO HISTÓRICO**
+> Las ramas de implementación y recuperación se integraron en `main` mediante PR #10 y #11. Las menciones a ramas sin fusionar, PR apiladas y capacidades ausentes pueden estar obsoletas. Estado actual: demo sintética, **no producción**; CI reejecutada en el head de implementación con Python 3.11/3.12, SDK, Docker scanner y navegador en verde. Esto no constituye aceptación independiente ni piloto. `docs/release/status.json`: 2 fases PASS, 40 PARTIAL. Para trabajo nuevo, consultar `docs/auditoria-runtime/AUDITORIA-FUNCIONAL-2026-11-14.md` y `docs/auditoria-runtime/PROGRAMA-DIFERENCIAL-12-CAMPANAS.md`, verificar el HEAD de `main`, evitar duplicar trabajo y preservar gates pendientes. **Texto histórico original conservado íntegramente debajo.**
+
+---
+
 # Próximos30/60/90 días por gates
 
 Días1–30: revisar y ordenar las PR apiladas, cerrar defectos independientes, elegir licencia y canal privado, completar SBOM/scan transitivo propio y revisar términos por herramienta/regla/feed. Aceptar instalación Linux/Windows con artifacts firmados del SHA; ensayar Docker Desktop en PC del owner sin datos reales. Completar backup/restore de snapshots, clave externa, privacidad y revocaciones actuales; medir RTO/RPO sin prometerlos antes. Diseñar con el host la identidad/BFF/tools/bus reales y proponer patchset; aplicarlo solo con autorización expresa.
