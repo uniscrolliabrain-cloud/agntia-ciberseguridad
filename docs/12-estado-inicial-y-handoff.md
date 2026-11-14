@@ -1,3 +1,8 @@
+> **ACTUALIZACIÓN 2026-11-14 — LECTURA OBLIGATORIA**
+> Este documento es histórico. Las ramas de implementación y recuperación ya se integraron en `main` (PR #10 y #11); las afirmaciones de ramas apiladas, código no integrado o baseline anterior deben contrastarse con HEAD. Estado: demo sintética **no producción**; reruns CI de Python/SDK, Docker scanner y navegador exitosos en el head de implementación, no equivalen a aceptación de clientes. Estado de gates en `docs/release/status.json`: 2 PASS / 40 PARTIAL. Fuente de verdad complementaria: `docs/auditoria-runtime/AUDITORIA-FUNCIONAL-2026-11-14.md` y `docs/auditoria-runtime/PROGRAMA-DIFERENCIAL-12-CAMPANAS.md`. Freebuff debe auditar el delta real y no repetir capacidades existentes. **Se preserva el contenido original completo a continuación.**
+
+---
+
 # 12 · Estado inicial y relevo
 
 Fecha: 2026-11-10. Ruta local: `/workspace/agntia-ciberseguridad`. Proyecto separado de Agntia Gestoría y Agntia-video; no se han modificado esos repos ni `/agente` en esta tarea.
