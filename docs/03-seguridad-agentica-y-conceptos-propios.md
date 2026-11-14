@@ -1,3 +1,8 @@
+> **ACTUALIZACIÓN 2026-11-14 — CONTEXTO VIGENTE ANTES DEL TEXTO HISTÓRICO**
+> La implementación de las ramas y la documentación de recuperación se integraron en `main` (PR #10/#11). Este texto puede contener propuestas ya implementadas o referencias a ramas anteriores: comprobar el código de `main` antes de actuar. Estado del producto: demo sintética, no producción ni piloto aceptado; CI Python/SDK, scanner Docker y navegador reejecutada satisfactoriamente sobre el head de implementación. `docs/release/status.json` mantiene 2 fases PASS y 40 PARTIAL. Consultar primero `docs/auditoria-runtime/AUDITORIA-FUNCIONAL-2026-11-14.md` y `docs/auditoria-runtime/PROGRAMA-DIFERENCIAL-12-CAMPANAS.md`. **Contenido histórico conservado sin cambios debajo.**
+
+---
+
 # 03 · Seguridad agéntica y conceptos propios
 
 Propuestas de ingeniería, no invenciones patentadas ni resultados experimentales. Se inspiran en mecanismos publicados de capacidades, control de flujos, políticas y evaluación; todavía no están implementadas.
