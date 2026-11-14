@@ -1,3 +1,8 @@
+> **ACTUALIZACIÓN 2026-11-14 — LECTURA OBLIGATORIA ANTES DEL DOCUMENTO HISTÓRICO**
+> Las ramas de implementación de ciberseguridad y la documentación de recuperación fueron integradas en `main` mediante PR #10 y #11. Las referencias posteriores a ramas apiladas, PR draft sin fusionar o ausencia de implementación son históricas y **no describen el HEAD actual**. Existe una demo sintética (no producción); la reejecución de CI Python 3.11/3.12, SDK, scanner Docker y navegador finalizó correctamente sobre el último commit de implementación, no equivale a aceptación independiente ni a piloto con clientes. `docs/release/status.json` conserva 2 fases PASS y 40 PARTIAL. Para ejecutar trabajo nuevo, consultar primero `docs/auditoria-runtime/AUDITORIA-FUNCIONAL-2026-11-14.md` y `docs/auditoria-runtime/PROGRAMA-DIFERENCIAL-12-CAMPANAS.md`, contrastar cada afirmación con el código de `main` y no duplicar capacidades ya implementadas. **Se conserva íntegro el texto original a continuación.**
+
+---
+
 # Informe al founder — cierre de campaña42 fases
 
 Hemos construido una demo sintética de middleware defensivo con controles deterministas, evidencia y revisión humana. No es todavía un servicio de ciberseguridad productivo, un SOC24×7 ni un certificado AI Act/RGPD. El código completo se revisa en PRs draft apiladas; main no se ha fusionado automáticamente. Para otra IA: empezar por checkpoint9, su evidencia y este informe antes de tocar clientes o el repo madre.
