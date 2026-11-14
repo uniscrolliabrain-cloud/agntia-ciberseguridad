@@ -5,7 +5,7 @@
 ## Evidencia CI de esta revisión
 - Foundation runtime run 43649725633, re-run: Python 3.11 y 3.12 SUCCESS. Paso `npm test`, `npm audit --omit=dev --audit-level=high --json`, `unittest discover`, esquemas, distribución, evaluación gateway y stop SUCCESS en job Python 3.12.
 - Scoped observability browser run 43649725660, re-run: SUCCESS; Playwright Chromium y scripts browser_observability.py/browser_pilot.py SUCCESS.
-- Offline scanner contracts run 43649725611, re-run: **IN_PROGRESS en la última consulta**, build/probe images SUCCESS; prueba Docker real pendiente de resultado definitivo.
+- Offline scanner contracts run 43649725611, re-run: **SUCCESS en re-run**; build/probe images y prueba Docker de contratos con fixtures sintéticos completados.
 - Seis workflows de la rama de implementación tenían SUCCESS histórico (runtime, scanner, browser, observabilidad, docs, release). No inferir que el merge SHA fue ensayado de nuevo; las dos fusiones conservaron código, pero el estado documental fue actualizado y hay un nuevo commit de planificación.
 - La evidencia histórica del checkpoint 09 declara 190 casos Python distintos (182 núcleo y 8 Docker), sin confundir con conteo de la reejecución actual.
 
