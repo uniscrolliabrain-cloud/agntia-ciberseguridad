@@ -1,3 +1,8 @@
+> **ACTUALIZACIÓN 2026-11-14 — CHECKPOINT HISTÓRICO**
+> Este reporte registra resultados de un SHA/etapa anterior, no el estado completo de `main`. Las ramas de implementación se integraron en PR #10 y #11. La entrega sigue siendo demo sintética no productiva; el estado global conserva 2 fases PASS y 40 PARTIAL en `docs/release/status.json`. Antes de ejecutar pendientes, consultar `docs/auditoria-runtime/AUDITORIA-FUNCIONAL-2026-11-14.md` y `docs/auditoria-runtime/PROGRAMA-DIFERENCIAL-12-CAMPANAS.md`; contrastar cada test, fix y supuesto con HEAD. **Evidencia histórica original preservada debajo.**
+
+---
+
 # Informe 01 · Primeras cinco fases
 
 Fecha: 2026-11-10. Rama: `feat/cyber-d1-foundation`. Repo: `uniscrolliabrain-cloud/agntia-ciberseguridad`.
