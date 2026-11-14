@@ -2,7 +2,7 @@
 
 **Middleware de ciberseguridad tradicional y agéntica para AgntiaPro y su repositorio madre `/agente`.** Observa activos autorizados, reúne evidencias, prepara auditorías y reportes, controla las acciones de agentes y propone remediaciones revisables.
 
-**Estado al2026-11-10: fundación documental e investigación. No hay un servicio de protección implementado ni activo.** No se han instalado scanners, conectado clientes, modificado `/agente`, comprado suscripciones o desplegado infraestructura. Los controles descritos son el objetivo de implementación; las comprobaciones iniciales solo validan documentación/configuración.
+**Estado al2026-11-10: núcleo inicial de API en desarrollo, sobre la investigación y campaña documentadas.** Inventario, identidad por tenant, grants revisados y preflight sin ejecución. [Primer checkpoint de cinco fases](docs/implementation/checkpoints/01-first-five/REPORT.md). No hay scanners habilitados, protección activa, clientes conectados, cambios en `/agente`, compras ni despliegue. Las capacidades futuras no se consideran implementadas por aparecer en un esquema.
 
 ## Campaña de implementación de siete días
 

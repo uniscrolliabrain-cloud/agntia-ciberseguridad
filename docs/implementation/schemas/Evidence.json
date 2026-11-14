@@ -1,0 +1,65 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "id": {
+      "pattern": "^[a-f0-9]{32}$",
+      "title": "Id",
+      "type": "string"
+    },
+    "job_id": {
+      "pattern": "^[a-f0-9]{32}$",
+      "title": "Job Id",
+      "type": "string"
+    },
+    "media_type": {
+      "maxLength": 128,
+      "minLength": 1,
+      "title": "Media Type",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": 1,
+      "default": 1,
+      "title": "Schema Version",
+      "type": "integer"
+    },
+    "sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Sha256",
+      "type": "string"
+    },
+    "size_bytes": {
+      "maximum": 100000000,
+      "minimum": 0,
+      "title": "Size Bytes",
+      "type": "integer"
+    },
+    "storage_ref": {
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_-]{0,63}$",
+      "title": "Storage Ref",
+      "type": "string"
+    },
+    "tenant_id": {
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_-]{0,63}$",
+      "title": "Tenant Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "tenant_id",
+    "job_id",
+    "sha256",
+    "storage_ref",
+    "size_bytes",
+    "media_type",
+    "created_at"
+  ],
+  "title": "Evidence",
+  "type": "object"
+}

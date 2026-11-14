@@ -1,0 +1,55 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "actor_id": {
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_-]{0,63}$",
+      "title": "Actor Id",
+      "type": "string"
+    },
+    "expires_at": {
+      "format": "date-time",
+      "title": "Expires At",
+      "type": "string"
+    },
+    "id": {
+      "pattern": "^[a-f0-9]{32}$",
+      "title": "Id",
+      "type": "string"
+    },
+    "proposal_hash": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Proposal Hash",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": 1,
+      "default": 1,
+      "title": "Schema Version",
+      "type": "integer"
+    },
+    "state": {
+      "enum": [
+        "approved",
+        "revoked",
+        "expired"
+      ],
+      "title": "State",
+      "type": "string"
+    },
+    "tenant_id": {
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_-]{0,63}$",
+      "title": "Tenant Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "tenant_id",
+    "proposal_hash",
+    "actor_id",
+    "expires_at",
+    "state"
+  ],
+  "title": "Approval",
+  "type": "object"
+}

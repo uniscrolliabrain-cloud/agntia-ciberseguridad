@@ -1,0 +1,69 @@
+test_concurrent_duplicate_asset_yields_one_object (integration.test_storage.DuplicateMutationTests.test_concurrent_duplicate_asset_yields_one_object) ... ERROR
+test_two_processes_initialize_without_lost_schema (integration.test_storage.MultiprocessMigrationTests.test_two_processes_initialize_without_lost_schema) ... ok
+test_concurrent_initialization_and_tenant_sequences (integration.test_storage.StorageTests.test_concurrent_initialization_and_tenant_sequences) ... ok
+test_failed_upgrade_rolls_back_existing_data_and_audit (integration.test_storage.StorageTests.test_failed_upgrade_rolls_back_existing_data_and_audit) ... ok
+test_foreign_keys_and_readonly_connections (integration.test_storage.StorageTests.test_foreign_keys_and_readonly_connections) ... ok
+test_fresh_upgrade_backup_and_idempotence (integration.test_storage.StorageTests.test_fresh_upgrade_backup_and_idempotence) ... ok
+test_restore_backup_and_detect_tampering (integration.test_storage.StorageTests.test_restore_backup_and_detect_tampering) ... ok
+security.test_api_foundation (unittest.loader._FailedTest.security.test_api_foundation) ... ERROR
+security.test_network_scope (unittest.loader._FailedTest.security.test_network_scope) ... ERROR
+unit.test_contracts (unittest.loader._FailedTest.unit.test_contracts) ... ERROR
+test_inventory_preserves_unrelated_edits_and_reports_unavailable_docker (unit.test_environment.EnvironmentTests.test_inventory_preserves_unrelated_edits_and_reports_unavailable_docker) ... ok
+
+======================================================================
+ERROR: test_concurrent_duplicate_asset_yields_one_object (integration.test_storage.DuplicateMutationTests.test_concurrent_duplicate_asset_yields_one_object)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/agntia-ciberseguridad/tests/integration/test_storage.py", line 72, in test_concurrent_duplicate_asset_yields_one_object
+    from tests.support import Fixture
+ModuleNotFoundError: No module named 'tests'
+
+======================================================================
+ERROR: security.test_api_foundation (unittest.loader._FailedTest.security.test_api_foundation)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: security.test_api_foundation
+Traceback (most recent call last):
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+    module = self._get_module_from_name(name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+    __import__(name)
+  File "/workspace/agntia-ciberseguridad/tests/security/test_api_foundation.py", line 8, in <module>
+    from tests.support import Fixture
+ModuleNotFoundError: No module named 'tests'
+
+
+======================================================================
+ERROR: security.test_network_scope (unittest.loader._FailedTest.security.test_network_scope)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: security.test_network_scope
+Traceback (most recent call last):
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+    module = self._get_module_from_name(name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+    __import__(name)
+  File "/workspace/agntia-ciberseguridad/tests/security/test_network_scope.py", line 6, in <module>
+    from tests.support import Fixture
+ModuleNotFoundError: No module named 'tests'
+
+
+======================================================================
+ERROR: unit.test_contracts (unittest.loader._FailedTest.unit.test_contracts)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: unit.test_contracts
+Traceback (most recent call last):
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+    module = self._get_module_from_name(name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+    __import__(name)
+  File "/workspace/agntia-ciberseguridad/tests/unit/test_contracts.py", line 7, in <module>
+    from tests.support import Fixture
+ModuleNotFoundError: No module named 'tests'
+
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.135s
+
+FAILED (errors=4)

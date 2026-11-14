@@ -1,0 +1,69 @@
+{
+  "$defs": {
+    "Profile": {
+      "enum": [
+        "static_read",
+        "passive_web",
+        "active_lab"
+      ],
+      "title": "Profile",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "asset_id": {
+      "pattern": "^[a-f0-9]{32}$",
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "consent_ref": {
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_-]{0,63}$",
+      "title": "Consent Ref",
+      "type": "string"
+    },
+    "expires_at": {
+      "format": "date-time",
+      "title": "Expires At",
+      "type": "string"
+    },
+    "max_cost_cents": {
+      "default": 0,
+      "maximum": 1000000,
+      "minimum": 0,
+      "title": "Max Cost Cents",
+      "type": "integer"
+    },
+    "max_requests": {
+      "default": 100,
+      "maximum": 10000,
+      "minimum": 1,
+      "title": "Max Requests",
+      "type": "integer"
+    },
+    "profile": {
+      "$ref": "#/$defs/Profile"
+    },
+    "purpose": {
+      "maxLength": 1000,
+      "minLength": 5,
+      "title": "Purpose",
+      "type": "string"
+    },
+    "starts_at": {
+      "format": "date-time",
+      "title": "Starts At",
+      "type": "string"
+    }
+  },
+  "required": [
+    "asset_id",
+    "consent_ref",
+    "profile",
+    "starts_at",
+    "expires_at",
+    "purpose"
+  ],
+  "title": "GrantCreate",
+  "type": "object"
+}
