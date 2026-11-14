@@ -1,3 +1,8 @@
+> **ACTUALIZACIÓN 2026-11-14 — CHECKPOINT HISTÓRICO**
+> Este reporte es evidencia de su etapa original, no un retrato actualizado de `main`. Las ramas se integraron mediante PR #10 y #11. El producto sigue clasificado como demo sintética no productiva; `docs/release/status.json` registra 2 fases PASS y 40 PARTIAL. Los reruns CI Python/SDK, Docker scanner y navegador sobre el head de implementación resultaron SUCCESS, sin equivaler a aprobación productiva. Antes de reutilizar instrucciones, consultar `docs/auditoria-runtime/AUDITORIA-FUNCIONAL-2026-11-14.md` y `docs/auditoria-runtime/PROGRAMA-DIFERENCIAL-12-CAMPANAS.md` y verificar HEAD. **Texto original íntegro a continuación.**
+
+---
+
 # Checkpoint06 — fases26–30
 
 Fecha:2026-11-10. [PR#6](https://github.com/uniscrolliabrain-cloud/agntia-ciberseguridad/pull/6), rama `feat/cyber-phases-26-30`, apilada sobre PR#5. Baseline remoto `d41e29b075e994803b409018ef07ca8ea75d3268`, árbol `e7d58cb1ce7174de2066d164975631d1b6954c11` idéntico al checkout local al iniciar.119 pruebas descubiertas,108 correctas y11 omitidas en baseline local. No se modifica `/agente`, no se despliega, no se compra y no se fusiona main.
