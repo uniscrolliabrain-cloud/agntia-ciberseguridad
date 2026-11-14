@@ -1,3 +1,8 @@
+> **ACTUALIZACIÓN 2026-11-14 — ESTADO VIGENTE**
+> PR #10 y #11 integraron las ramas en `main`. El repositorio dispone de demo sintética funcional, **no productiva**; las referencias a código solo proyectado o ramas no fusionadas son históricas. CI de Python 3.11/3.12, SDK, scanner Docker y navegador reejecutada en el head de implementación: SUCCESS; esto no valida seguridad independiente ni clientes reales. Fuente de verdad: `docs/release/status.json` (2 fases PASS, 40 PARTIAL), `docs/auditoria-runtime/AUDITORIA-FUNCIONAL-2026-11-14.md` y `docs/auditoria-runtime/PROGRAMA-DIFERENCIAL-12-CAMPANAS.md`. Contrastar toda instrucción con `main` antes de actuar. **Se conserva íntegramente el documento original debajo.**
+
+---
+
 # Documentación técnica · Agntia Ciberseguridad
 
 Edición inicial: 2026-11-10. Objetivo: construir middleware defensivo para el equipo de seguridad de AgntiaPro, con alto uso de OSS y presupuestos técnicos acotados. Todo lo que todavía es diseño se identifica como tal.
