@@ -1,3 +1,8 @@
+> **ACTUALIZACIÓN 2026-11-14 — CHECKPOINT HISTÓRICO**
+> Este reporte registra resultados de un SHA/etapa anterior, no el estado completo de `main`. Las ramas de implementación se integraron en PR #10 y #11. La entrega sigue siendo demo sintética no productiva; el estado global conserva 2 fases PASS y 40 PARTIAL en `docs/release/status.json`. Antes de ejecutar pendientes, consultar `docs/auditoria-runtime/AUDITORIA-FUNCIONAL-2026-11-14.md` y `docs/auditoria-runtime/PROGRAMA-DIFERENCIAL-12-CAMPANAS.md`; contrastar cada test, fix y supuesto con HEAD. **Evidencia histórica original preservada debajo.**
+
+---
+
 # Checkpoint 04 — fases16–20
 
 Fecha: 2026-11-10. Repositorio: agntia-ciberseguridad. PR [#4](https://github.com/uniscrolliabrain-cloud/agntia-ciberseguridad/pull/4), apilada sobre PR#3. No se modifica `/agente`, no se despliega producción y no se fusiona main. Baseline remoto: `4bc761c199a7868bbf93e30c44e1d0eb5f721aea`;196 archivos contrastados por hash antes de editar. Baseline local:79 tests,72 correctos,7 Docker omitidos. El snapshot local restaurado conserva su historial propio; los commits remotos por API son la referencia de publicación.
