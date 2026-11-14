@@ -1,3 +1,8 @@
+> **ACTUALIZACIÓN 2026-11-14 — LECTURA OBLIGATORIA**
+> Este documento es histórico. Las ramas de implementación y recuperación ya se integraron en `main` (PR #10 y #11); las afirmaciones de ramas apiladas, código no integrado o baseline anterior deben contrastarse con HEAD. Estado: demo sintética **no producción**; reruns CI de Python/SDK, Docker scanner y navegador exitosos en el head de implementación, no equivalen a aceptación de clientes. Estado de gates en `docs/release/status.json`: 2 PASS / 40 PARTIAL. Fuente de verdad complementaria: `docs/auditoria-runtime/AUDITORIA-FUNCIONAL-2026-11-14.md` y `docs/auditoria-runtime/PROGRAMA-DIFERENCIAL-12-CAMPANAS.md`. Freebuff debe auditar el delta real y no repetir capacidades existentes. **Se preserva el contenido original completo a continuación.**
+
+---
+
 # Checkpoint9 — fases41–42
 
 Baseline remoto6146077ae0d2df585d5db633d28959e4ec6033ab, árbol b85aa439b49cc0a74501e002e4be7f09f075f6f8, idéntico al checkout al comenzar. Rama feat/cyber-phases-41-42 apilada sobre36–40. Último bloque de implementación de la campaña; gates pendientes conservados. No se modifica `/agente`, main, datos de clientes, secretos ni producción.
