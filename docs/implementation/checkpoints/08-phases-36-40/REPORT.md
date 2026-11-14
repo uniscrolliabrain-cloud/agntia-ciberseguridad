@@ -1,3 +1,8 @@
+> **ACTUALIZACIÓN 2026-11-14 — CHECKPOINT HISTÓRICO**
+> Este reporte es evidencia de su etapa original, no un retrato actualizado de `main`. Las ramas se integraron mediante PR #10 y #11. El producto sigue clasificado como demo sintética no productiva; `docs/release/status.json` registra 2 fases PASS y 40 PARTIAL. Los reruns CI Python/SDK, Docker scanner y navegador sobre el head de implementación resultaron SUCCESS, sin equivaler a aprobación productiva. Antes de reutilizar instrucciones, consultar `docs/auditoria-runtime/AUDITORIA-FUNCIONAL-2026-11-14.md` y `docs/auditoria-runtime/PROGRAMA-DIFERENCIAL-12-CAMPANAS.md` y verificar HEAD. **Texto original íntegro a continuación.**
+
+---
+
 # Checkpoint8 — fases36–40
 
 Rama `feat/cyber-phases-36-40`, apilada sobre `feat/cyber-phases-31-35`. Baseline remoto231db083db6d647ea1ff672e5f600ce49afc4c56, árbol b65ecd173feb3e055706fd69b87d0689fbab2bed idéntico al checkout local. No se modifica `/agente`, main, producción ni servicios de clientes. El bloque entrega implementación incremental; sus cinco gates completos siguen PARTIAL por los límites detallados. Siguiente bloque41–42 para empaquetado y aceptación, conservando los pendientes anteriores.
