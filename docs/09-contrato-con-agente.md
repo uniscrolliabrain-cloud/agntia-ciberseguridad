@@ -1,3 +1,8 @@
+> **ACTUALIZACIÓN 2026-11-14 — CONTEXTO VIGENTE ANTES DEL TEXTO HISTÓRICO**
+> Las ramas de implementación y recuperación ya están fusionadas en `main` (PR #10 y #11). Este documento puede describir trabajo ya realizado o supuestos antiguos. La entrega actual sigue clasificada como demo sintética, no producción. Las pruebas CI Python/SDK, scanner Docker y navegador se reejecutaron satisfactoriamente sobre el head de implementación, sin constituir auditoría independiente ni aceptación humana. `docs/release/status.json` conserva 2 fases PASS y 40 PARTIAL. Antes de ejecutar, revisar `docs/auditoria-runtime/AUDITORIA-FUNCIONAL-2026-11-14.md` y `docs/auditoria-runtime/PROGRAMA-DIFERENCIAL-12-CAMPANAS.md`, comprobar el código actual y evitar duplicar funciones. **El texto histórico permanece íntegro debajo.**
+
+---
+
 # 09 · Contrato propuesto hacia /agente
 
 No se ha leído ni modificado el repo madre en esta tarea. Los nombres siguientes son una propuesta técnica que se contrastará con su identidad/event bus/approval service reales. No describen endpoints implementados.
