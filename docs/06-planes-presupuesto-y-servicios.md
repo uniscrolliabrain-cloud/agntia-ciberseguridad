@@ -1,3 +1,8 @@
+> **ACTUALIZACIÓN 2026-11-14 — CONTEXTO VIGENTE ANTES DEL TEXTO HISTÓRICO**
+> Las ramas de implementación y recuperación ya están fusionadas en `main` (PR #10 y #11). Este documento puede describir trabajo ya realizado o supuestos antiguos. La entrega actual sigue clasificada como demo sintética, no producción. Las pruebas CI Python/SDK, scanner Docker y navegador se reejecutaron satisfactoriamente sobre el head de implementación, sin constituir auditoría independiente ni aceptación humana. `docs/release/status.json` conserva 2 fases PASS y 40 PARTIAL. Antes de ejecutar, revisar `docs/auditoria-runtime/AUDITORIA-FUNCIONAL-2026-11-14.md` y `docs/auditoria-runtime/PROGRAMA-DIFERENCIAL-12-CAMPANAS.md`, comprobar el código actual y evitar duplicar funciones. **El texto histórico permanece íntegro debajo.**
+
+---
+
 # 06 · Planes Lite/L/XL y servicios comerciales
 
 Los30/70/300€ son techos solicitados por el propietario. Esta edición los interpreta como coste técnico mensual de un tenant/workspace piloto, no precio de venta ni presupuesto para clientes/volumen ilimitados. Confirmar esta unidad antes de una oferta. El coste de alojar el software del cliente, trabajo humano, puesta en marcha y asesoramiento jurídico se declaran aparte; no esconderlos dentro de una promesa de seguridad completa.
