@@ -35,6 +35,12 @@ PYTHONPATH=adversarial_lab/src python -m unittest discover -s adversarial_lab/te
 python adversarial_lab/scripts/releasecheck.py
 ```
 
+## Claves
+
+`evidence` y `release` se generan localmente con 32 bytes, permisos `0600` y huella SHA-256 visible en
+`advlab doctor`. Viven en `var/`, que Git ignora. Las credenciales de proveedores externos no se
+guardan en el repo.
+
 ## Límites que no se maquillan
 
 - No hay ejecución de modelos reales: el proveedor por defecto es `mock`.
