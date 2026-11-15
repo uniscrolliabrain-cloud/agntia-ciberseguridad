@@ -59,8 +59,9 @@ Entorno: Python 3.12.3, Node v26.13.0, macOS/Linux sandbox, Docker 29.1.3 presen
 en esta sesión **no se ejecutaron escáneres reales**. El skip de SDK corresponde al contrato live
 cuando el propio runner de Python ya lo cubre.
 
-**CI:** no se ha ejecutado ningún workflow de GitHub para este SHA. Toda afirmación de CI en este
-documento es histórica y queda `NOT_VERIFIED` hasta que exista PR y run asociado.
+**CI:** push de `0b8dd9d` disparó los 6 workflows; los 6 completaron con **0 fallos**
+(`Offline scanner contracts` run 43664454716 y `Foundation runtime` run 43664454717 entre ellos).
+No hay PR abierto porque el conector GitHub devuelve 403 al crearlo; los checks corren por push.
 
 ## 4. Defectos de baseline encontrados y corregidos
 

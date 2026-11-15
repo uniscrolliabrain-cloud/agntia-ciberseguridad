@@ -30,6 +30,12 @@ python -m venv .venv && .venv/bin/pip install -e '.[dev]'
 .venv/bin/python scripts/validate_foundation.py       # PASS
 ```
 
+## CI de la rama
+
+SHA `0b8dd9d`: 6/6 workflows completados sin fallos. Sin PR: el conector GitHub responde 403 al
+crear pull requests; el compare manual es
+`https://github.com/uniscrolliabrain-cloud/agntia-ciberseguridad/compare/main...feat/cy-v2-01-baseline`.
+
 ## Riesgos críticos abiertos
 
 - Sin CI ejecutada para la rama y sin revisión independiente.

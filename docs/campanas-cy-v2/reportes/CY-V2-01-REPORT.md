@@ -4,7 +4,7 @@
 
 - **Campaña:** CY-V2-01 · Baseline verificable y reconciliación documental.
 - **Rama:** `feat/cy-v2-01-baseline` desde `main` `b2cea46bd03e1eafec2f31eff96db1a07890a23c`.
-- **SHA base:** `b2cea46`. **SHA final:** el del commit de esta rama (sin fusionar).
+- **SHA base:** `b2cea46`. **SHA final:** `0b8dd9d` (rama publicada, sin fusionar).
 - **PR:** pendiente de abrir tras la revisión del diff.
 - **Fecha:** 2026-11-15.
 - **Estado:** **NOT_VERIFIED** — gates locales superados; CI y revisión independiente pendientes.
@@ -70,8 +70,10 @@ Antes de los arreglos: 190 tests con **1 FAIL** (`ERR_UNSUPPORTED_TYPESCRIPT_SYN
 
 ## Resultados CI
 
-Sin run de GitHub Actions para este SHA. **NOT_VERIFIED.** La evidencia histórica de CI en
-`docs/auditoria-runtime/` no se reutiliza como prueba de esta rama.
+Push de `0b8dd9d`: **6/6 workflows completados, 0 fallos, 0 en curso**
+(`scanner-contracts` 43664454716, `runtime` 43664454717, más browser, observability, docs y
+release). Evidencia consultada vía API de Actions, no reutilizada de auditorías anteriores.
+La revisión independiente sigue pendiente, por eso la campaña no se marca PASS.
 
 ## Hallazgos de seguridad
 
