@@ -1,3 +1,11 @@
+> **ACTUALIZACIÓN 2026-11-15 — FUSIONADO EN MAIN**
+> Base: `main@1e0ff5e` (2026-11-15) · 196 tests Python OK (8 skips) · SDK 6/1 · 84 rutas `/v1` · demo sintética, `production_enabled=false` · 2 PASS / 40 PARTIAL · sin PR ni revisión independiente.
+> **Vigente aquí:** La visión, los diez dominios y los tres conceptos finales siguen siendo el marco superior.
+> **Corregido/obsoleto:** Ya no vive en una rama aparte: está integrado en `main` (`1e0ff5e`). Sigue siendo visión, no implementación; el repo cubre 5 de 10 dominios.
+> Estado y pendientes: [ESTADO-VIGENTE.md](../ESTADO-VIGENTE.md)
+
+---
+
 # Agntia Ciberseguridad — Concept Master
 
 **Visión integral del producto.** Recibida del founder el 2026-11-15. Reemplaza como marco superior

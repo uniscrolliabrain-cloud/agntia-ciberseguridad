@@ -1,3 +1,11 @@
+> **ACTUALIZACIÓN 2026-11-15 — FUSIONADO EN MAIN**
+> Base: `main@1e0ff5e` (2026-11-15) · 196 tests Python OK (8 skips) · SDK 6/1 · 84 rutas `/v1` · demo sintética, `production_enabled=false` · 2 PASS / 40 PARTIAL · sin PR ni revisión independiente.
+> **Vigente aquí:** La decisión B (gemelo digital 43 y antivisiones 44 en paralelo a G1), la instalación y la ruta de despliegue siguen vigentes.
+> **Corregido/obsoleto:** El mapa de ramas del documento quedó atrás: todo está fusionado en `main`. Los seis secretos del MVP y la autorización de `/agente` siguen pendientes.
+> Estado y pendientes: [ESTADO-VIGENTE.md](../ESTADO-VIGENTE.md)
+
+---
+
 # Plan maestro — visión, decisión, instalación y despliegue
 
 **Fecha:** 2026-11-15. **Estado:** documento de dirección; no implementación.

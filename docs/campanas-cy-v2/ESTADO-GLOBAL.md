@@ -1,7 +1,15 @@
+> **ACTUALIZACIÓN 2026-11-15 — FUSIONADO EN MAIN**
+> Base: `main@1e0ff5e` (2026-11-15) · 196 tests Python OK (8 skips) · SDK 6/1 · 84 rutas `/v1` · demo sintética, `production_enabled=false` · 2 PASS / 40 PARTIAL · sin PR ni revisión independiente.
+> **Vigente aquí:** La demo sintética y `production_enabled=false` siguen siendo el estado real.
+> **Corregido/obsoleto:** El SHA y la rama activa eran `b2cea46` y `docs/cy-v2-connection-requirements`; hoy es `main@1e0ff5e`.
+> Estado y pendientes: [ESTADO-VIGENTE.md](../ESTADO-VIGENTE.md)
+
+---
+
 # CY-V2 — Estado global de ejecución
 
-**Actualizado:** 2026-11-15. **SHA de `main`:** `b2cea46bd03e1eafec2f31eff96db1a07890a23c`.
-**Rama activa:** `docs/cy-v2-connection-requirements`. **Producto:** demo sintética,
+**Actualizado:** 2026-11-15. **Punto de fusión en `main`:** `1e0ff5e` (2026-11-15); el head exacto, en `git log -1`.
+**Rama activa:** `main`. **Producto:** demo sintética,
 `production_enabled=false`.
 
 **Dirección vigente:** [PLAN-MAESTRO.md](PLAN-MAESTRO.md) — Concept Master + decisión B

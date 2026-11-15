@@ -1,7 +1,7 @@
 # Estado vigente — verdad medida del repositorio
 
 **Fecha:** 2026-11-15. **Sustituye a cualquier cabecera anterior** como resumen operativo.
-**Base medida:** `main@dd18f2ad5b3fdc54dec28e3eede6a504642fcbc7` y rama `feat/cyber-autodoc-AD-01` (`c57251c`).
+**Base medida:** `main` tras la fusión `1e0ff5e` (que integra AD-01 `c57251c` y CY-V2 `8db390e`).
 **Naturaleza:** demo sintética. `production_enabled=false` en `docs/release/status.json`.
 
 Este documento no sustituye al código ni a `docs/release/status.json`: los resume y explica qué
@@ -27,12 +27,13 @@ documentos están desactualizados y por qué.
 
 | Rama | HEAD | Contenido | Estado |
 |---|---|---|---|
-| `main` | `dd18f2a` | Programa AD-01→AD-15, auditoría estática previa | Referencia; sin los trabajos de abajo |
-| `feat/cyber-autodoc-AD-01` | `c57251c` | AD-01 ejecutada + reparación Node 26 | Pusheada, sin PR |
-| `docs/cy-v2-connection-requirements` | `8db390e` | Concept Master, plan maestro, arquitectura E/S, stack | Pusheada, sin PR |
-| `feat/cy-v2-01-baseline` | `84c8499` | Baseline CY-V2-01 anterior | Superada por AD-01 |
+| `main` | fusión `1e0ff5e` | Todo lo siguiente, ya fusionado | **Rama de referencia** |
+| `feat/cyber-autodoc-AD-01` | `c57251c` | AD-01 + reparación Node 26 | Fusionada en `main` |
+| `docs/hyperupdate-audit-20261115` | `7f1ebc2` | Actualizaciones documentales 2026-11-15 | Fusionada en `main` |
+| `docs/cy-v2-connection-requirements` | `8db390e` | Concept Master, plan maestro, E/S, stack | Fusionada en `main` |
+| `feat/cy-v2-01-baseline` | `84c8499` | Baseline CY-V2-01 anterior | Superada; no fusionar |
 
-Ninguna rama nueva está fusionada. Nada de esto autoriza escribir en `/agente`.
+Las ramas de trabajo están fusionadas en `main` (`1e0ff5e`), sin PR por el 403 del conector. Nada de esto autoriza escribir en `/agente`.
 
 ## 3. Programa AD
 
