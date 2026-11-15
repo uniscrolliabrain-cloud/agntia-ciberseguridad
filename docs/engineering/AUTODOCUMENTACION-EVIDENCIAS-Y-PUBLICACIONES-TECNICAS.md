@@ -109,3 +109,8 @@ Cada fase requiere tests unitarios, integración, aislamiento multi-tenant, caso
 
 ## 11. Criterio final de éxito
 Cualquier afirmación pública sobre eficacia debe poder responder: **¿qué ejecución la respalda, sobre qué versión y escenario, qué pruebas se ejecutaron, qué quedó sin probar y cómo puede reproducirse?** Si falta alguna respuesta, la afirmación debe etiquetarse como no verificada y no convertirse en una promesa comercial.
+
+
+## Programa de implementación auditado (2026-11-15)
+
+[15 campañas AD-01..AD-15, rutas reales, patchsets, pruebas, auditorías, dependencias y handoff](../autodoc/PROGRAMA-15-CAMPANAS-ULTRAGRANULARES.md). **Plan no ejecutado**; se basa en revisión estática selectiva del código de main y exige reauditar cada SHA, ejecutar CI y no confundir demo sintética con producción. El programa CY-R01..R12 conserva prioridad en gates de seguridad.
