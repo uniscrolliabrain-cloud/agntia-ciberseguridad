@@ -92,6 +92,8 @@ def run_daily(
     provider=None,
 ) -> DailyOutcome:
     config.validate()
+    if not engagement.is_active():
+        raise PermissionError("engagement revoked, expired or not active")
     store = Store(config.data_dir / "lab.sqlite")
     store.add_engagement(engagement)
     store.add_scope(scope)
@@ -111,6 +113,8 @@ def run_daily(
     oracle_failures: list[str] = []
 
     for mission in selected:
+        if not engagement.is_active():
+            raise PermissionError("engagement revoked during run")
         target_ref = mission.get("target_ref") or scope.targets[0].ref
         experiment = compile_experiment(mission, engagement, scope, target_ref)
         store.add_experiment(experiment)

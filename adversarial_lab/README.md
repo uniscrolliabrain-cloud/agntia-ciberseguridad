@@ -11,7 +11,7 @@ Red team supervisado y agnóstico de proveedor sobre **gemelos sintéticos**. No
 | Engagement, scope, revocación | Implementado | Deny-by-default, tenant y fingerprint |
 | Contratos y procedencia | Implementado | Pydantic v2, SHA-256 canónico |
 | Persistencia y ledger | Implementado | SQLite, transiciones explícitas |
-| Sandbox y broker | Implementado (local) | argv-only, allowlist, sin shell; sin OCI todavía |
+| Sandbox y broker | Implementado (local) | argv-only, allowlist, sin shell; adaptador OCI endurecido, runtime no disponible |
 | Gemelos sintéticos | Implementado | Datos seeded, fidelidad medida |
 | Misiones | Implementado | 5 misiones versionadas y validadas |
 | Proveedores | Mock real; externos BLOCKED | Sin API/CLI verificada no se invoca nada |
@@ -21,7 +21,7 @@ Red team supervisado y agnóstico de proveedor sobre **gemelos sintéticos**. No
 | Evidencia | Implementado | AES-GCM, 2 MiB, hash verificable |
 | Informes | Implementado | Markdown determinista con limitaciones |
 | Operación diaria | Implementado (sintética) | Resultado PARTIAL por herramientas bloqueadas |
-| Release gates | Implementado | `scripts/releasecheck.py`, `scripts/verify_boundary.py` |
+| Release gates | Implementado (parcial) | `releasecheck` genera SBOM, firma Ed25519 y reporta `pip-audit` como BLOCKED |
 
 ## Uso
 
@@ -37,6 +37,6 @@ python adversarial_lab/scripts/releasecheck.py
 
 - No hay ejecución de modelos reales: el proveedor por defecto es `mock`.
 - Las herramientas externas no están instaladas; devuelven `BLOCKED`, no resultados inventados.
-- El sandbox es local (subprocess allowlisted), no un runtime OCI con kernel aislado.
+- El sandbox es local (subprocess allowlisted); el adaptador OCI exige digest y `network=none`, pero no hay runtime verificado en esta máquina.
 - El ciclo diario usa observaciones **simuladas** para demostrar la cadena completa.
 - Nada de esto autoriza pruebas sobre clientes reales ni sustituye una revisión independiente.

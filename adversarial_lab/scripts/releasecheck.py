@@ -31,7 +31,30 @@ def main() -> int:
     missions = MissionRegistry(ROOT / "library" / "missions").load()
     if len(missions) < 5:
         findings.append(f"mission library too small: {len(missions)}")
-    print(json.dumps({"status": "FAIL" if findings else "PASS", "missions": len(missions), "findings": findings}, indent=2))
+
+    from agntia_adversarial.release.sbom import audit_status, build_sbom, sign_manifest, verify_signature
+
+    sbom = build_sbom()
+    if not sbom["components"]:
+        findings.append("empty SBOM")
+    signature = sign_manifest({"sbom_digest": sbom["digest"]}, ROOT / "var" / "keys" / "release.key")
+    if not verify_signature({"sbom_digest": sbom["digest"]}, signature):
+        findings.append("signature verification failed")
+    audit = audit_status()
+
+    print(
+        json.dumps(
+            {
+                "status": "FAIL" if findings else "PASS",
+                "missions": len(missions),
+                "sbom_components": len(sbom["components"]),
+                "signature": signature["scope"],
+                "audit": audit["status"],
+                "findings": findings,
+            },
+            indent=2,
+        )
+    )
     return 1 if findings else 0
 
 

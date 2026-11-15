@@ -28,6 +28,19 @@ class DailyCycleTests(unittest.TestCase):
             self.assertTrue(outcome.blocked_tools)
             self.assertEqual(outcome.tenant_id, "tenant-a")
 
+    def test_revoked_engagement_is_refused(self):
+        missions = list(MissionRegistry(LIBRARY).load().values())
+        for mission in missions:
+            mission["target_ref"] = {
+                "repo": "synthetic-shop",
+                "api": "synthetic-api",
+                "model": "synthetic-model",
+                "container": "synthetic-db",
+            }[mission["scope_kind"]]
+        with tempfile.TemporaryDirectory() as root:
+            with self.assertRaises(PermissionError):
+                run_daily(config(Path(root)), engagement().revoke(), scope(), missions)
+
     def test_cross_tenant_run_is_not_visible(self):
         missions = list(MissionRegistry(LIBRARY).load().values())
         for mission in missions:

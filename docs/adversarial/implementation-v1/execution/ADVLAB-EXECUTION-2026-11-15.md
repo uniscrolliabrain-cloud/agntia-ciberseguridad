@@ -9,8 +9,8 @@ externas y los proveedores reales quedan `BLOCKED` con stub honesto, no con resu
 
 | Comprobación | Comando | Exit | Resultado |
 |---|---|---|---|
-| Suite del laboratorio | `PYTHONPATH=adversarial_lab/src:adversarial_lab/tests python -m unittest discover -s adversarial_lab/tests -t adversarial_lab/tests` | 0 | **69 tests OK** |
-| Release gate | `python adversarial_lab/scripts/releasecheck.py` | 0 | PASS, 5 misiones, 0 hallazgos |
+| Suite del laboratorio | `PYTHONPATH=adversarial_lab/src:adversarial_lab/tests python -m unittest discover -s adversarial_lab/tests -t adversarial_lab/tests` | 0 | **77 tests OK** |
+| Release gate | `python adversarial_lab/scripts/releasecheck.py` | 0 | PASS, 5 misiones, SBOM 72 componentes, firma Ed25519, audit BLOCKED |
 | Boundary gate | `python adversarial_lab/scripts/verify_boundary.py` | 0 | PASS, 0 violaciones de ownership |
 | Ciclo diario | `python -m agntia_adversarial.cli run --tenant tenant-synthetic` | 0 | **PARTIAL**, 4 misiones, 4 evidencias, 7 tools BLOCKED |
 | Validador del repo | `python scripts/validate_foundation.py` | 0 | PASS, 215 Markdown |
@@ -26,7 +26,7 @@ evidencia cifrada AES-GCM con SHA-256 por artefacto y base SQLite con ledger.
 | C02 Engagement y scope | Autorización deny-by-default, tenant, fingerprint, revocación | **PASS** | `domain/`, `policy/authorization.py`, `tests/security/test_scope.py` |
 | C03 Contratos y procedencia | Pydantic v2, JSON canónico, manifiestos SHA-256 | **PASS** | `contracts/`, `provenance/manifest.py`, `tests/contracts/test_roundtrip.py` |
 | C04 Persistencia y ledger | SQLite, aislamiento por tenant, transiciones explícitas | **PASS** | `store/`, `ledger/`, `tests/integration/test_ledger.py` |
-| C05 Aislamiento y broker | Sandbox local argv-only, egress denegado, broker con presupuesto | **PARTIAL** | Sin runtime OCI; `infra/sandbox/README.md` declara el gap |
+| C05 Aislamiento y broker | Sandbox local argv-only, broker con presupuesto y adaptador OCI con digest, `network=none`, `cap-drop=ALL` y read-only | **PARTIAL** | `execution/oci.py`, `tests/security/test_oci.py`; runtime OCI no disponible en esta máquina |
 | C06 Gemelos sintéticos | Datos seeded, manifiesto estable, fidelidad medida | **PASS** | `twins/`, `tests/integration/test_twin.py` |
 | C07 Librería de misiones | 5 misiones versionadas, validador, compilador autorizado | **PASS** | `library/missions/`, `missions/`, `tests/contracts/test_mission_compiler.py` |
 | C08 Proveedores | Protocolo neutral, mock determinista, externos BLOCKED | **PARTIAL** | `providers/`; Codex/Antigravity/Cline/Freebuff sin contrato verificado |
@@ -39,7 +39,7 @@ evidencia cifrada AES-GCM con SHA-256 por artefacto y base SQLite con ledger.
 | C15 Oráculos y retest | Oráculos, triage con dedupe, retest, benchmark con denominadores | **PASS** | `evaluation/`, `tests/evaluations/test_oracles.py` |
 | C16 Evidencia e informes | Vault AES-GCM 2 MiB, redacción, Markdown determinista | **PASS** | `evidence/`, `reports/`, `tests/security/test_evidence.py` |
 | C17 Operación diaria | Ciclo completo con evidencia, ledger, informe y métricas | **PARTIAL** | Observaciones simuladas; resultado `PARTIAL` por tools bloqueadas |
-| C18 Hardening y release | `releasecheck`, `verify_boundary`, README, gates | **PARTIAL** | Sin SBOM firmado, `pip-audit` en CI ni firma de release |
+| C18 Hardening y release | `releasecheck` con SBOM CycloneDX, firma Ed25519 verificada y `verify_boundary` | **PARTIAL** | `release/sbom.py`, `tests/security/test_release_signing.py`; `pip-audit` BLOCKED y firma solo de integridad |
 
 ## 3. Qué queda BLOCKED y por qué
 
@@ -47,8 +47,8 @@ evidencia cifrada AES-GCM con SHA-256 por artefacto y base SQLite con ledger.
 |---|---|---|
 | Semgrep, OSV, Syft, Schemathesis, ZAP, PyRIT, garak | Binarios/imágenes no instaladas ni verificadas | Adaptador devuelve `BLOCKED` con motivo |
 | Codex, Antigravity, Cline, Freebuff | Sin API/CLI/licencia verificada | Registro los marca `BLOCKED`; no se invoca nada |
-| Runtime OCI aislado | Sin digest, sin `network=none` del runtime, sin prueba de escape | Sandbox local allowlisted documentado |
-| SBOM y firma de release | Sin `pip-audit`/cosign en CI ni clave | Gate reporta `PARTIAL` |
+| Runtime OCI aislado | Adaptador listo, pero sin runtime/digest verificado ni prueba de escape | Comando OCI construido y testeado con runner falso; ejecución real BLOCKED |
+| SBOM y firma de release | SBOM y firma Ed25519 locales funcionan; `pip-audit` no está instalado | Gate reporta `audit: BLOCKED` y firma `manifest_integrity_only` |
 
 ## 4. Desviaciones del protocolo, declaradas
 
