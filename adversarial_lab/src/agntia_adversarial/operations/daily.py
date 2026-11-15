@@ -138,7 +138,9 @@ def run_daily(
         ],
     )
     store.add_run(receipt)
-    store.record_transition(receipt.run_id, Status.NOT_RUN.value, status.value, "daily cycle")
+    store.record_transition(
+        engagement.tenant_id, receipt.run_id, Status.NOT_RUN.value, status.value, "daily cycle"
+    )
     report = render_report(receipt)
     destination = Path(output_dir or config.data_dir / "reports")
     destination.mkdir(parents=True, exist_ok=True)
