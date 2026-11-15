@@ -1,0 +1,69 @@
+name: Adversarial lab
+
+on:
+  push:
+    paths:
+      - "adversarial_lab/**"
+      - ".github/workflows/adversarial-lab.yml"
+      - ".devcontainer/**"
+  pull_request:
+    paths:
+      - "adversarial_lab/**"
+      - ".github/workflows/adversarial-lab.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  lab:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: python -m pip install -e adversarial_lab
+      - name: Unit and integration tests
+        run: python -m unittest discover -s adversarial_lab/tests -t adversarial_lab/tests -v
+      - name: Doctor
+        run: PYTHONPATH=adversarial_lab/src python -m agntia_adversarial.cli doctor
+      - name: Synthetic daily cycle
+        run: PYTHONPATH=adversarial_lab/src python -m agntia_adversarial.cli run --tenant tenant-ci
+      - name: Integrity gate
+        run: python adversarial_lab/scripts/releasecheck.py
+      - name: Production gate must fail closed without audit
+        run: |
+          if python adversarial_lab/scripts/releasecheck.py --production; then
+            echo "production gate passed without dependency audit" >&2
+            exit 1
+          fi
+          echo "production gate failed closed as expected"
+      - name: Boundary gate
+        run: python adversarial_lab/scripts/verify_boundary.py
+
+  oci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install -e adversarial_lab
+      - name: Build local probe image
+        run: |
+          mkdir -p /tmp/advlab-image
+          cat > /tmp/advlab-image/Dockerfile <<'EOF'
+          FROM python:3.12-alpine
+          RUN adduser -D -H worker
+          USER worker
+          WORKDIR /work
+          ENTRYPOINT ["python"]
+          EOF
+          docker build -t advlab-probe /tmp/advlab-image
+          docker inspect --format '{{.Id}}' advlab-probe > /tmp/advlab-image/id
+          cat /tmp/advlab-image/id
+      - name: Negative isolation tests
+        run: python adversarial_lab/scripts/oci_smoke.py "$(cat /tmp/advlab-image/id)"

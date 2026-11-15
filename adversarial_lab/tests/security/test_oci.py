@@ -34,6 +34,15 @@ class OCITests(unittest.TestCase):
         self.assertIn("hi; rm -rf /", captured["command"])
         self.assertNotIn("sh", captured["command"])
 
+    def test_local_sha256_image_id_is_accepted(self):
+        local = "sha256:" + "d" * 64
+        RuntimeSpec(image=local).validate()
+
+    def test_short_or_floating_id_is_rejected(self):
+        for image in ("sha256:abc", "alpine:latest", "docker.io/library/alpine"):
+            with self.assertRaises(SandboxError):
+                RuntimeSpec(image=image).validate()
+
     def test_missing_runtime_is_blocked(self):
         sandbox = OCISandbox(RuntimeSpec(image=DIGEST_IMAGE, runtime="not-a-real-runtime"))
         self.assertEqual(sandbox.run(["echo", "x"])["status"], "BLOCKED")

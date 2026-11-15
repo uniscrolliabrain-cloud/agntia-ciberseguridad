@@ -13,6 +13,7 @@ from pathlib import Path
 from typing import Callable, Sequence
 
 DIGEST = re.compile(r"@sha256:[a-f0-9]{64}$")
+LOCAL_ID = re.compile(r"^sha256:[a-f0-9]{64}$")
 
 
 class SandboxError(RuntimeError):
@@ -29,8 +30,8 @@ class RuntimeSpec:
     workspace: str = "/work"
 
     def validate(self) -> None:
-        if not DIGEST.search(self.image):
-            raise SandboxError("image must be pinned by @sha256 digest")
+        if not (DIGEST.search(self.image) or LOCAL_ID.match(self.image)):
+            raise SandboxError("image must be a digest or a local sha256 image id")
         if not re.fullmatch(r"\d+[mg]", self.memory):
             raise SandboxError("memory must look like 256m or 1g")
         if not 8 <= self.pids_limit <= 512:

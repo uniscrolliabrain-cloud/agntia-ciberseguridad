@@ -35,6 +35,14 @@ PYTHONPATH=adversarial_lab/src python -m unittest discover -s adversarial_lab/te
 python adversarial_lab/scripts/releasecheck.py
 ```
 
+## Ejecución gratis
+
+El MVP corre sin VM dedicada en cinco sitios: este workspace, GitHub Codespaces (devcontainer con
+Docker), GitHub Actions (`adversarial-lab.yml`), Google Colab
+(`notebooks/advlab_colab.ipynb`) y un Hugging Face Space Docker
+(`integrations/huggingface/`). Detalle, límites y reglas en [docs/FREE-TIERS.md](docs/FREE-TIERS.md).
+Ninguna de esas vías es una frontera de seguridad: solo gemelos sintéticos.
+
 ## Claves
 
 `evidence` y `release` se generan localmente con 32 bytes, permisos `0600` y huella SHA-256 visible en
