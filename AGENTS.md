@@ -1,3 +1,11 @@
+> **ACTUALIZACIÓN 2026-11-15 — LEE ESTO ANTES DEL TEXTO**
+> Base medida: `main@dd18f2a` + AD-01 `c57251c` · 196 tests Python OK (8 skips) · SDK 6/1 · 84 rutas `/v1` · esquema 8 · demo sintética, `production_enabled=false` · 2 PASS / 40 PARTIAL · sin PR ni revisión independiente.
+> **Vigente aquí:** Las reglas de autorización, no tocar `/agente`, no inventar PASS y preservar evidencia se mantienen íntegras.
+> **Corregido/obsoleto:** El protocolo de 42 fases convive ahora con el programa AD-01→AD-15 de autodocumentación; AD-01 está ejecutada en `feat/cyber-autodoc-AD-01` (`c57251c`), sin fusionar. Cada campaña exige rama, SHA, tests reales y reporte; el PR sigue bloqueado (403).
+> Mapa de ramas, contradicciones y pendientes: [ESTADO-VIGENTE.md](docs/ESTADO-VIGENTE.md)
+
+---
+
 > **ACTUALIZACIÓN 2026-11-14 — ESTADO VIGENTE**
 > PR #10 y #11 integraron las ramas en `main`. El repositorio dispone de demo sintética funcional, **no productiva**; las referencias a código solo proyectado o ramas no fusionadas son históricas. CI de Python 3.11/3.12, SDK, scanner Docker y navegador reejecutada en el head de implementación: SUCCESS; esto no valida seguridad independiente ni clientes reales. Fuente de verdad: `docs/release/status.json` (2 fases PASS, 40 PARTIAL), `docs/auditoria-runtime/AUDITORIA-FUNCIONAL-2026-11-14.md` y `docs/auditoria-runtime/PROGRAMA-DIFERENCIAL-12-CAMPANAS.md`. Contrastar toda instrucción con `main` antes de actuar. **Se conserva íntegramente el documento original debajo.**
 

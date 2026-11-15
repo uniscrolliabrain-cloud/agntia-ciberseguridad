@@ -1,3 +1,11 @@
+> **ACTUALIZACIÓN 2026-11-15 — LEE ESTO ANTES DEL TEXTO**
+> Base medida: `main@dd18f2a` + AD-01 `c57251c` · 196 tests Python OK (8 skips) · SDK 6/1 · 84 rutas `/v1` · esquema 8 · demo sintética, `production_enabled=false` · 2 PASS / 40 PARTIAL · sin PR ni revisión independiente.
+> **Vigente aquí:** El diseño de captura, evidencia, evaluación y publicación sigue siendo la arquitectura objetivo.
+> **Corregido/obsoleto:** AD-01 ya está ejecutada (baseline medido, tooling Node reparado, tests de invariantes). El resto del pipeline sigue siendo propuesta, no implementación.
+> Mapa de ramas, contradicciones y pendientes: [ESTADO-VIGENTE.md](../ESTADO-VIGENTE.md)
+
+---
+
 # Agntia Cyber — Autodocumentación, evidencia y publicaciones técnicas
 **Estado:** propuesta de arquitectura y plan de implementación; NO implica capacidades ya construidas. **Fecha:** 2026-11-15.
 **Propósito:** convertir cada ejecución verificable del sistema en evidencia reproducible, documentación técnica mantenible y material candidato para publicaciones públicas rigurosas, sin comprometer la privacidad de clientes.

@@ -1,3 +1,11 @@
+> **ACTUALIZACIÓN 2026-11-15 — LEE ESTO ANTES DEL TEXTO**
+> Base medida: `main@dd18f2a` + AD-01 `c57251c` · 196 tests Python OK (8 skips) · SDK 6/1 · 84 rutas `/v1` · esquema 8 · demo sintética, `production_enabled=false` · 2 PASS / 40 PARTIAL · sin PR ni revisión independiente.
+> **Vigente aquí:** CY-R02…CY-R12 siguen sin ejecutar; su protocolo y gates siguen vigentes.
+> **Corregido/obsoleto:** CY-R01 (congelar baseline) queda cubierto en parte por AD-01: SHA, tests, rutas, migraciones y gates ya están inventariados. No repetir ese trabajo; reconciliar en lugar de duplicar.
+> Mapa de ramas, contradicciones y pendientes: [ESTADO-VIGENTE.md](../ESTADO-VIGENTE.md)
+
+---
+
 # Programa de auditoría diferencial y recuperación funcional — CY-R01 a CY-R12
 
 **Fecha:** 2026-11-14. **Baseline:** main tras PR #10 (merge 33c0f83418687cc48412dcd1ae7d4139cb7e5c48) y PR #11 (merge 998fd1bad9ef04abf8cb2d95fb71533485a53d52). **Estado:** PLANIFICADO, NO EJECUTADO por Freebuff. No sustituye las 42 fases históricas ni declara sus gates completos.

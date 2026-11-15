@@ -1,3 +1,11 @@
+> **ACTUALIZACIÓN 2026-11-15 — LEE ESTO ANTES DEL TEXTO**
+> Base medida: `main@dd18f2a` + AD-01 `c57251c` · 196 tests Python OK (8 skips) · SDK 6/1 · 84 rutas `/v1` · esquema 8 · demo sintética, `production_enabled=false` · 2 PASS / 40 PARTIAL · sin PR ni revisión independiente.
+> **Vigente aquí:** Las decisiones abiertas y la falta de integración con `/agente` siguen siendo ciertas.
+> **Corregido/obsoleto:** «No hay motor AppSec/AI firewall, API runtime, scanners instalados» es falso a 2026-11-15: hay API de 84 rutas, 196 tests, cuatro adaptadores offline y SDK; nada de ello es producción.
+> Mapa de ramas, contradicciones y pendientes: [ESTADO-VIGENTE.md](ESTADO-VIGENTE.md)
+
+---
+
 > **ACTUALIZACIÓN 2026-11-14 — LECTURA OBLIGATORIA**
 > Este documento es histórico. Las ramas de implementación y recuperación ya se integraron en `main` (PR #10 y #11); las afirmaciones de ramas apiladas, código no integrado o baseline anterior deben contrastarse con HEAD. Estado: demo sintética **no producción**; reruns CI de Python/SDK, Docker scanner y navegador exitosos en el head de implementación, no equivalen a aceptación de clientes. Estado de gates en `docs/release/status.json`: 2 PASS / 40 PARTIAL. Fuente de verdad complementaria: `docs/auditoria-runtime/AUDITORIA-FUNCIONAL-2026-11-14.md` y `docs/auditoria-runtime/PROGRAMA-DIFERENCIAL-12-CAMPANAS.md`. Freebuff debe auditar el delta real y no repetir capacidades existentes. **Se preserva el contenido original completo a continuación.**
 

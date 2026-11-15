@@ -1,3 +1,11 @@
+> **ACTUALIZACIÓN 2026-11-15 — LEE ESTO ANTES DEL TEXTO**
+> Base medida: `main@dd18f2a` + AD-01 `c57251c` · 196 tests Python OK (8 skips) · SDK 6/1 · 84 rutas `/v1` · esquema 8 · demo sintética, `production_enabled=false` · 2 PASS / 40 PARTIAL · sin PR ni revisión independiente.
+> **Vigente aquí:** Su diagnóstico P0/P1/P2 y la advertencia «42 fases ≠ 42 gates» siguen vigentes.
+> **Corregido/obsoleto:** Se basó en lectura estática y 190 casos históricos. Hoy hay ejecución local reproducible: 196 tests, y un fallo real de tooling (Node 26) detectado y reparado en AD-01.
+> Mapa de ramas, contradicciones y pendientes: [ESTADO-VIGENTE.md](../ESTADO-VIGENTE.md)
+
+---
+
 # Auditoría funcional preliminar y ejecución CI — 2026-11-14
 
 **Repositorio:** uniscrolliabrain-cloud/agntia-ciberseguridad. **Main tras merges:** 998fd1bad9ef04abf8cb2d95fb71533485a53d52. **Tipo:** revisión estática selectiva del código y documentación + rerun de GitHub Actions en el SHA 85c8b879e28b746bb367ff249c7e3ba78eeb23e3 (código de la rama de implementación). **NO** equivale a una auditoría de seguridad independiente completa, pentest ni ejecución local del checkout; el runner local no pudo resolver github.com.

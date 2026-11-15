@@ -1,3 +1,11 @@
+> **ACTUALIZACIÓN 2026-11-15 — LEE ESTO ANTES DEL TEXTO**
+> Base medida: `main@dd18f2a` + AD-01 `c57251c` · 196 tests Python OK (8 skips) · SDK 6/1 · 84 rutas `/v1` · esquema 8 · demo sintética, `production_enabled=false` · 2 PASS / 40 PARTIAL · sin PR ni revisión independiente.
+> **Vigente aquí:** La exigencia de no inventar PASS, marcar BLOCKED y no tocar `/agente` sigue vigente.
+> **Corregido/obsoleto:** «Código de runtime: inexistente» es falso: existe paquete Python, API de 84 rutas y SDK. La orden de unificar todo en TypeScript fue un experimento descartado; el stack vigente es Python/FastAPI con SDK TS/Hono server-only.
+> Mapa de ramas, contradicciones y pendientes: [ESTADO-VIGENTE.md](docs/ESTADO-VIGENTE.md)
+
+---
+
 # HANDOFF · FREEBUFF — PMV ultraserio de Agntia Ciberseguridad
 
 > **Instrucciones para el agente autónomo que recibe este handoff.**

@@ -1,3 +1,11 @@
+> **ACTUALIZACIÓN 2026-11-15 — LEE ESTO ANTES DEL TEXTO**
+> Base medida: `main@dd18f2a` + AD-01 `c57251c` · 196 tests Python OK (8 skips) · SDK 6/1 · 84 rutas `/v1` · esquema 8 · demo sintética, `production_enabled=false` · 2 PASS / 40 PARTIAL · sin PR ni revisión independiente.
+> **Vigente aquí:** No certifica cumplimiento y las fechas normativas exigen cotejo del texto consolidado; eso no cambia.
+> **Corregido/obsoleto:** El producto sigue clasificado como demo sintética; ningún avance de AD altera aplicabilidad, DPA ni obligaciones del responsable.
+> Mapa de ramas, contradicciones y pendientes: [ESTADO-VIGENTE.md](ESTADO-VIGENTE.md)
+
+---
+
 > **ACTUALIZACIÓN 2026-11-14 — CONTEXTO VIGENTE ANTES DEL TEXTO HISTÓRICO**
 > Las ramas de implementación y recuperación ya están fusionadas en `main` (PR #10 y #11). Este documento puede describir trabajo ya realizado o supuestos antiguos. La entrega actual sigue clasificada como demo sintética, no producción. Las pruebas CI Python/SDK, scanner Docker y navegador se reejecutaron satisfactoriamente sobre el head de implementación, sin constituir auditoría independiente ni aceptación humana. `docs/release/status.json` conserva 2 fases PASS y 40 PARTIAL. Antes de ejecutar, revisar `docs/auditoria-runtime/AUDITORIA-FUNCIONAL-2026-11-14.md` y `docs/auditoria-runtime/PROGRAMA-DIFERENCIAL-12-CAMPANAS.md`, comprobar el código actual y evitar duplicar funciones. **El texto histórico permanece íntegro debajo.**
 

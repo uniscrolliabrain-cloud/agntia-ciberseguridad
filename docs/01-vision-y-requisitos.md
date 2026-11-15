@@ -1,3 +1,11 @@
+> **ACTUALIZACIÓN 2026-11-15 — LEE ESTO ANTES DEL TEXTO**
+> Base medida: `main@dd18f2a` + AD-01 `c57251c` · 196 tests Python OK (8 skips) · SDK 6/1 · 84 rutas `/v1` · esquema 8 · demo sintética, `production_enabled=false` · 2 PASS / 40 PARTIAL · sin PR ni revisión independiente.
+> **Vigente aquí:** R01–R10 siguen siendo la especificación de capacidades y límites.
+> **Corregido/obsoleto:** Ya no es solo una especificación: R01–R03 y R06–R09 tienen implementación parcial offline (adaptadores, gateway, gobernanza, reportes). Ninguna está completa ni validada con clientes.
+> Mapa de ramas, contradicciones y pendientes: [ESTADO-VIGENTE.md](ESTADO-VIGENTE.md)
+
+---
+
 > **ACTUALIZACIÓN 2026-11-14 — CONTEXTO VIGENTE ANTES DEL TEXTO HISTÓRICO**
 > La implementación de las ramas y la documentación de recuperación se integraron en `main` (PR #10/#11). Este texto puede contener propuestas ya implementadas o referencias a ramas anteriores: comprobar el código de `main` antes de actuar. Estado del producto: demo sintética, no producción ni piloto aceptado; CI Python/SDK, scanner Docker y navegador reejecutada satisfactoriamente sobre el head de implementación. `docs/release/status.json` mantiene 2 fases PASS y 40 PARTIAL. Consultar primero `docs/auditoria-runtime/AUDITORIA-FUNCIONAL-2026-11-14.md` y `docs/auditoria-runtime/PROGRAMA-DIFERENCIAL-12-CAMPANAS.md`. **Contenido histórico conservado sin cambios debajo.**
 

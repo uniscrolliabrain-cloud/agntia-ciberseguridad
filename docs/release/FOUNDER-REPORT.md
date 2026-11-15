@@ -1,3 +1,11 @@
+> **ACTUALIZACIÓN 2026-11-15 — LEE ESTO ANTES DEL TEXTO**
+> Base medida: `main@dd18f2a` + AD-01 `c57251c` · 196 tests Python OK (8 skips) · SDK 6/1 · 84 rutas `/v1` · esquema 8 · demo sintética, `production_enabled=false` · 2 PASS / 40 PARTIAL · sin PR ni revisión independiente.
+> **Vigente aquí:** Las capacidades y límites que describe siguen siendo la referencia del estado demo.
+> **Corregido/obsoleto:** «main no se ha fusionado automáticamente» y «PRs draft apiladas» son históricos: main fue fusionado por PR #10/#11 y hoy está en `dd18f2a`. AD-01 no eleva ningún gate.
+> Mapa de ramas, contradicciones y pendientes: [ESTADO-VIGENTE.md](../ESTADO-VIGENTE.md)
+
+---
+
 > **ACTUALIZACIÓN 2026-11-14 — LECTURA OBLIGATORIA ANTES DEL DOCUMENTO HISTÓRICO**
 > Las ramas de implementación de ciberseguridad y la documentación de recuperación fueron integradas en `main` mediante PR #10 y #11. Las referencias posteriores a ramas apiladas, PR draft sin fusionar o ausencia de implementación son históricas y **no describen el HEAD actual**. Existe una demo sintética (no producción); la reejecución de CI Python 3.11/3.12, SDK, scanner Docker y navegador finalizó correctamente sobre el último commit de implementación, no equivale a aceptación independiente ni a piloto con clientes. `docs/release/status.json` conserva 2 fases PASS y 40 PARTIAL. Para ejecutar trabajo nuevo, consultar primero `docs/auditoria-runtime/AUDITORIA-FUNCIONAL-2026-11-14.md` y `docs/auditoria-runtime/PROGRAMA-DIFERENCIAL-12-CAMPANAS.md`, contrastar cada afirmación con el código de `main` y no duplicar capacidades ya implementadas. **Se conserva íntegro el texto original a continuación.**
 

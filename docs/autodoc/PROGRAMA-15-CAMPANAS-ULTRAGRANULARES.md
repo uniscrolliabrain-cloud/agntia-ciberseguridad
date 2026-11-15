@@ -1,3 +1,11 @@
+> **ACTUALIZACIÓN 2026-11-15 — LEE ESTO ANTES DEL TEXTO**
+> Base medida: `main@dd18f2a` + AD-01 `c57251c` · 196 tests Python OK (8 skips) · SDK 6/1 · 84 rutas `/v1` · esquema 8 · demo sintética, `production_enabled=false` · 2 PASS / 40 PARTIAL · sin PR ni revisión independiente.
+> **Vigente aquí:** El protocolo F0–F5 y las campañas AD-02…AD-15 siguen vigentes.
+> **Corregido/obsoleto:** La cabecera «PLANIFICADO, NO IMPLEMENTADO» ya no aplica a AD-01: se ejecutó en `feat/cyber-autodoc-AD-01` (`c57251c`) con PASS local. Sigue sin PR y sin revisión independiente.
+> Mapa de ramas, contradicciones y pendientes: [ESTADO-VIGENTE.md](../ESTADO-VIGENTE.md)
+
+---
+
 # Programa AD-01 → AD-15 — Ingeniería de autodocumentación, evaluación y publicaciones
 **Fecha:** 2026-11-15 · **Repositorio:** `uniscrolliabrain-cloud/agntia-ciberseguridad` · **Base inspeccionada:** `main@aedf6f22e7cbdfe42af5dd8608af34a366bfb3b4` · **Estado:** PLANIFICADO, NO IMPLEMENTADO.
 **Propósito:** handoff ejecutable para Freebuff/Codex u otra IA; construir la cadena de hechos→evidencia→evaluación→métricas→documentación→publicación con gates. NO fusionar este plan con las 42 campañas históricas ni con CY-R01..R12.

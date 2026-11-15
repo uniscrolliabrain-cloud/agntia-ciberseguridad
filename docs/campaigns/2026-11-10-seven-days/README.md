@@ -1,3 +1,11 @@
+> **ACTUALIZACIÓN 2026-11-15 — LEE ESTO ANTES DEL TEXTO**
+> Base medida: `main@dd18f2a` + AD-01 `c57251c` · 196 tests Python OK (8 skips) · SDK 6/1 · 84 rutas `/v1` · esquema 8 · demo sintética, `production_enabled=false` · 2 PASS / 40 PARTIAL · sin PR ni revisión independiente.
+> **Vigente aquí:** Las 42 fases, sus gates y escenarios siguen siendo el plan de referencia.
+> **Corregido/obsoleto:** «plan documentado, no implementación ejecutada» es inexacto: 2 fases PASS / 40 PARTIAL y 80/214 tareas. El programa AD es independiente y no se fusiona con estas campañas.
+> Mapa de ramas, contradicciones y pendientes: [ESTADO-VIGENTE.md](../../ESTADO-VIGENTE.md)
+
+---
+
 # Campaña de siete días · Agntia Ciberseguridad
 
 **42 fases, 294 microtareas, 84 escenarios de aceptación.** Estado: plan documentado, no implementación ejecutada. Objetivo: piloto verificable con rigor inspirado en plataformas líderes, sin prometer equivalencia mundial en una semana.

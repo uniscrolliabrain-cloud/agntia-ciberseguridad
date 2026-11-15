@@ -1,3 +1,11 @@
+> **ACTUALIZACIÓN 2026-11-15 — LEE ESTO ANTES DEL TEXTO**
+> Base medida: `main@dd18f2a` + AD-01 `c57251c` · 196 tests Python OK (8 skips) · SDK 6/1 · 84 rutas `/v1` · esquema 8 · demo sintética, `production_enabled=false` · 2 PASS / 40 PARTIAL · sin PR ni revisión independiente.
+> **Vigente aquí:** Las amenazas y la separación evidencia/control siguen siendo el marco correcto.
+> **Corregido/obsoleto:** «todavía no están implementadas» ya no aplica: policy gateway, manifiestos versionados, delegación de un uso, preflight de egress y evaluación sintética existen y están testeados offline, sin egress real ni proveedor de modelo.
+> Mapa de ramas, contradicciones y pendientes: [ESTADO-VIGENTE.md](ESTADO-VIGENTE.md)
+
+---
+
 > **ACTUALIZACIÓN 2026-11-14 — CONTEXTO VIGENTE ANTES DEL TEXTO HISTÓRICO**
 > La implementación de las ramas y la documentación de recuperación se integraron en `main` (PR #10/#11). Este texto puede contener propuestas ya implementadas o referencias a ramas anteriores: comprobar el código de `main` antes de actuar. Estado del producto: demo sintética, no producción ni piloto aceptado; CI Python/SDK, scanner Docker y navegador reejecutada satisfactoriamente sobre el head de implementación. `docs/release/status.json` mantiene 2 fases PASS y 40 PARTIAL. Consultar primero `docs/auditoria-runtime/AUDITORIA-FUNCIONAL-2026-11-14.md` y `docs/auditoria-runtime/PROGRAMA-DIFERENCIAL-12-CAMPANAS.md`. **Contenido histórico conservado sin cambios debajo.**
 
