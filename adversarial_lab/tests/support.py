@@ -58,3 +58,41 @@ def scope(**overrides) -> Scope:
 
 def config(tmp_path: Path) -> LabConfig:
     return LabConfig(data_dir=tmp_path / "var", max_evidence_bytes=1024 * 1024)
+
+
+from agntia_adversarial.contracts.experiment import ExperimentSpec, Limits, TargetRef  # noqa: E402
+from agntia_adversarial.contracts.result import RunReceipt, Status  # noqa: E402
+
+
+def experiment(**overrides) -> ExperimentSpec:
+    now = datetime.now(timezone.utc)
+    payload = dict(
+        id="exp-1",
+        campaign_id="C10",
+        mission_id="repo-review",
+        tenant_id="tenant-a",
+        engagement_id="eng-1",
+        scope_id="scope-1",
+        targets=[TargetRef(kind="repo", ref="synthetic-shop", fingerprint="a" * 64)],
+        capabilities=["repo.static"],
+        limits=Limits(max_requests=4),
+        stop_conditions=["never_network"],
+        created_at=now,
+    )
+    payload.update(overrides)
+    return ExperimentSpec(**payload)
+
+
+def receipt(**overrides) -> RunReceipt:
+    now = datetime.now(timezone.utc)
+    payload = dict(
+        run_id="run-1",
+        experiment_id="exp-1",
+        tenant_id="tenant-a",
+        status=Status.PARTIAL,
+        started_at=now,
+        ended_at=now,
+        limitations=["synthetic"],
+    )
+    payload.update(overrides)
+    return RunReceipt(**payload)
