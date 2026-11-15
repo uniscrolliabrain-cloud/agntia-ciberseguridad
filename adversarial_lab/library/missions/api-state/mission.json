@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "id": "api-state",
+  "title": "Comportamiento stateful y límites de API sintética",
+  "scope_kind": "api",
+  "required_capabilities": ["api.passive", "sandbox.test", "evidence.write"],
+  "technique_tags": ["api-fuzzing", "state-machine", "rate-limit"],
+  "limits": {"max_duration_seconds": 420, "max_requests": 120, "max_cost_cents": 30},
+  "stop_conditions": ["authorization_revoked", "scope_changed", "never_network", "budget_exceeded"],
+  "hypotheses": [
+    {"statement": "El estado de un pedido no puede saltar de created a shipped sin pago", "disproof": "La transición se acepta sin pago"},
+    {"statement": "Los límites de tasa se aplican por credencial", "disproof": "Una credencial supera el límite sin bloqueo"},
+    {"statement": "Los errores no filtran trazas internas", "disproof": "La respuesta incluye stack trace"}
+  ]
+}

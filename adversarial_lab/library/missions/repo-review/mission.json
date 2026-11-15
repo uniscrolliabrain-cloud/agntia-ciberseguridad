@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "id": "repo-review",
+  "title": "Revisión estática de repositorio sintético",
+  "scope_kind": "repo",
+  "required_capabilities": ["repo.read", "repo.static", "sbom", "evidence.write"],
+  "technique_tags": ["sast", "secrets", "sca", "sbom"],
+  "limits": {"max_duration_seconds": 600, "max_requests": 40, "max_cost_cents": 40},
+  "stop_conditions": ["authorization_revoked", "scope_changed", "never_network", "budget_exceeded"],
+  "hypotheses": [
+    {"statement": "El repositorio sintético no contiene secretos reales", "disproof": "Aparece una credencial válida"},
+    {"statement": "Las dependencias del fixture son resolubles y auditables", "disproof": "Una dependencia queda sin versión fijada"},
+    {"statement": "El análisis no ejecuta código del repositorio", "disproof": "Se ejecuta un hook o script del cliente"}
+  ]
+}

@@ -65,6 +65,14 @@ eliminado en Node 26. Sin esa reparación, un checkout limpio fallaba 1 test.
 Ninguna corrección elimina el texto original: cada documento conserva su historia y añade el aviso
 arriba.
 
+## 4 bis. Laboratorio adversarial (rama, no fusionado)
+
+En `feat/advlab-campaigns-20261115` se ejecutaron las 18 campañas del programa adversarial sobre un
+paquete nuevo `adversarial_lab/`: **69 tests OK**, release gate PASS, boundary gate PASS y ciclo
+diario real en estado **PARTIAL** porque siete herramientas están `BLOCKED` sin binario verificado.
+No importa `agntia_ciberseguridad` ni toca `/agente`. Detalle y límites:
+`docs/adversarial/implementation-v1/execution/ADVLAB-EXECUTION-2026-11-15.md`.
+
 ## 5. Lo que sigue sin verificarse
 
 - Revisión independiente (Codex u otra IA) de auth, cross-tenant, cifrado, restore e idempotencia.

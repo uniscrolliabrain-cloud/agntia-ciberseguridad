@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "id": "resilience-faults",
+  "title": "Simulación de fallos y recuperación en gemelo sintético",
+  "scope_kind": "container",
+  "required_capabilities": ["chaos.simulate", "sandbox.test", "evidence.write"],
+  "technique_tags": ["chaos", "backup-restore", "rto-rpo"],
+  "limits": {"max_duration_seconds": 480, "max_requests": 20, "max_cost_cents": 20},
+  "stop_conditions": ["authorization_revoked", "scope_changed", "never_network", "budget_exceeded"],
+  "hypotheses": [
+    {"statement": "La pérdida del fichero de datos se detecta y se restaura", "disproof": "El sistema sigue operando sin detectar la pérdida"},
+    {"statement": "El RTO medido no supera el objetivo declarado", "disproof": "La restauración tarda más que el RTO"},
+    {"statement": "Un backup corrupto se rechaza en lugar de aceptarse", "disproof": "Se restaura un backup con hash inválido"}
+  ]
+}
