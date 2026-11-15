@@ -9,7 +9,7 @@ externas y los proveedores reales quedan `BLOCKED` con stub honesto, no con resu
 
 | Comprobación | Comando | Exit | Resultado |
 |---|---|---|---|
-| Suite del laboratorio | `PYTHONPATH=adversarial_lab/src:adversarial_lab/tests python -m unittest discover -s adversarial_lab/tests -t adversarial_lab/tests` | 0 | **90 tests OK** |
+| Suite del laboratorio | `PYTHONPATH=adversarial_lab/src:adversarial_lab/tests python -m unittest discover -s adversarial_lab/tests -t adversarial_lab/tests` | 0 | **103 tests OK** |
 | Release gate | `python adversarial_lab/scripts/releasecheck.py` | 0 | PASS, 5 misiones, SBOM 72 componentes, firma Ed25519, audit BLOCKED |
 | Boundary gate | `python adversarial_lab/scripts/verify_boundary.py` | 0 | PASS, 0 violaciones de ownership |
 | Ciclo diario | `python -m agntia_adversarial.cli run --tenant tenant-synthetic` | 0 | **PARTIAL**, 4 misiones, 4 evidencias, 7 tools BLOCKED |
@@ -37,9 +37,9 @@ evidencia cifrada AES-GCM con SHA-256 por artefacto y base SQLite con ledger.
 | C13 Frontera IA | Inyección embebida provoca `email.send` fuera del manifiesto en agente sintético; el agente guardado la ignora | **PASS** | `twins/agent.py`, `tools/agent_probe.py`; PyRIT/garak BLOCKED y sin modelo real |
 | C14 Fuzzing y caos | Fuzzing local determinista, fallo/restore con RTO medido | **PASS** | `tools/fuzz.py`, `tools/faults.py`, `tests/integration/test_resilience.py` |
 | C15 Oráculos y retest | Oráculos, triage con dedupe, retest, benchmark con denominadores | **PASS** | `evaluation/`, `tests/evaluations/test_oracles.py` |
-| C16 Evidencia e informes | Vault AES-GCM 2 MiB con clave local 0600, redacción, Markdown determinista | **PASS** | `evidence/`, `keys.py`, `tests/security/test_evidence.py`, `tests/security/test_keys.py` |
+| C16 Evidencia e informes | Vault AES-GCM 2 MiB con clave por tenant (HKDF), AAD ligado a tenant e id, escritura atómica y paths confinados | **PASS** | `evidence/`, `evidence/paths.py`, `keys.py`, `tests/security/test_vault_hardening.py` |
 | C17 Operación diaria | Ciclo completo que ejecuta las cinco misiones contra gemelos sintéticos y produce 3 hallazgos confirmados, evidencia y restore verificado | **PARTIAL** | `operations/executors.py`; sigue `PARTIAL` por 7 tools BLOCKED |
-| C18 Hardening y release | `releasecheck` con SBOM CycloneDX, firma Ed25519 verificada y `verify_boundary` | **PARTIAL** | `release/sbom.py`, `tests/security/test_release_signing.py`; `pip-audit` BLOCKED y firma solo de integridad |
+| C18 Hardening y release | `releasecheck` con SBOM CycloneDX, firma Ed25519 y modo `--production` fail-closed (`release_eligible=false` si audit BLOCKED) | **PARTIAL** | `release/sbom.py`, `tests/integration/test_release_gate.py`; falta `pip-audit` real y atestación externa |
 
 ### Claves internas
 
