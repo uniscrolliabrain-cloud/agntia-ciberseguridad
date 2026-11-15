@@ -37,7 +37,7 @@ class FaultInjector(ToolAdapter):
         shutil.copy2(backup, data_file)
         restored = _digest(data_file) == original
         elapsed_ms = round((time.monotonic() - started) * 1000, 3)
-        corrupted = backup_dir / "corrupt.json"
+        corrupted = backup_dir / "corrupt-backup.tmp"
         corrupted.write_bytes(b"{not-json")
         corrupt_rejected = _digest(corrupted) != original
         status = "PASS" if loss_detected and restored and corrupt_rejected else "FAIL"
