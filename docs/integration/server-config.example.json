@@ -1,0 +1,42 @@
+{
+  "data_dir": "/state",
+  "principals": [
+    {
+      "id": "principal-owner-a",
+      "actor_id": "actor-founder",
+      "role": "owner",
+      "kind": "human",
+      "tenants": ["tenant-a"],
+      "token_env": "AGNTIA_CYBER_TOKEN_OWNER_A"
+    },
+    {
+      "id": "principal-reviewer-a",
+      "actor_id": "actor-reviewer",
+      "role": "reviewer",
+      "kind": "human",
+      "tenants": ["tenant-a"],
+      "token_env": "AGNTIA_CYBER_TOKEN_REVIEWER_A"
+    },
+    {
+      "id": "principal-agent-a",
+      "actor_id": "actor-pedro",
+      "role": "analyst",
+      "kind": "agent",
+      "tenants": ["tenant-a"],
+      "token_env": "AGNTIA_CYBER_TOKEN_AGENT_A"
+    }
+  ],
+  "targets": {},
+  "consents": {},
+  "budget_policies": {},
+  "evidence_policies": {},
+  "approved_workspace_roots": ["/srv/approved-repos"],
+  "lab_mode": false,
+  "telemetry_export": "disabled",
+  "event_sources": {},
+  "verification_channels": {},
+  "remediation_fixture_refs": [],
+  "approved_egress_refs": [],
+  "max_request_bytes": 65536,
+  "db_timeout_seconds": 1.0
+}
