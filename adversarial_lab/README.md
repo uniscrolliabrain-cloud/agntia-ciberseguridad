@@ -16,6 +16,7 @@ Red team supervisado y agnóstico de proveedor sobre **gemelos sintéticos**. No
 | Misiones | Implementado | 5 misiones versionadas y validadas |
 | Proveedores | Mock real; externos BLOCKED | Sin API/CLI verificada no se invoca nada |
 | Herramientas | Contratos + stubs | Semgrep/OSV/Syft/ZAP/PyRIT/garak BLOCKED sin binario verificado |
+| API sintética | Implementado | IDOR y escalada de rol en proceso, con control benigno y retest |
 | Fuzzing y caos | Implementado local | Determinista, solo ficheros sintéticos |
 | Oráculos, triage, retest | Implementado | Nunca convierten NOT_RUN en PASS |
 | Evidencia | Implementado | AES-GCM, 2 MiB, hash verificable |
@@ -38,5 +39,5 @@ python adversarial_lab/scripts/releasecheck.py
 - No hay ejecución de modelos reales: el proveedor por defecto es `mock`.
 - Las herramientas externas no están instaladas; devuelven `BLOCKED`, no resultados inventados.
 - El sandbox es local (subprocess allowlisted); el adaptador OCI exige digest y `network=none`, pero no hay runtime verificado en esta máquina.
-- El ciclo diario usa observaciones **simuladas** para demostrar la cadena completa.
+- El ciclo diario ejecuta de verdad la misión `api-authz` contra una API sintética en proceso; las demás observaciones son simuladas para demostrar la cadena.
 - Nada de esto autoriza pruebas sobre clientes reales ni sustituye una revisión independiente.

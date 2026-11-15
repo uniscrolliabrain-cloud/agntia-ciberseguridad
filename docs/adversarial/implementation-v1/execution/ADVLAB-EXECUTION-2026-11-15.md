@@ -9,7 +9,7 @@ externas y los proveedores reales quedan `BLOCKED` con stub honesto, no con resu
 
 | Comprobación | Comando | Exit | Resultado |
 |---|---|---|---|
-| Suite del laboratorio | `PYTHONPATH=adversarial_lab/src:adversarial_lab/tests python -m unittest discover -s adversarial_lab/tests -t adversarial_lab/tests` | 0 | **77 tests OK** |
+| Suite del laboratorio | `PYTHONPATH=adversarial_lab/src:adversarial_lab/tests python -m unittest discover -s adversarial_lab/tests -t adversarial_lab/tests` | 0 | **81 tests OK** |
 | Release gate | `python adversarial_lab/scripts/releasecheck.py` | 0 | PASS, 5 misiones, SBOM 72 componentes, firma Ed25519, audit BLOCKED |
 | Boundary gate | `python adversarial_lab/scripts/verify_boundary.py` | 0 | PASS, 0 violaciones de ownership |
 | Ciclo diario | `python -m agntia_adversarial.cli run --tenant tenant-synthetic` | 0 | **PARTIAL**, 4 misiones, 4 evidencias, 7 tools BLOCKED |
@@ -33,7 +33,7 @@ evidencia cifrada AES-GCM con SHA-256 por artefacto y base SQLite con ledger.
 | C09 Planificador y scheduler | Ranking determinista, presupuesto, ventanas | **PASS** | `planning/`, `tests/integration/test_scheduler.py` |
 | C10 Harness de herramientas | Catálogo cerrado, receipts con hash, fuzzing determinista | **PASS** | `tools/base.py`, `registry.py`, `receipts.py`, `fuzz.py` |
 | C11 SAST/SCA/SBOM | Adaptadores Semgrep/OSV/Syft | **PARTIAL** | Binarios no instalados → `BLOCKED` |
-| C12 API stateful | Adaptadores Schemathesis/ZAP y misión `api-state` | **PARTIAL** | Sin entorno aislado ni target HTTP real |
+| C12 API stateful | IDOR y escalada de rol detectados en API sintética en proceso, con control benigno y retest | **PASS** | `twins/api.py`, `tools/api_probe.py`, `tests/evaluations/test_api_lab.py`; sin HTTP real |
 | C13 Frontera IA | Adaptadores PyRIT/garak y misión `ai-trust` | **PARTIAL** | Sin modelo ni licencia auditada |
 | C14 Fuzzing y caos | Fuzzing local determinista, fallo/restore con RTO medido | **PASS** | `tools/fuzz.py`, `tools/faults.py`, `tests/integration/test_resilience.py` |
 | C15 Oráculos y retest | Oráculos, triage con dedupe, retest, benchmark con denominadores | **PASS** | `evaluation/`, `tests/evaluations/test_oracles.py` |
@@ -57,8 +57,9 @@ evidencia cifrada AES-GCM con SHA-256 por artefacto y base SQLite con ledger.
 2. **Un informe consolidado** en lugar de 90 ficheros `P0..P4/{REPORT,PATCHSET,TESTS,AUDIT}`: se
    priorizó código ejecutable y evidencia real sobre papeleo por fase. Es una limitación, no un PASS
    de esos artefactos.
-3. **Observaciones simuladas** en el ciclo diario: demuestran la cadena completa; no son hallazgos
-   de un sistema real.
+3. **Observaciones simuladas salvo `api-authz`**, que se ejecuta contra una API sintética en proceso
+   (IDOR y escalada de rol reales dentro del gemelo). Las demás demuestran la cadena; no son
+   hallazgos de un sistema real.
 
 ## 5. Riesgos
 

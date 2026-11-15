@@ -26,6 +26,7 @@ from ..planning.scheduler import Scheduler
 from ..providers.mock import MockProvider
 from ..reports.render import render_report
 from ..store.sqlite import Store
+from ..tools.api_probe import probe_authorization, probe_benign_control
 from ..tools.registry import default_catalog
 
 SIMULATED = {
@@ -120,7 +121,22 @@ def run_daily(
         store.add_experiment(experiment)
         provider.plan(experiment.id, [item["statement"] for item in mission["hypotheses"]])
         provider.execute(experiment.id, mission["id"])
-        simulated = SIMULATED.get(mission["id"])
+        if mission["id"] == "api-authz":
+            from ..twins.api import SyntheticAPI
+
+            api = SyntheticAPI()
+            findings = probe_authorization(api)
+            benign_ok = probe_benign_control(api)
+            simulated = {
+                "id": "obs-authz-1",
+                "kind": "authorization",
+                "severity": findings[0]["severity"] if findings else "info",
+                "summary": findings[0]["summary"] if findings else "sin IDOR en la API sintética",
+                "reproduced": bool(findings) and benign_ok,
+                "expect_finding": True,
+            }
+        else:
+            simulated = SIMULATED.get(mission["id"])
         if not simulated:
             continue
         payload = json.dumps(
