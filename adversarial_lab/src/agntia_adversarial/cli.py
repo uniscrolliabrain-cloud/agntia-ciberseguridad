@@ -8,6 +8,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 from .config import LabConfig
+from .keys import KeyRing
 from .domain.engagement import Engagement, EngagementStatus
 from .domain.scope import Scope, Target
 from .missions.registry import MissionRegistry
@@ -75,6 +76,10 @@ def main(argv: list[str] | None = None) -> int:
                     },
                     "tools": default_catalog().status(),
                     "providers": default_registry().status(),
+                    "keys": {
+                        **KeyRing(config.data_dir / "evidence").describe(),
+                        **KeyRing(Path("adversarial_lab/var/keys")).describe(),
+                    },
                     "missions": sorted(registry.load()),
                 },
                 indent=2,

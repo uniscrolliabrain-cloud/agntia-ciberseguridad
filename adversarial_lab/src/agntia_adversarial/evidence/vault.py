@@ -8,6 +8,7 @@ from pathlib import Path
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 
 from ..contracts.evidence import EvidenceRef
+from ..keys import KeyRing
 from ..provenance.manifest import sha256_bytes
 
 
@@ -19,11 +20,7 @@ class Vault:
     def __init__(self, root: Path, max_bytes: int = 2 * 1024 * 1024) -> None:
         self.root = Path(root)
         self.root.mkdir(parents=True, exist_ok=True)
-        key_path = self.root / "evidence.key"
-        if not key_path.exists():
-            key_path.write_bytes(os.urandom(32))
-            key_path.chmod(0o600)
-        self.key = key_path.read_bytes()
+        self.key = KeyRing(self.root).ensure("evidence")
         self.max_bytes = max_bytes
 
     def put(self, tenant_id: str, evidence_id: str, payload: bytes, media_type: str = "application/json") -> EvidenceRef:
