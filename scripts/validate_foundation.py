@@ -26,7 +26,7 @@ def main():
         check(record.get('license_spdx') is not None,'Missing SPDX metadata state')
         check('not audited' in record.get('verification',''),'Metadata scope must not imply source audit')
     for path in ROOT.rglob('*.json'):
-        if '.git' not in path.parts:json.loads(path.read_text(encoding="utf-8"))
+        if not {'.git','node_modules','.venv','dist','__pycache__'}&set(path.parts):json.loads(path.read_text(encoding="utf-8"))
     markdown=[ROOT/'README.md',ROOT/'AGENTS.md',ROOT/'SECURITY.md',*sorted((ROOT/'docs').rglob('*.md'))]
     for path in markdown:
         check(path.exists(),'Missing documentation: '+str(path))
