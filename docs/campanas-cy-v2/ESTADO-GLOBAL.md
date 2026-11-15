@@ -1,7 +1,11 @@
 # CY-V2 — Estado global de ejecución
 
 **Actualizado:** 2026-11-15. **SHA de `main`:** `b2cea46bd03e1eafec2f31eff96db1a07890a23c`.
-**Rama activa:** `feat/cy-v2-01-baseline`. **Producto:** demo sintética, `production_enabled=false`.
+**Rama activa:** `docs/cy-v2-connection-requirements`. **Producto:** demo sintética,
+`production_enabled=false`.
+
+**Dirección vigente:** [PLAN-MAESTRO.md](PLAN-MAESTRO.md) — Concept Master + decisión B
+(gemelo digital 43 y antivisiones 44 en paralelo a G1).
 
 ## Situación
 
@@ -44,5 +48,7 @@ crear pull requests; el compare manual es
 
 ## Próxima acción
 
-Abrir el PR de CY-V2-01 y dejar que CI valide el SHA; después iniciar CY-V2-02 con la matriz
-principal/actor/tenant/grant/revocación por endpoint.
+1. Aprobar el [PLAN-MAESTRO.md](PLAN-MAESTRO.md) y el orden G1 + 43/44.
+2. Generar los 6 secretos del MVP y elegir el primer repo autorizado.
+3. Diseñar `Service/Process/Provider` antes de CY-V2-12.
+4. Abrir permiso de PR en GitHub (hoy 403) y autorizar lectura de `/agente`.

@@ -113,6 +113,10 @@ Antes de ejecutar CY-V2-02, decidir entre:
 La opción B es la que menos retrabajo genera: el gemelo digital cambia el esquema de activos y
 conviene construirlo antes de congelar CY-V2-12.
 
+**Decisión adoptada (2026-11-15): opción B.** El gemelo digital (43) y las antivisiones (44) se
+construyen en paralelo a G1, antes de congelar CY-V2-12; 45–48 forman G6. Justificación y ruta de
+instalación en [PLAN-MAESTRO.md](PLAN-MAESTRO.md).
+
 ## 8. Estado de esta reconciliación
 
 Documento de alineación, no implementación. No se han modificado campañas existentes ni
