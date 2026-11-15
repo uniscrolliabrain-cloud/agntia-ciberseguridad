@@ -1,8 +1,15 @@
 #!/usr/bin/env python3
-"""Release gate for the adversarial lab. Exits non-zero on any real violation."""
+"""Release gate for the adversarial lab.
+
+Two modes:
+- default (integrity): lints, SBOM, local signature. Exit 0 means "internally consistent", never
+  "safe to ship".
+- --production: dependency audit and external attestation are required. BLOCKED never passes.
+"""
 
 from __future__ import annotations
 
+import argparse
 import json
 import re
 import sys
@@ -14,7 +21,10 @@ FORBIDDEN_IMPORTS = re.compile(r"^\s*(from|import)\s+agntia_ciberseguridad", re.
 NETWORK_CALLS = re.compile(r"\b(requests\.|urllib\.|httpx\.|socket\.)")
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--production", action="store_true")
+    args = parser.parse_args(sys.argv[1:] if argv is None else argv)
     findings: list[str] = []
     for path in SRC.rglob("*.py"):
         text = path.read_text(encoding="utf-8")
@@ -37,15 +47,26 @@ def main() -> int:
     sbom = build_sbom()
     if not sbom["components"]:
         findings.append("empty SBOM")
-    signature = sign_manifest({"sbom_digest": sbom["digest"]}, ROOT / "var" / "keys" / "release.key")
-    if not verify_signature({"sbom_digest": sbom["digest"]}, signature):
+    payload = {"sbom_digest": sbom["digest"]}
+    signature = sign_manifest(payload, ROOT / "var" / "keys" / "release.key")
+    if not verify_signature(payload, signature):
         findings.append("signature verification failed")
     audit = audit_status()
+
+    eligible = False
+    if args.production:
+        if audit["status"] != "PASS":
+            findings.append(f"dependency audit not verified: {audit['status']}")
+        if signature["scope"] != "external_attestation":
+            findings.append("signature is lab integrity only, not external attestation")
+        eligible = not findings
 
     print(
         json.dumps(
             {
+                "mode": "production" if args.production else "integrity",
                 "status": "FAIL" if findings else "PASS",
+                "release_eligible": eligible and not findings,
                 "missions": len(missions),
                 "sbom_components": len(sbom["components"]),
                 "signature": signature["scope"],

@@ -11,7 +11,7 @@ SPEC.loader.exec_module(releasecheck)
 
 class ReleaseGateTests(unittest.TestCase):
     def test_releasecheck_passes(self):
-        self.assertEqual(releasecheck.main(), 0)
+        self.assertEqual(releasecheck.main([]), 0)
 
     def test_lab_does_not_import_the_middleware(self):
         import re
