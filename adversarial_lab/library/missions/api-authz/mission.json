@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "id": "api-authz",
+  "title": "Control de autorización horizontal en API sintética",
+  "scope_kind": "api",
+  "required_capabilities": ["api.passive", "evidence.write"],
+  "technique_tags": ["api-authorization", "negative-test"],
+  "limits": {"max_duration_seconds": 300, "max_requests": 50, "max_cost_cents": 20},
+  "stop_conditions": ["authorization_revoked", "scope_changed", "never_network", "budget_exceeded"],
+  "hypotheses": [
+    {"statement": "Un token de user-001 no puede leer pedidos de user-002", "disproof": "La API devuelve el pedido ajeno con 200"},
+    {"statement": "Cambiar el identificador en la ruta no devuelve datos de otro tenant", "disproof": "La respuesta contiene datos de otro usuario"},
+    {"statement": "El rol support no puede ejecutar acciones de admin", "disproof": "La acción de admin se completa con rol support"}
+  ]
+}
