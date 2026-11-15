@@ -1,6 +1,9 @@
 # Arquitectura de entrada/salida del producto final
 
-**Fecha:** 2026-11-15. **Alcance:** concepto final, no PMV. **Base:** visión R01–R10, roadmap L0–L8
+**Fecha:** 2026-11-15. **Marco superior:** [CONCEPT-MASTER.md](CONCEPT-MASTER.md).
+**Alcance:** sustrato de E/S del motor inmunitario, no la visión completa. Faltan los planos
+P8 (gemelo digital), P9 (antivisiones) y P10 (flota y evolución); ver
+[ALINEACION-CONCEPT-MASTER.md](ALINEACION-CONCEPT-MASTER.md). El texto original decía «concepto final»; **Base:** visión R01–R10, roadmap L0–L8
 y programa CY-V2. **Estado:** diseño; el código actual solo cubre una parte del plano P2–P5.
 
 Este documento responde a una pregunta distinta de [REQUISITOS-CONEXION.md](REQUISITOS-CONEXION.md):

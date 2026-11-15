@@ -1,7 +1,7 @@
 # Stack y librerías del repo acabado
 
-**Fecha:** 2026-11-15. **Base real:** `pyproject.toml`, `typescript/package.json` y código de
-`main` (`b2cea46`). **Regla:** no introducir una dependencia que no resuelva un problema medido;
+**Fecha:** 2026-11-15. **Marco superior:** [CONCEPT-MASTER.md](CONCEPT-MASTER.md).
+**Base real:** `pyproject.toml`, `typescript/package.json` y código de `main` (`b2cea46`). **Regla:** no introducir una dependencia que no resuelva un problema medido;
 cada capa tiene una elección y una alternativa descartada con motivo.
 
 ## 1. Principios

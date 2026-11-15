@@ -1,6 +1,7 @@
 # Requisitos de conexión, entrada/salida y trasvase a `/agente`
 
-**Fecha:** 2026-11-15. **Base:** `feat/cy-v2-01-baseline` (`84c8499`). **Estado:** lista de lo que
+**Fecha:** 2026-11-15. **Marco superior:** [CONCEPT-MASTER.md](CONCEPT-MASTER.md).
+**Base:** `feat/cy-v2-01-baseline` (`84c8499`). **Estado:** lista de lo que
 falta aportar; nada de esto está conectado todavía.
 
 Este documento responde a una pregunta concreta: **qué necesito del founder para conectar todas
