@@ -1,3 +1,8 @@
+> **ÍNDICE OPERATIVO ACTUAL — 2026-11-16**
+> **Comenzar en [docs/operacion-actual/README.md](operacion-actual/README.md)**. Los documentos de esta carpeta son historia, investigación y especificaciones que pueden contener estados superados. [Matriz de cierre](operacion-actual/02-MATRIZ-CIERRE-PRODUCCION.md) · [Cuentas y secretos](operacion-actual/03-CUENTAS-SECRETOS-FOUNDER.md) · [Handoff](operacion-actual/04-HANDOFF-EJECUCION.md). El laboratorio adversarial fue integrado posteriormente en `main`; no utilizar avisos antiguos «no fusionado» como verdad actual. `docs/release/status.json` sigue indicando NO producción.
+
+---
+
 > **ACTUALIZACIÓN 2026-11-15 — LEE ESTO ANTES DEL TEXTO**
 > Base medida: `main@dd18f2a` + AD-01 `c57251c` · 196 tests Python OK (8 skips) · SDK 6/1 · 84 rutas `/v1` · esquema 8 · demo sintética, `production_enabled=false` · 2 PASS / 40 PARTIAL · sin PR ni revisión independiente.
 > **Vigente aquí:** El índice de documentos y la lectura de evidencia (hecho, proveedor, hipótesis, NO VERIFICADO) siguen válidos.
