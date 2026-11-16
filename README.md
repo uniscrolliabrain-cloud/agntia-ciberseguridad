@@ -1,3 +1,9 @@
+> **ESTADO OPERATIVO VIGENTE — 2026-11-16**
+> Antes de seguir cualquier roadmap o handoff histórico, leer el [centro de operaciones y cierre a producción](docs/operacion-actual/README.md). Incluye [estado técnico](docs/operacion-actual/01-ESTADO-Y-ALCANCE.md), [matriz CP-01…CP-14](docs/operacion-actual/02-MATRIZ-CIERRE-PRODUCCION.md), [cuentas y secretos](docs/operacion-actual/03-CUENTAS-SECRETOS-FOUNDER.md) y [handoff](docs/operacion-actual/04-HANDOFF-EJECUCION.md).
+> **Corrección de cronología:** el laboratorio adversarial C01–C18 y hardening B/D se integraron después de los informes que lo describían «en una rama sin fusionar» (commit de integración `9925567`). Las métricas de middleware (196 tests) y laboratorio (115 tests posteriores) pertenecen a suites y ejecuciones distintas. **No hay GO de producción:** `docs/release/status.json` sigue en `production_enabled=false`, revisión y aceptación pendientes. Los planes Lite/L/XL son hipótesis históricas, no precios comerciales aprobados actualmente.
+
+---
+
 > **ACTUALIZACIÓN 2026-11-15 — LEE ESTO ANTES DEL TEXTO**
 > Base medida: `main@dd18f2a` + AD-01 `c57251c` · 196 tests Python OK (8 skips) · SDK 6/1 · 84 rutas `/v1` · esquema 8 · demo sintética, `production_enabled=false` · 2 PASS / 40 PARTIAL · sin PR ni revisión independiente.
 > **Vigente aquí:** El producto, el alcance y los planes Lite/L/XL siguen siendo la referencia válida.
