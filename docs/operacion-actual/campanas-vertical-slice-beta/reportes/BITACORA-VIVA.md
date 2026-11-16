@@ -28,13 +28,15 @@ correcciones se añaden como entrada nueva.
   vulnerabilidad. Delta propuesto: cabecera opcional `X-Causation-Id`.
 - **Verificación:** 197 tests OK (8 skipped); validador PASS.
 
-## VS-02 — Herramientas reales en CI · no iniciada
+## VS-02 — Herramientas reales en CI · 2026-11-16 · PASS sintético
 
-- **Puede ejecutarse en autónomo:** sí, en GitHub Actions con imágenes fijadas y fixtures.
-- **No ejecutable aquí:** no hay Docker ni binarios en el workspace.
-- **Criterio de cierre:** workflow con Gitleaks, OSV, Semgrep y Trivy sobre fixture sintético;
-  receipt de findings esperados; cero hallazgos reales; reporte con versiones y digests.
-- **Riesgo:** un workflow con versiones mal fijadas falla en CI y no debe declararse PASS.
+- **Evidencia:** run **43982858508**, job `docker-contracts` `133703454341`, **success**.
+- **Ejecutado:** Gitleaks (canario pese a supresión del repo), OSV (vulnerable/limpio/caducado/ausente),
+  Semgrep (eval con `nosemgrep`), Trivy (DS-0002) y sandbox (UID, red, timeout, PIDs, limpieza).
+- **Límites:** solo fixtures; digests resueltos en build y publicados como artefacto, no fijados en
+  el repo; sin feeds en vivo ni licencias.
+- **Gates:** G2 y G3 pasan en sintético; auditoría externa sigue pendiente.
+- **Informe:** `VS-02-REPORT.md`.
 
 ## VS-03 — Secretos · no iniciada
 
