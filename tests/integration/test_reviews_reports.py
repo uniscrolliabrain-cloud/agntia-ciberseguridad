@@ -3,6 +3,7 @@ import json
 from unittest.mock import patch
 import unittest
 from agntia_ciberseguridad.errors import DomainError
+from agntia_ciberseguridad.contracts import Finding
 from agntia_ciberseguridad.findings.store import FindingStore
 from agntia_ciberseguridad.jobs.worker import Worker
 from agntia_ciberseguridad.reviews import ReviewProposal,ReviewApproval
@@ -24,6 +25,13 @@ class ReviewReportTests(CustodySetup,unittest.IsolatedAsyncioTestCase):
             action=action,reason='Synthetic cited human review',evidence_ids=[evidence['id']],**extra),'fixture')
     def approve(self,proposal):
         return self.reviews.approve(self.reviewer,'tenantA',proposal['id'],ReviewApproval(expected_revision=0,proposal_hash=proposal['proposal_hash']),'fixture')
+
+    async def test_current_finding_projection_matches_contract(self):
+        _,finding,_=await self.seed()
+        parsed=Finding.model_validate(finding)
+        self.assertEqual(parsed.id,finding['id'])
+        self.assertEqual(parsed.state,'suspected')
+        self.assertIsNone(parsed.reviewed_at)
 
     async def test_human_approval_hashes_roles_and_unknown_not_exploitation(self):
         _,finding,evidence=await self.seed()
