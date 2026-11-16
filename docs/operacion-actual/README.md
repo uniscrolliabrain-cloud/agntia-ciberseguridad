@@ -4,6 +4,10 @@
 
 > Este es el **punto de entrada operativo vigente**. La documentación anterior se conserva como investigación, historial, diseño y evidencia; no debe ejecutarse como si todas sus campañas siguieran pendientes. Ninguna frase de esta carpeta sustituye los gates ejecutables ni `docs/release/status.json`.
 
+## Programa de ejecución para FreeBuff
+
+**[Campañas VS-00→VS-13: vertical slice productivo y beta dogfooding](campanas-vertical-slice-beta/README.md)** — diseño de ejecución, contratos, gates, reportes y handoff. **Solo documentación; FreeBuff implementa el código y el founder aprueba merges, integraciones y despliegues.**
+
 ## Orden de lectura
 
 1. [01 — Estado y alcance](01-ESTADO-Y-ALCANCE.md): qué está construido, qué está probado y qué sigue bloqueado.
