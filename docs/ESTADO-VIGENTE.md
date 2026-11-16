@@ -1,3 +1,8 @@
+> **ACTUALIZACIÓN DE CRONOLOGÍA — 2026-11-16**
+> Este documento es un **snapshot histórico de 2026-11-15**, no la verdad completa del HEAD actual. La sección «4 bis. Laboratorio adversarial (rama, no fusionado)» está **SUPERADA**: existe el commit de integración `99255673b0ccfd47813eb8be74a2a19939e9b2a3` de C01–C18 + B/D. Los informes posteriores documentan **115 tests** del laboratorio, distintos de los **196 tests** del middleware citados aquí. El informe B/D registra que `releasecheck.py --production` falla cerrado (exit 1 esperado). Para estado actual, dependencias, cuentas y GO/NO-GO, usar **[Centro de operaciones](operacion-actual/README.md)** y [matriz](operacion-actual/02-MATRIZ-CIERRE-PRODUCCION.md). No se ha ejecutado una nueva suite al actualizar esta documentación; `release/status.json` mantiene `production_enabled=false`.
+
+---
+
 # Estado vigente — verdad medida del repositorio
 
 **Fecha:** 2026-11-15. **Sustituye a cualquier cabecera anterior** como resumen operativo.
