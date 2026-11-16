@@ -5,6 +5,11 @@
 **Fecha:** 2026-11-16
 **Estado:** P0/P1 completos. P2 (código) **BLOCKED** por diseño de persistencia y revisión.
 
+> **Corrección (VS-01A, PR #16):** el hallazgo 3 estaba invertido. `RemediationPlan.finding_id: Hash`
+> es correcto y el hash de 64 es el id canónico; el defecto estaba en el contrato `Finding`, ya
+> corregido y probado. El hallazgo 2 (`causation_id`) es real pero de impacto bajo: nadie
+> reconstruye el grafo con esa columna. Ver `VS-01A-CORRECCION-IMPACTO.md`.
+
 ## Resultado principal
 
 Los ocho contratos que pedía la campaña **no faltan en bloque**: seis existen con otro nombre y dos

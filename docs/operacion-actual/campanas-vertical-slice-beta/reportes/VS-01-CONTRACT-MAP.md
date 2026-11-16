@@ -14,7 +14,7 @@
 | `approvalId` | `Approval.id` con `proposal_hash`, `expires_at`, `state` | Aprobación por hash de propuesta |
 | `runId` | `Job.id` | Se devuelve como `id` |
 | `correlationId` | `Job.correlation_id`; columna en `jobs`; `db.audit` | Presente end-to-end |
-| `causationId` | Columna `jobs.causation_id`, rellenada con la correlación | **Pérdida de causalidad**, ver VS-01-REPORT |
+| `causationId` | Columna `jobs.causation_id`, rellenada con la correlación | Inconsistencia semántica sin consumidor; ver VS-01A |
 | `idempotencyKey` | Header obligatorio validado en `jobs/store.py`; tabla `job_idempotency` | No viaja en el body |
 | `requestedAt` | `created_at` | Nombre distinto, misma semántica |
 | `expiresAt` | `GrantCreate.expires_at`, `Approval.expires_at` | El job no tiene expiración propia; la hereda del grant |
