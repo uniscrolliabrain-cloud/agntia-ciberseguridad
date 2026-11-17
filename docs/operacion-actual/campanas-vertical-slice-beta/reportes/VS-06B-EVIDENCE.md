@@ -67,9 +67,60 @@ OK (skipped=8)
  "markdown_files": 272, "security_scans_executed": 0, "words": 165192}
 ```
 
+## Simulación del job de CI en venv limpio
+
+Mismos comandos que `dependency-audit.yml`, ejecutados en `/tmp/audit-venv` (sin Docker, sin caché
+previa):
+
+```
+$ python3 -m venv /tmp/audit-venv
+$ /tmp/audit-venv/bin/python -m pip install --upgrade pip
+$ /tmp/audit-venv/bin/python -m pip install -e '.[dev]'
+$ /tmp/audit-venv/bin/python -m pip install 'pip-audit==2.10.1'
+$ /tmp/audit-venv/bin/python -m pip_audit --local --progress-spinner off
+CI_LOCAL=0
+$ /tmp/audit-venv/bin/python -m pip_audit . --progress-spinner off
+No known vulnerabilities found
+CI_PROJECT=0
+```
+
+## El gate tiene dientes
+
+Con el pin anterior, el mismo auditor falla:
+
+```
+$ printf 'opentelemetry-api==1.38.0\n' > /tmp/old-req.txt
+$ /tmp/audit-venv/bin/python -m pip_audit -r /tmp/old-req.txt --progress-spinner off
+Found 2 known vulnerabilities in 1 package
+opentelemetry-api 1.38.0 CVE-2026-114603 1.45.1
+opentelemetry-api 1.38.0 CVE-2026-126360 1.45.2
+OLD_PIN_EXIT=1
+```
+
+## Artefacto de release con las dependencias nuevas
+
+Sobre el commit `5c12bbd` (árbol limpio):
+
+```
+$ python scripts/release_bundle.py --output dist/release
+{"release_bundle": "PASS", "source_commit": "5c12bbd1337c669e98afb1cb449065012ab6fdea",
+ "wheels": 39, "installed_artifact_smoke": "PASS", "production_accepted": false}
+BUNDLE=0
+$ python scripts/release_bundle.py --verify dist/release
+{"bundle_integrity": "PASS", "publisher_identity": "requires independent signature/attestation verification"}
+BUNDLE_VERIFY=0
+$ python adversarial_lab/scripts/releasecheck.py --production
+"signature is lab integrity only, not external attestation"
+PRODUCTION_GATE=1
+```
+
+El artefacto se construye y verifica con OTel 1.45.2, y el gate de producción **sigue fallando
+cerrado**: no se relajó ningún control para quitar el bloqueo de dependencias.
+
 ## Límites de esta evidencia
 
-- Ejecutada en el workspace del agente, no en GitHub Actions: el workflow
-  `dependency-audit.yml` **no** tiene run verde todavía. Se declara pendiente de CI.
+- Ejecutada en el workspace del agente. Los comandos del workflow se simularon en un venv limpio,
+  pero `dependency-audit.yml` **no** tiene todavía un run verde en GitHub Actions; se declara
+  pendiente de CI.
 - `pip-audit` consulta el feed de OSV/PyPI en el momento; un CVE publicado después no está cubierto.
 - No se ejecutó `scripts/verify_observability.py` (requiere Docker, ausente aquí).

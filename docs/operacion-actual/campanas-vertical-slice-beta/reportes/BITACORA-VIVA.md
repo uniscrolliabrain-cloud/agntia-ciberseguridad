@@ -115,7 +115,11 @@ correcciones se añaden como entrada nueva.
 - **P1 cerrado:** `.github/workflows/dependency-audit.yml` con `pip-audit==2.10.1` (`--local` y
   `pip-audit .`); aún **sin run de CI**.
 - **Verificación:** 205 tests OK (8 skipped); validador documental PASS.
-- **Sigue abierto:** atestación externa (`--production` falla cerrado por diseño).
+- **Release:** bundle PASS en `5c12bbd` (39 wheels, smoke PASS, integridad PASS);
+  `releasecheck.py --production` sigue **exit 1** (fail-closed, sin relajar controles).
+- **Gate con dientes:** con el pin anterior el auditor devuelve 2 CVE y exit 1.
+- **Sigue abierto:** atestación externa (`--production` falla cerrado por diseño) y el primer run
+  real de `dependency-audit.yml` en GitHub Actions.
 
 ## VS-07A — Entrega y acuse de alertas · 2026-11-17 · PARTIAL alto
 

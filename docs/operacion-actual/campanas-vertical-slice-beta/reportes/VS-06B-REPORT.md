@@ -63,4 +63,8 @@ Esto cierra el hallazgo P1 de VS-06 ("nada impide fusionar una dependencia vulne
 - Suite completa: **205 tests OK (8 skipped)**, 27,0 s.
 - `tests/integration/test_telemetry.py`: **10 OK**, incluido el test de propagación que fallaba y uno
   nuevo de flags/ids.
-- `scripts/validate_foundation.py`: `PASS` (272 archivos Markdown).
+- `scripts/validate_foundation.py`: `PASS` (280 archivos Markdown).
+- Bundle de release en `5c12bbd`: **PASS**, 39 wheels, smoke del artefacto instalado PASS,
+  integridad PASS; `releasecheck.py --production` sigue en **1** (fail-closed).
+- Comandos del workflow de auditoría simulados en venv limpio: ambos con exit **0**; con el pin
+  anterior, el mismo auditor devuelve las 2 CVE y exit **1**.
