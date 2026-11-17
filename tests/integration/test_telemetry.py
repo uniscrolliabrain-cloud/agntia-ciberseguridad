@@ -73,6 +73,15 @@ class TraceTests(CustodySetup,unittest.IsolatedAsyncioTestCase):
             except ValueError:pass
         encoded=''.join(span.to_json() for span in self.exporter.get_finished_spans())
         self.assertNotIn(sentinel,encoded);self.assertNotIn('tenantB',encoded);self.assertNotIn('"role"',encoded)
+    async def test_stored_parent_is_continued_only_when_well_formed_and_sampled(self):
+        trace_id='1'*32;span_id='2'*16
+        for flags in ('01','03'):
+            with self.f.service.telemetry.span('api.request',parent=f'00-{trace_id}-{span_id}-{flags}') as span:
+                self.assertEqual(format(span.get_span_context().trace_id,'032x'),trace_id)
+        for parent in (f'00-{"0"*32}-{span_id}-03',f'00-{trace_id}-{"0"*16}-03',f'00-{trace_id}-{span_id}-02',
+                       f'01-{trace_id}-{span_id}-03',f'00-{trace_id}-{span_id}-0g','not-a-traceparent'):
+            with self.f.service.telemetry.span('api.request',parent=parent) as span:
+                self.assertNotEqual(format(span.get_span_context().trace_id,'032x'),trace_id)
     async def test_persisted_trace_propagates_to_worker_and_report_link(self):
         from agntia_ciberseguridad.jobs.worker import Worker
         from agntia_ciberseguridad.reports import ReportRequest

@@ -1,6 +1,8 @@
 # VS-06 — Revisión, CI y release fail-closed
 
 **Base:** `008aaeb`. **Estado:** gate `BLOCKED` por auditoría de dependencias; el resto pasa.
+**Actualización 2026-11-17:** el bloqueo de dependencias está resuelto y el diagnóstico del upgrade
+era incorrecto; ver [VS-06B-REPORT.md](VS-06B-REPORT.md). La atestación externa sigue `BLOCKED`.
 **Verificación:** 197 tests OK (8 skipped) tras revertir el intento de upgrade.
 
 ## Lo que pasa de verdad

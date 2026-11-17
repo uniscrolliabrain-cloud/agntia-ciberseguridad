@@ -103,6 +103,30 @@ correcciones se añaden como entrada nueva.
 - **Gate:** BLOCKED; no se tocó `/agente` ni se pidieron privilegios.
 - **Informe:** `VS-08-REPORT.md`.
 
+## VS-06B — Cierre del bloqueo de dependencias · 2026-11-17
+
+- **Base:** `1946f8c`. **Rama:** `docs/cyber-bitacora-viva`. **PR:** #17.
+- **Corregido el diagnóstico de VS-06:** el upgrade a OpenTelemetry 1.45.2 no rompía el SDK; el
+  propagador emite flags `03` y nuestro `TRACEPARENT` solo aceptaba `0[01]`, así que el worker
+  descartaba el padre guardado. Corregido con `trusted_parent()` (versión `00`, ids no nulos, bit de
+  muestreo) y test de regresión.
+- **Pins:** `opentelemetry-sdk==1.45.2`, `opentelemetry-exporter-otlp-proto-http==1.45.2`.
+- **`pip-audit`:** 14 vulnerabilidades → **0** (`pip` 24.0 → 26.3 y OTel 1.38.0 → 1.45.2).
+- **P1 cerrado:** `.github/workflows/dependency-audit.yml` con `pip-audit==2.10.1` (`--local` y
+  `pip-audit .`); aún **sin run de CI**.
+- **Verificación:** 205 tests OK (8 skipped); validador documental PASS.
+- **Sigue abierto:** atestación externa (`--production` falla cerrado por diseño).
+
+## VS-07A — Entrega y acuse de alertas · 2026-11-17 · PARTIAL alto
+
+- **Base:** `1946f8c`. **Rama:** `docs/cyber-bitacora-viva`. **PR:** #17.
+- **Construido:** `scripts/alert_sink.py`, receptor local firmado (HMAC-SHA256), con dedupe por
+  huella, proyección de 6 campos y acuse explícito `contained: false`; secreto solo por entorno.
+- **Probado:** 6 tests; las 5 reglas de `alerts.yaml` se entregan y se ligan a su `job_id`;
+  firma ausente/alterada → 401; 8 duplicados concurrentes → 1 acuse.
+- **Sin fuga:** texto libre del emisor (incluido canario) no aparece ni en el acuse ni en el estado.
+- **Sigue bloqueado:** proveedor real, escalado a persona y runbook. El acuse no es contención.
+
 ## Cola y dependencias
 
 | Campaña | Carril | Bloqueo |
@@ -111,6 +135,8 @@ correcciones se añaden como entrada nueva.
 | VS-03 | autónomo parcial | gestor real y credenciales |
 | VS-04 custodia/KMS | P0/P1 hechos, P2 bloqueado | proveedor, clave y RPO/RTO |
 | VS-05+ endurecimiento | autónomo | revisión de contrato |
+| VS-06B dependencias | hecho en local | falta run de CI |
+| VS-07A entrega de alertas | hecho en sintético | proveedor, guardia y runbook |
 | `/agente` | founder | autorización expresa |
 | Activos propios / ROE | founder | inventario y permiso |
 | Beta / cliente | founder | despliegue y aceptación |

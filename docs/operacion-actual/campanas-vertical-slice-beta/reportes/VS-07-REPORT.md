@@ -1,6 +1,8 @@
 # VS-07 — Observabilidad, alertas y límites económicos
 
 **Base:** `45b5a7a`. **Estado:** `PARTIAL`; entrega real de alertas `BLOCKED`.
+**Actualización 2026-11-17:** entrega y acuse demostrados contra receptor local firmado; ver
+[VS-07A-REPORT.md](VS-07A-REPORT.md). Sigue faltando proveedor, guardia y runbook.
 **Verificación:** mediciones sintéticas ejecutadas en este turno.
 
 ## P0 — Inventario real
