@@ -70,6 +70,16 @@ correcciones se añaden como entrada nueva.
 - **Huecos:** multiproceso real, SIGTERM, cancelación tras efecto externo, DLQ.
 - **Informe:** `VS-05-REPORT.md`.
 
+## VS-06 — Release fail-closed · 2026-11-17 · BLOCKED
+
+- **Pasa:** smoke instalado, bundle + SBOM CycloneDX válido, gate de integridad del laboratorio.
+- **Falla cerrado:** `--production` exit 1 por firma local sin atestación externa.
+- **Hallazgo P0:** `pip-audit` detecta 14 vulnerabilidades; `opentelemetry-api==1.38.0` tiene CVE
+  con fix 1.45.2, pero el upgrade rompe la propagación de trazas y se revirtió.
+- **P1:** ningún workflow ejecuta `pip-audit`.
+- **Gate:** BLOCKED; suite 197 OK tras revertir.
+- **Informe:** `VS-06-REPORT.md`.
+
 ## Cola y dependencias
 
 | Campaña | Carril | Bloqueo |
