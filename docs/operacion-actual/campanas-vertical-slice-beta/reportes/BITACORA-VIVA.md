@@ -172,6 +172,52 @@ correcciones se añaden como entrada nueva.
   ensayado.
 - **Informe:** `VS-07C-REPORT.md`.
 
+## VS-05B — Multiproceso real: un solo dueño por trabajo · 2026-11-17 · PARTIAL alto
+
+- **Base:** `7fdb14e`. **Rama:** `docs/cyber-bitacora-viva`. **PR:** #17.
+- **Construido:** `tests/integration/test_worker_multiprocess.py`: **dos procesos del sistema
+  operativo**, cada uno con su conexión SQLite, su app y su `serve()` de VS-05A, compitiendo por tres
+  trabajos pendientes con un escáner que anota su clave de fencing.
+- **Medido:** 3 ejecuciones y 3 claves distintas para 3 trabajos; `attempts=1` en los tres;
+  `job_results=3`; 3 eventos `job.claimed`; exit 0 en ambos procesos.
+- **Sin delta de producto:** el fencing de `claim` ya cerraba la ventana; ahora hay evidencia
+  multiproceso de que lo hace.
+- **No demuestra paralelismo:** `tenant_limit=1` hace que los trabajos corran en serie; lo probado es
+  propiedad única, no rendimiento. Tampoco cubre `SIGKILL` ni un host real.
+- **Sigue abierto:** host y cola del worker, DLQ con consumidor (no se creó una tabla decorativa).
+- **Gate:** PARTIAL; el gate 24×7 sigue cerrado. **Informe:** `VS-05B-REPORT.md`.
+
+## VS-07D — Señal de backup: el fallo deja de ser silencioso · 2026-11-17 · PARTIAL alto
+
+- **Base:** `7fdb14e`. **Rama:** `docs/cyber-bitacora-viva`. **PR:** #17.
+- **Construido:** `scripts/backup_ledger.py` (JSONL append-only `0600`; un `success` sin digest se
+  rechaza y un `failure` con digest también) y `scripts/backup_exporter.py` (*textfile* Prometheus
+  escrito con `mkstemp`+`fsync`+`os.replace`, cuatro series sin etiquetas).
+- **Regla nueva:** `AgntiaBackupStale` (séptima): sin éxito verificado, más de 26 h, o serie ausente.
+  La ventana es una hipótesis de campaña, no un RPO acordado.
+- **Simulacro D2 rehecho:** fallo real (`lab_only`, `backup_key_unavailable`) → libro → `last_success 0`, `consecutive_failures 1`
+  → predicado *stale* → alerta firmada 202 con `contained: false`; después backup cifrado real con
+  digest → `last_success` fresco → **no stale**. La señal también sabe apagarse.
+- **Criterio:** ausencia y corrupción se informan como desconocido, nunca como éxito reciente.
+- **Verificado:** 7 tests unitarios + 3 simulacros + 7 reglas entregables; suite **223 OK (8 skipped)**;
+  validador PASS; CLI real probada (libro `0600`, *textfile* `0644`).
+- **Sigue bloqueado:** colector real del *textfile*, Prometheus/Alertmanager, proveedor y guardia; el
+  libro comparte el destino del host, así que perder el host pierde copia y registro a la vez.
+- **Gate:** PARTIAL alto; D2 pasa de `BLOCKED` a **PASS**. **Informe:** `VS-07D-REPORT.md`.
+
+## VS-06C — Primer run real del CI de dependencias · 2026-11-17 · PARTIAL alto
+
+- **Base:** `7fdb14e`. **Rama:** `docs/cyber-bitacora-viva`. **PR:** #17. **Sin delta de código.**
+- **Recibo:** `dependency-audit.yml` acumula 6 runs sobre la rama; los dos del head `7fdb14e`
+  (`44084229258` por `push`, `44084241625` por `pull_request`) están `completed`/`success`.
+- **Qué implica:** `pip-audit` sale distinto de cero con cualquier aviso abierto, así que el verde
+  sostiene «0 vulnerabilidades conocidas el 2026-11-17, Python 3.12, conjunto declarado», verificado
+  por un ejecutor que no es el portátil.
+- **Qué no implica:** ni atestación de cadena de suministro, ni cobertura de las imágenes de escáneres,
+  ni validez mañana, ni `releasecheck.py --production` (sigue exit 1 fail-closed).
+- **Nota:** los runs los disparó el `push` normal de VS-05A/07B/07C; no se reejecutó nada a mano.
+- **Gate:** PARTIAL alto; se cierra el punto «falta run de CI» de VS-06B. **Informe:** `VS-06C-REPORT.md`.
+
 ## Cola y dependencias
 
 | Campaña | Carril | Bloqueo |
@@ -180,10 +226,12 @@ correcciones se añaden como entrada nueva.
 | VS-03 | autónomo parcial | gestor real y credenciales |
 | VS-04 custodia/KMS | P0/P1 hechos, P2 bloqueado | proveedor, clave y RPO/RTO |
 | VS-05A SIGTERM | hecho en sintético | cola y host del worker |
-| VS-05+ DLQ y multiproceso | autónomo | decisión de despliegue |
-| VS-06B dependencias | hecho en local | falta run de CI |
+| VS-05B multiproceso | hecho: 2 procesos, 1 dueño por job | host, DLQ con consumidor, `SIGKILL` |
+| VS-06B dependencias | hecho en local | atestación externa |
+| VS-06C CI de dependencias | hecho: `44084241625` success | run en `main` tras fusionar |
 | VS-07A entrega de alertas | hecho en sintético | proveedor, guardia y runbook |
-| VS-07B simulacros P3 | 2 PASS / 1 BLOCKED | exportador de backup, Prometheus real |
+| VS-07B simulacros P3 | 2 PASS / 1 BLOCKED (histórico) | Prometheus real |
+| VS-07D señal de backup | D2 pasa a **PASS** | colector del *textfile*, proveedor, guardia |
 | VS-07C runbook | documental, sin ensayo | propietario, guardia y canal |
 | `/agente` | founder | autorización expresa |
 | Activos propios / ROE | founder | inventario y permiso |
@@ -193,6 +241,9 @@ correcciones se añaden como entrada nueva.
 ## Reanudación
 
 1. Leer esta bitácora y `docs/ESTADO-VIGENTE.md`.
-2. Revisar PR #14, #15 y #16; no fusionar sin revisión.
-3. Empezar por VS-02 en CI, que no depende de decisiones del founder.
-4. No marcar PASS sin receipt de CI o comando local con exit 0.
+2. Revisar y fusionar PR #14, #15, #16 y #17; no fusionar sin revisión.
+3. Tras fusionar, reejecutar en `main` la suite completa y el workflow de dependencias: el CI verde de
+   hoy es de la rama, no de `main`.
+4. Carriles autónomos que quedan: colector real del *textfile* de backup, DLQ con consumidor y
+   `SIGKILL` a mitad de escritura. Ninguno requiere decisión del founder.
+5. No marcar PASS sin receipt de CI o comando local con exit 0.
