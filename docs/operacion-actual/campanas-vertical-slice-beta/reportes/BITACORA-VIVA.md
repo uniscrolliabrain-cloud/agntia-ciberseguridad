@@ -60,6 +60,16 @@ correcciones se añaden como entrada nueva.
   externo con disco local.
 - **Informe:** `VS-04-REPORT.md`.
 
+## VS-05 — Jobs, leases y cancelación · 2026-11-17 · PARTIAL
+
+- **Ya implementado:** idempotencia tenant-scoped, fencing por lease, lease vencida → reconciliación,
+  backoff con jitter y cupos por tenant/herramienta.
+- **Delta:** prueba de cancelación en vuelo, sin resultado persistido.
+- **Integración:** se trajo el fix de `CyberError` de VS-00 a esta rama.
+- **Verificación:** 197 OK (8 skipped).
+- **Huecos:** multiproceso real, SIGTERM, cancelación tras efecto externo, DLQ.
+- **Informe:** `VS-05-REPORT.md`.
+
 ## Cola y dependencias
 
 | Campaña | Carril | Bloqueo |

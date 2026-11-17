@@ -114,6 +114,28 @@ class WorkerTests(Setup,unittest.IsolatedAsyncioTestCase):
         done=await Worker(self.store,scanner,'workerA').run_once()
         scanner.scan.assert_not_awaited();self.assertEqual(done['state'],'failed')
 
+    async def test_cancel_during_execution_stops_scan_and_requires_reconciliation(self):
+        receipt=self.submit()
+        started=asyncio.Event();observed=[]
+        async def scan(*args,**kwargs):
+            started.set()
+            try:await asyncio.sleep(5)
+            except asyncio.CancelledError:
+                observed.append('cancelled');raise
+            return self.result()
+        scanner=SimpleNamespace(runner=SimpleNamespace(images={Tool.gitleaks:SimpleNamespace(policy_hash='a'*64)}),scan=scan)
+        task=asyncio.create_task(Worker(self.store,scanner,'workerA',lease_seconds=2).run_once())
+        await asyncio.wait_for(started.wait(),timeout=2)
+        current=self.store.get(self.actor,'tenantA',receipt['id'])
+        requested=self.store.cancel(self.actor,'tenantA',receipt['id'],current['revision'],'fixture')
+        self.assertTrue(requested['cancel_requested'])
+        done=await asyncio.wait_for(task,timeout=5)
+        self.assertEqual(done['state'],'reconciliation_required')
+        self.assertEqual(done['error_code'],'cancel_requested')
+        self.assertEqual(observed,['cancelled'])
+        with self.f.service.db.connection(readonly=True) as db:
+            self.assertEqual(db.execute('SELECT count(*) FROM job_results').fetchone()[0],0)
+
     async def test_uncertain_cleanup_never_retries(self):
         self.submit();scanner=self.scanner(self.result(status='error'));scanner.scan.return_value['error_code']='cleanup_unverified'
         self.assertEqual((await Worker(self.store,scanner,'workerA').run_once())['state'],'reconciliation_required')
