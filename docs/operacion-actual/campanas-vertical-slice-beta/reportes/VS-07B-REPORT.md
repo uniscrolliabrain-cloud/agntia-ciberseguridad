@@ -72,3 +72,7 @@ El gate de operación 24×7 sigue cerrado por proveedor, guardia y runbook.
 3. Añadir propietario y runbook por alerta; hoy solo hay `summary`.
 
 **Seguimiento:** P4 documental en [VS-07C-REPORT.md](VS-07C-REPORT.md) y [RUNBOOK-ALERTAS.md](../RUNBOOK-ALERTAS.md); propietario y guardia siguen pendientes.
+
+**Actualización:** el exportador de backup recomendado en el punto 1 existe desde
+[VS-07D-REPORT.md](VS-07D-REPORT.md): el simulacro D2 deja de estar `BLOCKED` y pasa a **PASS** con
+señal real y ruta de recuperación. Este informe conserva el estado original como histórico.

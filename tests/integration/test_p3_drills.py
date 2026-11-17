@@ -6,7 +6,9 @@ and records explicitly what is *not* covered. A drill that has no signal path to
 reported as blocked, never as passed.
 """
 import asyncio
+import base64
 import json
+import os
 from pathlib import Path
 import re
 import tempfile
@@ -14,7 +16,10 @@ import threading
 import unittest
 import urllib.error
 import urllib.request
+from unittest.mock import patch
 
+import scripts.backup_exporter as backup_exporter
+import scripts.backup_ledger as backup_ledger
 from agntia_ciberseguridad.errors import DomainError
 from agntia_ciberseguridad.jobs.worker import Worker
 from agntia_ciberseguridad.recovery import backup_lab
@@ -34,6 +39,10 @@ def rule(name):
 
 def declare(text):
     return re.findall(r'- alert:\s*(\w+)',text)
+
+def samples(text):
+    """Read the exporter textfile the way a scrape would: bare sample lines only."""
+    return {line.split(' ')[0]:float(line.split(' ')[1]) for line in text.splitlines() if line and not line.startswith('#')}
 
 def post(port,body,*,signature=None):
     headers={'Content-Type':'application/json','X-Agntia-Signature':signature or ''}
@@ -86,20 +95,47 @@ class Drill(Setup,unittest.TestCase):
         self.assertTrue(repeated['deduplicated'])
         self.assertEqual(len(self.state.read_text().splitlines()),1)
 
-    def test_drill_backup_failure_fails_closed_and_reports_no_signal_path(self):
-        target=Path(self.directory.name)/'drill-backup.bin'
+    def test_drill_backup_failure_pages_through_the_ledger_and_recovers_after_a_verified_backup(self):
+        declared=rule('AgntiaBackupStale')
+        self.assertIn('agntia_backup_last_success_timestamp_seconds',declared['expr'])
+        self.assertIn('absent(agntia_backup_last_success_timestamp_seconds)',declared['expr'])
+        self.assertIn('93600',declared['expr'])
+        # The API is not a backup system: it must not invent a backup series.
+        self.assertNotIn('agntia_backup_last_success_timestamp_seconds',self.metrics.export())
+        failed=Path(self.directory.name)/'drill-backup.bin'
+        healthy=Path(self.directory.name)/'drill-backup-ok.bin'
+        ledger=Path(self.directory.name)/'backup-ledger.jsonl'
+        textfile=Path(self.directory.name)/'prometheus'/('agntia-backup.prom')
+        textfile.parent.mkdir()
         with self.assertRaises(DomainError) as not_quiesced:
-            backup_lab(self.f.service,target,'CYBER_DRILL_BACKUP_KEY',quiesced=False)
+            backup_lab(self.f.service,failed,'CYBER_DRILL_BACKUP_KEY',quiesced=False)
         self.assertEqual(not_quiesced.exception.code,'lab_only')
         with self.assertRaises(DomainError) as no_key:
-            backup_lab(self.f.service,Path(self.directory.name)/'drill-backup-2.bin','CYBER_DRILL_BACKUP_KEY',quiesced=True)
+            backup_lab(self.f.service,failed,'CYBER_DRILL_BACKUP_KEY',quiesced=True)
         self.assertEqual(no_key.exception.code,'backup_key_unavailable')
-        self.assertFalse(target.exists())
-        self.assertEqual([name for name in declare(RULES.read_text()) if 'Backup' in name],[])
-        exposed={line.split('{')[0].split(' ')[0] for line in self.metrics.export().splitlines() if line.startswith('agntia_')}
-        self.assertFalse([name for name in exposed if 'backup' in name],
-            'a backup signal appeared: repeat the drill and page instead of blocking')
-        self.assertEqual(self.sink.deliveries(),[])
+        self.assertFalse(failed.exists())
+        # The failed attempt is recorded by the operator wrapper; the product stays fail-closed.
+        backup_ledger.record(ledger,'failure',reason=no_key.exception.code,clock=lambda:self.instant[0])
+        backup_exporter.write(ledger,textfile,clock=lambda:self.instant[0])
+        down=samples(textfile.read_text())
+        self.assertEqual(down['agntia_backup_last_success_timestamp_seconds'],0.0)
+        self.assertEqual(down['agntia_backup_last_attempt_timestamp_seconds'],self.instant[0])
+        self.assertEqual(down['agntia_backup_consecutive_failures'],1.0)
+        self.assertEqual(down['agntia_backup_ledger_corrupt_total'],0.0)
+        # Predicate of the rule: no success is stale, and the page carries the failed job.
+        self.assertTrue(down['agntia_backup_last_success_timestamp_seconds']==0.0)
+        key=base64.b64encode(os.urandom(32)).decode()
+        with patch.dict(os.environ,{'CYBER_DRILL_BACKUP_KEY':key}):
+            result=backup_lab(self.f.service,healthy,'CYBER_DRILL_BACKUP_KEY',quiesced=True)
+        backup_ledger.record(ledger,'success',digest=result['backup_sha256'],clock=lambda:self.instant[0])
+        backup_exporter.write(ledger,textfile,clock=lambda:self.instant[0])
+        recovered=samples(textfile.read_text())
+        self.assertEqual(recovered['agntia_backup_last_success_timestamp_seconds'],self.instant[0])
+        self.assertEqual(recovered['agntia_backup_consecutive_failures'],0.0)
+        self.assertLessEqual(self.instant[0]-recovered['agntia_backup_last_success_timestamp_seconds'],93600)
+        receipt=self.submit()
+        self.page('AgntiaBackupStale',receipt['id'])
+        self.assertEqual([name for name in declare(RULES.read_text()) if 'Backup' in name],['AgntiaBackupStale'])
 
     def test_drill_budget_exhausted_pages_before_the_next_admission(self):
         declared=rule('AgntiaAttemptBudgetExhausted')

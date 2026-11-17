@@ -69,7 +69,7 @@ class AlertDeliveryTests(unittest.TestCase):
         self.assertNotIn(sentinel,json.dumps(acknowledged));self.assertNotIn(sentinel,self.state.read_text())
     def test_every_declared_rule_can_be_delivered_and_correlated_to_its_job(self):
         rules=re.findall(r'^\s+- alert:\s*(\w+)\s*$',(ROOT/'infra/observability/alerts.yaml').read_text(),re.M)
-        self.assertEqual(len(rules),6)
+        self.assertEqual(len(rules),7)
         for name in rules:
             status,acknowledged=self.deliver(json.dumps(payload(alertname=name)).encode())
             self.assertEqual(status,202,name);self.assertEqual(acknowledged['receipt']['alertname'],name)
