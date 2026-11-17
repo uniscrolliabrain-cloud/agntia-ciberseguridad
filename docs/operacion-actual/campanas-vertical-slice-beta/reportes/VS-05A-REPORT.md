@@ -61,3 +61,5 @@ real; multiproceso con proveedor y DLQ siguen abiertos y no se marcan como hecho
 1. Elegir cola y host del worker; conectar `serve()` y medir dos procesos compitiendo por un job.
 2. Superficie de DLQ (listado de `failed`/`reconciliation_required` con código y antigüedad).
 3. Envolver `serve()` en un entrypoint con `systemd`/contenedor y probar `SIGTERM` en el contenedor.
+
+**Seguimiento:** el punto 1 (dos procesos compitiendo por un job) está cubierto por [VS-05B-REPORT.md](VS-05B-REPORT.md); la DLQ y el entrypoint siguen abiertos.
