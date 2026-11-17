@@ -159,6 +159,19 @@ correcciones se añaden como entrada nueva.
 - **Sigue bloqueado:** proveedor, guardia, runbook y exportador de backup.
 - **Informe:** `VS-07B-REPORT.md`.
 
+## VS-07C — Runbook por alerta · 2026-11-17 · PARTIAL documental
+
+- **Base:** `eca27cb`. **Rama:** `docs/cyber-bitacora-viva`. **PR:** #17.
+- **Escrito:** `RUNBOOK-ALERTAS.md` con una tabla por regla (señal, comprobaciones y **lo que no se
+  puede concluir**), procedimiento por severidad y huecos declarados.
+- **Criterio:** un acuse no es contención y la ausencia de señal no es salud; el cupo lo amplía el
+  propietario de la autorización, no el operador.
+- **Verificado:** validador PASS con 293 Markdown; sin delta de código (suite sigue 215 OK).
+- **Sigue bloqueado:** propietario, guardia, canal con acuse humano, exportador de backup y ensayo
+  con Prometheus/Alertmanager reales. El runbook es un borrador revisable, no un procedimiento
+  ensayado.
+- **Informe:** `VS-07C-REPORT.md`.
+
 ## Cola y dependencias
 
 | Campaña | Carril | Bloqueo |
@@ -171,6 +184,7 @@ correcciones se añaden como entrada nueva.
 | VS-06B dependencias | hecho en local | falta run de CI |
 | VS-07A entrega de alertas | hecho en sintético | proveedor, guardia y runbook |
 | VS-07B simulacros P3 | 2 PASS / 1 BLOCKED | exportador de backup, Prometheus real |
+| VS-07C runbook | documental, sin ensayo | propietario, guardia y canal |
 | `/agente` | founder | autorización expresa |
 | Activos propios / ROE | founder | inventario y permiso |
 | Beta / cliente | founder | despliegue y aceptación |

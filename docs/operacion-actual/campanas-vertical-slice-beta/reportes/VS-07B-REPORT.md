@@ -70,3 +70,5 @@ El gate de operación 24×7 sigue cerrado por proveedor, guardia y runbook.
    `AgntiaBackupVerifyFailed`; repetir el simulacro.
 2. Repetir los tres simulacros tras un `docker compose` real con Prometheus + Alertmanager.
 3. Añadir propietario y runbook por alerta; hoy solo hay `summary`.
+
+**Seguimiento:** P4 documental en [VS-07C-REPORT.md](VS-07C-REPORT.md) y [RUNBOOK-ALERTAS.md](../RUNBOOK-ALERTAS.md); propietario y guardia siguen pendientes.
