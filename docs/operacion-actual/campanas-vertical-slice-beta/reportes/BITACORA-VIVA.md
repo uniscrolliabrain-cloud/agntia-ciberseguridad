@@ -93,8 +93,9 @@ correcciones se añaden como entrada nueva.
 
 ## VS-08 — Adaptador /agente · 2026-11-17 · BLOCKED
 
-- **Inventario:** SDK server-only con 9 métodos; faltan submit de auditoría, cancelación, evidencia,
-  historial de findings y retest.
+- **Inventario:** SDK server-only; se añadieron `submitAudit` (idempotencia en cabecera) y
+  `cancelJob`; siguen faltando evidencia, historial y retest.
+- **Verificación:** SDK 7/8 pass (1 skip de contrato vivo), suite 197 OK.
 - **Mapeo:** status, findings y report cubiertos; request, evidencia y cancelación requieren método;
   retest no tiene ruta.
 - **Entregable:** `VS-08-AGENTE-PATCHSET.md` con contrato, idempotencia y errores.

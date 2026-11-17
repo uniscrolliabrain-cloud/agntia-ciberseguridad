@@ -32,6 +32,21 @@ timeout acotado, cuerpo máximo de 1 MiB, `X-Correlation-ID` propio y errores ti
 6. Eventos: mapear `job.*`, `review.*`, `evidence.*` a un sobre con `tenant_id`, `correlation_id` y
    `causation_id`; hoy `causation_id` se rellena con la correlación (ver VS-01A).
 
+
+## Delta aplicado
+
+Se implementaron en el SDK los dos métodos que no dependían de `/agente`:
+
+- `submitAudit(input, idempotencyKey)`: valida activo, grant, snapshot, hash, herramienta, intentos y
+  coste cero; exige clave de 8–100 y la envía en la cabecera `Idempotency-Key`, nunca en el body.
+- `cancelJob(id, expectedRevision)`: exige revisión no negativa y devuelve el job actualizado.
+
+`#request` acepta cabeceras extra para no exponer un cliente genérico. La prueba nueva cubre
+cabecera idempotente, rechazo de coste distinto de cero, clave corta, asset no hexadecimal y
+revisión negativa.
+
+**Evidencia:** SDK 8 tests, 7 pass, 1 skip (contrato vivo); suite Python 197 OK (8 skipped).
+
 ## Gate
 
 `BLOCKED` para E2E: falta permiso explícito sobre `/agente` y no existe ruta de retest. El patchset

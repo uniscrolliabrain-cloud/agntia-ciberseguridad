@@ -17,10 +17,10 @@ type Options={baseUrl:string;approvedOrigins:readonly string[];tenantId:string;c
 export class CyberClient{
  #url:URL;#tenant:string;#credential:Options['credential'];#fetch:typeof fetch;#timeout:number;
  constructor(options:Options){if(typeof window!=='undefined')throw new CyberError('forbidden',403);let u:URL;try{u=new URL(options.baseUrl);}catch{throw new CyberError('validation',422);}if(!options.approvedOrigins.includes(u.origin)||u.username||u.password||u.search||u.hash||u.pathname!=='/'||!(u.protocol==='https:'||(u.protocol==='http:'&&['localhost','127.0.0.1','[::1]'].includes(u.hostname))))throw new CyberError('validation',422);this.#url=u;this.#tenant=tenant(options.tenantId);this.#credential=options.credential;this.#fetch=options.fetch??fetch;this.#timeout=options.timeoutMs??5000;if(!Number.isInteger(this.#timeout)||this.#timeout<10||this.#timeout>30000)throw new CyberError('validation',422);}
- async #request<T>(method:'GET'|'POST',path:string,parse:(v:unknown)=>T,body?:unknown):Promise<T>{
+ async #request<T>(method:'GET'|'POST',path:string,parse:(v:unknown)=>T,body?:unknown,extra?:Record<string,string>):Promise<T>{
   const controller=new AbortController();const timer=setTimeout(()=>controller.abort(),this.#timeout);
   try{const token=await this.#credential();if(!/^[\x21-\x7E]{24,512}$/.test(token))throw new CyberError('auth',401);
-   const headers:Record<string,string>={Authorization:`Bearer ${token}`,'X-Correlation-ID':crypto.randomUUID(),Accept:'application/json'};if(body!==undefined)headers['Content-Type']='application/json';
+   const headers:Record<string,string>={Authorization:`Bearer ${token}`,'X-Correlation-ID':crypto.randomUUID(),Accept:'application/json'};if(body!==undefined)headers['Content-Type']='application/json';if(extra)Object.assign(headers,extra);
    const response=await this.#fetch(new URL(`/v1/tenants/${this.#tenant}/${path}`,this.#url),{method,headers,body:body===undefined?undefined:JSON.stringify(body),redirect:'error',cache:'no-store',signal:controller.signal});
    if(!response.headers.get('content-type')?.includes('application/json'))throw new CyberError('contract',502);
    if(Number(response.headers.get('content-length')??0)>1048576){await response.body?.cancel();throw new CyberError('contract',502);}
@@ -41,4 +41,17 @@ export class CyberClient{
  report(value:string):Promise<RecordValue>{return this.#request('GET',`reports/${id(value)}`,v=>{const r=object(v);if(r.tenant_id!==this.#tenant||r.id!==value)throw Error('contract');return r;});}
  auditPreview(input:unknown):Promise<RecordValue>{const p=closed(input,['asset_id','grant_id','profile','requests','maximum_cost_cents']);id(p.asset_id);id(p.grant_id);if(p.profile!=='static_read'||p.maximum_cost_cents!==0||integer(p.requests,1000)<1)throw new CyberError('validation',422);return this.#request('POST','audits/preview',v=>{const r=object(v);if(r.asset_id!==p.asset_id||r.grant_id!==p.grant_id||r.status!=='preflight_passed'||r.security_scan_executed!==false||r.budget_reserved!==false)throw Error('contract');return r;},p);}
  governedRead(input:{token:string;capability:'assets.read'|'findings.read'|'jobs.read';resource_id:string}):Promise<DelegatedRead>{const p=closed(input,['token','capability','resource_id']);str(p.token);id(p.resource_id);if(!['assets.read','findings.read','jobs.read'].includes(String(p.capability)))throw new CyberError('validation',422);return this.#request('POST','delegations/use',delegated,p);}
+ submitAudit(input:unknown,idempotencyKey:string):Promise<Job&{replayed:boolean}>{
+  const p=closed(input,['asset_id','grant_id','snapshot_id','snapshot_hash','expected_grant_revision','tool','max_attempts','maximum_cost_cents','profile']);
+  id(p.asset_id);id(p.grant_id);id(p.snapshot_id);str(p.snapshot_hash,/^[a-f0-9]{64}$/);integer(p.expected_grant_revision);
+  if(!['gitleaks','osv','semgrep','trivy'].includes(String(p.tool))||p.maximum_cost_cents!==0)throw new CyberError('validation',422);
+  if(!Number.isInteger(p.max_attempts)||(p.max_attempts as number)<1||(p.max_attempts as number)>3)throw new CyberError('validation',422);
+  if(p.profile!==undefined&&p.profile!=='static_read')throw new CyberError('validation',422);
+  if(typeof idempotencyKey!=='string'||!/^[A-Za-z0-9_-]{8,100}$/.test(idempotencyKey))throw new CyberError('validation',422);
+  return this.#request('POST','audits',v=>{const r=job(v);const raw=object(v);if(typeof raw.replayed!=='boolean'||r.tenant_id!==this.#tenant)throw Error('contract');return {...r,replayed:raw.replayed};},p,{'Idempotency-Key':idempotencyKey});
+ }
+ cancelJob(value:string,expectedRevision:number):Promise<Job>{
+  const target=id(value);if(!Number.isInteger(expectedRevision)||expectedRevision<0)throw new CyberError('validation',422);
+  return this.#request('POST',`jobs/${target}/cancel`,v=>{const r=job(v);if(r.id!==value||r.tenant_id!==this.#tenant)throw Error('contract');return r;},{expected_revision:expectedRevision});
+ }
 }
