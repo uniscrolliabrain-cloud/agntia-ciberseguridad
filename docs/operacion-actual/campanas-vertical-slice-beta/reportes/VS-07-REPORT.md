@@ -53,3 +53,5 @@ que la observabilidad **pierde señales** bajo carga; debe vigilarse con la aler
 
 `PARTIAL`: instrumentación y reglas verificadas; entrega real `BLOCKED` por receptor. No se marca
 PASS de observabilidad operativa.
+
+**Seguimiento:** entrega y acuse en [VS-07A-REPORT.md](VS-07A-REPORT.md); simulacros P3 en [VS-07B-REPORT.md](VS-07B-REPORT.md) (2 PASS, backup BLOCKED por falta de señal).

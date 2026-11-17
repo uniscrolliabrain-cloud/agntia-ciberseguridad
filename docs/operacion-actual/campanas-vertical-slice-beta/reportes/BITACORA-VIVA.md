@@ -131,6 +131,34 @@ correcciones se añaden como entrada nueva.
 - **Sin fuga:** texto libre del emisor (incluido canario) no aparece ni en el acuse ni en el estado.
 - **Sigue bloqueado:** proveedor real, escalado a persona y runbook. El acuse no es contención.
 
+## VS-05A — Parada ordenada del worker · 2026-11-17 · PARTIAL alto
+
+- **Base:** `acccf0d`. **Rama:** `docs/cyber-bitacora-viva`. **PR:** #17.
+- **Construido:** `agntia_ciberseguridad/jobs/runner.py` con `serve()` (un intento por iteración) y
+  `ShutdownWatch` para `SIGTERM`/`SIGINT`, con restauración de handlers.
+- **Semántica:** parada entre iteraciones no reclama nada; parada con intento en vuelo espera una
+  gracia acotada y, si expira, cancela → el job queda `reconciliation_required` /
+  `worker_cancelled`, sin resultado persistido y sin reintento ciego.
+- **Probado:** 7 tests, incluido `SIGTERM` real entre procesos (exit 0, `cancelled: 1`,
+  `results: []`) y persistencia con `job_results` vacío.
+- **Sigue abierto:** binario/cola de worker, multiproceso real con dos workers y DLQ.
+- **Gate:** cierra el hueco SIGTERM de VS-05; no se marca PASS de operación.
+- **Informe:** `VS-05A-REPORT.md`.
+
+## VS-07B — Simulacros P3 · 2026-11-17 · PARTIAL
+
+- **Base:** `acccf0d`. **Rama:** `docs/cyber-bitacora-viva`. **PR:** #17.
+- **D1 escáner caído:** PASS; dos intentos fallidos → `failed`, cobertura incompleta, alerta
+  `AgntiaDeclaredScanCoverageIncomplete` entregada y acusada (`contained: false`), duplicado deduplicado.
+- **D2 backup fallido:** **BLOCKED**; el fallo es cerrado (`lab_only`, `backup_key_unavailable`) pero
+  no existe métrica ni regla de backup, así que nadie se entera. Declarado, no maquillado.
+- **D3 presupuesto agotado:** PASS tras cerrar un punto ciego real: el rechazo `quota`/429 ocurría
+  antes de crear el job y no tocaba ninguna métrica. Añadidos `agntia_job_admission_rejections_total`
+  (etiqueta acotada `reason`) y la regla `AgntiaAttemptBudgetExhausted` (6.ª regla del grupo).
+- **Probado:** 3 simulacros OK, 6 tests de entrega OK, suite **215 OK (8 skipped)**, validador PASS.
+- **Sigue bloqueado:** proveedor, guardia, runbook y exportador de backup.
+- **Informe:** `VS-07B-REPORT.md`.
+
 ## Cola y dependencias
 
 | Campaña | Carril | Bloqueo |
@@ -138,9 +166,11 @@ correcciones se añaden como entrada nueva.
 | VS-02 | autónomo (CI) | ninguno técnico; requiere push del workflow |
 | VS-03 | autónomo parcial | gestor real y credenciales |
 | VS-04 custodia/KMS | P0/P1 hechos, P2 bloqueado | proveedor, clave y RPO/RTO |
-| VS-05+ endurecimiento | autónomo | revisión de contrato |
+| VS-05A SIGTERM | hecho en sintético | cola y host del worker |
+| VS-05+ DLQ y multiproceso | autónomo | decisión de despliegue |
 | VS-06B dependencias | hecho en local | falta run de CI |
 | VS-07A entrega de alertas | hecho en sintético | proveedor, guardia y runbook |
+| VS-07B simulacros P3 | 2 PASS / 1 BLOCKED | exportador de backup, Prometheus real |
 | `/agente` | founder | autorización expresa |
 | Activos propios / ROE | founder | inventario y permiso |
 | Beta / cliente | founder | despliegue y aceptación |

@@ -27,3 +27,5 @@ Multiproceso real, SIGTERM de contenedor, cancelación tras efecto externo y aus
 ## Gate
 
 PARTIAL: doble ejecución y estados recuperables cubiertos; cancelación en proceso probada.
+
+**Seguimiento:** SIGTERM, SIGINT y cancelación acotada cerrados en [VS-05A-REPORT.md](VS-05A-REPORT.md); multiproceso con proveedor y DLQ siguen abiertos.
