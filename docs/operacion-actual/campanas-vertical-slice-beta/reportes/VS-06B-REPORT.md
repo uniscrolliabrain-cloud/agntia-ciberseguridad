@@ -68,3 +68,5 @@ Esto cierra el hallazgo P1 de VS-06 ("nada impide fusionar una dependencia vulne
   integridad PASS; `releasecheck.py --production` sigue en **1** (fail-closed).
 - Comandos del workflow de auditoría simulados en venv limpio: ambos con exit **0**; con el pin
   anterior, el mismo auditor devuelve las 2 CVE y exit **1**.
+
+**Seguimiento:** el «aún sin run de CI» queda cerrado por [VS-06C-REPORT.md](VS-06C-REPORT.md), con los runs `44084229258` y `44084241625` en `success` sobre `7fdb14e`. La atestación externa y el run en `main` siguen pendientes.
