@@ -91,6 +91,16 @@ correcciones se añaden como entrada nueva.
 - **Gate:** PARTIAL; entrega de alarmas BLOCKED.
 - **Informe:** `VS-07-REPORT.md`.
 
+## VS-08 — Adaptador /agente · 2026-11-17 · BLOCKED
+
+- **Inventario:** SDK server-only con 9 métodos; faltan submit de auditoría, cancelación, evidencia,
+  historial de findings y retest.
+- **Mapeo:** status, findings y report cubiertos; request, evidencia y cancelación requieren método;
+  retest no tiene ruta.
+- **Entregable:** `VS-08-AGENTE-PATCHSET.md` con contrato, idempotencia y errores.
+- **Gate:** BLOCKED; no se tocó `/agente` ni se pidieron privilegios.
+- **Informe:** `VS-08-REPORT.md`.
+
 ## Cola y dependencias
 
 | Campaña | Carril | Bloqueo |
