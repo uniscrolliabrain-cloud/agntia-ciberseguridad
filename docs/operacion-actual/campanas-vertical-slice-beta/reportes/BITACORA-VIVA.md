@@ -49,13 +49,24 @@ correcciones se añaden como entrada nueva.
   revocación.
 - **Informe:** `VS-03-REPORT.md`.
 
+## VS-04 — Custodia, backup y restore · 2026-11-16 · BLOCKED en externo
+
+- **P0:** el middleware cifra con AES-GCM, AAD por tenant y clave desde `EnvRef`, pero **no tiene
+  backup ni restore**; el laboratorio sí tiene `backup`/`restore` con hashes y rotación de claves,
+  solo en local.
+- **P1:** envelope de clave con `key_version`, almacén externo por tenant, manifiesto de backup y
+  RPO/RTO medibles.
+- **Gate:** `BLOCKED` hasta que el founder elija storage/KMS y apruebe coste. No se simula restore
+  externo con disco local.
+- **Informe:** `VS-04-REPORT.md`.
+
 ## Cola y dependencias
 
 | Campaña | Carril | Bloqueo |
 |---|---|---|
 | VS-02 | autónomo (CI) | ninguno técnico; requiere push del workflow |
 | VS-03 | autónomo parcial | gestor real y credenciales |
-| VS-04 custodia/KMS | autónomo parcial | proveedor y clave |
+| VS-04 custodia/KMS | P0/P1 hechos, P2 bloqueado | proveedor, clave y RPO/RTO |
 | VS-05+ endurecimiento | autónomo | revisión de contrato |
 | `/agente` | founder | autorización expresa |
 | Activos propios / ROE | founder | inventario y permiso |
