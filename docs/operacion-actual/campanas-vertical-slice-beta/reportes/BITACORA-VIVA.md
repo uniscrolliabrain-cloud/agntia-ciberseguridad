@@ -80,6 +80,17 @@ correcciones se añaden como entrada nueva.
 - **Gate:** BLOCKED; suite 197 OK tras revertir.
 - **Informe:** `VS-06-REPORT.md`.
 
+## VS-07 — Observabilidad y alertas · 2026-11-17 · PARTIAL
+
+- **Inventario:** métricas por operación/estado, histograma, cobertura, logs acotados y 5 reglas en
+  `alerts.yaml`; colector fijado por digest y CI propio.
+- **Medido:** p50 6,04 ms / p95 7,02 ms (200 req); p95 7,19 ms con concurrencia 10; 0 errores
+  inesperados; 71 señales de logs descartadas bajo carga.
+- **Bloqueos:** `verify_observability.py` requiere Docker (no disponible aquí) y no hay receptor
+  real ni acuse.
+- **Gate:** PARTIAL; entrega de alarmas BLOCKED.
+- **Informe:** `VS-07-REPORT.md`.
+
 ## Cola y dependencias
 
 | Campaña | Carril | Bloqueo |
