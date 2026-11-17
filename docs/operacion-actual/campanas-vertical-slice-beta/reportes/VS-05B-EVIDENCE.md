@@ -61,6 +61,15 @@ Ran 223 tests in 35.626s
 OK (skipped=8)
 ```
 
+## CI real
+
+`Foundation runtime` (`.github/workflows/runtime.yml`) ejecuta `python -m unittest discover -s tests -v`
+en la matriz Python 3.11/3.12. Sobre `1c9effb`, run `44117353836` (evento `push`): **success**.
+
+Eso importa por dos motivos: la prueba multiproceso —que lanza dos procesos hijos con
+`sys.executable -c`— no falla en un runner limpio, y las 7 pruebas unitarias del libro de backup pasan
+en 3.11 y 3.12, no solo en el 3.12 de este entorno local.
+
 ## Límites medidos, no supuestos
 
 - `claim` aplica `global_limit=2, tenant_limit=1, tool_limit=1` por defecto, y el fixture tiene un solo
