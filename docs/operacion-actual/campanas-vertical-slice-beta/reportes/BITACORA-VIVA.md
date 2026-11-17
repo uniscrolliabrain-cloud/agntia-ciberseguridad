@@ -38,12 +38,16 @@ correcciones se añaden como entrada nueva.
 - **Gates:** G2 y G3 pasan en sintético; auditoría externa sigue pendiente.
 - **Informe:** `VS-02-REPORT.md`.
 
-## VS-03 — Secretos · no iniciada
+## VS-03 — Secretos e identidad · 2026-11-16 · PARTIAL
 
-- **Puede ejecutarse en autónomo:** adaptadores e interfaz con backend falso; no la revocación real.
-- **Bloqueo:** cuenta de gestor de secretos y valores; los aporta el founder.
-- **Criterio de cierre:** interfaz `SecretStore`, adaptador de fichero para tests, pruebas de
-  revocación/idempotencia, y `BLOCKED` explícito para el backend real.
+- **P0/P1:** inventario de 6 tipos de referencia (`token_env`, `key_refs`, `key_env`,
+  `metrics_token_env`, `delegation_key_env`, `emergency_token_env`), todos sin valor en repo, con
+  validadores que impiden compartir referencias operativas.
+- **P3:** revocación, expiración, tenant cruzado y replay ya cubiertos por tests citados.
+- **Huecos:** sin gestor (P2 BLOCKED), sin TTL por token, sin prueba de no fuga en logs.
+- **Decisión:** no se crea un `SecretStore` nuevo porque duplicaría el patrón existente sin aportar
+  revocación.
+- **Informe:** `VS-03-REPORT.md`.
 
 ## Cola y dependencias
 
