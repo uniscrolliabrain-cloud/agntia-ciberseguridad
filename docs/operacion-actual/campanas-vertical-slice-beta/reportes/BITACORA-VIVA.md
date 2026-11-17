@@ -44,7 +44,8 @@ correcciones se añaden como entrada nueva.
   `metrics_token_env`, `delegation_key_env`, `emergency_token_env`), todos sin valor en repo, con
   validadores que impiden compartir referencias operativas.
 - **P3:** revocación, expiración, tenant cruzado y replay ya cubiertos por tests citados.
-- **Huecos:** sin gestor (P2 BLOCKED), sin TTL por token, sin prueba de no fuga en logs.
+- **Huecos:** sin gestor (P2 BLOCKED), sin TTL por token; la fuga en logs ya tiene prueba
+  (`test_secret_leakage.py`).
 - **Decisión:** no se crea un `SecretStore` nuevo porque duplicaría el patrón existente sin aportar
   revocación.
 - **Informe:** `VS-03-REPORT.md`.

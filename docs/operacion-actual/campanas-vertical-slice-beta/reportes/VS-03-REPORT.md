@@ -51,8 +51,9 @@ central.
 1. **No hay gestor**: sin revocación remota, versionado ni auditoría de acceso a secretos. P2
    bloqueado hasta que exista cuenta y credenciales; no se inventa adaptador.
 2. **Sin TTL por token**: solo `expires_at` por principal. Rotación manual.
-3. **Sin prueba de fuga en logs**: no hay test que intente serializar un valor de entorno en
-   telemetría o error. Es el siguiente delta ejecutable sin gestor.
+3. **Prueba de fuga en logs añadida:** `tests/security/test_secret_leakage.py` pasa un canario de
+   entorno como `authorization`, payload y excepción; el esquema cerrado lo descarta y el valor no
+   aparece en la búsqueda. Cubre logs operativos, no volcados de proceso.
 4. **Referencias de clave de evidencia sin versión**: `key_refs` es lista, pero no se registra qué
    versión cifró cada blob; corresponde a VS-04.
 
