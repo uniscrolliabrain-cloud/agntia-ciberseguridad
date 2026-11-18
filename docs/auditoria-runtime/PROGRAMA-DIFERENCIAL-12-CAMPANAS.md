@@ -1,3 +1,6 @@
+> **ACTUALIZACIÓN 2026-11-18 — ESTADO DE EJECUCIÓN**
+> La auditoría consolidada de los dos repositorios está en [`AUDITORIA-COMPLETA-2026-11-18.md`](./AUDITORIA-COMPLETA-2026-11-18.md): campañas C01–C10 con evidencia ejecutada, hallazgos I-01…I-11 y límites. **CY-R02…CY-R12 siguen PLANIFICADAS y no ejecutadas**: esta fecha no las declara cumplidas. Los patchsets aplicados en el hijo y los propuestos para el padre están en [`PATCHSETS-2026-11-18.md`](../integration/PATCHSETS-2026-11-18.md).
+
 > **ACTUALIZACIÓN 2026-11-15 — LEE ESTO ANTES DEL TEXTO**
 > Base medida: `main@dd18f2a` + AD-01 `c57251c` · 196 tests Python OK (8 skips) · SDK 6/1 · 84 rutas `/v1` · esquema 8 · demo sintética, `production_enabled=false` · 2 PASS / 40 PARTIAL · sin PR ni revisión independiente.
 > **Vigente aquí:** CY-R02…CY-R12 siguen sin ejecutar; su protocolo y gates siguen vigentes.
