@@ -30,4 +30,29 @@ test('audit submit uses idempotency header; cancel sends revision',async()=>{
  assert.equal(cancelled.id,reply.id);
  assert.throws(()=>c.cancelJob(reply.id,-1),e=>e.kind==='validation');
 });
-test('live Python contract when started by test_python_ts',async t=>{if(!process.env.CYBER_CONTRACT_URL){t.skip('Run Python test_python_ts for live contract');return;}const c=new CyberClient({baseUrl:process.env.CYBER_CONTRACT_URL,approvedOrigins:[process.env.CYBER_CONTRACT_URL],tenantId:'tenantA',credential:()=>process.env.CYBER_CONTRACT_TOKEN});const page=await c.assets({limit:1});assert.equal(page.items.length,1);assert.equal(page.items[0].tenant_id,'tenantA');assert.equal((await c.budget()).status,'not_configured');await assert.rejects(c.job('f'.repeat(32)),e=>e.kind==='not_found');assert.equal((await c.outbox('contract-consumer')).delivery,'at_least_once');});
+test('live Python contract when started by test_python_ts',async t=>{if(!process.env.CYBER_CONTRACT_URL){t.skip('Run Python test_python_ts for live contract');return;}const c=new CyberClient({baseUrl:process.env.CYBER_CONTRACT_URL,approvedOrigins:[process.env.CYBER_CONTRACT_URL],tenantId:'tenantA',credential:()=>process.env.CYBER_CONTRACT_TOKEN});const page=await c.assets({limit:1});assert.equal(page.items.length,1);assert.equal(page.items[0].tenant_id,'tenantA');assert.equal((await c.budget()).status,'not_configured');await assert.rejects(c.job('f'.repeat(32)),e=>e.kind==='not_found');assert.equal((await c.outbox('contract-consumer')).delivery,'at_least_once');
+const pending=await c.outbox('contract-consumer');assert.equal(pending.events.length,1);const item=pending.events[0];
+await assert.rejects(c.ackOutbox(item.envelope.id,{consumer_id:'contract-consumer',content_hash:item.content_hash}),e=>e.kind==='forbidden');
+const reviewer=new CyberClient({baseUrl:process.env.CYBER_CONTRACT_URL,approvedOrigins:[process.env.CYBER_CONTRACT_URL],tenantId:'tenantA',credential:()=>process.env.CYBER_CONTRACT_ACK_TOKEN});
+assert.equal((await reviewer.ackOutbox(item.envelope.id,{consumer_id:'contract-consumer',content_hash:item.content_hash})).duplicate,false);
+assert.equal((await reviewer.ackOutbox(item.envelope.id,{consumer_id:'contract-consumer',content_hash:item.content_hash})).duplicate,true);
+assert.equal((await c.outbox('contract-consumer')).events.length,0);
+const other=new CyberClient({baseUrl:process.env.CYBER_CONTRACT_URL,approvedOrigins:[process.env.CYBER_CONTRACT_URL],tenantId:'tenantB',credential:()=>process.env.CYBER_CONTRACT_ACK_TOKEN});
+await assert.rejects(other.ackOutbox(item.envelope.id,{consumer_id:'contract-consumer',content_hash:item.content_hash}),e=>e.kind==='not_found');
+});
+
+test('outbox ACK has closed input/path/receipt and never blindly retries a lost POST',async()=>{
+ const eventId='d'.repeat(32),content_hash='e'.repeat(64),consumer_id='contract-consumer';let received,calls=0;
+ const c=make(async(url,opts)=>{calls++;received={url:String(url),opts};return json({id:eventId,acknowledged:true,duplicate:false});});
+ assert.deepEqual(await c.ackOutbox(eventId,{consumer_id,content_hash}),{id:eventId,acknowledged:true,duplicate:false});
+ assert.equal(received.url,'http://127.0.0.1:8911/v1/tenants/tenantA/outbox/'+eventId+'/ack');
+ assert.equal(received.opts.method,'POST');assert.deepEqual(JSON.parse(received.opts.body),{consumer_id,content_hash});
+ assert.throws(()=>c.ackOutbox('../shell',{consumer_id,content_hash}),e=>e.kind==='validation');
+ assert.throws(()=>c.ackOutbox(eventId,{consumer_id,content_hash,tenant_id:'tenantB'}),e=>e.kind==='validation');
+ assert.throws(()=>c.ackOutbox(eventId,{consumer_id:'../tenantB',content_hash}),e=>e.kind==='validation');
+ assert.throws(()=>c.ackOutbox(eventId,{consumer_id,content_hash:'bad'}),e=>e.kind==='validation');
+ assert.equal(calls,1);
+ await assert.rejects(make(async()=>json({id:'f'.repeat(32),acknowledged:true,duplicate:false})).ackOutbox(eventId,{consumer_id,content_hash}),e=>e.kind==='contract');
+ await assert.rejects(make(async()=>json({id:eventId,acknowledged:false,duplicate:false})).ackOutbox(eventId,{consumer_id,content_hash}),e=>e.kind==='contract');
+ let failed=0;await assert.rejects(make(async()=>{failed++;throw Error('lost ACK response');}).ackOutbox(eventId,{consumer_id,content_hash}),e=>e.kind==='reconciliation_required');assert.equal(failed,1);
+});

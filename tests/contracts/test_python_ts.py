@@ -21,6 +21,9 @@ class PythonTypeScriptTests(unittest.TestCase):
         try:
             actor=fixture.service.auth.authenticate(fixture.headers()['Authorization'])
             fixture.service.create_asset(actor,'tenantA',AssetCreate(target_ref='repoA',kind='repository',display_name='Synthetic contract asset'),'fixture')
+            reviewer=fixture.service.auth.authenticate(fixture.headers('reviewerA')['Authorization'])
+            with fixture.service.db.transaction() as db:
+                fixture.service.db.audit(db,'tenantA',reviewer.actor_id,'job.partial','a'*32,'synthetic-sdk-ack',{})
             built=ROOT/'typescript/dist/client.js'
             if not built.is_file():
                 result=subprocess.run(['node','typescript/build-runtime.mjs'],cwd=ROOT,capture_output=True,text=True,timeout=20)
@@ -36,7 +39,7 @@ class PythonTypeScriptTests(unittest.TestCase):
                 if server.started:break
                 time.sleep(.02)
             self.assertTrue(server.started)
-            env={**os.environ,'CYBER_CONTRACT_URL':f'http://127.0.0.1:{port}','CYBER_CONTRACT_TOKEN':fixture.tokens['viewerA']}
+            env={**os.environ,'CYBER_CONTRACT_URL':f'http://127.0.0.1:{port}','CYBER_CONTRACT_TOKEN':fixture.tokens['viewerA'],'CYBER_CONTRACT_ACK_TOKEN':fixture.tokens['reviewerA']}
             result=subprocess.run(['node','--test','--test-isolation=none','typescript/test/client.test.mjs'],cwd=ROOT,env=env,capture_output=True,text=True,timeout=30)
             self.assertEqual(result.returncode,0,result.stdout+result.stderr)
             self.assertIn('pass',result.stdout)
