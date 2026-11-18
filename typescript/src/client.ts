@@ -1,6 +1,12 @@
 import {asset,budget,closed as wireClosed,delegated,integer as wireInteger,job,object,page,id as wireId,tenant as wireTenant,str as wireStr,type Asset,type Budget,type DelegatedRead,type Job,type Page,type RecordValue} from './contracts.js';
 export type ErrorKind='auth'|'forbidden'|'not_found'|'validation'|'conflict'|'unavailable'|'timeout'|'contract'|'reconciliation_required'|'unsupported'|'rate_limit';
-export class CyberError extends Error{constructor(public readonly kind:ErrorKind,public readonly status:number,public readonly retryable=false,public readonly correlationId:string|null=null){super(`Cyber middleware: ${kind}`);this.name='CyberError';}}
+export class CyberError extends Error{
+ readonly kind:ErrorKind;readonly status:number;readonly retryable:boolean;readonly correlationId:string|null;
+ constructor(kind:ErrorKind,status:number,retryable=false,correlationId:string|null=null){
+  super(`Cyber middleware: ${kind}`);this.name='CyberError';
+  this.kind=kind;this.status=status;this.retryable=retryable;this.correlationId=correlationId;
+ }
+}
 function checked<T>(parse:()=>T):T{try{return parse();}catch{throw new CyberError('validation',422);}}
 const closed=(...p:Parameters<typeof wireClosed>)=>checked(()=>wireClosed(...p));
 const integer=(...p:Parameters<typeof wireInteger>)=>checked(()=>wireInteger(...p));
