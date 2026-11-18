@@ -1,0 +1,18 @@
+{
+  "generator": "typescript/scripts/provenance.mjs",
+  "name": "@agntia/ciberseguridad",
+  "version": "0.1.0-alpha.3",
+  "files": {
+    "README.md": "346c09625f5314a24b4ad6d670ab9758ce823244ff705b301405bb6f08bf399c",
+    "package.json": "11507906dc2e4d005d0f1f96d1bc02047cf3d110683366bdbc9ae890865d5a60",
+    "dist/agent-tools.d.ts": "96a9f9a20fd3bf4f770afa51c70f95535745bc66c780a31fb204859e638d6bdc",
+    "dist/agent-tools.js": "6f6a2d8f1656c32d799f1106b3e7dae07f9fdff1721727f36f4dc073f0a6cfbe",
+    "dist/client.d.ts": "268e440dbc6880a5685a3c2ad78599e3373b11943096a437776d64ee85f7edbc",
+    "dist/client.js": "42b7999366606be9a2a3266f03a66d7f8e174aac30d5489a4beda3b23406a69c",
+    "dist/contracts.d.ts": "0b30e369c97156ea1909cfdd686c83e181c72c9a66d7d0b04771befb3f99ea51",
+    "dist/contracts.js": "763cf87e573f04adba9a08b56b6697bd49efecd2bee694740f107159f1a24e57",
+    "dist/hono.d.ts": "fb36f2277f5fee2f613c09895523c4d9f9db2080d37f60fa1d480fdc0ac3e025",
+    "dist/hono.js": "4339a701df0fc9a06cf4bc52d2227ae8d35b3dd73e73be67246c1d1f08991fd0"
+  },
+  "content_digest": "07220f6695abef22f2823494e065820dc48ed606c89399c7e0a433268bbffe7a"
+}

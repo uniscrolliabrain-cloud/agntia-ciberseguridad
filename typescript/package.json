@@ -1,6 +1,6 @@
 {
   "name": "@agntia/ciberseguridad",
-  "version": "0.1.0-alpha.2",
+  "version": "0.1.0-alpha.3",
   "private": true,
   "type": "module",
   "description": "Server-only typed middleware client",
@@ -11,7 +11,10 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "test": "npm run build && node --test --test-isolation=none test/*.test.mjs"
+    "test": "npm run build && node --test --test-isolation=none test/*.test.mjs",
+    "pack:deterministic": "npm run build && node scripts/pack.mjs",
+    "provenance:write": "npm run build && node scripts/provenance.mjs --write",
+    "provenance:check": "npm run build && node scripts/provenance.mjs --check"
   },
   "dependencies": {
     "hono": "4.13.18"
@@ -24,7 +27,8 @@
   },
   "files": [
     "dist",
-    "README.md"
+    "README.md",
+    "PROVENANCE.json"
   ],
   "license": "UNLICENSED"
 }
