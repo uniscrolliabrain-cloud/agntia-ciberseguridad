@@ -1,29 +1,387 @@
 {
-  "additionalProperties": false,
-  "properties": {
-    "evidence_ids": {
-      "items": {
-        "pattern": "^[a-f0-9]{32}$",
-        "type": "string"
+  "$defs": {
+    "FindingContext": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence_ids": {
+          "items": {
+            "pattern": "^[a-f0-9]{32}$",
+            "type": "string"
+          },
+          "maxItems": 100,
+          "title": "Evidence Ids",
+          "type": "array"
+        },
+        "exposure": {
+          "enum": [
+            "unknown",
+            "internal",
+            "public",
+            "restricted"
+          ],
+          "title": "Exposure",
+          "type": "string"
+        },
+        "sensitivity": {
+          "enum": [
+            "unknown",
+            "ordinary",
+            "sensitive"
+          ],
+          "title": "Sensitivity",
+          "type": "string"
+        },
+        "source": {
+          "const": "human_declared",
+          "title": "Source",
+          "type": "string"
+        }
       },
-      "maxItems": 100,
-      "title": "Evidence Ids",
-      "type": "array"
+      "required": [
+        "exposure",
+        "sensitivity",
+        "source"
+      ],
+      "title": "FindingContext",
+      "type": "object"
     },
-    "fingerprint": {
-      "pattern": "^[a-f0-9]{64}$",
-      "title": "Fingerprint",
+    "FindingException": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence_ids": {
+          "items": {
+            "pattern": "^[a-f0-9]{32}$",
+            "type": "string"
+          },
+          "maxItems": 100,
+          "title": "Evidence Ids",
+          "type": "array"
+        },
+        "expires_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expires At"
+        },
+        "proposal_id": {
+          "pattern": "^[a-f0-9]{32}$",
+          "title": "Proposal Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "proposal_id"
+      ],
+      "title": "FindingException",
+      "type": "object"
+    },
+    "FindingRisk": {
+      "additionalProperties": false,
+      "properties": {
+        "context_complete": {
+          "title": "Context Complete",
+          "type": "boolean"
+        },
+        "exploitation": {
+          "const": "unknown",
+          "default": "unknown",
+          "title": "Exploitation",
+          "type": "string"
+        },
+        "exposure": {
+          "enum": [
+            "unknown",
+            "internal",
+            "public",
+            "restricted"
+          ],
+          "title": "Exposure",
+          "type": "string"
+        },
+        "intelligence": {
+          "$ref": "#/$defs/RiskIntelligence"
+        },
+        "policy_version": {
+          "const": "triage-v1",
+          "title": "Policy Version",
+          "type": "string"
+        },
+        "priority": {
+          "enum": [
+            "P0",
+            "P1",
+            "P2",
+            "P3",
+            "needs_context"
+          ],
+          "title": "Priority",
+          "type": "string"
+        },
+        "score": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Score"
+        },
+        "source": {
+          "maxLength": 200,
+          "minLength": 1,
+          "title": "Source",
+          "type": "string"
+        }
+      },
+      "required": [
+        "policy_version",
+        "priority",
+        "context_complete",
+        "exposure",
+        "intelligence",
+        "source"
+      ],
+      "title": "FindingRisk",
+      "type": "object"
+    },
+    "RiskIntelligence": {
+      "additionalProperties": false,
+      "properties": {
+        "cvss": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cvss"
+        },
+        "epss": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Epss"
+        },
+        "kev": {
+          "const": "unknown",
+          "default": "unknown",
+          "title": "Kev",
+          "type": "string"
+        },
+        "source_date": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Date"
+        }
+      },
+      "title": "RiskIntelligence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Current projection returned by findings.list/history after triage.",
+  "properties": {
+    "asset_id": {
+      "pattern": "^[a-f0-9]{32}$",
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "confidence": {
+      "enum": [
+        "tool_reported",
+        "unknown"
+      ],
+      "title": "Confidence",
+      "type": "string"
+    },
+    "context": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/FindingContext"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "due_at": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Due At"
+    },
+    "exception": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/FindingException"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "exception_expired": {
+      "title": "Exception Expired",
+      "type": "boolean"
+    },
+    "exposure": {
+      "default": "unknown",
+      "enum": [
+        "unknown",
+        "internal",
+        "public",
+        "restricted"
+      ],
+      "title": "Exposure",
+      "type": "string"
+    },
+    "first_seen": {
+      "format": "date-time",
+      "title": "First Seen",
       "type": "string"
     },
     "id": {
-      "pattern": "^[a-f0-9]{32}$",
+      "pattern": "^[a-f0-9]{64}$",
       "title": "Id",
       "type": "string"
     },
-    "job_id": {
+    "last_decision_id": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{32}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Last Decision Id"
+    },
+    "last_job_id": {
       "pattern": "^[a-f0-9]{32}$",
-      "title": "Job Id",
+      "title": "Last Job Id",
       "type": "string"
+    },
+    "last_seen": {
+      "format": "date-time",
+      "title": "Last Seen",
+      "type": "string"
+    },
+    "last_snapshot_id": {
+      "pattern": "^[a-f0-9]{32}$",
+      "title": "Last Snapshot Id",
+      "type": "string"
+    },
+    "observation_count": {
+      "minimum": 1,
+      "title": "Observation Count",
+      "type": "integer"
+    },
+    "owner_ref": {
+      "anyOf": [
+        {
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_-]{0,63}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Owner Ref"
+    },
+    "path": {
+      "maxLength": 512,
+      "minLength": 1,
+      "title": "Path",
+      "type": "string"
+    },
+    "reappeared": {
+      "title": "Reappeared",
+      "type": "boolean"
+    },
+    "relation_id": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Relation Id"
+    },
+    "reviewed_at": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Reviewed At"
+    },
+    "reviewed_by": {
+      "anyOf": [
+        {
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_-]{0,63}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Reviewed By"
+    },
+    "revision": {
+      "minimum": 0,
+      "title": "Revision",
+      "type": "integer"
+    },
+    "risk": {
+      "$ref": "#/$defs/FindingRisk"
     },
     "rule_id": {
       "maxLength": 200,
@@ -50,49 +408,47 @@
       "type": "string"
     },
     "state": {
-      "default": "unverified",
       "enum": [
-        "unverified",
+        "suspected",
         "confirmed",
         "false_positive",
-        "resolved"
+        "remediated",
+        "verified_fixed",
+        "accepted_risk",
+        "suppressed"
       ],
       "title": "State",
       "type": "string"
     },
-    "tenant_id": {
-      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_-]{0,63}$",
-      "title": "Tenant Id",
-      "type": "string"
-    },
-    "title": {
-      "maxLength": 300,
-      "minLength": 1,
-      "title": "Title",
-      "type": "string"
-    },
-    "tool_id": {
-      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_-]{0,63}$",
-      "title": "Tool Id",
-      "type": "string"
-    },
-    "tool_version": {
-      "maxLength": 100,
-      "minLength": 1,
-      "title": "Tool Version",
+    "tool": {
+      "enum": [
+        "gitleaks",
+        "osv",
+        "semgrep",
+        "trivy"
+      ],
+      "title": "Tool",
       "type": "string"
     }
   },
   "required": [
     "id",
-    "tenant_id",
-    "job_id",
-    "fingerprint",
+    "asset_id",
+    "tool",
     "rule_id",
-    "tool_id",
-    "tool_version",
+    "path",
+    "revision",
+    "state",
     "severity",
-    "title"
+    "confidence",
+    "first_seen",
+    "last_seen",
+    "observation_count",
+    "reappeared",
+    "last_job_id",
+    "last_snapshot_id",
+    "exception_expired",
+    "risk"
   ],
   "title": "Finding",
   "type": "object"
