@@ -43,6 +43,13 @@ groups:
           severity: warning
         annotations:
           summary: No verified lab backup within the declared window; restore readiness is unknown
+      - alert: AgntiaBackupLedgerCorrupt
+        expr: agntia_backup_ledger_corrupt_total > 0
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: Backup ledger has unreadable lines; backup state is unknown, not recent
       - alert: AgntiaApiPilotErrorBudgetFastBurn
         expr: (sum(rate(agntia_http_requests_total{status="5xx"}[5m])) / clamp_min(sum(rate(agntia_http_requests_total[5m])), 0.000001)) > 0.05
         for: 5m

@@ -135,7 +135,8 @@ class Drill(Setup,unittest.TestCase):
         self.assertLessEqual(self.instant[0]-recovered['agntia_backup_last_success_timestamp_seconds'],93600)
         receipt=self.submit()
         self.page('AgntiaBackupStale',receipt['id'])
-        self.assertEqual([name for name in declare(RULES.read_text()) if 'Backup' in name],['AgntiaBackupStale'])
+        self.assertEqual([name for name in declare(RULES.read_text()) if 'Backup' in name],['AgntiaBackupStale','AgntiaBackupLedgerCorrupt'])
+        self.assertIn('agntia_backup_ledger_corrupt_total',rule('AgntiaBackupLedgerCorrupt')['expr'])
 
     def test_drill_budget_exhausted_pages_before_the_next_admission(self):
         declared=rule('AgntiaAttemptBudgetExhausted')

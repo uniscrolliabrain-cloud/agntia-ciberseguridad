@@ -20,6 +20,9 @@ SAFE_VALUE=re.compile(r'^[A-Za-z0-9_.:-]{1,100}$')
 TRACEPARENT=re.compile(r'^00-[a-f0-9]{32}-[a-f0-9]{16}-[0-9a-f]{2}$')
 def trusted_parent(parent):
     """A stored parent is continued only when well formed, non-zero and sampled."""
+    # An unsampled parent is deliberately not continued: the child span would never be
+    # exported, so the job would run with no telemetry at all. A fresh sampled trace is
+    # preferred over a linked but invisible one. Revisit only together with the sampler.
     if not parent or not TRACEPARENT.fullmatch(parent):return False
     version,trace_id,span_id,flags=parent.split('-')
     return trace_id!='0'*32 and span_id!='0'*16 and bool(int(flags,16)&1)

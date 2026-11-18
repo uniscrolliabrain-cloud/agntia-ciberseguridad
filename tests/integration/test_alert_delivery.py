@@ -2,6 +2,7 @@
 import json
 from pathlib import Path
 import re
+import stat
 import tempfile
 import threading
 import unittest
@@ -46,6 +47,7 @@ class AlertDeliveryTests(unittest.TestCase):
         self.assertTrue(repeated['receipt']['deduplicated'])
         self.assertEqual(repeated['receipt']['receipt_id'],receipt['receipt_id'])
         self.assertEqual(len(self.state.read_text().splitlines()),1)
+        self.assertEqual(stat.S_IMODE(self.state.stat().st_mode),0o600)
     def test_unsigned_tampered_oversized_and_unknown_paths_are_refused(self):
         body=json.dumps(payload()).encode()
         self.assertEqual(self.deliver(body,signature='')[0],401)
@@ -69,7 +71,7 @@ class AlertDeliveryTests(unittest.TestCase):
         self.assertNotIn(sentinel,json.dumps(acknowledged));self.assertNotIn(sentinel,self.state.read_text())
     def test_every_declared_rule_can_be_delivered_and_correlated_to_its_job(self):
         rules=re.findall(r'^\s+- alert:\s*(\w+)\s*$',(ROOT/'infra/observability/alerts.yaml').read_text(),re.M)
-        self.assertEqual(len(rules),7)
+        self.assertEqual(len(rules),8)
         for name in rules:
             status,acknowledged=self.deliver(json.dumps(payload(alertname=name)).encode())
             self.assertEqual(status,202,name);self.assertEqual(acknowledged['receipt']['alertname'],name)

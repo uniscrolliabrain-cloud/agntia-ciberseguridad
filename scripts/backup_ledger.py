@@ -5,8 +5,10 @@ process before an alert can trust it. The ledger holds only the outcome, the dig
 the encrypted bundle and a bounded reason code: no key reference, no path, no tenant, no
 evidence content.
 
-Absence and corruption are reported as unknown, never as a recent success. A backup that
-fails silently is exactly the failure this file exists to make visible.
+Absence and corruption are reported as unknown, never as a recent success. A torn last
+line means the newest attempt was never durably written, so its outcome is unknown and the
+last known success is withheld. A backup that fails silently is exactly the failure this
+file exists to make visible.
 """
 import argparse
 from collections import deque
@@ -57,18 +59,20 @@ def _valid(entry):
 
 def summarize(path,clock=None):
     """Return what the ledger actually supports. Never turns silence into a success."""
-    path=Path(path);entries=[];corrupt=0;records=0
+    path=Path(path);entries=[];corrupt=0;records=0;tail_corrupt=False
     if path.is_file():
         with path.open('r',encoding='utf-8',errors='replace') as handle:
             for line in deque(handle,maxlen=MAX_LINES):
                 if not line.strip():continue
                 records+=1
                 try:entry=json.loads(line)
-                except ValueError:corrupt+=1;continue
-                if not _valid(entry):corrupt+=1;continue
-                entries.append(entry)
+                except ValueError:corrupt+=1;tail_corrupt=True;continue
+                if not _valid(entry):corrupt+=1;tail_corrupt=True;continue
+                entries.append(entry);tail_corrupt=False
     successes=[entry for entry in entries if entry['outcome']=='success']
-    last_success=max(entry['timestamp'] for entry in successes) if successes else None
+    # The newest attempt is unreadable: whether it succeeded is unknown, so do not claim the
+    # previous success as the current state. Silence must not read as a fresh backup.
+    last_success=None if tail_corrupt else (max(entry['timestamp'] for entry in successes) if successes else None)
     last_attempt=max(entry['timestamp'] for entry in entries) if entries else None
     consecutive=0
     for entry in reversed(entries):
@@ -76,7 +80,8 @@ def summarize(path,clock=None):
         consecutive+=1
     now=_now(clock)
     return {'schema_version':1,'records':records,'valid_records':len(entries),'corrupt':corrupt,
-            'last_success':last_success,'last_attempt':last_attempt,'consecutive_failures':consecutive,
+            'tail_corrupt':tail_corrupt,'last_success':last_success,'last_attempt':last_attempt,
+            'consecutive_failures':consecutive,
             'age_seconds':None if last_success is None else round(max(0.0,now-last_success),3)}
 
 def main(argv=None):

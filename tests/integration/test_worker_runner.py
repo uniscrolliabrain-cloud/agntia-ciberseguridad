@@ -46,9 +46,31 @@ class ServeTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(results,[])
         self.assertEqual(worker.cancelled,1)
 
-    async def test_iteration_failure_propagates_and_stops_claiming(self):
+    async def test_repeated_iteration_failures_stop_the_loop_after_the_tolerance(self):
         worker=FakeWorker(0,fail=True)
-        with self.assertRaises(RuntimeError):await serve(worker,max_iterations=3)
+        with self.assertRaises(RuntimeError):await serve(worker,max_iterations=10)
+        self.assertEqual(worker.calls,3)
+
+    async def test_transient_failure_is_reported_and_the_loop_keeps_claiming(self):
+        class Flaky(FakeWorker):
+            async def run_once(self):
+                self.calls+=1
+                if self.calls==1:raise RuntimeError('database is locked')
+                return {'id':'job-%02d'%self.calls,'state':'completed'}
+        worker=Flaky(0);errors=[]
+        results=await serve(worker,max_iterations=2,interval=0,on_error=errors.append)
+        self.assertEqual(worker.calls,2)
+        self.assertEqual([type(error).__name__ for error in errors],['RuntimeError'])
+        self.assertEqual([r['state'] for r in results],['completed'])
+
+    async def test_lost_lease_is_not_retried(self):
+        from agntia_ciberseguridad.errors import DomainError,reject
+        class Stale(FakeWorker):
+            async def run_once(self):
+                self.calls+=1
+                reject('stale_lease','Lease perdido',409)
+        worker=Stale(0)
+        with self.assertRaises(DomainError):await serve(worker,max_iterations=10)
         self.assertEqual(worker.calls,1)
 
     async def test_sigterm_and_sigint_set_the_stop_event_and_restore_handlers(self):
