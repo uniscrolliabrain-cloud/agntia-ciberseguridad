@@ -158,6 +158,16 @@ class ToolTests(GatewaySetup,unittest.TestCase):
         for actor,version,origin in [(self.child,PROTOCOL,None),(self.agent,'wrong',None),(self.agent,PROTOCOL,'https://evil.invalid')]:
             with self.assertRaises(DomainError):self.mcp.handle(actor,'tenantA',manifest['id'],tool['id'],RPC(jsonrpc='2.0',id=1,method='tools/list'),'fixture',session_id=session,protocol=version,origin=origin)
 
+class DelegationProjectionTests(GatewaySetup,unittest.TestCase):
+    def test_findings_read_carries_tenant_id_for_consumer_recheck(self):
+        manifest=self.approved(caps=['findings.read'])
+        grant=self.delegations.issue(self.owner,'tenantA',self.grant(manifest,capabilities=['findings.read']),'fixture')
+        finding={'id':'f'*64,'asset_id':self.fixture.asset['id'],'state':'suspected','severity':'high','revision':0}
+        with self.f.service.db.transaction() as db:
+            db.execute('INSERT INTO finding_current VALUES(?,?,?,?)',('tenantA',finding['id'],finding['asset_id'],canonical(finding)))
+        result=self.delegations.use(self.agent,'tenantA',UseRequest(token=grant['token'],capability='findings.read',resource_id=self.fixture.asset['id']),'fixture')
+        self.assertEqual(result['data'],[{'tenant_id':'tenantA','id':finding['id'],'state':'suspected','severity':'high','revision':0}])
+
 class EffectTests(GatewaySetup,unittest.TestCase):
     def test_reviewed_local_effect_replay_is_one_note_with_zero_cost(self):
         grant,proposal=self.note()

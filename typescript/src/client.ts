@@ -43,7 +43,8 @@ export class CyberClient{
  auditPreview(input:unknown):Promise<RecordValue>{const p=closed(input,['asset_id','grant_id','profile','requests','maximum_cost_cents']);id(p.asset_id);id(p.grant_id);if(p.profile!=='static_read'||p.maximum_cost_cents!==0||integer(p.requests,1000)<1)throw new CyberError('validation',422);return this.#request('POST','audits/preview',v=>{const r=object(v);if(r.asset_id!==p.asset_id||r.grant_id!==p.grant_id||r.status!=='preflight_passed'||r.security_scan_executed!==false||r.budget_reserved!==false)throw Error('contract');return r;},p);}
  governedRead(input:{token:string;capability:'assets.read'|'findings.read'|'jobs.read';resource_id:string}):Promise<DelegatedRead>{const p=closed(input,['token','capability','resource_id']);str(p.token);id(p.resource_id);if(!['assets.read','findings.read','jobs.read'].includes(String(p.capability)))throw new CyberError('validation',422);return this.#request('POST','delegations/use',delegated,p);}
  submitAudit(input:unknown,idempotencyKey:string):Promise<Job&{replayed:boolean}>{
-  const p=closed(input,['asset_id','grant_id','snapshot_id','snapshot_hash','expected_grant_revision','tool','max_attempts','maximum_cost_cents','profile']);
+  const p=closed(input,['schema_version','asset_id','grant_id','snapshot_id','snapshot_hash','expected_grant_revision','tool','max_attempts','maximum_cost_cents','profile']);
+  if(p.schema_version!==undefined&&p.schema_version!==1)throw new CyberError('validation',422);
   id(p.asset_id);id(p.grant_id);id(p.snapshot_id);str(p.snapshot_hash,/^[a-f0-9]{64}$/);integer(p.expected_grant_revision);
   if(!['gitleaks','osv','semgrep','trivy'].includes(String(p.tool))||p.maximum_cost_cents!==0)throw new CyberError('validation',422);
   if(!Number.isInteger(p.max_attempts)||(p.max_attempts as number)<1||(p.max_attempts as number)>3)throw new CyberError('validation',422);
@@ -54,5 +55,41 @@ export class CyberClient{
  cancelJob(value:string,expectedRevision:number):Promise<Job>{
   const target=id(value);if(!Number.isInteger(expectedRevision)||expectedRevision<0)throw new CyberError('validation',422);
   return this.#request('POST',`jobs/${target}/cancel`,v=>{const r=job(v);if(r.id!==value||r.tenant_id!==this.#tenant)throw Error('contract');return r;},{expected_revision:expectedRevision});
+ }
+ createManifest(input:unknown):Promise<RecordValue>{
+  const p=closed(input,['schema_version','agent_binding','version','artifact_hash','provider','capabilities','resource_ids','data_classification','network','tool_ids','schema_ref']);
+  if(p.schema_version!==undefined&&p.schema_version!==1)throw new CyberError('validation',422);
+  tenant(p.agent_binding);tenant(p.version);str(p.artifact_hash,/^[a-f0-9]{64}$/);
+  if(p.provider!==undefined&&!['self_hosted','external_declared'].includes(String(p.provider)))throw new CyberError('validation',422);
+  if(p.data_classification!==undefined&&p.data_classification!=='redacted_metadata')throw new CyberError('validation',422);
+  if(p.schema_ref!==undefined&&p.schema_ref!=='agntia.governed-read.v1')throw new CyberError('validation',422);
+  if(p.network!==undefined&&(!Array.isArray(p.network)||p.network.length!==0))throw new CyberError('validation',422);
+  const capabilities=Array.isArray(p.capabilities)&&p.capabilities.length>=1&&p.capabilities.length<=4&&p.capabilities.every(c=>['assets.read','findings.read','jobs.read','notes.propose'].includes(String(c)))?p.capabilities.map(String):null;
+  const resources=Array.isArray(p.resource_ids)&&p.resource_ids.length>=1&&p.resource_ids.length<=20?p.resource_ids.map(r=>id(r)):null;
+  const tools=p.tool_ids===undefined?[]:Array.isArray(p.tool_ids)&&p.tool_ids.length<=8?p.tool_ids.map(t=>id(t)):null;
+  if(!capabilities||!resources||!tools)throw new CyberError('validation',422);
+  return this.#request('POST','agents/manifests',v=>{const r=object(v);id(r.id);if(r.agent_binding!==p.agent_binding||r.state!=='pending_review'||r.revision!==0||typeof r.manifest_hash!=='string'||!/^[a-f0-9]{64}$/.test(r.manifest_hash))throw Error('contract');return r;},
+   {schema_version:p.schema_version,agent_binding:p.agent_binding,version:p.version,artifact_hash:p.artifact_hash,provider:p.provider,capabilities,resource_ids:resources,data_classification:p.data_classification,network:[],tool_ids:tools,schema_ref:p.schema_ref});
+ }
+ approveManifest(value:string,expectedRevision:number):Promise<RecordValue>{
+  const target=id(value);if(!Number.isInteger(expectedRevision)||expectedRevision<0)throw new CyberError('validation',422);
+  return this.#request('POST',`agents/manifests/${target}/approve`,v=>{const r=object(v);if(r.id!==target||r.state!=='approved'||r.revision!==expectedRevision+1)throw Error('contract');return r;},{expected_revision:expectedRevision});
+ }
+ issueDelegation(input:unknown):Promise<{id:string;token:string;expires_at:string;one_use:true;executor:'governed_read_only'}>{
+  const p=closed(input,['manifest_id','capabilities','resource_ids','expires_at','parent_token']);id(p.manifest_id);
+  const capabilities=Array.isArray(p.capabilities)&&p.capabilities.length>=1&&p.capabilities.length<=4&&p.capabilities.every(c=>['assets.read','findings.read','jobs.read','notes.propose'].includes(String(c)))?p.capabilities.map(String):null;
+  const resources=Array.isArray(p.resource_ids)&&p.resource_ids.length>=1&&p.resource_ids.length<=20?p.resource_ids.map(r=>id(r)):null;
+  if(!capabilities||!resources)throw new CyberError('validation',422);
+  const expires=checked(()=>{const s=str(p.expires_at);if(!/(?:Z|[+-]\d{2}:\d{2})$/.test(s)||!Number.isFinite(Date.parse(s)))throw Error('contract');return s;});
+  const parent=p.parent_token===undefined?undefined:str(p.parent_token);
+  if(parent!==undefined&&(parent.length<50||parent.length>12000))throw new CyberError('validation',422);
+  return this.#request('POST','delegations',v=>{const r=closed(v,['id','token','expires_at','one_use','executor']);id(r.id);const token=str(r.token);const returned=str(r.expires_at);
+   if(token.length<50||token.length>12000||r.one_use!==true||r.executor!=='governed_read_only'||Date.parse(returned)!==Date.parse(expires))throw Error('contract');
+   return {id:r.id as string,token,expires_at:returned,one_use:true as const,executor:'governed_read_only' as const};},
+   {manifest_id:p.manifest_id,capabilities,resource_ids:resources,expires_at:expires,...(parent===undefined?{}:{parent_token:parent})});
+ }
+ revokeDelegation(value:string):Promise<{revoked:true;descendants_invalidated_on_use:true}>{
+  const target=id(value);
+  return this.#request('POST',`delegations/${target}/revoke`,v=>{const r=closed(v,['revoked','descendants_invalidated_on_use']);if(r.revoked!==true||r.descendants_invalidated_on_use!==true)throw Error('contract');return {revoked:true as const,descendants_invalidated_on_use:true as const};});
  }
 }

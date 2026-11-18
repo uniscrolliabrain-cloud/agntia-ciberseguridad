@@ -122,7 +122,8 @@ class Job(Model):
     asset_id: ResourceId
     grant_id: ResourceId
     actor_id: OpaqueId
-    state: Literal['pending','running','succeeded','failed','cancelled','blocked','reconciliation_required']
+    # Same vocabulary as jobs/store.py and the SDK; 'succeeded' never existed at runtime.
+    state: Literal['pending','running','completed','partial','failed','cancelled','blocked','reconciliation_required']
     revision: Annotated[StrictInt, Field(ge=0)] = 0
     correlation_id: str = Field(min_length=1, max_length=64)
     created_at: AwareDatetime
@@ -140,8 +141,12 @@ class Evidence(Model):
     created_at: AwareDatetime
 
 
+# One vocabulary for one fact: a second copy of this enum is a second place to drift.
+Exposure = Literal['unknown','internal','public','restricted']
+
+
 class FindingContext(Model):
-    exposure: Literal['unknown','internal','public','restricted']
+    exposure: Exposure
     sensitivity: Literal['unknown','ordinary','sensitive']
     source: Literal['human_declared']
     evidence_ids: list[ResourceId] = Field(default_factory=list, max_length=100)
@@ -165,10 +170,11 @@ class FindingRisk(Model):
     score: StrictInt | None = None
     priority: Literal['P0', 'P1', 'P2', 'P3', 'needs_context']
     context_complete: bool
-    exposure: Literal['unknown', 'internal', 'public', 'restricted']
+    exposure: Exposure
     exploitation: Literal['unknown'] = 'unknown'
     intelligence: RiskIntelligence
-    source: str = Field(min_length=1, max_length=200)
+    # Bounded label, not free text: a provider string must never become the field value.
+    source: str = Field(min_length=1, max_length=100, pattern=r'^[a-z][a-z0-9_]{0,99}$')
 
 
 class Finding(Model):
@@ -190,7 +196,7 @@ class Finding(Model):
     last_job_id: ResourceId
     last_snapshot_id: ResourceId
     relation_id: Hash | None = None
-    exposure: Literal['unknown', 'internal', 'public', 'restricted'] = 'unknown'
+    exposure: Exposure = 'unknown'
     exception: FindingException | None = None
     context: FindingContext | None = None
     exception_expired: bool

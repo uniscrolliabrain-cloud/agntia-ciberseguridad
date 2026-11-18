@@ -137,8 +137,9 @@
           "title": "Score"
         },
         "source": {
-          "maxLength": 200,
+          "maxLength": 100,
           "minLength": 1,
+          "pattern": "^[a-z][a-z0-9_]{0,99}$",
           "title": "Source",
           "type": "string"
         }

@@ -39,6 +39,49 @@ assert.equal((await reviewer.ackOutbox(item.envelope.id,{consumer_id:'contract-c
 assert.equal((await c.outbox('contract-consumer')).events.length,0);
 const other=new CyberClient({baseUrl:process.env.CYBER_CONTRACT_URL,approvedOrigins:[process.env.CYBER_CONTRACT_URL],tenantId:'tenantB',credential:()=>process.env.CYBER_CONTRACT_ACK_TOKEN});
 await assert.rejects(other.ackOutbox(item.envelope.id,{consumer_id:'contract-consumer',content_hash:item.content_hash}),e=>e.kind==='not_found');
+const spec=JSON.parse(process.env.CYBER_CONTRACT_JOB);
+const writer=new CyberClient({baseUrl:process.env.CYBER_CONTRACT_URL,approvedOrigins:[process.env.CYBER_CONTRACT_URL],tenantId:'tenantA',credential:()=>process.env.CYBER_CONTRACT_WRITE_TOKEN});
+const submitted=await writer.submitAudit(spec,'live-contract-key-001');
+assert.equal(submitted.replayed,false);assert.equal(submitted.state,'pending');assert.equal(submitted.tenant_id,'tenantA');
+const replayedJob=await writer.submitAudit(spec,'live-contract-key-001');
+assert.equal(replayedJob.replayed,true);assert.equal(replayedJob.id,submitted.id);
+const cancelledJob=await writer.cancelJob(submitted.id,submitted.revision);
+assert.equal(cancelledJob.state,'cancelled');assert.equal(cancelledJob.revision,submitted.revision+1);
+});
+
+test('manifest and human delegation issuance stay closed and server-scoped',async()=>{
+ const assetId='a'.repeat(32),manifestId='b'.repeat(32),delegationId='c'.repeat(32),token='signed-one-use-'+'t'.repeat(60),expires='2026-11-18T15:00:00Z';
+ const manifestBody={agent_binding:'agentA',version:'v1',artifact_hash:'e'.repeat(64),capabilities:['assets.read','findings.read'],resource_ids:[assetId]};
+ const seen=[];const c=make(async(url,opts)=>{seen.push([String(url),opts]);
+  if(String(url).endsWith('/agents/manifests'))return json({...manifestBody,id:manifestId,state:'pending_review',revision:0,manifest_hash:'f'.repeat(64)});
+  if(String(url).endsWith('/approve'))return json({...manifestBody,id:manifestId,state:'approved',revision:1,manifest_hash:'f'.repeat(64)});
+  if(String(url).endsWith('/delegations'))return json({id:delegationId,token,expires_at:'2026-11-18T15:00:00+00:00',one_use:true,executor:'governed_read_only'});
+  return json({revoked:true,descendants_invalidated_on_use:true});
+ });
+ const manifest=await c.createManifest(manifestBody);
+ assert.equal(manifest.state,'pending_review');
+ assert.equal(seen[0][0],'http://127.0.0.1:8911/v1/tenants/tenantA/agents/manifests');
+ assert.deepEqual(JSON.parse(seen[0][1].body),{...manifestBody,network:[],tool_ids:[]});
+ assert.throws(()=>c.createManifest({...manifestBody,capabilities:['jobs.submit']}),e=>e.kind==='validation');
+ assert.throws(()=>c.createManifest({...manifestBody,network:['https://evil.invalid']}),e=>e.kind==='validation');
+ assert.throws(()=>c.createManifest({...manifestBody,extra:'x'}),e=>e.kind==='validation');
+ assert.throws(()=>c.createManifest({...manifestBody,resource_ids:['../shell']}),e=>e.kind==='validation');
+ const approved=await c.approveManifest(manifestId,0);
+ assert.equal(approved.state,'approved');assert.equal(approved.revision,1);
+ assert.equal(seen[1][0],'http://127.0.0.1:8911/v1/tenants/tenantA/agents/manifests/'+manifestId+'/approve');
+ assert.throws(()=>c.approveManifest(manifestId,-1),e=>e.kind==='validation');
+ const issued=await c.issueDelegation({manifest_id:manifestId,capabilities:['assets.read'],resource_ids:[assetId],expires_at:expires});
+ assert.deepEqual(issued,{id:delegationId,token,expires_at:'2026-11-18T15:00:00+00:00',one_use:true,executor:'governed_read_only'});
+ assert.equal(seen[2][0],'http://127.0.0.1:8911/v1/tenants/tenantA/delegations');
+ assert.deepEqual(JSON.parse(seen[2][1].body),{manifest_id:manifestId,capabilities:['assets.read'],resource_ids:[assetId],expires_at:expires});
+ assert.throws(()=>c.issueDelegation({manifest_id:manifestId,capabilities:['assets.read'],resource_ids:[assetId],expires_at:'2026-11-18T15:00:00'}),e=>e.kind==='validation');
+ assert.throws(()=>c.issueDelegation({manifest_id:manifestId,capabilities:['assets.read'],resource_ids:[assetId],expires_at:expires,tenant_id:'tenantB'}),e=>e.kind==='validation');
+ assert.throws(()=>c.issueDelegation({manifest_id:manifestId,capabilities:['assets.read'],resource_ids:[assetId],expires_at:expires,parent_token:'short'}),e=>e.kind==='validation');
+ const revoked=await c.revokeDelegation(delegationId);
+ assert.deepEqual(revoked,{revoked:true,descendants_invalidated_on_use:true});
+ assert.equal(seen[3][0],'http://127.0.0.1:8911/v1/tenants/tenantA/delegations/'+delegationId+'/revoke');
+ assert.throws(()=>c.revokeDelegation('../shell'),e=>e.kind==='validation');
+ await assert.rejects(make(async()=>json({id:delegationId,token,expires_at:'2026-11-18T15:00:00+00:00',one_use:false,executor:'governed_read_only'})).issueDelegation({manifest_id:manifestId,capabilities:['assets.read'],resource_ids:[assetId],expires_at:expires}),e=>e.kind==='contract');
 });
 
 test('outbox ACK has closed input/path/receipt and never blindly retries a lost POST',async()=>{

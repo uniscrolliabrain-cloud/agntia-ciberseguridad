@@ -1,4 +1,5 @@
 """Actual Node client to loopback FastAPI, synthetic server credentials only."""
+import json
 import os
 from pathlib import Path
 import shutil
@@ -8,8 +9,8 @@ import threading
 import time
 import unittest
 import uvicorn
-from tests.support import Fixture
-from agntia_ciberseguridad.contracts import AssetCreate
+from tests.integration.test_jobs import Setup
+from agntia_ciberseguridad.safety import ReleaseGates
 
 ROOT=Path(__file__).resolve().parents[2]
 class PythonTypeScriptTests(unittest.TestCase):
@@ -17,10 +18,11 @@ class PythonTypeScriptTests(unittest.TestCase):
         if not shutil.which('node'):
             if os.getenv('CI'):self.fail('Node required in CI')
             self.skipTest('Node not installed')
-        fixture=Fixture();server=None;thread=None
+        setup=Setup();prepared=False;server=None;thread=None
         try:
-            actor=fixture.service.auth.authenticate(fixture.headers()['Authorization'])
-            fixture.service.create_asset(actor,'tenantA',AssetCreate(target_ref='repoA',kind='repository',display_name='Synthetic contract asset'),'fixture')
+            setup.setUp();prepared=True;fixture=setup.f
+            # The real admission path is exercised, so the gates must allow a synthetic run.
+            fixture.app.state.jobs.gates=ReleaseGates(True,True,True)
             reviewer=fixture.service.auth.authenticate(fixture.headers('reviewerA')['Authorization'])
             with fixture.service.db.transaction() as db:
                 fixture.service.db.audit(db,'tenantA',reviewer.actor_id,'job.partial','a'*32,'synthetic-sdk-ack',{})
@@ -39,12 +41,15 @@ class PythonTypeScriptTests(unittest.TestCase):
                 if server.started:break
                 time.sleep(.02)
             self.assertTrue(server.started)
-            env={**os.environ,'CYBER_CONTRACT_URL':f'http://127.0.0.1:{port}','CYBER_CONTRACT_TOKEN':fixture.tokens['viewerA'],'CYBER_CONTRACT_ACK_TOKEN':fixture.tokens['reviewerA']}
-            result=subprocess.run(['node','--test','--test-isolation=none','typescript/test/client.test.mjs'],cwd=ROOT,env=env,capture_output=True,text=True,timeout=30)
+            env={**os.environ,'CYBER_CONTRACT_URL':f'http://127.0.0.1:{port}','CYBER_CONTRACT_TOKEN':fixture.tokens['viewerA'],
+                 'CYBER_CONTRACT_ACK_TOKEN':fixture.tokens['reviewerA'],'CYBER_CONTRACT_WRITE_TOKEN':fixture.tokens['analystA'],
+                 'CYBER_CONTRACT_JOB':json.dumps(setup.body.model_dump(mode='json'))}
+            result=subprocess.run(['node','--test','--test-isolation=none','typescript/test/client.test.mjs'],cwd=ROOT,env=env,capture_output=True,text=True,timeout=45)
             self.assertEqual(result.returncode,0,result.stdout+result.stderr)
             self.assertIn('pass',result.stdout)
             self.assertNotIn('live Python contract when started by test_python_ts # SKIP',result.stdout)
         finally:
             if server:server.should_exit=True
             if thread:thread.join(timeout=3)
-            fixture.service.telemetry.close();fixture.close()
+            if prepared:
+                fixture.service.telemetry.close();setup.tearDown()

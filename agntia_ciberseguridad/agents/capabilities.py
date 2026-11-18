@@ -139,7 +139,9 @@ class Delegations:
             elif request.capability=='jobs.read':
                 data=[dict(r) for r in db.execute('SELECT id,state,tool,result_hash FROM jobs WHERE tenant_id=? AND asset_id=? ORDER BY id LIMIT 100',(tenant,request.resource_id))]
             else:
-                data=[{k:json.loads(r['body']).get(k) for k in ('id','state','severity','revision')} for r in db.execute("SELECT body FROM finding_current WHERE tenant_id=? AND json_extract(body,'$.asset_id')=? ORDER BY id LIMIT 100",(tenant,request.resource_id))]
+                # tenant_id travels with the projection so a consumer can re-check
+                # isolation instead of trusting only the delegated path.
+                data=[{'tenant_id':tenant,**{k:json.loads(r['body']).get(k) for k in ('id','state','severity','revision')}} for r in db.execute("SELECT body FROM finding_current WHERE tenant_id=? AND json_extract(body,'$.asset_id')=? ORDER BY id LIMIT 100",(tenant,request.resource_id))]
             from .flows import DataFlows
             flows=DataFlows(self.service,clock=self.clock).project(db,tenant,request.resource_id,request.flow_ids)
             db.execute('UPDATE delegations SET used_at=? WHERE tenant_id=? AND id=?',(self.clock().isoformat(),tenant,body['id']))
