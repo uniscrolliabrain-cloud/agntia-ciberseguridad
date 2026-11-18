@@ -5,12 +5,13 @@ import threading
 OPERATIONS={'read','write','health','metrics','other'}
 TOOLS={'gitleaks','osv','semgrep','trivy','other'}
 STATES={'pending','running','completed','partial','failed','cancelled','blocked','reconciliation_required','other'}
+ADMISSION_REASONS=('quota','scope','identity','validation','other')
 BUCKETS=(.005,.01,.025,.05,.1,.25,.5,1,2,5,10)
 
 class Metrics:
     def __init__(self):
         self.lock=threading.Lock();self.requests={};self.latency={};self.jobs={};self.coverage={};self.dropped=0;self.export_failures=0
-        self.last_scan=0;self.signals={}
+        self.last_scan=0;self.signals={};self.admissions={}
     def request(self,operation,status,seconds):
         operation=operation if operation in OPERATIONS else 'other'
         status=str(status//100)+'xx' if type(status)is int and status//100 in (2,4,5) else 'other'
@@ -35,6 +36,10 @@ class Metrics:
         outcome=outcome if outcome in {'accepted','rejected','dropped'} else 'other'
         with self.lock:
             key=(kind,outcome);self.signals[key]=self.signals.get(key,0)+1
+    def admission(self,reason):
+        """Admission refusals that never reach a job row; bounded reason labels only."""
+        reason=reason if reason in ADMISSION_REASONS else 'other'
+        with self.lock:self.admissions[reason]=self.admissions.get(reason,0)+1
     def export(self):
         with self.lock:
             lines=['# HELP agntia_http_requests_total Completed API requests, not scans.','# TYPE agntia_http_requests_total counter']
@@ -52,6 +57,9 @@ class Metrics:
             lines+=['# TYPE agntia_telemetry_dropped_total counter',f'agntia_telemetry_dropped_total {self.dropped}',
                     '# TYPE agntia_telemetry_export_failures_total counter',f'agntia_telemetry_export_failures_total {self.export_failures}',
                     '# TYPE agntia_last_scan_timestamp_seconds gauge',f'agntia_last_scan_timestamp_seconds {self.last_scan}']
+            lines+=['# HELP agntia_job_admission_rejections_total Refused job admissions, never a security score.',
+                    '# TYPE agntia_job_admission_rejections_total counter']
+            for reason,value in sorted(self.admissions.items()):lines.append(f'agntia_job_admission_rejections_total{{reason="{reason}"}} {value}')
             lines+=['# TYPE agntia_signals_total counter']
             for (kind,outcome),value in sorted(self.signals.items()):lines.append(f'agntia_signals_total{{kind="{kind}",outcome="{outcome}"}} {value}')
             return '\n'.join(lines)+'\n'

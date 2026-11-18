@@ -64,7 +64,10 @@ class JobStore:
             grant=self.service._grant(db,tenant,body.grant_id)
             if grant['state']!='approved' or grant['revision']!=body.expected_grant_revision:reject('conflict','Autorización modificada',409)
             used=db.execute("SELECT coalesce(sum(r.units),0) FROM job_reservations r JOIN jobs j ON j.tenant_id=r.tenant_id AND j.id=r.job_id WHERE j.tenant_id=? AND j.grant_id=? AND r.state IN ('reserved','consumed','reconciliation_required')",(tenant,body.grant_id)).fetchone()[0]
-            if state=='pending' and used+body.max_attempts>grant['max_requests']:reject('quota','Presupuesto local de intentos agotado',429)
+            if state=='pending' and used+body.max_attempts>grant['max_requests']:
+                # Refusals are not tenant-labelled: the counter only exposes the bounded reason.
+                self.service.telemetry.metrics.admission('quota')
+                reject('quota','Presupuesto local de intentos agotado',429)
             timestamp=now()
             db.execute('''INSERT INTO jobs(tenant_id,id,asset_id,grant_id,snapshot_id,actor_id,binding_id,authorization_stamp,
                 payload,request_hash,tool,policy_hash,state,max_attempts,error_code,created_at,updated_at,correlation_id)

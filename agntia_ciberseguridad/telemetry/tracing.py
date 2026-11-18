@@ -17,7 +17,12 @@ except ImportError:AVAILABLE=False
 NAMES={'db.transaction','api.request','policy.authorize','job.submit','job.execute','scanner.run','evidence.write','evidence.read','review.approve','report.build'}
 ATTRS={'component','operation','outcome','tool','job_id','correlation_id','causation_id'}
 SAFE_VALUE=re.compile(r'^[A-Za-z0-9_.:-]{1,100}$')
-TRACEPARENT=re.compile(r'^00-[a-f0-9]{32}-[a-f0-9]{16}-0[01]$')
+TRACEPARENT=re.compile(r'^00-[a-f0-9]{32}-[a-f0-9]{16}-[0-9a-f]{2}$')
+def trusted_parent(parent):
+    """A stored parent is continued only when well formed, non-zero and sampled."""
+    if not parent or not TRACEPARENT.fullmatch(parent):return False
+    version,trace_id,span_id,flags=parent.split('-')
+    return trace_id!='0'*32 and span_id!='0'*16 and bool(int(flags,16)&1)
 
 class Telemetry:
     def __init__(self,settings):
@@ -58,7 +63,7 @@ class Telemetry:
         if root:
             from opentelemetry.context import Context
             context=Context()
-        elif parent and TRACEPARENT.fullmatch(parent) and parent.split('-')[1]!='0'*32 and parent.split('-')[2]!='0'*16:
+        elif trusted_parent(parent):
             context=TraceContextTextMapPropagator().extract({'traceparent':parent})
         with self.tracer.start_as_current_span(name,context=context,attributes=safe,record_exception=False,set_status_on_exception=False) as span:
             try:yield span
@@ -70,7 +75,7 @@ class Telemetry:
         carrier={};TraceContextTextMapPropagator().inject(carrier)
         return carrier.get('traceparent')
     def link_internal(self,parent):
-        if self.available and parent and TRACEPARENT.fullmatch(parent):
+        if self.available and trusted_parent(parent):
             context=TraceContextTextMapPropagator().extract({'traceparent':parent})
             linked=trace.get_current_span(context).get_span_context()
             current=trace.get_current_span()

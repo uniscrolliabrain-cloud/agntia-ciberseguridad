@@ -29,6 +29,20 @@ groups:
           severity: info
         annotations:
           summary: No recent scan signal; check the authorized schedule and freshness
+      - alert: AgntiaAttemptBudgetExhausted
+        expr: increase(agntia_job_admission_rejections_total{reason="quota"}[15m]) > 0
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: Attempt budget exhausted; admissions are refused and no new scan runs
+      - alert: AgntiaBackupStale
+        expr: agntia_backup_last_success_timestamp_seconds == 0 or time() - agntia_backup_last_success_timestamp_seconds > 93600 or absent(agntia_backup_last_success_timestamp_seconds)
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: No verified lab backup within the declared window; restore readiness is unknown
       - alert: AgntiaApiPilotErrorBudgetFastBurn
         expr: (sum(rate(agntia_http_requests_total{status="5xx"}[5m])) / clamp_min(sum(rate(agntia_http_requests_total[5m])), 0.000001)) > 0.05
         for: 5m
