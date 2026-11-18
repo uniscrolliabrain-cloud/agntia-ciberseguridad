@@ -140,19 +140,66 @@ class Evidence(Model):
     created_at: AwareDatetime
 
 
+class FindingContext(Model):
+    exposure: Literal['unknown','internal','public','restricted']
+    sensitivity: Literal['unknown','ordinary','sensitive']
+    source: Literal['human_declared']
+    evidence_ids: list[ResourceId] = Field(default_factory=list, max_length=100)
+
+
+class FindingException(Model):
+    expires_at: AwareDatetime | None = None
+    evidence_ids: list[ResourceId] = Field(default_factory=list, max_length=100)
+    proposal_id: ResourceId
+
+
+class RiskIntelligence(Model):
+    kev: Literal['unknown'] = 'unknown'
+    epss: float | None = None
+    cvss: float | None = None
+    source_date: str | None = None
+
+
+class FindingRisk(Model):
+    policy_version: Literal['triage-v1']
+    score: StrictInt | None = None
+    priority: Literal['P0', 'P1', 'P2', 'P3', 'needs_context']
+    context_complete: bool
+    exposure: Literal['unknown', 'internal', 'public', 'restricted']
+    exploitation: Literal['unknown'] = 'unknown'
+    intelligence: RiskIntelligence
+    source: str = Field(min_length=1, max_length=200)
+
+
 class Finding(Model):
+    """Current projection returned by findings.list/history after triage."""
     schema_version: Literal[1] = 1
-    id: ResourceId
-    tenant_id: OpaqueId
-    job_id: ResourceId
-    fingerprint: Hash
+    id: Hash
+    asset_id: ResourceId
+    tool: Literal['gitleaks', 'osv', 'semgrep', 'trivy']
     rule_id: str = Field(min_length=1, max_length=200)
-    tool_id: OpaqueId
-    tool_version: str = Field(min_length=1, max_length=100)
-    severity: Literal['info','low','medium','high','critical','unknown']
-    title: str = Field(min_length=1, max_length=300)
-    evidence_ids: list[ResourceId] = Field(default_factory=list,max_length=100)
-    state: Literal['unverified','confirmed','false_positive','resolved'] = 'unverified'
+    path: str = Field(min_length=1, max_length=512)
+    revision: StrictInt = Field(ge=0)
+    state: Literal['suspected', 'confirmed', 'false_positive', 'remediated', 'verified_fixed', 'accepted_risk', 'suppressed']
+    severity: Literal['info', 'low', 'medium', 'high', 'critical', 'unknown']
+    confidence: Literal['tool_reported', 'unknown']
+    first_seen: AwareDatetime
+    last_seen: AwareDatetime
+    observation_count: StrictInt = Field(ge=1)
+    reappeared: bool
+    last_job_id: ResourceId
+    last_snapshot_id: ResourceId
+    relation_id: Hash | None = None
+    exposure: Literal['unknown', 'internal', 'public', 'restricted'] = 'unknown'
+    exception: FindingException | None = None
+    context: FindingContext | None = None
+    exception_expired: bool
+    risk: FindingRisk
+    reviewed_at: AwareDatetime | None = None
+    reviewed_by: OpaqueId | None = None
+    last_decision_id: ResourceId | None = None
+    owner_ref: OpaqueId | None = None
+    due_at: AwareDatetime | None = None
 
 
 class Approval(Model):
