@@ -1,7 +1,7 @@
 # 03 · Fases de código propuestas
 
-**Estado:** **F0 y F1 APLICADAS** el 2026-11-20 (código, pruebas y gate de CI en
-`agntia-ciberseguridad`); **F2–F10 PROPUESTAS — NO APLICADAS**. Ninguna campaña CY-IP se ha
+**Estado:** **F0, F1 y F2 APLICADAS** el 2026-11-20 (código, pruebas y gate de CI en
+`agntia-ciberseguridad`); **F3–F10 PROPUESTAS — NO APLICADAS**. Ninguna campaña CY-IP se ha
 ejecutado: sigue sin haber instalación en host ni propagación a tenants.
 **Regla de escritura:** el código se escribiría solo en `agntia-ciberseguridad`. `agente` aparece
 como contrato de host y **no se modifica**; su implementación corresponde a su equipo tras
@@ -16,7 +16,7 @@ contratos ilustrativos, no código para copiar.
 |---|---|---|---|---|
 | F0 | Inventario y manifiesto de instalación | IP-00 | — | APLICADA |
 | F1 | Verificación de artefacto y procedencia | IP-01 | F0 | APLICADA |
-| F2 | Configuración fail-closed por referencia | IP-01, IP-03 | F0 | PROPUESTA |
+| F2 | Configuración fail-closed por referencia | IP-01, IP-03 | F0 | APLICADA |
 | F3 | Modelo de inscripción y migración de estado | IP-02 | F2 | PROPUESTA |
 | F4 | Planificador determinista de olas (sin efectos) | IP-02, IP-08 | F3 | PROPUESTA |
 | F5 | Servicio de aplicación, pausa y revocación | IP-03–IP-06 | F4 | PROPUESTA |
@@ -69,10 +69,11 @@ ejecuciones del mismo pack dan el mismo digest.
 
 ## 4. F2 · Configuración fail-closed
 
-**Archivos propuestos:** `agntia_ciberseguridad/config.py` (ampliar), `docs/implementation/CONFIGURACION.md` (nuevo), `tests/test_config_rollout.py` (nuevo).
+**Estado:** APLICADA (2026-11-20).
+**Archivos reales:** `agntia_ciberseguridad/config.py` (`RolloutConfig` y campo `rollouts` de `Settings`), `docs/implementation/CONFIGURACION.md`, `tests/unit/test_config_rollout.py`.
 
-**Contrato propuesto:** `RolloutConfig` con `tenant`, `ring`, `capability`, `state`, `revision`,
-`consent_ref`, `budget_cents`, `expires_at`; validación en el arranque.
+**Contrato aplicado:** `RolloutConfig` con `tenant_id`, `capability`, `ring`, `previous_ring`,
+`state`, `revision`, `consent_ref`, `budget_cents`, `expires_at`, `secret_ref`; validación en el arranque.
 
 **Invariantes:**
 
@@ -272,7 +273,7 @@ Estas obligaciones coinciden con PS-P1…PS-P6 de
 - Publicación en npm, cobros o auto-upgrades.
 - Cambios en `agente`, migraciones en producción o credenciales reales.
 
-## 15. Registro de implementación F0/F1 (2026-11-20)
+## 15. Registro de implementación F0–F2 (2026-11-20)
 
 Aplicado en `agntia-ciberseguridad`, sin tocar `agente`:
 
@@ -280,15 +281,18 @@ Aplicado en `agntia-ciberseguridad`, sin tocar `agente`:
 |---|---|---|---|
 | F0 | `agntia_ciberseguridad/install.py` (modelo `InstallManifest`), `scripts/install_manifest.py`, `docs/implementation/schemas/InstallManifest.json` | `tests/unit/test_install_manifest.py` | `unittest discover -s tests` |
 | F1 | `agntia_ciberseguridad/install.py` (`verify`), `scripts/verify_artifact.py` | `tests/unit/test_install_artifact.py` | paso nuevo en `.github/workflows/runtime.yml` |
+| F2 | `agntia_ciberseguridad/config.py` (`RolloutConfig`), `docs/implementation/CONFIGURACION.md` | `tests/unit/test_config_rollout.py` | arranque fail-closed de `Settings` |
 
 Evidencia local del 2026-11-20 en este árbol:
 
-- `unittest discover -s tests` → **247 OK, 8 skips** (antes 228 OK, 8 skips; los 19 nuevos son F0/F1).
+- `unittest discover -s tests` → **260 OK, 8 skips** (antes 228 OK, 8 skips; 32 nuevas: 19 de F0/F1 y 13 de F2).
 - `scripts/install_manifest.py build` y `scripts/verify_artifact.py` sobre el pack real
   `typescript/.pack/agntia-ciberseguridad-0.1.0-alpha.3.tgz` → `PASS`, digest
   `09c94d52a5fa813cb93fc92e3864317abcab5332edc3c5c2f2b8ec98763dbcf7`, 9 272 bytes.
 - Fallos inyectados cubiertos por pruebas: byte alterado, entrada extra, enlace simbólico,
   travesía de ruta, `PROVENANCE.json` ausente, procedencia manipulada y digest de manifiesto distinto.
+- F2: el arranque rechaza consentimiento ausente o ajeno, presupuesto no positivo, caducidad
+  vencida, salto de anillo, binding duplicado y referencia de secreto con valor embebido.
 
 Qué **no** cambia con esto:
 

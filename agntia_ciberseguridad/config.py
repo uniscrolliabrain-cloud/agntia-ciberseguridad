@@ -7,6 +7,7 @@ from typing import Annotated,Literal
 from pydantic import AwareDatetime, ConfigDict, Field, StrictInt, field_validator, model_validator
 
 from .contracts import AssetKind, Model, OpaqueId, Profile, Role, Hash
+from .util import utcnow
 
 EnvRef = Annotated[str, Field(pattern=r"^[A-Z][A-Z0-9_]{2,100}$")]
 
@@ -59,6 +60,37 @@ class ConsentConfig(Model):
         return self
 
 
+RolloutRing = Literal['A', 'B', 'C', 'D']
+RolloutState = Literal['pending', 'enabled', 'paused', 'revoked']
+RING_ORDER = ('A', 'B', 'C', 'D')
+
+
+class RolloutConfig(Model):
+    """Per-tenant, per-capability rollout; born pending and fails closed without consent or budget."""
+
+    tenant_id: OpaqueId
+    capability: Literal['assets.read', 'findings.read', 'jobs.read', 'notes.propose']
+    ring: RolloutRing
+    previous_ring: RolloutRing | None = None
+    state: RolloutState = 'pending'
+    revision: Annotated[StrictInt, Field(ge=1)]
+    consent_ref: OpaqueId
+    budget_cents: Annotated[StrictInt, Field(ge=1, le=1_000_000)]
+    expires_at: AwareDatetime
+    secret_ref: EnvRef | None = None
+
+    @model_validator(mode='after')
+    def fail_closed(self):
+        if self.expires_at <= utcnow():
+            raise ValueError('Rollout already expired')
+        if self.previous_ring is None:
+            if self.ring == 'D':
+                raise ValueError('Ring D requires the previous ring recorded')
+        elif RING_ORDER.index(self.ring) - RING_ORDER.index(self.previous_ring) not in (0, 1):
+            raise ValueError('Ring cannot be skipped or moved backwards')
+        return self
+
+
 class EvidencePolicy(Model):
     key_refs: list[EnvRef] = Field(min_length=1,max_length=5)
     legal_basis_ref: OpaqueId
@@ -89,6 +121,7 @@ class Settings(Model):
     principals: list[PrincipalBinding] = Field(min_length=1, max_length=1000)
     targets: dict[OpaqueId, TargetConfig] = Field(default_factory=dict)
     consents: dict[OpaqueId, ConsentConfig] = Field(default_factory=dict)
+    rollouts: list[RolloutConfig] = Field(default_factory=list, max_length=100)
     approved_workspace_roots: list[Path] = Field(default_factory=list, max_length=32)
     lab_mode: bool = False
     budget_policies: dict[OpaqueId,BudgetPolicy] = Field(default_factory=dict)
@@ -146,6 +179,17 @@ class Settings(Model):
                 raise ValueError("Target has no provisioned tenant")
             if target.kind == AssetKind.web and not target.allowed_networks:
                 raise ValueError("Network targets require approved networks")
+        seen_rollouts = set()
+        for rollout in self.rollouts:
+            key = (rollout.tenant_id, rollout.capability)
+            if key in seen_rollouts:
+                raise ValueError("Duplicate rollout binding")
+            seen_rollouts.add(key)
+            if rollout.tenant_id not in tenants:
+                raise ValueError("Rollout tenant not provisioned")
+            consent = self.consents.get(rollout.consent_ref)
+            if consent is None or consent.tenant_id != rollout.tenant_id:
+                raise ValueError("Rollout consent not provisioned")
         for consent in self.consents.values():
             owners = [p for p in self.principals if p.actor_id == consent.authority_actor_id and p.role in (Role.owner, Role.reviewer) and consent.tenant_id in p.tenants]
             if len(owners) != 1:

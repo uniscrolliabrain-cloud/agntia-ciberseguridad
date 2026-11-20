@@ -101,8 +101,8 @@ Sin D1 y D2, el programa se queda en anillo A. Sin D4, `agente` sigue siendo esp
 | Elemento | Estado |
 |---|---|
 | Campañas IP-00…IP-10 | `SIMULADA` |
-| Fases F0–F1 | `APLICADAS` (código, pruebas y gate de CI; 2026-11-20) |
-| Fases F2–F10 | `PROPUESTA — NO APLICADA` |
+| Fases F0–F2 | `APLICADAS` (código, pruebas y gate de CI; 2026-11-20) |
+| Fases F3–F10 | `PROPUESTA — NO APLICADA` |
 | Instalación en host | `NO EJECUTADA` |
 | Propagación a tenants | `NO EJECUTADA` |
 | Revisión independiente | `PENDIENTE` |

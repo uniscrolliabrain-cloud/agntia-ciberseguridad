@@ -3,7 +3,7 @@
 **Programa:** CY-IP (Cyber · Instalación y Propagación).
 **Fecha del paquete:** 2026-11-20.
 **Repositorio que se documenta:** `agntia-ciberseguridad` (hijo). El repositorio padre `agente` se cita como destino de instalación y **no se ha abierto, modificado ni ejecutado**.
-**Estado global:** **SIMULACIÓN DOCUMENTAL — NO EJECUTADA**. No hay PASS, tenants reales, credenciales, despliegues ni cambios en `agente`. Única excepción: F0/F1 (manifiesto y verificación de artefacto) existen como código probado desde el 2026-11-20; las campañas siguen sin ejecutarse.
+**Estado global:** **SIMULACIÓN DOCUMENTAL — NO EJECUTADA**. No hay PASS, tenants reales, credenciales, despliegues ni cambios en `agente`. Única excepción: F0–F2 (manifiesto, verificación de artefacto y configuración fail-closed) existen como código probado desde el 2026-11-20; las campañas siguen sin ejecutarse.
 
 Este paquete responde a una pregunta concreta: *si mañana se autorizara instalar este middleware
 en el host y propagarlo a tenants, ¿qué campañas harían falta, en qué orden, con qué fases de
@@ -15,7 +15,7 @@ código y con qué evidencia?* La respuesta se escribe como simulación revisabl
 |---|---|
 | Propuesta de 11 campañas CY-IP con dependencias, gates y rollback | Campañas ejecutadas |
 | Simulaciones paso a paso de instalación en host y propagación a tenants | Instalación real en `/agente` ni en staging |
-| Fases de código: F0/F1 implementadas y probadas; F2–F10 propuestas | Instalación en host, migraciones, parches en `agente` o campañas ejecutadas |
+| Fases de código: F0–F2 implementadas y probadas; F3–F10 propuestas | Instalación en host, migraciones, parches en `agente` o campañas ejecutadas |
 | Matriz de evidencia, riesgos y criterios de falsación | PASS, certificaciones, clientes o protección activa |
 
 ## 2. Reglas de la simulación
@@ -26,8 +26,9 @@ código y con qué evidencia?* La respuesta se escribe como simulación revisabl
 3. **No se inventan hashes, IDs de job, tenants ni fechas de ejecución.** Los únicos números
    citados son los medidos: el 2026-11-18 (228 tests Python OK con 8 skips; SDK 12 casos, 10 pass
    y 2 skip; pack determinista con SHA256 `09c94d52…`; `provenance:check` verde) y el 2026-11-20
-   (247 tests OK con 8 skips; el mismo pack verificado contra `PROVENANCE.json` con
-   `scripts/verify_artifact.py`). No cubren campañas ni código futuro.
+   (260 tests OK con 8 skips; el mismo pack verificado contra `PROVENANCE.json` con
+   `scripts/verify_artifact.py`, y arranque fail-closed de la configuración de rollout). No cubren
+   campañas ni código futuro.
 4. **`agente` no se escribe.** Sus contratos aparecen como especificación para su equipo, igual
    que en [PATCHSETS-2026-11-18.md](../integration/PATCHSETS-2026-11-18.md).
 5. **Un gate futuro no protege hoy.** La documentación no convierte `production_enabled=false`
