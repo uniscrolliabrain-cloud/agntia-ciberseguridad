@@ -293,6 +293,9 @@ Evidencia local del 2026-11-20 en este árbol:
   travesía de ruta, `PROVENANCE.json` ausente, procedencia manipulada y digest de manifiesto distinto.
 - F2: el arranque rechaza consentimiento ausente o ajeno, presupuesto no positivo, caducidad
   vencida, salto de anillo, binding duplicado y referencia de secreto con valor embebido.
+- CI de `13eea4a` en GitHub Actions: `foundation (3.11)` y `foundation (3.12)` en `success`,
+  incluido el paso de verificación. El intento anterior (`8ec46a2`) falló porque el paso llamaba
+  al CLI sin `build`; se corrigió en `13eea4a`.
 
 Qué **no** cambia con esto:
 
