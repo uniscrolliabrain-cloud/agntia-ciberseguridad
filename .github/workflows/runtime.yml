@@ -37,7 +37,7 @@ jobs:
           set -euo pipefail
           npm --prefix typescript run pack:deterministic
           artifact=$(ls typescript/.pack/*.tgz)
-          python scripts/install_manifest.py --artifact "$artifact" --host-ref agente@ci --tenant ci-synthetic --capability findings.read --out /tmp/install-manifest.json
+          python scripts/install_manifest.py build --artifact "$artifact" --host-ref agente@ci --tenant ci-synthetic --capability findings.read --out /tmp/install-manifest.json
           python scripts/verify_artifact.py --artifact "$artifact" --manifest /tmp/install-manifest.json
       - run: PYTHONPATH=. python scripts/evaluate_agent_gateway.py
       - run: PYTHONPATH=. python scripts/measure_agent_stop.py
