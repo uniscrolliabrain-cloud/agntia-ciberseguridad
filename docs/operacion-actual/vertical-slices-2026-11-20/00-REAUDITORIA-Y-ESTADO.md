@@ -1,0 +1,20 @@
+# Reauditoría diferencial — 2026-11-20
+**Base de publicación:** main@eaf7da0d60a5adc7302c977cdabdfd3900c922be. **Tipo:** auditoría de lectura GitHub; no se han ejecutado tests en esta sesión, no se ha accedido a cuentas ni a secretos. Esta documentación complementa, no sustituye, `docs/operacion-actual/`, `docs/integration/` y `docs/release/status.json`.
+
+## Evidencia observada directamente
+- `agntia_ciberseguridad/`: middleware Python/FastAPI; `adversarial_lab/`: laboratorio separado; `typescript/`: SDK server-only `@agntia/ciberseguridad@0.1.0-alpha.3` con exports `.`, `./hono`, `./agent-tools`.
+- `docs/release/status.json`: `SYNTHETIC_DEMO_NOT_PRODUCTION`, `production_enabled=false`, aceptación owner y revisión independiente PENDING; 2/42 fases PASS, 40 PARTIAL. NO modificar sin evidencia nueva.
+- `docs/operacion-actual/02-MATRIZ-CIERRE-PRODUCCION.md`: CP-01…CP-14, dependencias OCI, scanners, secretos, backup, aislamiento, host bridge y aceptación.
+- `docs/integration/PATCHSETS-2026-11-18.md`: H1–H5 del hijo y P1–P6 **propuestos** para `agente`; referencias a árbol sin commit son históricas y deben contrastarse contra HEAD. El padre puede haber avanzado.
+- Nuevos commits: `8ec46a2` manifiesto/artefacto offline F0/F1; `539d3d2` rollout fail-closed F2; `13eea4a` corrección invocación CLI en CI; `eaf7da0` registra foundation CI 3.11/3.12 verde. **No equivale a integración E2E en agente**.
+- El README de operación 2026-11-16 advierte que los resultados históricos de 196/228 tests middleware y 103/115 laboratorio son suites/SHAs distintos; no sumarlos ni tratarlos como prueba del HEAD.
+- No se ha verificado proveedor real, OCI productivo, revisión independiente, restauración externa ni tenant real de AgntiaPro.
+
+## Ramas — procedimiento obligatorio para el ejecutor
+En GitHub se localizaron 28 ramas (incluida main): docs/auditoria-y-plan-operativo-cyber-20261115, docs/cy-v2-connection-requirements, docs/cyber-bitacora-viva, docs/factory-recovery-v1-20261114, docs/hyperupdate-audit-20261115, docs/puesta-en-marcha-founder-operaciones-20261115, docs/roadmap-integracion-agente-20261115, feat/advlab-campaigns-C01-C18, feat/cognition-v2-sdk-ack, feat/cy-v2-01-baseline, feat/cyber-audit-2026-11-18, feat/cyber-autodoc-AD-01, feat/cyber-d1-foundation, feat/cyber-phases-06-10, feat/cyber-phases-10-15, feat/cyber-phases-16-20, feat/cyber-phases-21-25, feat/cyber-phases-26-30, feat/cyber-phases-31-35, feat/cyber-phases-36-40, feat/cyber-phases-41-42, feat/cyber-vs-00-baseline, feat/cyber-vs-01-contracts, feat/cyber-vs-01a-finding-contract, integration/advlab-hardening-20261115, work/advlab-B-vault-broker-release, work/advlab-D-operations. **Este listado no certifica contenido exclusivo de todas las ramas**. La campaña VS-00 debe comparar **cada una** contra el HEAD nuevo con `git merge-base`, `git log main..branch`, `git diff --name-status main...branch`, `git branch --contains`, revisar archivos exclusivos y PR; producir matriz con decisión `merged / unique-code / unique-doc / diverged / stale / needs-review`. Nunca borrar ramas automáticamente.
+
+## Hallazgos priorizados
+P0: puente `agente` real no acreditado; riesgo de instalar alpha.2 vendorizado frente a alpha.3; principal/tenant/delegación/approval/ACK deben comprobarse con código actual de ambos repos. P0: falta evidencia independiente de integración con secretos, OCI, scanners y almacenamiento externo. P0: no asumir que F0–F2 equivalen a F3–F10. P1: plan de cuentas concreto y gates de stubs para completar sin bloquear ingeniería. P1: pruebas negativas multi-tenant y revocación, idempotencia/replay, timeout, DLQ, trazabilidad, rollback. P2: ampliar proveedores y laboratorio solo tras verticales mínimas.
+
+## Estado de los gates
+Este documento **no cambia** estados de CP, release, campañas o aceptación. El ejecutor debe reauditar HEAD de ambos repos y ejecutar pruebas antes de afirmar PASS. Repositorios distintos: en esta rama solo se escribe en `agntia-ciberseguridad`; en `agente` solo preparar patchsets y contrato, sin push, merge ni despliegue.
