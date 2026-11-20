@@ -48,6 +48,10 @@ Artefactos: [fuentes](research/sources.json), [metadatos de repos](research/repo
 Fecha de guía no equivale a versión de ley consolidada. Un score de scanner no equivale a auditoría completa. Un repos con SPDX conocido no acredita licencia de modelos/feeds ni derecho de reventa del servicio. La primera implementación mantendrá estas distinciones en APIs/reportes, no solo en documentación.
 
 
+## Campañas de instalación y propagación (2026-11-20)
+
+Propuesta simulada, no ejecutada, para instalar el middleware en un host y propagarlo por anillos: [índice del programa CY-IP](campanas-instalacion-propagacion-2026-11-20/README.md) · [campañas](campanas-instalacion-propagacion-2026-11-20/00-PROPUESTA-CAMPANAS.md) · [fases de código propuestas](campanas-instalacion-propagacion-2026-11-20/03-FASES-CODIGO-PROPUESTAS.md). Nada de esto se ha aplicado ni declara PASS.
+
 ## Campaña ejecutable de siete días
 
 Leer [campaña y siete jornadas](campaigns/2026-11-10-seven-days/README.md):42 fases,294 microtareas,84 escenarios, dependencias, calidad de referencia, gates, contratos, evidencias y continuidad30/60/90. Las tareas están NOT_STARTED; validar el plan no ejecuta ninguna prueba de seguridad.
