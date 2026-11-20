@@ -50,7 +50,7 @@ Fecha de guía no equivale a versión de ley consolidada. Un score de scanner no
 
 ## Campañas de instalación y propagación (2026-11-20)
 
-Propuesta simulada, no ejecutada, para instalar el middleware en un host y propagarlo por anillos: [índice del programa CY-IP](campanas-instalacion-propagacion-2026-11-20/README.md) · [campañas](campanas-instalacion-propagacion-2026-11-20/00-PROPUESTA-CAMPANAS.md) · [fases de código propuestas](campanas-instalacion-propagacion-2026-11-20/03-FASES-CODIGO-PROPUESTAS.md). Nada de esto se ha aplicado ni declara PASS.
+Propuesta simulada, no ejecutada, para instalar el middleware en un host y propagarlo por anillos: [índice del programa CY-IP](campanas-instalacion-propagacion-2026-11-20/README.md) · [campañas](campanas-instalacion-propagacion-2026-11-20/00-PROPUESTA-CAMPANAS.md) · [fases de código propuestas](campanas-instalacion-propagacion-2026-11-20/03-FASES-CODIGO-PROPUESTAS.md). F0/F1 (manifiesto y verificación de artefacto) ya están implementadas y probadas; el resto sigue propuesto y nada de esto declara PASS.
 
 ## Campaña ejecutable de siete días
 

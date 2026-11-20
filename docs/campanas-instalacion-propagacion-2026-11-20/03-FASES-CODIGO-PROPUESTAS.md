@@ -1,6 +1,8 @@
 # 03 · Fases de código propuestas
 
-**Estado:** **PROPUESTA — NO APLICADA**. No hay commits, parches, migraciones ni rutas nuevas.
+**Estado:** **F0 y F1 APLICADAS** el 2026-11-20 (código, pruebas y gate de CI en
+`agntia-ciberseguridad`); **F2–F10 PROPUESTAS — NO APLICADAS**. Ninguna campaña CY-IP se ha
+ejecutado: sigue sin haber instalación en host ni propagación a tenants.
 **Regla de escritura:** el código se escribiría solo en `agntia-ciberseguridad`. `agente` aparece
 como contrato de host y **no se modifica**; su implementación corresponde a su equipo tras
 autorización expresa.
@@ -10,26 +12,27 @@ contratos ilustrativos, no código para copiar.
 
 ## 1. Mapa de fases
 
-| Fase | Objetivo | Campaña | Depende de |
-|---|---|---|---|
-| F0 | Inventario y manifiesto de instalación | IP-00 | — |
-| F1 | Verificación de artefacto y procedencia | IP-01 | F0 |
-| F2 | Configuración fail-closed por referencia | IP-01, IP-03 | F0 |
-| F3 | Modelo de inscripción y migración de estado | IP-02 | F2 |
-| F4 | Planificador determinista de olas (sin efectos) | IP-02, IP-08 | F3 |
-| F5 | Servicio de aplicación, pausa y revocación | IP-03–IP-06 | F4 |
-| F6 | Superficie de lectura y control para el host | IP-03, IP-07 | F5 |
-| F7 | SDK servidor: estado de instalación y olas | IP-04–IP-07 | F6 |
-| F8 | Observabilidad, alertas y deriva | IP-05, IP-06 | F5 |
-| F9 | Kill switch, desinstalación y ensayo de rollback | IP-08, IP-09 | F5 |
-| F10 | Evidencia, informe y gate de cierre | IP-10 | Todas |
+| Fase | Objetivo | Campaña | Depende de | Estado |
+|---|---|---|---|---|
+| F0 | Inventario y manifiesto de instalación | IP-00 | — | APLICADA |
+| F1 | Verificación de artefacto y procedencia | IP-01 | F0 | APLICADA |
+| F2 | Configuración fail-closed por referencia | IP-01, IP-03 | F0 | PROPUESTA |
+| F3 | Modelo de inscripción y migración de estado | IP-02 | F2 | PROPUESTA |
+| F4 | Planificador determinista de olas (sin efectos) | IP-02, IP-08 | F3 | PROPUESTA |
+| F5 | Servicio de aplicación, pausa y revocación | IP-03–IP-06 | F4 | PROPUESTA |
+| F6 | Superficie de lectura y control para el host | IP-03, IP-07 | F5 | PROPUESTA |
+| F7 | SDK servidor: estado de instalación y olas | IP-04–IP-07 | F6 | PROPUESTA |
+| F8 | Observabilidad, alertas y deriva | IP-05, IP-06 | F5 | PROPUESTA |
+| F9 | Kill switch, desinstalación y ensayo de rollback | IP-08, IP-09 | F5 | PROPUESTA |
+| F10 | Evidencia, informe y gate de cierre | IP-10 | Todas | PROPUESTA |
 
 Orden estricto: F0 → F1 → F2 → F3 → F4 → F5 → F6 → F7 → F8 → F9 → F10. F8 puede empezar en
 paralelo con F7 si el ownership de archivos es disjunto.
 
 ## 2. F0 · Manifiesto de instalación
 
-**Archivos propuestos:** `scripts/install_manifest.py` (nuevo), `docs/implementation/schemas/InstallManifest.json` (nuevo, generado por `scripts/export_schemas.py`).
+**Estado:** APLICADA (2026-11-20).
+**Archivos reales:** `agntia_ciberseguridad/install.py` (modelo `InstallManifest`), `scripts/install_manifest.py`, `docs/implementation/schemas/InstallManifest.json` (generado por `scripts/export_schemas.py`), `tests/unit/test_install_manifest.py`.
 
 **Contrato:** un documento con `schema_version`, `package`, `version`, `digest`, `host_ref`,
 `tenant`, `capabilities`, `created_at`, `source_sha`. Sin secretos, sin valores de entorno.
@@ -47,7 +50,8 @@ con una clave de secreto se rechaza; exportación de esquema estable.
 
 ## 3. F1 · Verificación de artefacto
 
-**Archivos propuestos:** `scripts/verify_artifact.py` (nuevo) o extensión de `scripts/releasecheck.py`; `tests/test_install_artifact.py` (nuevo).
+**Estado:** APLICADA (2026-11-20).
+**Archivos reales:** `agntia_ciberseguridad/install.py` (`verify`), `scripts/verify_artifact.py`, `tests/unit/test_install_artifact.py`; paso nuevo en `.github/workflows/runtime.yml`.
 
 **Contrato:** `verify(path, manifest) -> Result` con `ok`, `checks`, `digest`, `failures`.
 Comprueba tamaño, digest, entradas del tar y coherencia con `PROVENANCE.json`.
@@ -267,3 +271,27 @@ Estas obligaciones coinciden con PS-P1…PS-P6 de
 - Escaneo de infraestructura de terceros.
 - Publicación en npm, cobros o auto-upgrades.
 - Cambios en `agente`, migraciones en producción o credenciales reales.
+
+## 15. Registro de implementación F0/F1 (2026-11-20)
+
+Aplicado en `agntia-ciberseguridad`, sin tocar `agente`:
+
+| Fase | Archivos reales | Pruebas | Gate |
+|---|---|---|---|
+| F0 | `agntia_ciberseguridad/install.py` (modelo `InstallManifest`), `scripts/install_manifest.py`, `docs/implementation/schemas/InstallManifest.json` | `tests/unit/test_install_manifest.py` | `unittest discover -s tests` |
+| F1 | `agntia_ciberseguridad/install.py` (`verify`), `scripts/verify_artifact.py` | `tests/unit/test_install_artifact.py` | paso nuevo en `.github/workflows/runtime.yml` |
+
+Evidencia local del 2026-11-20 en este árbol:
+
+- `unittest discover -s tests` → **247 OK, 8 skips** (antes 228 OK, 8 skips; los 19 nuevos son F0/F1).
+- `scripts/install_manifest.py build` y `scripts/verify_artifact.py` sobre el pack real
+  `typescript/.pack/agntia-ciberseguridad-0.1.0-alpha.3.tgz` → `PASS`, digest
+  `09c94d52a5fa813cb93fc92e3864317abcab5332edc3c5c2f2b8ec98763dbcf7`, 9 272 bytes.
+- Fallos inyectados cubiertos por pruebas: byte alterado, entrada extra, enlace simbólico,
+  travesía de ruta, `PROVENANCE.json` ausente, procedencia manipulada y digest de manifiesto distinto.
+
+Qué **no** cambia con esto:
+
+- El verificador comprueba un artefacto; no instala, no extrae a disco y no ejecuta scripts del paquete.
+- Ninguna campaña IP-00…IP-10 se ha ejecutado: G2 sigue `NOT_VERIFIED` como gate de campaña.
+- F2–F10 siguen siendo propuesta y el contrato del host (§13) sigue sin cumplirse.

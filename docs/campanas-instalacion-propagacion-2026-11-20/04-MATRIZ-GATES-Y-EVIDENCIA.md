@@ -34,12 +34,15 @@
 Ninguna `S` equivale a PASS: significa que la campaña tiene guion, evidencia esperada y criterio
 de aborto. La columna G6 es `P` en todas porque la revisión independiente sigue pendiente.
 
+IP-01 ya dispone de manifiesto y verificador de artefacto probados (F0/F1, 2026-11-20). Eso no
+convierte G2 en PASS: la campaña no se ha ejecutado contra el host ni contra `agente`.
+
 ## 3. Evidencia esperada por campaña
 
 | Campaña | Artefactos | Estado hoy |
 |---|---|---|
 | IP-00 | `IP-00/inventario.json`, `IP-00/brechas.md` | No existen |
-| IP-01 | `IP-01/verificacion.txt`, `IP-01/mismatch.txt` | No existen |
+| IP-01 | `IP-01/verificacion.txt`, `IP-01/mismatch.txt` | Verificador implementado y probado en árbol; evidencia de campaña no generada |
 | IP-02 | `IP-02/instalacion.log`, `IP-02/aislamiento.txt` | No existen |
 | IP-03 | `IP-03/contrato-vivo.txt`, `IP-03/rollback.txt` | No existen |
 | IP-04 | `IP-04/inscripcion.json`, `IP-04/delegacion.txt` | No existen |
@@ -98,7 +101,8 @@ Sin D1 y D2, el programa se queda en anillo A. Sin D4, `agente` sigue siendo esp
 | Elemento | Estado |
 |---|---|
 | Campañas IP-00…IP-10 | `SIMULADA` |
-| Fases F0…F10 | `PROPUESTA — NO APLICADA` |
+| Fases F0–F1 | `APLICADAS` (código, pruebas y gate de CI; 2026-11-20) |
+| Fases F2–F10 | `PROPUESTA — NO APLICADA` |
 | Instalación en host | `NO EJECUTADA` |
 | Propagación a tenants | `NO EJECUTADA` |
 | Revisión independiente | `PENDIENTE` |

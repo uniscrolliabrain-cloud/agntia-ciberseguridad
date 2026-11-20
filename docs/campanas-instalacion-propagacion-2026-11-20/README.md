@@ -3,7 +3,7 @@
 **Programa:** CY-IP (Cyber · Instalación y Propagación).
 **Fecha del paquete:** 2026-11-20.
 **Repositorio que se documenta:** `agntia-ciberseguridad` (hijo). El repositorio padre `agente` se cita como destino de instalación y **no se ha abierto, modificado ni ejecutado**.
-**Estado global:** **SIMULACIÓN DOCUMENTAL — NO EJECUTADA**. No hay PASS, tenants reales, credenciales, despliegues ni cambios en `agente`.
+**Estado global:** **SIMULACIÓN DOCUMENTAL — NO EJECUTADA**. No hay PASS, tenants reales, credenciales, despliegues ni cambios en `agente`. Única excepción: F0/F1 (manifiesto y verificación de artefacto) existen como código probado desde el 2026-11-20; las campañas siguen sin ejecutarse.
 
 Este paquete responde a una pregunta concreta: *si mañana se autorizara instalar este middleware
 en el host y propagarlo a tenants, ¿qué campañas harían falta, en qué orden, con qué fases de
@@ -15,7 +15,7 @@ código y con qué evidencia?* La respuesta se escribe como simulación revisabl
 |---|---|
 | Propuesta de 11 campañas CY-IP con dependencias, gates y rollback | Campañas ejecutadas |
 | Simulaciones paso a paso de instalación en host y propagación a tenants | Instalación real en `/agente` ni en staging |
-| Fases de código propuestas, con archivos, invariantes y pruebas a escribir | Código aplicado, parches en `agente` o migraciones ejecutadas |
+| Fases de código: F0/F1 implementadas y probadas; F2–F10 propuestas | Instalación en host, migraciones, parches en `agente` o campañas ejecutadas |
 | Matriz de evidencia, riesgos y criterios de falsación | PASS, certificaciones, clientes o protección activa |
 
 ## 2. Reglas de la simulación
@@ -24,9 +24,10 @@ código y con qué evidencia?* La respuesta se escribe como simulación revisabl
 2. **Los comandos y salidas son expectativas.** Se escriben para que un revisor pueda ejecutarlos
    después y comparar; no son transcripciones de una sesión real.
 3. **No se inventan hashes, IDs de job, tenants ni fechas de ejecución.** Los únicos números
-   citados son los medidos y registrados el 2026-11-18 en la rama `feat/cyber-audit-2026-11-18`
-   (228 tests Python OK con 8 skips; SDK 12 casos, 10 pass y 2 skip; pack determinista con
-   SHA256 `09c94d52…`; `provenance:check` verde). No cubren código futuro.
+   citados son los medidos: el 2026-11-18 (228 tests Python OK con 8 skips; SDK 12 casos, 10 pass
+   y 2 skip; pack determinista con SHA256 `09c94d52…`; `provenance:check` verde) y el 2026-11-20
+   (247 tests OK con 8 skips; el mismo pack verificado contra `PROVENANCE.json` con
+   `scripts/verify_artifact.py`). No cubren campañas ni código futuro.
 4. **`agente` no se escribe.** Sus contratos aparecen como especificación para su equipo, igual
    que en [PATCHSETS-2026-11-18.md](../integration/PATCHSETS-2026-11-18.md).
 5. **Un gate futuro no protege hoy.** La documentación no convierte `production_enabled=false`
@@ -84,6 +85,10 @@ el límite y evitar que un lector los deduzca del texto.
 | IP-08 | Sombra de políticas (N2) sin enforcement | C | SIMULADA |
 | IP-09 | Revocación, desinstalación y kill switch | A–D | SIMULADA |
 | IP-10 | Verificación independiente y cierre del programa | A–D | SIMULADA |
+
+IP-01 ya cuenta con el manifiesto y el verificador implementados y probados en este árbol (F0/F1).
+Eso adelanta trabajo de la campaña, no la ejecuta: no hay host, no hay tenant real y su estado
+sigue siendo `SIMULADA`.
 
 ## 7. Qué haría falta para ejecutar de verdad
 

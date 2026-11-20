@@ -1,0 +1,76 @@
+{
+  "additionalProperties": false,
+  "description": "What is installed, where and with which capability; never with secrets.",
+  "properties": {
+    "capabilities": {
+      "items": {
+        "enum": [
+          "assets.read",
+          "findings.read",
+          "jobs.read",
+          "notes.propose"
+        ],
+        "type": "string"
+      },
+      "maxItems": 4,
+      "minItems": 1,
+      "title": "Capabilities",
+      "type": "array"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Digest",
+      "type": "string"
+    },
+    "host_ref": {
+      "maxLength": 128,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._@:/+-]*$",
+      "title": "Host Ref",
+      "type": "string"
+    },
+    "package": {
+      "pattern": "^(?:@[a-z0-9][a-z0-9._-]*/)?[a-z0-9][a-z0-9._-]*$",
+      "title": "Package",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": 1,
+      "title": "Schema Version",
+      "type": "integer"
+    },
+    "source_sha": {
+      "pattern": "^[a-f0-9]{40}$",
+      "title": "Source Sha",
+      "type": "string"
+    },
+    "tenant": {
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_-]{0,63}$",
+      "title": "Tenant",
+      "type": "string"
+    },
+    "version": {
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(?:-[0-9A-Za-z.-]+)?$",
+      "title": "Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_version",
+    "package",
+    "version",
+    "digest",
+    "host_ref",
+    "tenant",
+    "capabilities",
+    "created_at",
+    "source_sha"
+  ],
+  "title": "InstallManifest",
+  "type": "object"
+}

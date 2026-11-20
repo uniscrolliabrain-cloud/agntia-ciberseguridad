@@ -68,6 +68,11 @@ Notas de la simulación:
 - Si `PROVENANCE.json` no coincide con `dist`, el artefacto se descarta; no se "regenera para que
   pase". Regenerar procedencia para ocultar una diferencia es un fallo de gate, no una corrección.
 
+Desde el 2026-11-20 la verificación tiene implementación: `scripts/install_manifest.py build`
+genera el manifiesto y `scripts/verify_artifact.py` comprueba tamaño, digest, entradas del tar y
+coherencia con `PROVENANCE.json`. La secuencia de esta sección sigue **sin ejecutarse en un host**:
+el único artefacto verificado es el pack del árbol.
+
 **Aborto:** digest distinto, tests en rojo o skip nuevo no explicado.
 
 ## 5. Fase C · Instalación en laboratorio
