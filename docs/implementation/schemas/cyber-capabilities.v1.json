@@ -1,0 +1,335 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "cyber-capabilities.v1",
+  "description": "Capability contract for @agntia/ciberseguridad middleware. Declarative, secret-free, fail-closed by default.",
+  "schema_version": "1.0.0",
+  "package": "@agntia/ciberseguridad",
+  "version": "0.1.0-alpha.3",
+  "source_sha": "eaf7da0d60a5adc7302c977cdabdfd3900c922be",
+  "status": "SYNTHETIC_DEMO_NOT_PRODUCTION",
+  "production_enabled": false,
+
+  "schemas": {
+    "install_manifest": "InstallManifest.json",
+    "asset": "contracts.AssetCreate",
+    "grant": "contracts.GrantCreate",
+    "grant_approval": "contracts.GrantApproval",
+    "audit_preview": "contracts.AuditPreview",
+    "finding": "contracts.Finding",
+    "approval": "contracts.Approval"
+  },
+
+  "capabilities": [
+    {
+      "id": "assets.read",
+      "name": "Read registered asset",
+      "sideEffects": [],
+      "scopes": ["tenant"],
+      "risk": "low",
+      "approvals": ["viewer"],
+      "input": {"target_ref": "OpaqueId", "kind": "AssetKind", "display_name": "string"},
+      "output": "AssetPublic",
+      "idempotent": true,
+      "timeout_seconds": 30,
+      "error_codes": ["not_found", "forbidden", "validation"],
+      "feature_flags": {}
+    },
+    {
+      "id": "assets.register",
+      "name": "Register an authorized asset",
+      "sideEffects": ["writes_asset_row", "appends_audit_event"],
+      "scopes": ["tenant"],
+      "risk": "medium",
+      "approvals": ["analyst", "operator", "reviewer", "owner"],
+      "input": {"target_ref": "OpaqueId", "kind": "AssetKind", "display_name": "string"},
+      "output": "AssetPublic",
+      "idempotent": true,
+      "timeout_seconds": 30,
+      "error_codes": ["conflict", "not_found", "forbidden", "validation"],
+      "feature_flags": {}
+    },
+    {
+      "id": "grants.propose",
+      "name": "Propose a work authorization grant",
+      "sideEffects": ["writes_grant_row", "appends_audit_event"],
+      "scopes": ["tenant"],
+      "risk": "medium",
+      "approvals": ["analyst", "operator", "reviewer", "owner"],
+      "input": {"asset_id": "ResourceId", "consent_ref": "OpaqueId", "profile": "Profile", "starts_at": "AwareDatetime", "expires_at": "AwareDatetime", "purpose": "string"},
+      "output": "GrantCreate",
+      "idempotent": false,
+      "timeout_seconds": 30,
+      "error_codes": ["conflict", "not_found", "forbidden", "validation", "grant_expansion"],
+      "feature_flags": {}
+    },
+    {
+      "id": "grants.approve",
+      "name": "Approve a grant by proposal hash",
+      "sideEffects": ["updates_grant_state", "appends_audit_event"],
+      "scopes": ["tenant"],
+      "risk": "high",
+      "approvals": ["reviewer", "owner"],
+      "input": {"grant_id": "ResourceId", "expected_revision": "StrictInt", "proposal_hash": "Hash", "notes": "string"},
+      "output": "GrantApproval",
+      "idempotent": false,
+      "timeout_seconds": 30,
+      "error_codes": ["conflict", "not_found", "forbidden", "approval_revoked", "validation"],
+      "feature_flags": {}
+    },
+    {
+      "id": "grants.revoke",
+      "name": "Revoke an active grant",
+      "sideEffects": ["updates_grant_state", "appends_audit_event"],
+      "scopes": ["tenant"],
+      "risk": "high",
+      "approvals": ["reviewer", "owner"],
+      "input": {"grant_id": "ResourceId", "expected_revision": "StrictInt", "notes": "string"},
+      "output": "GrantRevocation",
+      "idempotent": false,
+      "timeout_seconds": 30,
+      "error_codes": ["conflict", "not_found", "forbidden", "validation"],
+      "feature_flags": {}
+    },
+    {
+      "id": "audits.preview",
+      "name": "Preflight authorization check (no scanner execution)",
+      "sideEffects": ["appends_audit_event"],
+      "scopes": ["tenant"],
+      "risk": "low",
+      "approvals": ["analyst", "operator", "reviewer", "owner"],
+      "input": {"asset_id": "ResourceId", "grant_id": "ResourceId", "profile": "Profile", "requests": "StrictInt", "maximum_cost_cents": "Cents"},
+      "output": {"status": "preflight_passed", "security_scan_executed": false, "budget_reserved": false},
+      "idempotent": true,
+      "timeout_seconds": 30,
+      "error_codes": ["grant_not_active", "grant_expired", "consent_changed", "approval_revoked", "conflict", "target_configuration"],
+      "feature_flags": {}
+    },
+    {
+      "id": "audits.submit",
+      "name": "Submit an audit job (defensive scanner, snapshot-scoped)",
+      "sideEffects": ["creates_job", "appends_audit_event", "enqueues_outbox"],
+      "scopes": ["tenant"],
+      "risk": "high",
+      "approvals": ["analyst", "operator", "reviewer", "owner"],
+      "input": {"asset_id": "ResourceId", "grant_id": "ResourceId", "profile": "Profile", "tool": "gitleaks|osv|semgrep|trivy"},
+      "output": {"job_id": "ResourceId", "status": "submitted"},
+      "idempotent": true,
+      "timeout_seconds": 300,
+      "error_codes": ["grant_not_active", "offline_database", "unsupported", "snapshot_scope", "conflict"],
+      "feature_flags": {"lab_mode": "required_for_scanner_execution"}
+    },
+    {
+      "id": "jobs.read",
+      "name": "Read job status",
+      "sideEffects": [],
+      "scopes": ["tenant"],
+      "risk": "low",
+      "approvals": ["viewer", "analyst", "operator", "reviewer", "owner"],
+      "input": {"job_id": "ResourceId"},
+      "output": "Job",
+      "idempotent": true,
+      "timeout_seconds": 30,
+      "error_codes": ["not_found", "forbidden"],
+      "feature_flags": {}
+    },
+    {
+      "id": "jobs.cancel",
+      "name": "Cancel a job",
+      "sideEffects": ["updates_job_state", "appends_audit_event"],
+      "scopes": ["tenant"],
+      "risk": "medium",
+      "approvals": ["analyst", "operator", "reviewer", "owner"],
+      "input": {"job_id": "ResourceId", "expected_revision": "StrictInt"},
+      "output": {"status": "cancelled"},
+      "idempotent": false,
+      "timeout_seconds": 30,
+      "error_codes": ["conflict", "not_found", "forbidden"],
+      "feature_flags": {}
+    },
+    {
+      "id": "findings.read",
+      "name": "List findings for a tenant",
+      "sideEffects": [],
+      "scopes": ["tenant"],
+      "risk": "low",
+      "approvals": ["viewer", "analyst", "operator", "reviewer", "owner"],
+      "input": {"limit": "StrictInt", "after": "string"},
+      "output": {"items": "Finding[]", "next_cursor": "string | null"},
+      "idempotent": true,
+      "timeout_seconds": 30,
+      "error_codes": ["not_found", "forbidden"],
+      "feature_flags": {}
+    },
+    {
+      "id": "evidence.create",
+      "name": "Create evidence record",
+      "sideEffects": ["writes_evidence_row", "appends_audit_event"],
+      "scopes": ["tenant"],
+      "risk": "medium",
+      "approvals": ["analyst", "operator", "reviewer", "owner"],
+      "input": {"job_id": "ResourceId", "sha256": "Hash", "storage_ref": "OpaqueId", "size_bytes": "StrictInt", "media_type": "string"},
+      "output": "Evidence",
+      "idempotent": false,
+      "timeout_seconds": 30,
+      "error_codes": ["conflict", "not_found", "forbidden", "validation"],
+      "feature_flags": {}
+    },
+    {
+      "id": "reports.create",
+      "name": "Create an audit report",
+      "sideEffects": ["writes_report_row", "appends_audit_event"],
+      "scopes": ["tenant"],
+      "risk": "medium",
+      "approvals": ["analyst", "operator", "reviewer", "owner"],
+      "input": {"job_ids": "ResourceId[]"},
+      "output": {"summary": "object", "security_guarantee": false},
+      "idempotent": false,
+      "timeout_seconds": 30,
+      "error_codes": ["not_found", "forbidden", "validation"],
+      "feature_flags": {}
+    },
+    {
+      "id": "agents.manage",
+      "name": "Manage agent delegations (human principal only)",
+      "sideEffects": ["creates_delegation", "appends_audit_event"],
+      "scopes": ["tenant"],
+      "risk": "high",
+      "approvals": ["owner"],
+      "input": {"agent_actor_id": "OpaqueId", "tenant": "OpaqueId", "capabilities": "string[]", "ttl_seconds": "StrictInt"},
+      "output": {"delegation_id": "ResourceId", "token": "opaque", "expires_at": "AwareDatetime"},
+      "idempotent": false,
+      "timeout_seconds": 30,
+      "error_codes": ["forbidden", "human_required", "validation"],
+      "feature_flags": {}
+    },
+    {
+      "id": "agents.delegate",
+      "name": "Issue a single-use delegated read to an agent",
+      "sideEffects": ["consumes_delegation", "appends_audit_event"],
+      "scopes": ["tenant"],
+      "risk": "high",
+      "approvals": ["owner"],
+      "input": {"delegation_id": "ResourceId", "target": "OpaqueId"},
+      "output": {"read_result": "opaque"},
+      "idempotent": true,
+      "timeout_seconds": 300,
+      "error_codes": ["forbidden", "delegation_expired", "delegation_consumed", "validation"],
+      "feature_flags": {}
+    },
+    {
+      "id": "events.ack",
+      "name": "Acknowledge an outbox event",
+      "sideEffects": ["marks_event_acknowledged"],
+      "scopes": ["tenant"],
+      "risk": "low",
+      "approvals": ["reviewer", "owner"],
+      "input": {"event_id": "ResourceId", "consumer_id": "OpaqueId", "content_hash": "Hash"},
+      "output": {"acknowledged": true},
+      "idempotent": true,
+      "timeout_seconds": 30,
+      "error_codes": ["not_found", "forbidden", "validation"],
+      "feature_flags": {}
+    }
+  ],
+
+  "feature_flags": {
+    "lab_mode": {
+      "description": "Allows scanner execution in isolated synthetic fixtures only",
+      "default": false,
+      "risk_if_enabled": "medium"
+    },
+    "CYBER_ENABLED": {
+      "description": "Parent /agente integration flag; false disables all cross-repo wiring",
+      "default": false,
+      "risk_if_enabled": "high"
+    }
+  },
+
+  "risk_levels": {
+    "low": "Read-only or audit-only operations; no state mutation beyond append-only audit log",
+    "medium": "Writes state rows (assets, grants, evidence, reports) but no external effects",
+    "high": "Mutates authorization state or delegates to agents; requires reviewer/owner approval"
+  },
+
+  "approval_matrix": {
+    "viewer": ["assets.read", "findings.read", "jobs.read"],
+    "analyst": ["assets.read", "assets.register", "grants.propose", "audits.preview", "audits.submit", "jobs.read", "jobs.cancel", "evidence.create", "findings.read", "reports.create"],
+    "operator": ["assets.read", "assets.register", "grants.propose", "jobs.read", "jobs.cancel", "evidence.create", "findings.read", "reports.create"],
+    "reviewer": ["assets.read", "assets.register", "grants.propose", "grants.approve", "grants.revoke", "jobs.read", "jobs.cancel", "jobs.reconcile", "evidence.create", "evidence.original", "evidence.manage", "evidence.review", "findings.read", "reports.create", "events.ack", "agents.manage", "agents.delegate"],
+    "owner": ["assets.read", "assets.register", "grants.propose", "grants.approve", "grants.revoke", "jobs.read", "jobs.cancel", "jobs.reconcile", "evidence.create", "evidence.original", "evidence.manage", "evidence.review", "findings.read", "reports.create", "events.ack", "agents.manage", "agents.delegate", "budget.manage"]
+  },
+
+  "side_effects": {
+    "none": "No state mutation",
+    "writes_asset_row": "Inserts or updates an asset row in SQLite",
+    "writes_grant_row": "Inserts or updates a grant row in SQLite",
+    "updates_grant_state": "Changes grant state (approved/revoked/expired)",
+    "creates_job": "Creates an audit job row",
+    "updates_job_state": "Changes job state (submitted/cancelled/completed)",
+    "writes_evidence_row": "Inserts an evidence row with content hash",
+    "writes_report_row": "Inserts a report row",
+    "creates_delegation": "Creates a single-use agent delegation",
+    "consumes_delegation": "Marks a delegation as consumed",
+    "marks_event_acknowledged": "Marks an outbox event as acknowledged",
+    "appends_audit_event": "Appends an immutable, hash-chained audit event",
+    "enqueues_outbox": "Enqueues an event in the outbox for reliable delivery"
+  },
+
+  "error_codes": {
+    "auth": "Autenticación necesaria (401)",
+    "forbidden": "Capacidad no autorizada para el rol/tenant (403)",
+    "not_found": "Recurso no encontrado o fuera de ámbito de tenant (404)",
+    "conflict": "Estado concurrente o revisión obsoleta (409)",
+    "validation": "Entrada inválida (400/422)",
+    "grant_not_active": "Autorización no activa o expirada (403)",
+    "grant_expired": "Autorización fuera de ventana temporal (403)",
+    "consent_changed": "Consentimiento del titular modificado o caducado (403)",
+    "approval_revoked": "Aprobación no vigente o hash no coincide (403)",
+    "grant_expansion": "Solicitud fuera del alcance autorizado (403)",
+    "offline_database": "Caché offline ausente o no verificable (424)",
+    "unsupported": "Herramienta o perfil no soportado (424)",
+    "snapshot_scope": "Snapshot fuera de la autorización vigente (403)",
+    "target_configuration": "Imagen aprobada necesita digest (424)",
+    "human_required": "Se requiere un principal humano autorizado (403)",
+    "agent_gateway_required": "Agente requiere operación gobernada (403)",
+    "delegation_expired": "Delegación caducada (403)",
+    "delegation_consumed": "Delegación ya consumida (403)",
+    "provenance_missing": "Provenance ausente o inválida",
+    "digest_mismatch": "Digest del artefacto no coincide",
+    "manifest_invalid": "Manifiesto de instalación inválido",
+    "restore_blocked": "Restauración aislada pendiente de conciliación (503)",
+    "request_too_large": "Entrada demasiado grande (413)",
+    "artifact_missing": "Artefacto no presente",
+    "artifact_size_invalid": "Tamaño de artefacto fuera de límites",
+    "provenance_digest_mismatch": "Digest de provenance no coincide",
+    "provenance_file_missing": "Archivo esperado ausente en provenance",
+    "unexpected_entry": "Entrada inesperada en artefacto",
+    "unsafe_entry": "Entrada de archivo insegura (traversal/symlink)",
+    "unsupported_entry": "Tipo de entrada de tar no soportado",
+    "principal_revoked": "Principal revocado o modificado (403)",
+    "invalid_report_or_database": "Informe de scanner o base de datos inválida",
+    "provider_not_configured": "Proveedor externo no configurado (fail-closed)"
+  },
+
+  "timeouts": {
+    "default_seconds": 30,
+    "scanner_max_seconds": 300,
+    "delegation_max_ttl_seconds": 300,
+    "grant_max_days": 30
+  },
+
+  "idempotency": {
+    "header": "Idempotency-Key",
+    "scope": "tenant + operation",
+    "retention": "job_revision_based",
+    "replay_policy": "Same key + same body = same result; different body = conflict"
+  },
+
+  "fail_closed": {
+    "no_credentials": "All external providers return PROVIDER_NOT_CONFIGURED, never fallback",
+    "no_network": "Sandbox runs with network disabled by default",
+    "no_approval": "State-changing operations require explicit human approval",
+    "expired_identity": "Expired or revoked principals are rejected on every request",
+    "cross_tenant": "Cross-tenant access is denied with 404 (not 403, to avoid enumeration)"
+  }
+}
