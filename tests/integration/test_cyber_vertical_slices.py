@@ -89,3 +89,34 @@ class SyntheticFindingReview(CustodySetup, unittest.IsolatedAsyncioTestCase):
             self.actor, "tenantA", finding["id"])["finding"]
         self.assertEqual(updated["state"], "confirmed")
         self.assertEqual(updated["revision"], finding["revision"] + 1)
+
+    async def test_verify_fixed_without_retest_is_rejected(self):
+        self.submit("cyber-vs04-no-retest")
+        scanner = self.scanner(self.result(
+            [{"rule_id": "synthetic-rule", "path": "file.py",
+              "start_line": 1}]))
+        await Worker(self.store, scanner, "synthetic-worker").run_once()
+        finding = FindingStore(self.f.service).list(
+            self.actor, "tenantA")["items"][0]
+        evidence = self.reviewed_document()
+        reviews = Reviews(self.f.service)
+        proposal = reviews.propose(
+            self.actor, "tenantA",
+            ReviewProposal(
+                finding_id=finding["id"],
+                expected_finding_revision=finding["revision"],
+                action="verify_fixed",
+                reason="Attempt verification without a valid retest",
+                evidence_ids=[evidence["id"]],
+            ), "synthetic-no-retest")
+        with self.assertRaises(DomainError) as caught:
+            reviews.approve(
+                self.reviewer, "tenantA", proposal["id"],
+                ReviewApproval(expected_revision=0,
+                               proposal_hash=proposal["proposal_hash"]),
+                "synthetic-no-retest",
+            )
+        self.assertEqual(caught.exception.code, "retest_required")
+        current = FindingStore(self.f.service).history(
+            self.actor, "tenantA", finding["id"])["finding"]
+        self.assertEqual(current["state"], "suspected")
