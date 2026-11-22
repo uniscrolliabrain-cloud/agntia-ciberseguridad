@@ -32,3 +32,22 @@ For synthetic local tests: none beyond development tools. For staging: authorize
 
 ## Merge gate
 Run compile, tests, packaging, dependency audit and parent consumer tests. Preserve release flag disabled. Merge only after fixing failures and checking compatibility.
+
+
+## Additional code implemented in this recovery branch
+
+- `tests/integration/test_cyber_vertical_slices.py`: synthetic domain E2E (existing authorized snapshot → job → simulated scanner result → normalized finding → encrypted report; and finding → reviewed evidence → proposal → distinct human approval → confirmed finding). **Scanner output is mocked**: this is a useful wiring test, NOT evidence that a real OSS scanner has been executed. No remediation, retest or external effect is implemented by this test.
+- `agntia_ciberseguridad/host_bridge.py` and `tests/unit/test_host_bridge.py`: explicit read-only host identity adapter that checks current child principal, actor match and child authorization; rejects missing identity and write capabilities. **The parent must independently authenticate and authorize host context**; an `assurance='verified_host'` string is not cryptographic proof. Do not expose this class to untrusted client/LLM input.
+
+## Additional commands
+```bash
+python -m unittest tests.unit.test_host_bridge tests.unit.test_integration_ports -v
+python -m unittest tests.security.test_identity_tenancy -v
+python -m unittest tests.integration.test_cyber_vertical_slices -v
+```
+
+## Known gaps and restrictions
+- No live scanner run, OCI sandbox verification, real retest, production provider or parent SDK compatibility test was executed in this GitHub-only session.
+- Do not treat mocked E2E as a finished CY-VS-03/04 production slice.
+- The host bridge is not a public HTTP endpoint, and does not alter parent `agente`.
+- Tests must pass in CI before a merge decision. Report failing tests verbatim.
