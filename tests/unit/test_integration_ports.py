@@ -31,7 +31,15 @@ class ConnectorPortTests(unittest.TestCase):
                              verified_environment="sandbox")
         with self.assertRaises(ConnectorUnavailable):
             ConnectorPort(spec).execute()
-        self.assertEqual(ConnectorPort(spec, lambda x: x + 1).execute(2), 3)
+        self.assertEqual(ConnectorPort(spec, lambda x: x + 1, verify=lambda: True).execute(2), 3)
+
+    def test_failed_verification_never_executes_adapter(self):
+        spec = ConnectorSpec("github", enabled=True, secret_ref="CYBER_GITHUB_TOKEN", verified_environment="sandbox")
+        called = []
+        with self.assertRaises(ConnectorUnavailable) as caught:
+            ConnectorPort(spec, lambda: called.append(True), verify=lambda: False).execute()
+        self.assertEqual(caught.exception.code, "PROVIDER_VERIFICATION_FAILED")
+        self.assertEqual(called, [])
 
     def test_bad_refs_and_forged_verification_are_rejected(self):
         for ref in ("token-value", "https://example.com", "CYBER_A=B", "cyber_key"):
