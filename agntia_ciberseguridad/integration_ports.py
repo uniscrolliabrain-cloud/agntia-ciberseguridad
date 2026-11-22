@@ -65,14 +65,21 @@ class ConnectorSpec:
 class ConnectorPort(Generic[T]):
     """Explicitly injected adapter; no automatic fallback to network access."""
 
-    def __init__(self, spec: ConnectorSpec, operation: Callable[..., T] | None = None):
+    def __init__(self, spec: ConnectorSpec, operation: Callable[..., T] | None = None, *, verify: Callable[[], bool] | None = None):
         self.spec = spec
         self._operation = operation
+        self._verify = verify
 
     def execute(self, *args, **kwargs) -> T:
         if self.spec.state not in (
             ConnectorState.VERIFIED_SANDBOX,
             ConnectorState.VERIFIED_PRODUCTION,
-        ) or self._operation is None:
+        ) or self._operation is None or self._verify is None:
             raise ConnectorUnavailable("PROVIDER_NOT_CONFIGURED", self.spec.provider)
+        try:
+            verified = self._verify() is True
+        except Exception:
+            verified = False
+        if not verified:
+            raise ConnectorUnavailable("PROVIDER_VERIFICATION_FAILED", self.spec.provider)
         return self._operation(*args, **kwargs)
