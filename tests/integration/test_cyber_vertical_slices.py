@@ -4,7 +4,6 @@ Scanner output is explicitly simulated; these tests DO NOT claim a real OSS scan
 production connector, customer remediation or independently verified fix.
 """
 import unittest
-from datetime import timedelta
 
 from agntia_ciberseguridad.jobs.worker import Worker
 from agntia_ciberseguridad.findings.store import FindingStore
@@ -13,19 +12,15 @@ from agntia_ciberseguridad.reviews import Reviews, ReviewProposal, ReviewApprova
 from agntia_ciberseguridad.errors import DomainError
 from agntia_ciberseguridad.util import utcnow
 from tests.security.support_custody import CustodySetup
-from tests.integration.test_jobs import Setup
 
 
 class SyntheticScanToReport(CustodySetup, unittest.IsolatedAsyncioTestCase):
     async def test_authorized_snapshot_job_finding_report(self):
         # Existing fixture creates approved grant and captured local snapshot.
-        store = Setup.submit(self, "cyber-vs03-synthetic")
-        self.assertEqual(store["state"], "pending")
-        from agntia_ciberseguridad.jobs.store import JobStore
-        from agntia_ciberseguridad.safety import ReleaseGates
-        jobs = JobStore(self.f.service, gates=ReleaseGates(True, True, True),
-                        clock=lambda: self.instant[0])
-        scanner = Setup.scanner(self, Setup.result(
+        receipt = self.submit("cyber-vs03-synthetic")
+        self.assertEqual(receipt["state"], "pending")
+        jobs = self.store
+        scanner = self.scanner(self.result(
             self, [{"rule_id": "synthetic-rule", "path": "file.py",
                     "start_line": 1}]))
         completed = await Worker(jobs, scanner, "synthetic-worker").run_once()
@@ -40,6 +35,12 @@ class SyntheticScanToReport(CustodySetup, unittest.IsolatedAsyncioTestCase):
         self.assertEqual(report["summary"]["findings"], 1)
         self.assertFalse(report["security_guarantee"])
         self.assertEqual(report["review_status"], "not_reviewed")
+        foreign = self.f.service.auth.authenticate(
+            self.f.headers("operatorB")["Authorization"])
+        with self.assertRaises(DomainError) as caught:
+            Reports(self.f.service).get(foreign, "tenantA", report["id"],
+                                        "synthetic-cross-tenant")
+        self.assertEqual(caught.exception.status, 404)
         self.assertEqual(
             Reports(self.f.service).get(
                 self.actor, "tenantA", report["id"], "synthetic-vs03")["id"],
@@ -49,13 +50,9 @@ class SyntheticScanToReport(CustodySetup, unittest.IsolatedAsyncioTestCase):
 
 class SyntheticFindingReview(CustodySetup, unittest.IsolatedAsyncioTestCase):
     async def test_review_requires_independent_human_and_evidence(self):
-        from agntia_ciberseguridad.jobs.store import JobStore
-        from agntia_ciberseguridad.safety import ReleaseGates
-        jobs = JobStore(self.f.service, gates=ReleaseGates(True, True, True),
-                        clock=lambda: self.instant[0])
-        jobs.submit(self.actor, "tenantA", self.body,
-                    "cyber-vs04-synthetic", "synthetic-vs04")
-        scanner = Setup.scanner(self, Setup.result(
+        jobs = self.store
+        self.submit("cyber-vs04-synthetic")
+        scanner = self.scanner(self.result(
             self, [{"rule_id": "synthetic-rule", "path": "file.py",
                     "start_line": 1}]))
         await Worker(jobs, scanner, "synthetic-worker").run_once()
