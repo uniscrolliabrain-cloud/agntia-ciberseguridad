@@ -4,7 +4,6 @@ No external accounts, real assets or network access are needed.
 """
 import unittest
 from datetime import timedelta
-from unittest.mock import patch
 
 from pydantic import ValidationError
 
@@ -54,10 +53,14 @@ class IdentityTenancyTests(Setup, unittest.TestCase):
         principal = self.actor
         binding = next(p for p in self.f.settings.principals
                        if p.id == principal.binding_id)
-        with patch.object(binding, "enabled", False):
+        previous = binding.enabled
+        try:
+            binding.enabled = False
             with self.assertRaises(DomainError) as caught:
                 self.f.service.list_assets(principal, "tenantA")
             self.assertEqual(caught.exception.code, "principal_revoked")
+        finally:
+            binding.enabled = previous
 
     def test_expired_grant_interval_is_invalid(self):
         now = utcnow()
@@ -65,7 +68,7 @@ class IdentityTenancyTests(Setup, unittest.TestCase):
             GrantCreate(
                 asset_id=self.fixture.asset["id"],
                 consent_ref="consentA", profile="static_read",
-                starts_at=now - timedelta(days=10),
+                starts_at=now - timedelta(days=40),
                 expires_at=now - timedelta(days=1),
                 purpose="Synthetic regression test",
             )
