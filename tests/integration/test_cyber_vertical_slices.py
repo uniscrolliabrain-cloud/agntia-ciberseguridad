@@ -21,8 +21,8 @@ class SyntheticScanToReport(CustodySetup, unittest.IsolatedAsyncioTestCase):
         self.assertEqual(receipt["state"], "pending")
         jobs = self.store
         scanner = self.scanner(self.result(
-            self, [{"rule_id": "synthetic-rule", "path": "file.py",
-                    "start_line": 1}]))
+            [{"rule_id": "synthetic-rule", "path": "file.py",
+              "start_line": 1}]))
         completed = await Worker(jobs, scanner, "synthetic-worker").run_once()
         self.assertEqual(completed["state"], "completed")
         findings = FindingStore(self.f.service).list(self.actor, "tenantA")["items"]
@@ -53,8 +53,8 @@ class SyntheticFindingReview(CustodySetup, unittest.IsolatedAsyncioTestCase):
         jobs = self.store
         self.submit("cyber-vs04-synthetic")
         scanner = self.scanner(self.result(
-            self, [{"rule_id": "synthetic-rule", "path": "file.py",
-                    "start_line": 1}]))
+            [{"rule_id": "synthetic-rule", "path": "file.py",
+              "start_line": 1}]))
         await Worker(jobs, scanner, "synthetic-worker").run_once()
         finding = FindingStore(self.f.service).list(
             self.actor, "tenantA")["items"][0]
